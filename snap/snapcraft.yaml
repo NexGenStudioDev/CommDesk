@@ -1,0 +1,33 @@
+name: commdesk
+base: core22
+version: '1.0.0'
+summary: Community communication desktop application
+description: |
+  CommDesk is a desktop application used to manage
+  community communication, events, and collaboration.
+website: https://github.com/NexGenStudioDev/CommDesk
+source-code: https://github.com/NexGenStudioDev/CommDesk
+issues: https://github.com/NexGenStudioDev/CommDesk/issues
+contact: https://github.com/NexGenStudioDev
+license: MIT
+icon: snap/gui/icon.png
+
+grade: stable
+confinement: strict
+
+apps:
+  commdesk:
+    command: bin/commdesk
+    common-id: com.abhishekg.commdesk
+    plugs:
+      - network
+      - home
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+
+parts:
+  commdesk:
+    plugin: dump
+    source: .

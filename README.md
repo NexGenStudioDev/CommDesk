@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://via.placeholder.com/200x200.png?text=CommDesk" alt="CommDesk Logo" width="200" />
+  <img src="./public/logo.png" alt="CommDesk Logo" width="200" />
 </p>
 
 <h1 align="center">CommDesk</h1>
@@ -9,20 +9,20 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/your-username/CommDesk/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/your-username/CommDesk?style=flat-square" alt="License" />
+  <a href="https://github.com/NexGenStudioDev/CommDesk/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/NexGenStudioDev/CommDesk?style=flat-square" alt="License" />
   </a>
-  <a href="https://github.com/your-username/CommDesk/issues">
-    <img src="https://img.shields.io/github/issues/your-username/CommDesk?style=flat-square" alt="Issues" />
+  <a href="https://github.com/NexGenStudioDev/CommDesk/issues">
+    <img src="https://img.shields.io/github/issues/NexGenStudioDev/CommDesk?style=flat-square" alt="Issues" />
   </a>
-  <a href="https://github.com/your-username/CommDesk/pulls">
-    <img src="https://img.shields.io/github/issues-pr/your-username/CommDesk?style=flat-square" alt="Pull Requests" />
+  <a href="https://github.com/NexGenStudioDev/CommDesk/pulls">
+    <img src="https://img.shields.io/github/issues-pr/NexGenStudioDev/CommDesk?style=flat-square" alt="Pull Requests" />
   </a>
-  <a href="https://github.com/your-username/CommDesk/stargazers">
-    <img src="https://img.shields.io/github/stars/your-username/CommDesk?style=flat-square" alt="Stars" />
+  <a href="https://github.com/NexGenStudioDev/CommDesk/stargazers">
+    <img src="https://img.shields.io/github/stars/NexGenStudioDev/CommDesk?style=flat-square" alt="Stars" />
   </a>
-  <a href="https://github.com/your-username/CommDesk/network/members">
-    <img src="https://img.shields.io/github/forks/your-username/CommDesk?style=flat-square" alt="Forks" />
+  <a href="https://github.com/NexGenStudioDev/CommDesk/network/members">
+    <img src="https://img.shields.io/github/forks/NexGenStudioDev/CommDesk?style=flat-square" alt="Forks" />
   </a>
 </p>
 
@@ -85,7 +85,7 @@ CommDesk/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/CommDesk.git
+git clone https://github.com/NexGenStudioDev/CommDesk.git
 cd CommDesk
 ````
 
@@ -126,34 +126,34 @@ pnpm dev
 
 ### Community Management
 
-* Member onboarding and role management
-* Team structure and permissions
-* Volunteer coordination
+- Member onboarding and role management
+- Team structure and permissions
+- Volunteer coordination
 
 ### Event Management
 
-* Create and manage events
-* Track registrations and participants
-* Event scheduling and updates
+- Create and manage events
+- Track registrations and participants
+- Event scheduling and updates
 
 ### Hackathon Management
 
-* Hackathon creation and management
-* Team formation
-* Project submissions
-* Judges and evaluation system
+- Hackathon creation and management
+- Team formation
+- Project submissions
+- Judges and evaluation system
 
 ### Operations Dashboard
 
-* Community analytics
-* Activity tracking
-* Task and workflow management
+- Community analytics
+- Activity tracking
+- Task and workflow management
 
 ### Content Management
 
-* Manage announcements
-* Update resources
-* Media and gallery management
+- Manage announcements
+- Update resources
+- Media and gallery management
 
 ---
 
@@ -190,9 +190,9 @@ git checkout -b feat/amazing-feature
 
 ## Community
 
-* **Issues** → Report bugs or request features
-* **Discussions** → Ask questions or share ideas
-* **Pull Requests** → Contribute code
+- **Issues** → Report bugs or request features
+- **Discussions** → Ask questions or share ideas
+- **Pull Requests** → Contribute code
 
 ---
 
@@ -206,5 +206,3 @@ This project is licensed under the **MIT License**.
   Built with ❤️ for communities
 </p>
 ```
-
-

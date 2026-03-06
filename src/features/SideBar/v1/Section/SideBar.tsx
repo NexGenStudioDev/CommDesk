@@ -21,15 +21,14 @@ const SideBar = () => {
       }}
     >
       <div
-        className="sidebar-header p-4 border-b border-t-2 flex min-h-21 w-full items-center justify-center gap-1"
+        className="sidebar-header p-4 border-b border-t-2 flex min-h-21 w-full items-center gap-3"
         style={{ borderColor: theme.borderColor.primary }}
       >
-        {/* <img src="https://media.licdn.com/dms/image/v2/D4E0BAQF1PHwKK_ViDg/img-crop_100/B4EZnsRhrXIIAM-/0/1760605642362?e=1772668800&v=beta&t=zHdmlHtd1gM7B8bS-OHUtzOdNnWiJXSb_k-nPrlHtHg" alt="Apex Circle Logo" className="w-15 h-15 mb-2" /> */}
-
-        <div
-          className="Circle w-10 h-10 rounded-full"
-          style={{ background: theme.textColor.tersiary }}
-        ></div>
+        <img
+          src="/logo.png"
+          alt="CommDesk logo"
+          className="w-10 h-10 rounded-lg object-cover shrink-0"
+        />
 
         <h1
           className="font-bold h-full text-center text-[1.40em] leading-0"
@@ -38,7 +37,7 @@ const SideBar = () => {
             fontFamily: theme.fontFamily.primary,
           }}
         >
-          Apex Circle
+          CommDesk
         </h1>
       </div>
       <div className="sidebar-content flex flex-col gap-3 p-4 flex-1 w-full">
