@@ -2,7 +2,6 @@
   <img src="./public/logo.png" alt="CommDesk Logo" width="200" />
 </p>
 
-<h1 align="center">CommDesk</h1>
 
 <p align="center">
   <strong>An all-in-one desktop platform to manage communities, events, hackathons, teams, and daily operations.</strong>
