@@ -24,8 +24,6 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": [
-      "icons/logoWithoutText.png"
-    ]
+    "icon": ["icons/logoWithoutText.png"]
   }
 }

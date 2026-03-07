@@ -1,13 +1,7 @@
 import { RiContactsBookFill } from "react-icons/ri";
 import { getTheme } from "../../../../config/them.config";
 import SideBarLink from "../Components/SideBarLink";
-import {
-  MdDashboard,
-  MdEvent,
-  MdGroup,
-  MdSettings,
-  MdWork,
-} from "react-icons/md";
+import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
 
 const SideBar = () => {
   let theme = getTheme("light");
@@ -21,17 +15,17 @@ const SideBar = () => {
       }}
     >
       <div
-        className="sidebar-header p-4 border-b border-t-2 flex min-h-21 w-full items-center gap-3"
+        className="sidebar-header p-2 border-b border-t-2  min-h-21 w-full flex  items-center justify-center"
         style={{ borderColor: theme.borderColor.primary }}
       >
         <img
-          src="/logo.png"
+          src="/logoWithoutText.png"
           alt="CommDesk logo"
-          className="w-10 h-10 rounded-lg object-cover shrink-0"
+          className="w-[6vw] h-full  object-cover shrink-0"
         />
 
         <h1
-          className="font-bold h-full text-center text-[1.40em] leading-0"
+          className="font-bold h-fit  text-[1.40em] leading-0"
           style={{
             color: theme.textColor.tersiary,
             fontFamily: theme.fontFamily.primary,
@@ -47,11 +41,7 @@ const SideBar = () => {
         <SideBarLink icon={<MdWork />} text="Projects" />
         <SideBarLink icon={<MdGroup />} text="Teams" link="/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/events" />
-        <SideBarLink
-          icon={<RiContactsBookFill />}
-          text="Contact Submissions"
-          link="/contact"
-        />
+        <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/contact" />
 
         <div
           className="mt-auto w-full border-t flex flex-col py-5"

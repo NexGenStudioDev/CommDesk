@@ -9,10 +9,7 @@ const CreateNewEvent = () => {
   let theme = getTheme("light");
 
   return (
-    <div
-      className="w-full h-full flex flex-col"
-      style={{ background: theme.background.secondary }}
-    >
+    <div className="w-full h-full flex flex-col" style={{ background: theme.background.secondary }}>
       <Event_Header />
       <div className="flex w-full p-[2vw]  gap-5">
         <div className="w-[65%]  mb-[2vh] bg-gray-200 rounded-lg p-4">

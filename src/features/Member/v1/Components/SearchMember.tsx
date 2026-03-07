@@ -4,21 +4,8 @@ import { getTheme } from "../../../../config/them.config";
 import DropDown from "../../../../Component/ui/DropDown";
 import Button from "../../../../Component/ui/Button";
 
-const ROLE_OPTIONS = [
-  "All Roles",
-  "Mentor",
-  "Lean Developer",
-  "Mentee",
-  "Observer",
-  "Other",
-];
-const STATUS_OPTIONS = [
-  "Active",
-  "Inactive",
-  "Pending",
-  "Banned",
-  "On Bording",
-];
+const ROLE_OPTIONS = ["All Roles", "Mentor", "Lean Developer", "Mentee", "Observer", "Other"];
+const STATUS_OPTIONS = ["Active", "Inactive", "Pending", "Banned", "On Bording"];
 
 const SearchMember = () => {
   let theme = getTheme("light");
@@ -63,12 +50,7 @@ const SearchMember = () => {
         <DropDown options={STATUS_OPTIONS} onSelect={setSelectedStatus} />
       </div>
 
-      <Button
-        text="Search"
-        width="8vw"
-        icon={<CiSearch />}
-        onClick={handleSearch}
-      />
+      <Button text="Search" width="8vw" icon={<CiSearch />} onClick={handleSearch} />
     </div>
   );
 };

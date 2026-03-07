@@ -21,13 +21,8 @@ export const TextArea = (props: TextAreaProps) => {
   const theme = getTheme("light");
 
   return (
-    <div
-      className={`textarea-container flex flex-col gap-2 mb-4 ${props.className || ""}`}
-    >
-      <label
-        className="text-md text-gray-400 uppercase font-semibold"
-        htmlFor={props.name}
-      >
+    <div className={`textarea-container flex flex-col gap-2 mb-4 ${props.className || ""}`}>
+      <label className="text-md text-gray-400 uppercase font-semibold" htmlFor={props.name}>
         {props.label}
       </label>
 

@@ -41,14 +41,10 @@ const Capacity_And_Registration = () => {
             label="Max Attendees"
             placeholder="eg: 500"
             value={eventData.MaxAttendees}
-            onChange={(name, value) =>
-              setEventData({ ...eventData, [name]: value })
-            }
+            onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
           />
 
-          <p className="text-sm text-gray-400 uppercase font-semibold">
-            Leave blank for Unlimited
-          </p>
+          <p className="text-sm text-gray-400 uppercase font-semibold">Leave blank for Unlimited</p>
         </div>
 
         <div className="w-1/2">
@@ -69,9 +65,7 @@ const Capacity_And_Registration = () => {
           placeholder="eg: $20"
           className="mt-[3vh]"
           value={eventData.TicketPrice}
-          onChange={(name, value) =>
-            setEventData({ ...eventData, [name]: value })
-          }
+          onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
         />
       )}
     </div>

@@ -40,8 +40,7 @@ const PersonalInfoCard = () => {
         <div className="w-1/2 flex flex-col gap-2  p-4 mb-4 text-md">
           <p className="font-bold ">Profile Photo</p>
           <p className="w-full  text-gray-500">
-            Recommended size is 400x400px. Max file size is 5MB. Allowed formats
-            are
+            Recommended size is 400x400px. Max file size is 5MB. Allowed formats are
           </p>
         </div>
       </div>

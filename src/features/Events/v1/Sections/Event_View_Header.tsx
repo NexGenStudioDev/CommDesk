@@ -12,8 +12,7 @@ const Event_View_Header = () => {
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold text-gray-800  ml-5 ">Events</h1>
           <p className="text-[0.9vw] text-gray-500 ml-5 mt-1">
-            Manage all your events in one place. Create, edit, and track event
-            details with ease.
+            Manage all your events in one place. Create, edit, and track event details with ease.
           </p>
         </div>
         <div className="flex items-center mr-[2vw]">

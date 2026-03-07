@@ -30,12 +30,7 @@ const Url: React.FC<UrlProps> = ({
   let [Domain, setDomain] = React.useState(domain);
 
   return (
-    <div
-      className={className}
-      style={style}
-      aria-label={ariaLabel}
-      role="presentation"
-    >
+    <div className={className} style={style} aria-label={ariaLabel} role="presentation">
       <div
         className="Protocol p-2 rounded-l-lg border-2 w-[25%]"
         style={{
@@ -54,17 +49,12 @@ const Url: React.FC<UrlProps> = ({
         style={{
           color: theme.textColor.primary,
           backgroundColor: theme.background.primary,
-          borderColor: valid
-            ? theme.borderColor.primary
-            : theme.textColor.error,
+          borderColor: valid ? theme.borderColor.primary : theme.textColor.error,
         }}
       />
 
       {!valid && (
-        <span
-          style={{ color: theme.textColor.error || "red", marginLeft: 8 }}
-          role="alert"
-        >
+        <span style={{ color: theme.textColor.error || "red", marginLeft: 8 }} role="alert">
           Invalid domain
         </span>
       )}

@@ -6,10 +6,7 @@ import { MdPublish } from "react-icons/md";
 const Event_Header = () => {
   return (
     <div className="py-[3vh] bg-white border-b-[1px] border-gray-300 flex   text-xl font-bold  justify-between">
-      <Link
-        to="/member"
-        className="w-1/3 h-full  flex justify-between items-center"
-      >
+      <Link to="/member" className="w-1/3 h-full  flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800  ml-5 mt-2">
           <IoMdArrowRoundBack className="mr-[3vw] inline" />
           Create New Event

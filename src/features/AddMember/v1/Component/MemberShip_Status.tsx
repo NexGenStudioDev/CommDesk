@@ -1,15 +1,9 @@
 import { useState } from "react";
 
-type MembershipStatus =
-  | "Active"
-  | "Inactive"
-  | "Pending"
-  | "Suspended"
-  | "On Boarding";
+type MembershipStatus = "Active" | "Inactive" | "Pending" | "Suspended" | "On Boarding";
 
 const MemberShip_Status = () => {
-  const [membershipStatus, setMembershipStatus] =
-    useState<MembershipStatus>("Active");
+  const [membershipStatus, setMembershipStatus] = useState<MembershipStatus>("Active");
 
   const statusColorMap: Record<MembershipStatus, string> = {
     Active: "bg-green-500",

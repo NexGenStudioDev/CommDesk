@@ -68,10 +68,7 @@ const DropDown: React.FC<DropDownProps> = ({
   const displayValue = selected || placeholder;
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative w-full sm:w-48 min-w-0 ${className || ""}`}
-    >
+    <div ref={containerRef} className={`relative w-full sm:w-48 min-w-0 ${className || ""}`}>
       {label && (
         <p
           className="text-sm my-2 uppercase font-semibold tracking-wide"
@@ -100,9 +97,7 @@ const DropDown: React.FC<DropDownProps> = ({
       >
         <span className="truncate">{displayValue}</span>
         <FaChevronDown
-          className={`ml-2 shrink-0 transition-transform duration-150 ${
-            open ? "rotate-180" : ""
-          }`}
+          className={`ml-2 shrink-0 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -130,9 +125,7 @@ const DropDown: React.FC<DropDownProps> = ({
                   backgroundColor: isHighlighted
                     ? theme.background.tertiary
                     : theme.background.primary,
-                  color: isHighlighted
-                    ? theme.textColor.primary
-                    : theme.textColor.secondary,
+                  color: isHighlighted ? theme.textColor.primary : theme.textColor.secondary,
                   fontFamily: theme.fontFamily.primary,
                 }}
               >

@@ -5,9 +5,7 @@ const MemberHeader = () => {
   return (
     <div className="w-full py-[3vh] bg-white border-b-[1px] border-gray-300 flex   text-xl font-bold  justify-between ">
       <div className="w-1/3 h-full  flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800  ml-5 mt-2">
-          Member Managements
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-800  ml-5 mt-2">Member Managements</h1>
         <span className="text-sm text-gray-500 ml-5 bg-gray-200 rounded-2xl py-1 px-3">
           1,248 Members
         </span>

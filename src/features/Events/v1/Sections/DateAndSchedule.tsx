@@ -35,9 +35,7 @@ const DateAndSchedule = () => {
 
       <div className="Start_and_End_Dates Start_and_End_Time flex w-full gap-4 my-[2vh]">
         <div className="StartDate_And_Time w-1/2 pr-2 flex flex-col gap-4  p-4 rounded-lg ">
-          <p className="text-md text-gray-400 uppercase font-semibold">
-            Start Date & Time
-          </p>
+          <p className="text-md text-gray-400 uppercase font-semibold">Start Date & Time</p>
           <div className="flex w-full gap-3">
             <Date className="w-1/2" />
             <Time className="w-1/2" />
@@ -45,17 +43,13 @@ const DateAndSchedule = () => {
         </div>
 
         <div className="EndDate_And_Time w-1/2 pr-2 flex flex-col gap-4  p-4 rounded-lg">
-          <p className="text-md text-gray-400 uppercase font-semibold">
-            End Date & Time
-          </p>
+          <p className="text-md text-gray-400 uppercase font-semibold">End Date & Time</p>
           <div className="flex w-full gap-3">
             <Date className="w-1/2" />
             <Time
               className="w-1/2"
               value={eventData.EndTime}
-              onChange={(e) =>
-                setEventData((prev) => ({ ...prev, EndTime: e }))
-              }
+              onChange={(e) => setEventData((prev) => ({ ...prev, EndTime: e }))}
             />
           </div>
         </div>
@@ -68,9 +62,7 @@ const DateAndSchedule = () => {
             name="EventName"
             label="Venue Name"
             placeholder="IIT Dhanbad Campus"
-            onChange={(name, value) =>
-              setEventData({ ...eventData, [name]: value })
-            }
+            onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
             leftIcon={<FaBuilding />}
           />
 
@@ -79,9 +71,7 @@ const DateAndSchedule = () => {
             name="FullAddress"
             label="Full Address"
             placeholder="123 Main Street"
-            onChange={(name, value) =>
-              setEventData({ ...eventData, [name]: value })
-            }
+            onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
             leftIcon={<FaLocationDot />}
           />
         </div>

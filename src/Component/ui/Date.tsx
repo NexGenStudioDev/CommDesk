@@ -2,11 +2,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 
 import { Calendar } from "@/Component/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/Component/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/Component/ui/popover";
 import { FaRegCalendar } from "react-icons/fa";
 
 type Props = {
@@ -29,9 +25,7 @@ const Date = ({ label, value, defaultValue, className, onChange }: Props) => {
 
   return (
     <div className={`flex flex-col gap-2 ${className || ""}`}>
-      {label && (
-        <label className="text-sm font-medium text-gray-600">{label}</label>
-      )}
+      {label && <label className="text-sm font-medium text-gray-600">{label}</label>}
 
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>

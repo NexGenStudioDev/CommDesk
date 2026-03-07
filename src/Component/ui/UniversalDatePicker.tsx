@@ -23,10 +23,7 @@ export type UniversalDatePickerProps = {
   themeMode?: ThemeMode;
 };
 
-export const UniversalDatePicker = forwardRef<
-  HTMLInputElement,
-  UniversalDatePickerProps
->(
+export const UniversalDatePicker = forwardRef<HTMLInputElement, UniversalDatePickerProps>(
   (
     {
       label,
@@ -61,12 +58,7 @@ export const UniversalDatePicker = forwardRef<
     }, [defaultValue, isControlled]);
 
     const resolvedName =
-      name ??
-      (mode === "time"
-        ? "time"
-        : mode === "datetime-local"
-          ? "dateTime"
-          : "date");
+      name ?? (mode === "time" ? "time" : mode === "datetime-local" ? "dateTime" : "date");
 
     const fieldValue = isControlled ? (value ?? "") : internalValue;
 
@@ -106,9 +98,7 @@ export const UniversalDatePicker = forwardRef<
           onChange={handleChange}
           className={`w-full border-2 rounded-lg px-3 py-2 bg-transparent outline-none text-lg ${inputClassName}`}
           style={{
-            borderColor: error
-              ? theme.textColor.error
-              : theme.borderColor.primary,
+            borderColor: error ? theme.textColor.error : theme.borderColor.primary,
             color: theme.textColor.primary,
             fontFamily: theme.fontFamily.primary,
           }}

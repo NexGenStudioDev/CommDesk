@@ -43,14 +43,9 @@ const ProfessionalDetails = () => {
 
       <div className="flex mt-[3.5vh]">
         <div className="flex flex-col gap-2 w-[40%]">
-          <p className="text-md text-gray-400 uppercase font-semibold">
-            Primary Role
-          </p>
+          <p className="text-md text-gray-400 uppercase font-semibold">Primary Role</p>
 
-          <DropDown
-            options={Roles}
-            onSelect={(opt: string) => setSelectedRole(opt)}
-          />
+          <DropDown options={Roles} onSelect={(opt: string) => setSelectedRole(opt)} />
         </div>
 
         <div className="flex flex-col w-[40%]">
@@ -86,9 +81,7 @@ const ProfessionalDetails = () => {
                 {skill}
                 <span
                   className="cursor-pointer text-2xl"
-                  onClick={() =>
-                    setSkills((prev) => prev.filter((_, i) => i !== index))
-                  }
+                  onClick={() => setSkills((prev) => prev.filter((_, i) => i !== index))}
                 >
                   &times;
                 </span>

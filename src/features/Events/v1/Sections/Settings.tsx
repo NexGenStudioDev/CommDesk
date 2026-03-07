@@ -20,14 +20,8 @@ const Settings = () => {
         <IoSettingsSharp className="text-[#4f46e5]" />
       </span>
 
-      <EventSetting
-        title="Public Visible"
-        description="Show this event to public or not."
-      />
-      <EventSetting
-        title="Required RSVP"
-        description="mandatory registration required."
-      />
+      <EventSetting title="Public Visible" description="Show this event to public or not." />
+      <EventSetting title="Required RSVP" description="mandatory registration required." />
       <EventSetting
         title="Allow Waitlist"
         description="If capacity is reached, allow users to join a waitlist."

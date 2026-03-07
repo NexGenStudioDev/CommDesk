@@ -45,15 +45,15 @@ CommDesk is built for **developer communities, student organizations, tech clubs
 
 ## Tech Stack
 
-| Layer                  | Technologies                                     |
-|------------------------|--------------------------------------------------|
-| **Desktop App**        | Tauri v2 · React · TypeScript · Vite · Tailwind  |
-| **State Management**   | Zustand / TanStack Query                         |
-| **Backend API**        | Node.js · Express · TypeScript · MongoDB         |
-| **Database**           | MongoDB + Mongoose                               |
-| **Authentication**     | JWT                                              |
-| **Media Storage**      | Cloudinary                                       |
-| **Infrastructure**     | Vercel · Railway / Render · MongoDB Atlas        |
+| Layer                | Technologies                                    |
+| -------------------- | ----------------------------------------------- |
+| **Desktop App**      | Tauri v2 · React · TypeScript · Vite · Tailwind |
+| **State Management** | Zustand / TanStack Query                        |
+| **Backend API**      | Node.js · Express · TypeScript · MongoDB        |
+| **Database**         | MongoDB + Mongoose                              |
+| **Authentication**   | JWT                                             |
+| **Media Storage**    | Cloudinary                                      |
+| **Infrastructure**   | Vercel · Railway / Render · MongoDB Atlas       |
 
 ---
 
@@ -67,7 +67,7 @@ CommDesk/
 ├── commdesk-frontend/        # Optional community web interface
 └── docs/                     # Documentation and guides
 
-````
+```
 
 ---
 
@@ -75,9 +75,9 @@ CommDesk/
 
 ### Prerequisites
 
-- **Node.js** 20+  
-- **pnpm** or **npm**  
-- **Rust** (required for Tauri)  
+- **Node.js** 20+
+- **pnpm** or **npm**
+- **Rust** (required for Tauri)
 - **MongoDB** (local or Atlas)
 
 ---
@@ -87,7 +87,7 @@ CommDesk/
 ```bash
 git clone https://github.com/NexGenStudioDev/CommDesk.git
 cd CommDesk
-````
+```
 
 ---
 

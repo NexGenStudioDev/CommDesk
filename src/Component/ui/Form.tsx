@@ -23,9 +23,7 @@ export function Form<T>({
   className,
 }: FormProps<T>) {
   const [values, setValues] = React.useState<T>(initialValues);
-  const [errors, setErrors] = React.useState<Partial<Record<keyof T, string>>>(
-    {},
-  );
+  const [errors, setErrors] = React.useState<Partial<Record<keyof T, string>>>({});
 
   const handleChange = (name: keyof T, value: any) => {
     setValues((prev) => ({ ...prev, [name]: value }));

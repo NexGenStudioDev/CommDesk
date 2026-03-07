@@ -1,6 +1,6 @@
 name: commdesk
 base: core22
-version: '1.0.0'
+version: "1.0.0"
 summary: Community communication desktop application
 description: |
   CommDesk is a desktop application used to manage

@@ -41,9 +41,7 @@ const Event_Basic_Info = () => {
       </span>
 
       <div className="flex flex-col gap-4  ">
-        <p className="text-md text-gray-400 uppercase font-semibold">
-          Event Cover Image
-        </p>
+        <p className="text-md text-gray-400 uppercase font-semibold">Event Cover Image</p>
 
         <div className="w-full flex h-[15vh] flex-col gap-2  mb-4">
           <div
@@ -54,9 +52,7 @@ const Event_Basic_Info = () => {
           >
             <IoMdCloudUpload className="text-2xl text-gray-400" />
             <p className="text-[1vw]">Click to upload or drag and drop</p>
-            <p className="text-[1vw]">
-              PNG , JPG up to 10MB (16:9 aspect ratio)
-            </p>
+            <p className="text-[1vw]">PNG , JPG up to 10MB (16:9 aspect ratio)</p>
           </div>
         </div>
 
@@ -66,9 +62,7 @@ const Event_Basic_Info = () => {
             name="title"
             placeholder="Enter your event title"
             value={eventData.title}
-            onChange={(name, value) =>
-              setEventData({ ...eventData, [name]: value })
-            }
+            onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
           />
 
           <Input
@@ -79,9 +73,7 @@ const Event_Basic_Info = () => {
             className="my-[2vh]"
             leftIcon={<FaLink className="text-gray-400" />}
             value={eventData.registrationLink}
-            onChange={(name, value) =>
-              setEventData({ ...eventData, [name]: value })
-            }
+            onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
           />
 
           <div className="flex gap-[5%] w-full ">
@@ -89,18 +81,14 @@ const Event_Basic_Info = () => {
               options={EVENT_TYPE}
               label="Event Type"
               className="w-[48%]"
-              onSelect={(value) =>
-                setEventData({ ...eventData, eventType: value })
-              }
+              onSelect={(value) => setEventData({ ...eventData, eventType: value })}
             />
 
             <DropDown
               options={EVENT_CATEGORY}
               label="Event Category"
               className="w-[48%]"
-              onSelect={(value) =>
-                setEventData({ ...eventData, category: value })
-              }
+              onSelect={(value) => setEventData({ ...eventData, category: value })}
             />
           </div>
 
@@ -123,26 +111,18 @@ const Event_Basic_Info = () => {
                 <Button
                   text="Write"
                   backgroundColor={
-                    isPreviewMode
-                      ? theme.background.primary
-                      : theme.textColor.tersiary
+                    isPreviewMode ? theme.background.primary : theme.textColor.tersiary
                   }
-                  textColor={
-                    isPreviewMode ? theme.textColor.secondary : "#ffffff"
-                  }
+                  textColor={isPreviewMode ? theme.textColor.secondary : "#ffffff"}
                   onClick={() => setIsPreviewMode(false)}
                 />
 
                 <Button
                   text="Preview"
                   backgroundColor={
-                    isPreviewMode
-                      ? theme.textColor.tersiary
-                      : theme.background.primary
+                    isPreviewMode ? theme.textColor.tersiary : theme.background.primary
                   }
-                  textColor={
-                    isPreviewMode ? "#ffffff" : theme.textColor.secondary
-                  }
+                  textColor={isPreviewMode ? "#ffffff" : theme.textColor.secondary}
                   onClick={() => setIsPreviewMode(true)}
                 />
               </div>
@@ -169,9 +149,7 @@ const Event_Basic_Info = () => {
               ) : (
                 <textarea
                   value={eventData.description}
-                  onChange={(e) =>
-                    setEventData({ ...eventData, description: e.target.value })
-                  }
+                  onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
                   placeholder="Write your event description here in markdown language..."
                   className="w-full min-h-[24vh] p-4  rounded-b-lg resize-none focus:outline-none"
                   style={{

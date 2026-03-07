@@ -12,11 +12,7 @@ const StatusChip = ({ status }: { status: string }) => {
               ? "bg-red-100 text-red-600"
               : "bg-gray-100 text-gray-600";
 
-  return (
-    <span className={`px-3 py-1 rounded-lg text-xs font-medium ${styles}`}>
-      {status}
-    </span>
-  );
+  return <span className={`px-3 py-1 rounded-lg text-xs font-medium ${styles}`}>{status}</span>;
 };
 
 export default StatusChip;

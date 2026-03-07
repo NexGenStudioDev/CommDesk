@@ -23,18 +23,11 @@ const Community_Involvement = () => {
       </span>
 
       <div className="flex flex-col">
-        <p className="text-md text-gray-400 uppercase font-semibold">
-          Area of Interest
-        </p>
+        <p className="text-md text-gray-400 uppercase font-semibold">Area of Interest</p>
 
         <div className="flex flex-wrap gap-4 mt-3">
           {AREA_OF_INTEREST.map((interest, index) => (
-            <InterestBox
-              key={index}
-              label={interest}
-              isChecked={false}
-              onClick={() => {}}
-            />
+            <InterestBox key={index} label={interest} isChecked={false} onClick={() => {}} />
           ))}
         </div>
 

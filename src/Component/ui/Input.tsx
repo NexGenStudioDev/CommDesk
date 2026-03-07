@@ -1,14 +1,7 @@
 import React, { forwardRef } from "react";
 import { getTheme } from "../../config/them.config";
 
-type InputType =
-  | "text"
-  | "email"
-  | "password"
-  | "number"
-  | "url"
-  | "tel"
-  | "time";
+type InputType = "text" | "email" | "password" | "number" | "url" | "tel" | "time";
 
 type InputProps = {
   label?: string;
@@ -57,10 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={`flex flex-col gap-2 mb-4 ${className}`}>
         {label && (
-          <label
-            htmlFor={name}
-            className="text-sm text-gray-400 uppercase font-semibold"
-          >
+          <label htmlFor={name} className="text-sm text-gray-400 uppercase font-semibold">
             {label}
           </label>
         )}
@@ -74,9 +64,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           }}
         >
           {/* Left Icon */}
-          {leftIcon && (
-            <div className="flex items-center text-gray-400">{leftIcon}</div>
-          )}
+          {leftIcon && <div className="flex items-center text-gray-400">{leftIcon}</div>}
 
           {/* Input Field */}
           <input
@@ -94,9 +82,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           {/* Right Icon */}
-          {rightIcon && (
-            <div className="flex items-center text-gray-400">{rightIcon}</div>
-          )}
+          {rightIcon && <div className="flex items-center text-gray-400">{rightIcon}</div>}
         </div>
 
         {/* Error Message */}

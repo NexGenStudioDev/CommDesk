@@ -10,12 +10,7 @@ type EventSettingProps = {
   description: string;
 };
 
-const EventSetting = ({
-  onToggleChange,
-  isToggled,
-  title,
-  description,
-}: EventSettingProps) => {
+const EventSetting = ({ onToggleChange, isToggled, title, description }: EventSettingProps) => {
   let [toggled, setToggled] = React.useState(isToggled || false);
   const [isAnimating, setIsAnimating] = React.useState(false);
 
@@ -56,9 +51,7 @@ const EventSetting = ({
           {title}
         </p>
 
-        <p className="text-sm text-gray-400 uppercase font-semibold">
-          {description}
-        </p>
+        <p className="text-sm text-gray-400 uppercase font-semibold">{description}</p>
       </div>
       <div className="text-5xl">
         {toggled ? (
