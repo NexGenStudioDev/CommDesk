@@ -1,207 +1,342 @@
-<p align="center">
-  <img src="./public/logo.png" alt="CommDesk Logo" width="200" />
-</p>
+# CommDesk
 
+![CommDesk Logo](./public/logo.png)
 
-<p align="center">
-  <strong>An all-in-one desktop platform to manage communities, events, hackathons, teams, and daily operations.</strong>
-</p>
+An all-in-one desktop platform to manage communities, events, hackathons, teams, and day-to-day operations.
 
-<p align="center">
-  <a href="https://github.com/NexGenStudioDev/CommDesk/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/NexGenStudioDev/CommDesk?style=flat-square" alt="License" />
-  </a>
-  <a href="https://github.com/NexGenStudioDev/CommDesk/issues">
-    <img src="https://img.shields.io/github/issues/NexGenStudioDev/CommDesk?style=flat-square" alt="Issues" />
-  </a>
-  <a href="https://github.com/NexGenStudioDev/CommDesk/pulls">
-    <img src="https://img.shields.io/github/issues-pr/NexGenStudioDev/CommDesk?style=flat-square" alt="Pull Requests" />
-  </a>
-  <a href="https://github.com/NexGenStudioDev/CommDesk/stargazers">
-    <img src="https://img.shields.io/github/stars/NexGenStudioDev/CommDesk?style=flat-square" alt="Stars" />
-  </a>
-  <a href="https://github.com/NexGenStudioDev/CommDesk/network/members">
-    <img src="https://img.shields.io/github/forks/NexGenStudioDev/CommDesk?style=flat-square" alt="Forks" />
-  </a>
-</p>
+[![License](https://img.shields.io/github/license/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/blob/master/LICENSE)
+[![Issues](https://img.shields.io/github/issues/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/pulls)
+[![Stars](https://img.shields.io/github/stars/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/stargazers)
 
 ---
 
 ## About
 
-**CommDesk** is a powerful desktop platform designed to help communities organize and manage their operations efficiently.
+CommDesk is built for developer communities, student organizations, tech clubs, event organizers, and open-source teams.
 
-It provides a centralized workspace for:
+It provides one desktop workspace for:
 
-- **Event Management** — Create and manage community events, meetups, and workshops
-- **Hackathon Management** — Organize hackathons, track teams, submissions, and results
-- **Team Management** — Manage members, roles, and responsibilities
-- **Community Operations** — Handle daily activities, tasks, and coordination
+- Event planning and tracking
+- Hackathon operations
+- Member and team management
+- Daily community coordination
 
-CommDesk is built for **developer communities, student organizations, tech clubs, hackathon organizers, and open-source groups**.
+---
+
+## Core Features
+
+### Community Management
+
+- Member onboarding and role assignment
+- Team structure and responsibility mapping
+- Volunteer coordination
+
+### Event Management
+
+- Event creation and updates
+- Registration and participant tracking
+- Scheduling support
+
+### Hackathon Management
+
+- Hackathon setup and lifecycle management
+- Team formation and project flow
+- Submission and judging workflow
+
+### Operations Dashboard
+
+- Community activity overview
+- Progress and task tracking
+
+---
+
+## Roles
+
+| Role | Description |
+| --- | --- |
+| Visitor | View public information |
+| Member | Participate in events and hackathons |
+| Volunteer | Assist with community operations |
+| Organizer | Manage events and programs |
+| Admin | Full platform control |
 
 ---
 
 ## Tech Stack
 
-| Layer                | Technologies                                    |
-| -------------------- | ----------------------------------------------- |
-| **Desktop App**      | Tauri v2 · React · TypeScript · Vite · Tailwind |
-| **State Management** | Zustand / TanStack Query                        |
-| **Backend API**      | Node.js · Express · TypeScript · MongoDB        |
-| **Database**         | MongoDB + Mongoose                              |
-| **Authentication**   | JWT                                             |
-| **Media Storage**    | Cloudinary                                      |
-| **Infrastructure**   | Vercel · Railway / Render · MongoDB Atlas       |
+| Layer | Technologies |
+| --- | --- |
+| Desktop App | Tauri v2, React, TypeScript, Vite |
+| UI | Tailwind CSS |
+| Runtime | Rust + Tauri |
+| Auto Updates | GitHub Releases + Tauri updater plugin |
+| Packaging | Tauri bundles + Flatpak (Linux) |
 
 ---
 
-## Project Structure
+## Repository Structure
 
-```
-
+```text
 CommDesk/
-├── commdesk-desktop-app/     # Desktop application (Tauri + React)
-├── commdesk-backend/         # Backend API (Node + Express + MongoDB)
-├── commdesk-frontend/        # Optional community web interface
-└── docs/                     # Documentation and guides
-
+├── src/                               # React frontend
+├── src-tauri/                         # Tauri Rust app
+├── .github/workflows/                 # CI/CD workflows
+├── docs/                              # project and updater docs
+├── org.commdesk.CommDesk.json         # Flatpak manifest
+├── package.json
+└── README.md
 ```
 
 ---
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+- Node.js `>= 20`
+- pnpm `>= 10`
+- Rust stable (`rustup`, `cargo`)
+- OS-specific Tauri dependencies:
+  - Linux: WebKitGTK/GTK packages
+  - macOS: Xcode Command Line Tools
+  - Windows: MSVC build tools
 
-- **Node.js** 20+
-- **pnpm** or **npm**
-- **Rust** (required for Tauri)
-- **MongoDB** (local or Atlas)
+Official guide: [Tauri Prerequisites](https://v2.tauri.app/start/prerequisites/)
 
 ---
 
-### Clone the Repository
+## Installation
 
 ```bash
 git clone https://github.com/NexGenStudioDev/CommDesk.git
 cd CommDesk
-```
-
----
-
-### Install Dependencies
-
-```bash
 pnpm install
 ```
 
 ---
 
-### Run Desktop Application
+## Important Scripts
+
+| Script | Command | Purpose |
+| --- | --- | --- |
+| dev | `pnpm dev` | Start Vite dev server |
+| build | `pnpm build` | Type-check + production frontend build |
+| preview | `pnpm preview` | Preview built frontend |
+| tauri | `pnpm tauri` | Run Tauri CLI commands |
+| lint | `pnpm lint` | Run ESLint |
+| lint:fix | `pnpm lint:fix` | Auto-fix lint issues |
+| format | `pnpm format` | Format all files with Prettier |
+| format:check | `pnpm format:check` | Validate formatting |
+
+Most used commands:
 
 ```bash
+# Run desktop app (dev)
 pnpm tauri dev
+
+# Build frontend only
+pnpm build
+
+# Build desktop bundles for current OS
+pnpm tauri build
 ```
 
----
-
-### Start Backend API
+### Critical Maintainer Commands
 
 ```bash
-cd backend
+# Install dependencies
 pnpm install
-pnpm dev
+
+# Run app in development mode
+pnpm tauri dev
+
+# Build production desktop bundles (current OS)
+pnpm tauri build
+
+# Generate updater signing keys (IMPORTANT)
+pnpm tauri signer generate -- -w ~/.tauri/commdesk.key
+
+# Use signing keys for local signed build
+export TAURI_SIGNING_PRIVATE_KEY="$(cat ~/.tauri/commdesk.key)"
+export TAURI_SIGNING_PRIVATE_KEY_PASSWORD=""
+pnpm tauri build
+
+# Release version
+git add .
+git commit -m "release: v0.1.1"
+git tag v0.1.1
+git push origin master --tags
+
+# Linux Flatpak build
+flatpak-builder --force-clean flatpak-build org.commdesk.CommDesk.json
 ```
 
 ---
 
-> **Note:** The desktop application requires Rust and system dependencies for Tauri.
-> See the official Tauri setup guide: [https://v2.tauri.app/start/prerequisites/](https://v2.tauri.app/start/prerequisites/)
+## Build & Packaging
+
+### Tauri Bundles (current OS)
+
+```bash
+pnpm tauri build
+```
+
+Artifacts are generated in:
+
+- `src-tauri/target/release/`
+- `src-tauri/target/release/bundle/`
+
+Linux usually outputs:
+
+- `.deb`
+- `.rpm`
+- `.AppImage`
+
+### Flatpak Build (Linux)
+
+Manifest:
+
+- `org.commdesk.CommDesk.json`
+
+Build command:
+
+```bash
+flatpak-builder --force-clean flatpak-build org.commdesk.CommDesk.json
+```
 
 ---
 
-## Features
+## Auto-Update Setup (Production)
 
-### Community Management
+Configured in:
 
-- Member onboarding and role management
-- Team structure and permissions
-- Volunteer coordination
+- `src-tauri/tauri.conf.json`
+- `src/system/updater/autoUpdater.ts`
+- `.github/workflows/tauri-all-platforms.yml`
 
-### Event Management
+### 1) Generate updater signing keys
 
-- Create and manage events
-- Track registrations and participants
-- Event scheduling and updates
+```bash
+pnpm tauri signer generate -- -w ~/.tauri/commdesk.key
+```
 
-### Hackathon Management
+This creates:
 
-- Hackathon creation and management
-- Team formation
-- Project submissions
-- Judges and evaluation system
+- Private key (secret, never commit)
+- Public key (store in `src-tauri/tauri.conf.json` under `plugins.updater.pubkey`)
 
-### Operations Dashboard
+### 2) Local signed build environment
 
-- Community analytics
-- Activity tracking
-- Task and workflow management
+```bash
+export TAURI_SIGNING_PRIVATE_KEY="$(cat ~/.tauri/commdesk.key)"
+export TAURI_SIGNING_PRIVATE_KEY_PASSWORD=""
+pnpm tauri build
+```
 
-### Content Management
+### 3) GitHub Actions secrets
 
-- Manage announcements
-- Update resources
-- Media and gallery management
+Set in repository secrets:
+
+- `TAURI_SIGNING_PRIVATE_KEY`
+- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`
+
+### 4) Release workflow
+
+Workflow file:
+
+- `.github/workflows/tauri-all-platforms.yml`
+
+This workflow:
+
+- Builds Linux, Windows, macOS bundles
+- Signs update artifacts
+- Uploads bundles, `.sig` files, and `latest.json`
 
 ---
 
-## Roles & Permissions
+## Release Steps
 
-| Role          | Description                          |
-| ------------- | ------------------------------------ |
-| **Visitor**   | View public information              |
-| **Member**    | Participate in events and hackathons |
-| **Volunteer** | Assist with community operations     |
-| **Organizer** | Manage events and community programs |
-| **Admin**     | Full platform control                |
+```bash
+# 1) ensure code is ready
+pnpm lint
+pnpm build
+
+# 2) commit release changes
+git add .
+git commit -m "release: v0.1.1"
+
+# 3) tag and push
+git tag v0.1.1
+git push origin master --tags
+```
+
+Or run release workflow manually with `workflow_dispatch` and set `tag_name`.
+
+---
+
+## Update Manifest (`latest.json`)
+
+Reference template:
+
+- `docs/latest.json.example`
+
+Runtime endpoint currently configured in app:
+
+```text
+https://github.com/NexGenStudioDev/CommDesk/releases/latest/download/latest.json
+```
+
+---
+
+## Project Paths
+
+- Frontend app entry: `src/App.tsx`
+- Auto updater logic: `src/system/updater/autoUpdater.ts`
+- Tauri app config: `src-tauri/tauri.conf.json`
+- Rust dependencies and metadata: `src-tauri/Cargo.toml`
+- Flatpak manifest: `org.commdesk.CommDesk.json`
+- CI release workflow: `.github/workflows/tauri-all-platforms.yml`
+- Updater production guide: `docs/Tauri_Auto_Update_Production_Guide.md`
+
+---
+
+## Recommended Checklist
+
+Before every release:
+
+1. `pnpm lint`
+2. `pnpm build`
+3. Confirm updater public key in `src-tauri/tauri.conf.json`
+4. Confirm signing secrets exist in GitHub
+5. Tag + push
+6. Verify release assets and updater files
 
 ---
 
 ## Contributing
 
-We welcome contributions from the community.
-
-Steps to contribute:
-
-1. Fork the repository
-2. Create a feature branch
+1. Fork repository
+2. Create branch
+3. Commit changes
+4. Open pull request
 
 ```bash
 git checkout -b feat/amazing-feature
 ```
 
-3. Commit your changes
-4. Push to your branch
-5. Open a Pull Request
-
 ---
 
 ## Community
 
-- **Issues** → Report bugs or request features
-- **Discussions** → Ask questions or share ideas
-- **Pull Requests** → Contribute code
+- Issues: bug reports and feature requests
+- Pull Requests: code contributions
+- Discussions: ideas and technical questions
 
 ---
 
 ## License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the MIT License.
 
 ---
 
-<p align="center">
-  Built with ❤️ for communities
-</p>
-```
+Built with ❤️ for communities.

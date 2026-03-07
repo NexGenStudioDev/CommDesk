@@ -23,8 +23,8 @@
 			"name": "commdesk",
 			"buildsystem": "simple",
 			"build-commands": [
-				"npm install",
-				"npm run build",
+				"pnpm install",
+				"pnpm run build",
 				"cargo build --manifest-path src-tauri/Cargo.toml --release",
 				"install -Dm755 src-tauri/target/release/apex-circle-dasktop-application /app/bin/commdesk"
 			],
