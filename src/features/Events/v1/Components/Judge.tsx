@@ -5,6 +5,11 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
 import JudgeCard from "./JudgeCard";
 
+type JudgeProps = {
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
+};
+
 const JUDGES = [
   {
     id: 1,
@@ -20,7 +25,7 @@ const JUDGES = [
   },
 ];
 
-const Judge = () => {
+const Judge = ({ isExpanded = true, onToggleExpand }: JudgeProps) => {
   const theme = getTheme("light");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -37,9 +42,11 @@ const Judge = () => {
     });
   }, [searchTerm]);
 
+  const visibleCount = isExpanded ? filteredJudges.length : JUDGES.length;
+
   return (
     <div
-      className="flex flex-col w-full p-4 border-2 rounded-lg shadow-sm"
+      className="flex flex-col w-full p-4 border-2 rounded-lg shadow-sm transition-all duration-200"
       style={{
         background: theme.background.primary,
         borderColor: theme.borderColor.primary,
@@ -49,40 +56,60 @@ const Judge = () => {
         <div className="flex items-center gap-2">
           <h2 className="font-bold text-lg text-black uppercase">Judges</h2>
           <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">
-            {filteredJudges.length}
+            {visibleCount}
           </span>
         </div>
 
-        <button
-          type="button"
-          className="flex items-center justify-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-100"
-        >
-          <IoMdAdd className="text-base" />
-          Add
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="flex items-center justify-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-100"
+          >
+            <IoMdAdd className="text-base" />
+            Add
+          </button>
+
+          {onToggleExpand ? (
+            <button
+              type="button"
+              onClick={onToggleExpand}
+              className="rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              {isExpanded ? "Hide" : "View"}
+            </button>
+          ) : null}
+        </div>
       </div>
 
-      <div className="Search">
-        <Input
-          name="SearchJudge"
-          placeholder="Search Judges..."
-          leftIcon={<CiSearch />}
-          value={searchTerm}
-          onChange={(_, value) => setSearchTerm(value)}
-        />
-      </div>
+      {isExpanded ? (
+        <>
+          <div className="Search">
+            <Input
+              name="SearchJudge"
+              placeholder="Search Judges..."
+              leftIcon={<CiSearch />}
+              value={searchTerm}
+              onChange={(_, value) => setSearchTerm(value)}
+            />
+          </div>
 
-      <div className="mt-1 grid grid-cols-1 gap-3">
-        {filteredJudges.length === 0 ? (
-          <p className="rounded-md border border-dashed border-gray-300 px-3 py-4 text-sm text-gray-500">
-            No judges found.
-          </p>
-        ) : (
-          filteredJudges.map((judge) => (
-            <JudgeCard key={`judge-${judge.id}`} image={judge.image} name={judge.name} role={judge.role} />
-          ))
-        )}
-      </div>
+          <div className="mt-1 grid grid-cols-1 gap-3">
+            {filteredJudges.length === 0 ? (
+              <p className="rounded-md border border-dashed border-gray-300 px-3 py-4 text-sm text-gray-500">
+                No judges found.
+              </p>
+            ) : (
+              filteredJudges.map((judge) => (
+                <JudgeCard key={`judge-${judge.id}`} image={judge.image} name={judge.name} role={judge.role} />
+              ))
+            )}
+          </div>
+        </>
+      ) : (
+        <p className="mt-2 rounded-md border border-dashed border-gray-300 px-3 py-2 text-xs text-gray-500">
+          Collapsed. Click View to manage judges.
+        </p>
+      )}
     </div>
   );
 };

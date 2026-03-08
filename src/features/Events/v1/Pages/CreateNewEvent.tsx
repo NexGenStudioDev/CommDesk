@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { getTheme } from "../../../../config/them.config";
 import Judge from "../Components/Judge";
 import Mentors from "../Components/Mentors";
@@ -8,8 +9,15 @@ import Event_Basic_Info from "../Sections/Event_Basic_Info";
 import Event_Header from "../Sections/Event_Header";
 import Settings from "../Sections/Settings";
 
+type PanelKey = "speakers" | "mentors" | "judges";
+
 const CreateNewEvent = () => {
   let theme = getTheme("light");
+  const [expandedPanel, setExpandedPanel] = useState<PanelKey | null>("speakers");
+
+  const handlePanelToggle = (panel: PanelKey) => {
+    setExpandedPanel((current) => (current === panel ? null : panel));
+  };
 
   return (
     <div className="w-full h-full flex flex-col" style={{ background: theme.background.secondary }}>
@@ -20,11 +28,17 @@ const CreateNewEvent = () => {
           <DateAndSchedule />
           <Capacity_And_Registration />
         </div>
-        <div className="w-[35%] h-screen rounded-2xl space-y-5  pr-1">
+        <div className="w-[35%] h-screen rounded-2xl space-y-5 overflow-y-auto pr-1">
           <Settings />
-          <Speakers />
-          <Mentors />
-          <Judge />
+          <Speakers
+            isExpanded={expandedPanel === "speakers"}
+            onToggleExpand={() => handlePanelToggle("speakers")}
+          />
+          <Mentors
+            isExpanded={expandedPanel === "mentors"}
+            onToggleExpand={() => handlePanelToggle("mentors")}
+          />
+          <Judge isExpanded={expandedPanel === "judges"} onToggleExpand={() => handlePanelToggle("judges")} />
         </div>
       </div>
     </div>
