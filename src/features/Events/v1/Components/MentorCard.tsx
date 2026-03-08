@@ -40,7 +40,9 @@ const MentorCard = ({ image, name, role }: MentorCardProps) => {
 
         <div className="min-w-0">
           <h3 className="truncate text-base font-semibold text-gray-800">{name}</h3>
-          <p className="truncate text-sm font-medium uppercase tracking-wide text-gray-500">{role}</p>
+          <p className="truncate text-sm font-medium uppercase tracking-wide text-gray-500">
+            {role}
+          </p>
         </div>
       </div>
 

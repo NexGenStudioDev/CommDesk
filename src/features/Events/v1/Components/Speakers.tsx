@@ -106,7 +106,12 @@ const Speakers = ({ isExpanded = true, onToggleExpand }: SpeakersProps) => {
               </p>
             ) : (
               filteredSpeakers.map((speaker) => (
-                <SpeakerCard key={speaker.id} image={speaker.image} name={speaker.name} role={speaker.role} />
+                <SpeakerCard
+                  key={speaker.id}
+                  image={speaker.image}
+                  name={speaker.name}
+                  role={speaker.role}
+                />
               ))
             )}
           </div>

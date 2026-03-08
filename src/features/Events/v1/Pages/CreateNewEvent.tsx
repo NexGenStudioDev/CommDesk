@@ -8,8 +8,9 @@ import DateAndSchedule from "../Sections/DateAndSchedule";
 import Event_Basic_Info from "../Sections/Event_Basic_Info";
 import Event_Header from "../Sections/Event_Header";
 import Settings from "../Sections/Settings";
+import Partners_And_Sponsors from "../Components/Partners_And_Sponsors";
 
-type PanelKey = "speakers" | "mentors" | "judges";
+type PanelKey = "speakers" | "mentors" | "judges" | "partners";
 
 const CreateNewEvent = () => {
   let theme = getTheme("light");
@@ -38,7 +39,15 @@ const CreateNewEvent = () => {
             isExpanded={expandedPanel === "mentors"}
             onToggleExpand={() => handlePanelToggle("mentors")}
           />
-          <Judge isExpanded={expandedPanel === "judges"} onToggleExpand={() => handlePanelToggle("judges")} />
+          <Judge
+            isExpanded={expandedPanel === "judges"}
+            onToggleExpand={() => handlePanelToggle("judges")}
+          />
+
+          <Partners_And_Sponsors
+            isExpanded={expandedPanel === "partners"}
+            onToggleExpand={() => handlePanelToggle("partners")}
+          />
         </div>
       </div>
     </div>

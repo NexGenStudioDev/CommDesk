@@ -100,7 +100,12 @@ const Mentors = ({ isExpanded = true, onToggleExpand }: MentorsProps) => {
               </p>
             ) : (
               filteredMentors.map((mentor) => (
-                <MentorCard key={`mentor-${mentor.id}`} image={mentor.image} name={mentor.name} role={mentor.role} />
+                <MentorCard
+                  key={`mentor-${mentor.id}`}
+                  image={mentor.image}
+                  name={mentor.name}
+                  role={mentor.role}
+                />
               ))
             )}
           </div>

@@ -100,7 +100,12 @@ const Judge = ({ isExpanded = true, onToggleExpand }: JudgeProps) => {
               </p>
             ) : (
               filteredJudges.map((judge) => (
-                <JudgeCard key={`judge-${judge.id}`} image={judge.image} name={judge.name} role={judge.role} />
+                <JudgeCard
+                  key={`judge-${judge.id}`}
+                  image={judge.image}
+                  name={judge.name}
+                  role={judge.role}
+                />
               ))
             )}
           </div>
