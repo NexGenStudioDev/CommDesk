@@ -79,12 +79,28 @@ It provides one desktop workspace for:
 
 ```text
 CommDesk/
+├── .github/
+│   └── workflows/                     # CI/CD pipelines
+├── docs/                              # project and operational docs
+├── public/                            # static frontend assets
+├── scripts/                           # build/release helper scripts
+├── snap/                              # snap packaging assets
 ├── src/                               # React frontend
+│   ├── Component/                     # shared UI components
+│   ├── config/                        # frontend configuration
+│   ├── features/                      # feature modules (Members, Events, etc.)
+│   ├── system/                        # app system integrations (updater, etc.)
+│   └── utils/                         # utility helpers
 ├── src-tauri/                         # Tauri Rust app
-├── .github/workflows/                 # CI/CD workflows
-├── docs/                              # project and updater docs
+│   ├── src/                           # Rust source
+│   ├── capabilities/                  # Tauri capability files
+│   ├── icons/                         # app icons
+│   └── tauri.conf.json                # Tauri runtime config
 ├── org.commdesk.CommDesk.json         # Flatpak manifest
-├── package.json
+├── package.json                       # JS scripts/dependencies
+├── pnpm-lock.yaml                     # lockfile
+├── CODE_OF_CONDUCT.md                 # community behavior guidelines
+├── LICENSE                            # project license
 └── README.md
 ```
 
@@ -337,6 +353,11 @@ Before every release:
 3. Commit changes
 4. Open pull request
 
+Contribution permission note:
+You may contribute through issues and pull requests, but the project source
+code remains proprietary and all rights are reserved unless explicit written
+permission is granted by the copyright holder.
+
 ```bash
 git checkout -b feat/amazing-feature
 ```
@@ -351,9 +372,23 @@ git checkout -b feat/amazing-feature
 
 ---
 
+## Code of Conduct
+
+This project is committed to a respectful and harassment-free community.
+
+- Read and follow: [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md)
+- Report behavior concerns to maintainers through: <https://github.com/NexGenStudioDev/CommDesk/issues>
+
+---
+
 ## License
 
-This project is licensed under the MIT License.
+This project is proprietary and all rights are reserved.
+
+Without explicit prior written permission, this software and source code may
+not be copied, modified, distributed, or used.
+
+- Full text: [`LICENSE`](./LICENSE)
 
 ---
 
