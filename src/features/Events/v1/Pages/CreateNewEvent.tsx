@@ -29,7 +29,7 @@ const CreateNewEvent = () => {
           <DateAndSchedule />
           <Capacity_And_Registration />
         </div>
-        <div className="w-[35%] h-screen rounded-2xl space-y-5 overflow-y-auto pr-1">
+        <div className="w-[90%] min-[1408px]:w-[35%] lg:h-screen rounded-2xl space-y-5 min-[1408px]:overflow-y-auto pr-1 bg-gray-200 rounded-lg p-4">
           <Settings />
           <Speakers
             isExpanded={expandedPanel === "speakers"}

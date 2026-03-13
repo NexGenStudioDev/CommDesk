@@ -78,7 +78,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             required={required}
             onKeyDown={onKeyDown}
             onChange={(e) => onChange?.(name, e.target.value)}
-            className={`flex-1 bg-transparent outline-none  text-[1.8vw] lg:text-[0.5vw] ${inputClassName}`}
+            className={`flex-1 bg-transparent outline-none  text-[1.8vw] lg:text-lg ${inputClassName}`}
           />
 
           {/* Right Icon */}
