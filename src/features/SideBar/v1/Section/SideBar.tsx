@@ -8,7 +8,7 @@ const SideBar = () => {
 
   return (
     <div
-      className="sidebar w-[25%] lg:w-[18%] min-h-screen flex flex-col border-r"
+      className="sidebar w-[25%] lg:w-[18%] min-h-screen hidden lg:flex flex-col border-r"
       style={{
         borderColor: theme.borderColor.primary,
         background: theme.background.primary,

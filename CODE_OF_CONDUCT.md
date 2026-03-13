@@ -86,18 +86,25 @@ Maintainers will:
 Actions are determined by impact, intent, frequency, and prior incidents.
 
 1. Correction
- - Used for minor first-time issues.
- - Action: guidance and request to stop behavior.
+
+- Used for minor first-time issues.
+- Action: guidance and request to stop behavior.
+
 2. Warning
- - Used for significant or repeated issues.
- - Action: formal warning and clear behavior expectations.
+
+- Used for significant or repeated issues.
+- Action: formal warning and clear behavior expectations.
+
 3. Temporary Restriction
- - Used for serious misconduct or repeated violations.
- - Action: temporary mute, interaction limits, or suspension.
+
+- Used for serious misconduct or repeated violations.
+- Action: temporary mute, interaction limits, or suspension.
+
 4. Permanent Ban
- - Used for severe abuse, threats, discrimination, doxxing, or ongoing
-   harmful behavior.
- - Action: permanent removal from project spaces.
+
+- Used for severe abuse, threats, discrimination, doxxing, or ongoing
+  harmful behavior.
+- Action: permanent removal from project spaces.
 
 ## Appeals
 

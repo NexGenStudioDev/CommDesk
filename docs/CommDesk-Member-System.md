@@ -1,18 +1,15 @@
-
 # CommDesk Member Creation & Onboarding System
-
-
 
 This system powers **how communities add, invite, and onboard members**.
 
 It supports:
 
-* manual member creation
-* automated onboarding
-* website integrations
-* hackathon registrations
-* volunteer management
-* sponsor/judge onboarding
+- manual member creation
+- automated onboarding
+- website integrations
+- hackathon registrations
+- volunteer management
+- sponsor/judge onboarding
 
 Everything flows through **one secure onboarding pipeline**.
 
@@ -689,4 +686,3 @@ activation email sent
 ```
 
 ---
-

@@ -22,11 +22,11 @@ const Button = ({
   height,
 }: ButtonProps) => {
   return (
-    <div className="">
+    <div className="text-sm lg:text-[1vw]">
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`px-4 py-2 rounded-lg flex items-center ${disabled ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+        className={`px-5 py-3 rounded-lg flex items-center ${disabled ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
         style={{
           width: width || "auto",
           height: height || "auto",

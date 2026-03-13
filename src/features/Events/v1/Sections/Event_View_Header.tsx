@@ -16,9 +16,9 @@ const Event_View_Header = () => {
   return (
     <div className="pt-[3vh] bg-white border-b-[1px] border-gray-300 flex  flex-col text-xl font-bold  justify-between">
       <div className="flex w-full justify-between items-start">
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold text-gray-800  ml-5 ">Events</h1>
-          <p className="text-[0.9vw] text-gray-500 ml-5 mt-1">
+        <div className="w-1/2 xl:w-fit flex flex-col">
+          <h1 className="text-lg sm:text-[2.5vw] lg:text-2xl   font-bold text-gray-800  ml-5 w-fit">Events</h1>
+          <p className=" text-lg  lg:text-md  text-gray-500 ml-5 mt-1 w-fit">
             Manage all your events in one place. Create, edit, and track event details with ease.
           </p>
         </div>
@@ -32,7 +32,7 @@ const Event_View_Header = () => {
         </div>
       </div>
 
-      <div className="flex space-x-4 mt-[5vh] ml-5 p-3">
+      <div className="flex space-x-4 mt-[5vh] ml-5 p-3 ">
         {EventTabs.map((tab) => (
           <button
             key={tab}

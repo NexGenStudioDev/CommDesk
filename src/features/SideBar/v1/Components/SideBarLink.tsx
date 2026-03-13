@@ -37,12 +37,12 @@ const SideBarLink = ({ icon, text, link }: SideBarLinkProps) => {
       }}
     >
       <div
-        className="icon flex items-center justify-center"
-        style={{ fontSize: "1.7em", minWidth: 32 }}
+        className="icon flex items-center justify-center text-[2em] lg:text-[1.7em]"
+        style={{ minWidth: 32 }}
       >
         {icon}
       </div>
-      <span className="link-text" style={{ marginLeft: 8, fontSize: "1.1em", fontWeight: 500 }}>
+      <span className="link-text hidden lg:block " style={{ marginLeft: 8, fontSize: "1.1em", fontWeight: 500 }}>
         {text}
       </span>
     </Link>

@@ -16,13 +16,13 @@ Individual users **cannot create accounts without a community**.
 
 The community signup system must:
 
-* allow legitimate communities to join CommDesk
-* create the first **Community Owner account**
-* create the **community workspace**
-* verify identity using email and optional website
-* prevent spam and fake registrations
-* send the community for **admin approval**
-* activate the workspace after approval
+- allow legitimate communities to join CommDesk
+- create the first **Community Owner account**
+- create the **community workspace**
+- verify identity using email and optional website
+- prevent spam and fake registrations
+- send the community for **admin approval**
+- activate the workspace after approval
 
 ---
 
@@ -86,10 +86,10 @@ POST /api/v1/auth/signup-community
 
 Purpose:
 
-* create community
-* create community owner account
-* send verification email
-* start admin approval process
+- create community
+- create community owner account
+- send verification email
+- start admin approval process
 
 ---
 
@@ -99,12 +99,12 @@ Purpose:
 
 Required fields:
 
-* communityName
-* communityBio
-* communityLogo (optional)
-* communityWebsite (recommended)
-* country
-* city
+- communityName
+- communityBio
+- communityLogo (optional)
+- communityWebsite (recommended)
+- country
+- city
 
 Example:
 
@@ -122,8 +122,8 @@ City: Ranchi
 
 Required:
 
-* officialEmail
-* contactPhone
+- officialEmail
+- contactPhone
 
 Example:
 
@@ -142,12 +142,12 @@ These help verify real communities.
 
 Possible fields:
 
-* github
-* discord
-* twitter
-* linkedin
-* youtube
-* instagram
+- github
+- discord
+- twitter
+- linkedin
+- youtube
+- instagram
 
 Example:
 
@@ -165,9 +165,9 @@ The organizer creating the community must create an account.
 
 Fields:
 
-* fullName
-* email
-* password
+- fullName
+- email
+- password
 
 Example:
 
@@ -229,11 +229,11 @@ active
 
 Possible states:
 
-* pending
-* under_review
-* approved
-* rejected
-* suspended
+- pending
+- under_review
+- approved
+- rejected
+- suspended
 
 Only **approved communities can access the platform**.
 
@@ -368,9 +368,9 @@ Zod
 
 Example checks:
 
-* valid email
-* minimum password length
-* valid URL for website
+- valid email
+- minimum password length
+- valid URL for website
 
 ---
 
@@ -392,9 +392,9 @@ Prevent duplicate communities.
 
 Checks:
 
-* community name
-* official email
-* domain
+- community name
+- official email
+- domain
 
 ---
 
@@ -404,10 +404,10 @@ After signup, communities appear in the **Admin Review Panel**.
 
 Admins can:
 
-* approve community
-* reject community
-* request additional verification
-* suspend community
+- approve community
+- reject community
+- request additional verification
+- suspend community
 
 Admin endpoint:
 
@@ -449,10 +449,10 @@ AuditLog
 
 Required templates:
 
-* community_signup_confirmation
-* email_verification
-* community_approved
-* community_rejected
+- community_signup_confirmation
+- email_verification
+- community_approved
+- community_rejected
 
 Example email:
 
@@ -477,13 +477,13 @@ After approval, the organizer can log in using the **CommDesk desktop applicatio
 
 Once logged in, the workspace will include:
 
-* community dashboard
-* member management
-* role management
-* event creation
-* hackathon management
-* API integrations
-* analytics
+- community dashboard
+- member management
+- role management
+- event creation
+- hackathon management
+- API integrations
+- analytics
 
 ---
 
@@ -506,4 +506,3 @@ Organizer logs into desktop app
         ↓
 Community workspace created
 ```
-

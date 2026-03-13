@@ -23,8 +23,8 @@ const CreateNewEvent = () => {
   return (
     <div className="w-full h-full flex flex-col" style={{ background: theme.background.secondary }}>
       <Event_Header />
-      <div className="flex w-full p-[2vw]  gap-5">
-        <div className="w-[65%]  mb-[2vh] bg-gray-200 rounded-lg p-4">
+      <div className="flex flex-col items-center min-[1408px]:items-start min-[1408px]:flex-row w-full p-[2vw]  gap-5">
+        <div className="w-[90%] min-[1408px]:w-[65%]  mb-[2vh] bg-gray-200 rounded-lg p-4">
           <Event_Basic_Info />
           <DateAndSchedule />
           <Capacity_And_Registration />

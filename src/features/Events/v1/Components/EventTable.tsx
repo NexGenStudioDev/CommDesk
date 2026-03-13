@@ -39,7 +39,6 @@ function EventTable({ events, itemsPerPage }: EventProps) {
   return (
     <div className="bg-white rounded-xl border shadow-sm overflow-hidden h-[63vh] relative">
       <table className="w-full text-sm">
-
         <thead className="text-gray-500 uppercase text-xs border-b bg-gray-50">
           <tr>
             <th className="px-6 py-4 text-left">Name</th>
@@ -51,11 +50,9 @@ function EventTable({ events, itemsPerPage }: EventProps) {
           </tr>
         </thead>
 
-
         <tbody>
           {currentItems.map((event) => (
             <tr key={event.id} className="border-b last:border-none hover:bg-gray-50 transition">
-  
               <td className="px-6 py-4">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
@@ -69,10 +66,8 @@ function EventTable({ events, itemsPerPage }: EventProps) {
                 </div>
               </td>
 
-             
               <td className="px-6 py-4 text-gray-700">{event.date}</td>
 
-            
               <td className="px-6 py-4">
                 <span
                   className={`px-3 py-1 text-xs rounded-full font-medium ${statusStyle[event.status]}`}
@@ -81,13 +76,10 @@ function EventTable({ events, itemsPerPage }: EventProps) {
                 </span>
               </td>
 
-            
               <td className="px-6 py-4 text-gray-700">{event.teams}</td>
 
-            
               <td className="px-6 py-4 text-gray-700">{event.submissions}</td>
 
-    
               <td className="px-6 py-4 text-right">
                 <button className="p-2 rounded-md hover:bg-gray-100">
                   <MoreVertical size={16} />
