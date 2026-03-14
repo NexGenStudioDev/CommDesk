@@ -527,6 +527,10 @@ Legend
 
 # 16. Sponsor Ecosystem (Participant Side)
 
+This participant-facing module should be powered by:
+
+- [CommDesk Sponsor & Partner Management System](./CommDesk-Sponsor-Partner-System.md)
+
 Features:
 
 - sponsor challenges and track prizes
@@ -783,6 +787,7 @@ Recommended core collections:
 This participant website must stay aligned with:
 
 - [CommDesk Event System](./CommDesk-Event-System.md)
+- [CommDesk Sponsor & Partner Management System](./CommDesk-Sponsor-Partner-System.md)
 - [CommDesk RSVP System](./CommDesk-RSVP-System.md)
 - [CommDesk Judging System](./CommDesk-Judging-System.md)
 - [CommDesk Member Creation & Onboarding System](./CommDesk-Member-System.md)
@@ -791,6 +796,7 @@ This participant website must stay aligned with:
 Integration rules:
 
 - event status, schedule, and visibility come from Event System
+- sponsor marketplace, sponsor challenges, workshops, resources, and hiring access come from Sponsor and Partner System
 - registration and consent model come from RSVP System
 - judging and leaderboard visibility come from Judging System
 - identity onboarding and role governance come from Member System

@@ -17,6 +17,7 @@ This version removes standalone Participant schema duplication and uses CommDesk
 Related documents:
 
 - [CommDesk Participant Platform System](./CommDesk-Participant-Platform-System.md)
+- [CommDesk Sponsor & Partner Management System](./CommDesk-Sponsor-Partner-System.md)
 - [CommDesk Judging System](./CommDesk-Judging-System.md)
 - [CommDesk RSVP System](./CommDesk-RSVP-System.md)
 - [CommDesk Member Creation & Onboarding System](./CommDesk-Member-System.md)
@@ -286,6 +287,14 @@ Benefits:
 
 # 7. Partner/Sponsor Schema
 
+This schema describes the event-facing assignment layer.
+
+Global sponsor and partner identities, verification, marketplace discovery, and sponsorship request workflows should be implemented through:
+
+- [CommDesk Sponsor & Partner Management System](./CommDesk-Sponsor-Partner-System.md)
+
+In production, prefer linking event assignments to a global organization record and storing display snapshots for event pages.
+
 ```ts
 import mongoose from "mongoose";
 
@@ -441,6 +450,12 @@ Create role request:
 ```
 
 ## 9.3 Partner APIs
+
+These APIs should remain the event-facing management layer for the current `Partners & Sponsors` UI.
+
+They should be backed by global sponsor and partner directory records plus event assignment records from:
+
+- [CommDesk Sponsor & Partner Management System](./CommDesk-Sponsor-Partner-System.md)
 
 ```text
 GET    /api/v1/events/:eventId/partners?search=google&page=1&limit=20
