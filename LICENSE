@@ -1,11 +1,51 @@
-Copyright (c) 2026 Abhishek Gupta
 
-All rights reserved.
 
-This software and its source code may not be copied, modified, distributed,
-or used without explicit prior written permission from the copyright holder.
+**Copyright (c) 2026 Abhishek Kumar**
 
-Contribution notice:
-You may submit issues and pull requests to contribute to this repository, but
-that does not grant any separate right to use, copy, modify, distribute, or
-reuse this software outside the contribution workflow.
+This software and all related files (the "Software") are protected under India's **Copyright Act, 1957** (as amended). The Act automatically protects original works like this computer program — no registration needed, but it gives strong legal rights.
+
+### What you can do
+You are allowed **only** to contribute to the Software. This means:
+- Submit bug reports, ideas, feature suggestions, or code patches (e.g., via pull requests on GitHub if I open a repo).
+- Contributions must be your original work, not copied or infringing.
+- If I accept your contribution, it becomes part of the Software and follows these same strict rules.
+
+**No other permissions** are granted — everything else is reserved.
+
+### What you cannot do
+You are **not allowed** to:
+- Modify, adapt, change, translate, or create new versions of the Software (except very small temporary changes only to prepare a contribution that I accept).
+- Copy, reproduce, share, publish, distribute, or make the Software available to others (except when needed to submit a contribution).
+- Use the Software for **any money-making or commercial purpose** — no selling, no business use, no ads, no SaaS/services, no monetization, no internal company profit, no material earning of any kind.
+- Sell, rent, lease, sublicense, transfer, or commercially exploit the Software or copies.
+- Reverse-engineer, decompile, disassemble, or try to get the source code (except tiny amount allowed by law only for making it work with other software — and **not** for profit or commercial reasons).
+- Remove, change, hide, or mess with this copyright notice, license text, or any markings.
+
+Doing any of these without my written permission is **copyright infringement** under **Section 51** of the Act.
+
+### Key Sections from Copyright Act, 1957 (Relevant to This Software)
+- **Section 2(o)** & **Section 2(ffc)**: This Software is protected as a "literary work" — specifically a "computer programme" (set of instructions in code or any form that makes a computer do a task).
+- **Section 13**: Copyright exists in original literary works like this computer programme.
+- **Section 14(b)**: I have exclusive rights to reproduce, sell, rent commercially, issue copies, adapt, communicate to the public, etc. Only the narrow contribution permission is given; all else reserved (including no commercial rental/sale by others).
+- **Section 17**: I (Abhishek Kumar) am the first owner of the copyright. No automatic transfer from contributions.
+- **Section 57**: Moral rights — I keep the right to claim authorship (paternity) and stop any changes that harm my honour/reputation (integrity). These rights last forever and can't be given away.
+- **Section 51**: Infringement happens if anyone does restricted acts without permission. Remedies: court can stop you (injunction), order damages, or profits you made (Section 55).
+- **Section 63 & 63B**: Serious penalties — knowing infringement (especially using pirated/infringing copies of computer programmes) can mean jail (minimum 7 days to 3 years) + fine (₹50,000 to ₹2,00,000). Commercial misuse makes it worse.
+- **Section 52**: Some limited exceptions (fair dealing) exist, like:
+  - **Section 52(aa)**: Lawful owner can make backup copies or adaptations for proper use on their computer.
+  - **Section 52(ab)**: Very limited reverse-engineering only for interoperability (making your own program work with this one), if info isn't public.
+  - **Section 52(ad)**: Copies/adaptations from a legally obtained copy for non-commercial personal use.
+  - Other fair dealing: private research, criticism/review (with credit), reporting events, judicial use.
+  
+  **Important**: These exceptions **do not** allow commercial use, selling, or big changes — they don't override the strict prohibitions here.
+
+### No Warranty / Disclaimer
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT ANY PROMISES OR GUARANTEES OF ANY KIND. I AM NOT RESPONSIBLE FOR ANY PROBLEMS, LOSSES, DAMAGES, OR COSTS FROM USING (OR NOT BEING ABLE TO USE) THE SOFTWARE — WHETHER FROM CONTRACT, MISTAKES, OR ANYTHING ELSE.
+
+### Contact for More Permissions
+If you need extra rights (e.g., modify freely, use commercially, distribute), contact me first:  
+- X: https://x.com/abhishek_nexgen  
+- Email: abhishek.nexgen.dev@gmail.com
+- LinkedIn: https://www.linkedin.com/in/abhishek-nexgen-dev/
+
+By accessing, using, or trying to contribute to the Software, you agree to these terms fully.
