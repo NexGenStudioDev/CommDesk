@@ -774,6 +774,7 @@ Do not ship without these judge system fields.
 Related documents:
 
 - [CommDesk Participant Platform System](./CommDesk-Participant-Platform-System.md)
+- [CommDesk Sponsor & Partner Management System](./CommDesk-Sponsor-Partner-System.md)
 - [CommDesk Event System](./CommDesk-Event-System.md)
 - [CommDesk RSVP System](./CommDesk-RSVP-System.md)
 - [CommDesk Member Creation & Onboarding System](./CommDesk-Member-System.md)
@@ -781,6 +782,7 @@ Related documents:
 Integration notes:
 
 - event metadata, status, and settings come from Event System
+- sponsor challenge judging and sponsor prize visibility can be extended through the Sponsor and Partner System
 - judge identity and account linkage come from Member/User model
 - team and submission sources integrate with event participation flows
 
