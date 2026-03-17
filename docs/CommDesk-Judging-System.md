@@ -986,19 +986,19 @@ Delivered capabilities:
 
 Defines when the system must dispatch notifications (email, in-app, or push).
 
-| Event | Recipients | Trigger | Channel |
-|---|---|---|---|
-| Judge invited | Judge | Organizer sends invite | Email |
-| Invite about to expire | Judge | 24h before invite token expiry | Email |
-| Invite accepted | Organizer | Judge accepts invite | In-app |
-| Scoring round opened | All assigned judges | Round status → Active | Email + In-app |
-| Scoring deadline reminder | Judges with pending scores | 48h and 24h before `scoringDeadline` | Email |
-| Score submitted | Lead Judge | Judge submits final score | In-app |
-| Score unlocked | Judge | Lead Judge/Admin unlocks their score | Email + In-app |
-| Round finalized | All judges, Organizer | Round status → Completed | Email + In-app |
-| Conflict of interest raised | Organizer, Lead Judge | Judge declares conflict | In-app |
-| Conflict resolved | Judge | Organizer resolves conflict | In-app |
-| Leaderboard published | Participants (if public) | Transparency publish trigger | Email + In-app |
+| Event                       | Recipients                 | Trigger                              | Channel        |
+| --------------------------- | -------------------------- | ------------------------------------ | -------------- |
+| Judge invited               | Judge                      | Organizer sends invite               | Email          |
+| Invite about to expire      | Judge                      | 24h before invite token expiry       | Email          |
+| Invite accepted             | Organizer                  | Judge accepts invite                 | In-app         |
+| Scoring round opened        | All assigned judges        | Round status → Active                | Email + In-app |
+| Scoring deadline reminder   | Judges with pending scores | 48h and 24h before `scoringDeadline` | Email          |
+| Score submitted             | Lead Judge                 | Judge submits final score            | In-app         |
+| Score unlocked              | Judge                      | Lead Judge/Admin unlocks their score | Email + In-app |
+| Round finalized             | All judges, Organizer      | Round status → Completed             | Email + In-app |
+| Conflict of interest raised | Organizer, Lead Judge      | Judge declares conflict              | In-app         |
+| Conflict resolved           | Judge                      | Organizer resolves conflict          | In-app         |
+| Leaderboard published       | Participants (if public)   | Transparency publish trigger         | Email + In-app |
 
 All notification sends must be logged for audit purposes.
 
@@ -1023,19 +1023,19 @@ ErrorResponse;
 
 ## 21.2 Common Error Codes
 
-| HTTP | Code | Meaning |
-|---|---|---|
-| 400 | `VALIDATION_ERROR` | Missing or invalid field |
-| 400 | `CRITERIA_SCORE_OUT_OF_RANGE` | Score exceeds `maxScore` |
-| 400 | `REQUIRED_CRITERIA_MISSING` | Not all required criteria scored |
-| 401 | `UNAUTHORIZED` | Not authenticated |
-| 403 | `FORBIDDEN` | Authenticated but lacks permission |
-| 403 | `JUDGE_NOT_ASSIGNED` | Judge not assigned to this submission |
-| 403 | `CONFLICT_OF_INTEREST` | Judge declared a conflict for this submission |
-| 403 | `SCORE_LOCKED` | Score is locked and cannot be edited |
-| 403 | `ROUND_FINALIZED` | Round is closed, no further scoring allowed |
-| 404 | `NOT_FOUND` | Resource does not exist |
-| 409 | `DUPLICATE_SCORE` | Submitted score already exists for this judge+submission |
-| 409 | `INVITE_ALREADY_ACCEPTED` | Invite token already consumed |
-| 410 | `INVITE_EXPIRED` | Invite token has expired |
-| 422 | `SCORING_DEADLINE_PASSED` | Submission attempted after round deadline |
+| HTTP | Code                          | Meaning                                                  |
+| ---- | ----------------------------- | -------------------------------------------------------- |
+| 400  | `VALIDATION_ERROR`            | Missing or invalid field                                 |
+| 400  | `CRITERIA_SCORE_OUT_OF_RANGE` | Score exceeds `maxScore`                                 |
+| 400  | `REQUIRED_CRITERIA_MISSING`   | Not all required criteria scored                         |
+| 401  | `UNAUTHORIZED`                | Not authenticated                                        |
+| 403  | `FORBIDDEN`                   | Authenticated but lacks permission                       |
+| 403  | `JUDGE_NOT_ASSIGNED`          | Judge not assigned to this submission                    |
+| 403  | `CONFLICT_OF_INTEREST`        | Judge declared a conflict for this submission            |
+| 403  | `SCORE_LOCKED`                | Score is locked and cannot be edited                     |
+| 403  | `ROUND_FINALIZED`             | Round is closed, no further scoring allowed              |
+| 404  | `NOT_FOUND`                   | Resource does not exist                                  |
+| 409  | `DUPLICATE_SCORE`             | Submitted score already exists for this judge+submission |
+| 409  | `INVITE_ALREADY_ACCEPTED`     | Invite token already consumed                            |
+| 410  | `INVITE_EXPIRED`              | Invite token has expired                                 |
+| 422  | `SCORING_DEADLINE_PASSED`     | Submission attempted after round deadline                |

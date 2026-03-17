@@ -1,0 +1,18 @@
+export let CONTACT_AND_SUPPORT_CONSTANT = [
+  "Technical System Issue",
+  "Authentication & Security Issue",
+  "User & Account Issue",
+  "Organization / Community Issue",
+  "Event / Hackathon Issue",
+  "Sponsor / Partnership Issue",
+  "Payment & Billing Issue",
+  "Analytics & Data Issue",
+  "Notification / Communication Issue",
+  "Moderation / Abuse Issue",
+  "Performance & Scalability Issue",
+  "Integration / API Issue",
+  "Configuration / Settings Issue",
+  "Feature Request",
+  "General Inquiry",
+  "Unknown / Other Issue"
+]
