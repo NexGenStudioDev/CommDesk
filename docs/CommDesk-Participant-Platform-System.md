@@ -158,49 +158,107 @@ Route:
 /builders/:username
 ```
 
-## 5.1 Profile Fields
+## 5.1 Profile Schema
 
-Important fields:
+```ts
+BuilderProfile;
+{
+  _id: ObjectId;
 
-- fullName
-- username
-- avatarUrl
-- bio
-- location
-- university
-- degree
-- graduationYear
-- experienceLevel
+  userId: ObjectId;
+  communityId: ObjectId;   // null = global profile
 
-## 5.2 Developer Links
+  username: String;         // unique, URL-safe slug
+  fullName: String;
+  avatarUrl: String;
+  bio: String;
+  location: String;
 
-- githubUrl
-- linkedinUrl
-- portfolioUrl
-- xTwitterUrl
-- resumeUrl
+  university: String;
+  degree: String;
+  graduationYear: Number;
+  experienceLevel: "Student" | "Junior" | "Mid" | "Senior";
 
-## 5.3 Skills and Interests
+  githubUrl: String;
+  linkedinUrl: String;
+  portfolioUrl: String;
+  xTwitterUrl: String;
+  resumeUrl: String;
 
-- skills[]
-- preferredTracks[]
-- openToTeamInvite
-- openToHiring
+  skills: [String];
+  preferredTracks: [String];
 
-## 5.4 Builder Stats
+  openToTeamInvite: Boolean;
+  openToHiring: Boolean;
 
-- hackathonsJoined
-- projectsSubmitted
-- wins
-- averageScore
-- followers
-- reputationPoints
+  visibility: "Public" | "MembersOnly" | "Private";
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+Required indexes:
+
+- unique: `username`
+- index: `(openToHiring, skills)`
+
+## 5.2 Builder Stats Schema
+
+```ts
+BuilderStats;
+{
+  _id: ObjectId;
+  userId: ObjectId;
+
+  hackathonsJoined: Number;
+  projectsSubmitted: Number;
+  wins: Number;
+  finalistCount: Number;
+  averageScore: Number;
+  reputationPoints: Number;
+  followers: Number;
+  following: Number;
+
+  updatedAt: Date;
+}
+```
+
+Stats are computed asynchronously — never written on the hot path.
+
+## 5.3 Reputation Score Formula
+
+```text
+reputationPoints =
+  (hackathonsJoined * 10)
+  + (projectsSubmitted * 20)
+  + (finalistCount * 50)
+  + (wins * 100)
+  + (communityContributions * 5)
+```
+
+Recalculated on each scoring event trigger.
+
+## 5.4 Profile Visibility Rules
+
+| Visibility | Public | Members Only | Private |
+|---|---|---|---|
+| Profile page visible | Yes | Logged-in members only | No |
+| Talent search visible | Yes (if openToHiring) | No | No |
+| Teammate finder visible | Yes | Logged-in only | No |
 
 ## 5.5 Builder Portfolio
 
-- project cards
-- participation history
-- achievements and certificates
+- project cards (from `EventSubmission`)
+- participation history (from `EventRegistration`)
+- achievements and certificates (from `BuilderAchievement`, `BuilderCertificate`)
+- skill endorsements (optional, from peers)
+
+## 5.6 Social Graph (Optional)
+
+- follow/unfollow builders
+- followers and following counts on `BuilderStats`
+- activity feed (event joins, wins, new projects)
 
 ---
 
@@ -309,6 +367,52 @@ Anti-spam recommendations:
 - CAPTCHA + rate limits
 - duplicate email/mobile checks
 
+## 8.1 Waitlist Management
+
+When event capacity is full:
+
+```text
+Participant registers
+  -> Capacity full
+  -> Status set to Waitlisted
+  -> WaitlistEntry created with position number
+  -> Waitlist confirmation email sent
+
+Capacity opens (cancellation or organizer increase)
+  -> First WaitlistEntry auto-promoted to Approved
+  -> Promotion email sent
+  -> Waitlist positions recalculated
+```
+
+Waitlist schema:
+
+```ts
+WaitlistEntry;
+{
+  _id: ObjectId;
+
+  eventId: ObjectId;
+  registrationId: ObjectId;
+  userId: ObjectId;
+
+  position: Number;
+
+  status: "Waiting" | "Promoted" | "Expired" | "Cancelled";
+
+  promotedAt: Date;
+  expiryAt: Date;        // window to accept promotion before next in queue
+
+  createdAt: Date;
+}
+```
+
+Required indexes:
+
+- index: `(eventId, status, position)`
+- unique: `(eventId, userId)`
+
+Participant-visible: current waitlist position and estimated chance of admission.
+
 ---
 
 # 9. Team Discovery and Formation
@@ -331,17 +435,37 @@ Team card fields:
 - openRoles
 - requestToJoin CTA
 
-## 9.2 Team Formation Actions
+## 9.2 Team Roles
+
+| Role | Permissions |
+|---|---|
+| `Leader` | invite, accept/reject requests, transfer leadership, delete team, finalize submission |
+| `CoLeader` | invite, accept/reject requests, edit team profile |
+| `Member` | view team, leave team |
+
+Only one `Leader` at a time. Leader transfer requires explicit confirmation from the recipient.
+
+## 9.3 Team Formation Actions
 
 Participants can:
 
-- create team
+- create team (creator becomes `Leader`)
 - send join request
-- accept/reject incoming request (team leader)
-- invite members
-- leave team (with restrictions near deadlines)
+- accept/reject incoming request (`Leader` or `CoLeader`)
+- invite members directly
+- promote member to `CoLeader` (`Leader` only)
+- transfer leadership to another member
+- leave team (blocked within 24h of submission deadline unless team has a replacement leader)
+- delete team (only if no submission exists)
 
-## 9.3 Join Request Payload
+## 9.4 Team Lock Policy
+
+- team is **soft-locked** at `teamFormationDeadline`: no new join requests accepted
+- team is **hard-locked** at `submissionDeadline`: no member changes at all
+- submission captures an immutable roster snapshot at finalize time
+- organizer can override lock for exceptional cases; override logged in audit trail
+
+## 9.5 Join Request Payload
 
 ```json
 {
@@ -405,12 +529,34 @@ Route:
 - installationSteps
 - sponsorTrackSelections[]
 
-## 11.3 Advanced UX
+## 11.3 Submission Status Lifecycle
+
+```text
+Draft -> Submitted -> UnderReview -> Finalist -> Winner
+                   -> Disqualified (anti-cheat or rule violation)
+```
+
+Rules:
+
+- `Draft`: editable anytime before `submissionDeadline`
+- `Submitted`: locked after deadline; `submittedAt` is immutable
+- `UnderReview`: assigned to judges, scoring in progress
+- `Finalist` / `Winner`: set by organizer or LeadJudge after scoring round
+- `Disqualified`: requires audit reason; participant notified
+
+Edit window policy:
+
+- minor edits (description, links) allowed up to `submissionDeadline`
+- `repositoryUrl` and core identity fields immutable after `Submitted`
+- all field changes tracked in `SubmissionEditLog` (field, oldValue, newValue, actorId, timestamp)
+
+## 11.4 Advanced UX
 
 - import README from GitHub
 - auto-detect tech stack from repo
-- draft auto-save
-- pre-submit validation checklist
+- draft auto-save every 30 seconds
+- pre-submit validation checklist (all required fields, repo public check)
+- `submittedAt` timestamp displayed and locked visually after submission
 
 ---
 
@@ -766,15 +912,20 @@ Recommended core collections:
 - BuilderProfile
 - BuilderStats
 - BuilderAchievement
+- BuilderFollow
 - EventTeam
+- TeamMember *(role: Leader | CoLeader | Member)*
 - TeamJoinRequest
+- WaitlistEntry
 - EventSubmission
+- SubmissionEditLog
 - SubmissionAsset
 - SubmissionScore (from Judging system)
 - EventLeaderboardCache
 - EventRSVPConfig (from RSVP)
 - EventRegistration (from RSVP)
 - ParticipantNotification
+- NotificationPreference
 - BuilderCertificate
 - SponsorChallenge
 - PlagiarismReport
@@ -793,14 +944,23 @@ This participant website must stay aligned with:
 - [CommDesk Member Creation & Onboarding System](./CommDesk-Member-System.md)
 - [Community Signup System](./Community-Signup-System.md)
 
+Planned docs this system depends on (not yet written):
+
+- `CommDesk-Team-System.md` — full team lifecycle, roles, lock policy, and API contract
+- `CommDesk-Submission-System.md` — submission workflow, deadline enforcement, edit log, and file storage
+- `CommDesk-Auth-System.md` — JWT lifecycle, refresh token rotation, password reset, MFA, and OAuth
+- `CommDesk-Notification-System.md` — unified notification channels, templates, delivery guarantees, and preferences
+
 Integration rules:
 
 - event status, schedule, and visibility come from Event System
 - sponsor marketplace, sponsor challenges, workshops, resources, and hiring access come from Sponsor and Partner System
-- registration and consent model come from RSVP System
+- registration, consent model, and waitlist management come from RSVP System
 - judging and leaderboard visibility come from Judging System
 - identity onboarding and role governance come from Member System
 - community-level access and ownership originate from Signup System
+- team lifecycle (roles, locks, transfers) will be governed by the forthcoming Team System
+- submission file storage, status lifecycle, and deadline enforcement will be governed by the forthcoming Submission System
 
 ---
 
@@ -816,30 +976,43 @@ Do not ship participant platform without these critical fields.
 - `email`
 - `skills[]`
 
-2. Participation:
+1. Participation:
 
 - `eventId`
 - `registrationType`
 - `rsvpStatus`
 - `teamId`
 
-3. Submission:
+1. Submission:
 
 - `submissionId`
 - `projectName`
 - `repositoryUrl`
 - `demoUrl`
-- `status`
-- `submittedAt`
+- `status` (Draft → Submitted → UnderReview → Finalist → Winner)
+- `submittedAt` (immutable after submission)
 
-4. Judging transparency:
+1. Team:
+
+- `teamId`
+- `teamRole` (Leader / CoLeader / Member)
+- `teamLockedAt`
+- `rosterSnapshot` (captured at submission finalize)
+
+1. Waitlist:
+
+- `waitlistPosition`
+- `waitlistStatus`
+- `promotionExpiryAt`
+
+1. Judging transparency:
 
 - `criteriaName`
 - `score`
 - `judgeVisibilityRules`
 - `publishTiming`
 
-5. Trust and compliance:
+1. Trust and compliance:
 
 - consent flags and policy versions
 - audit metadata (actor, timestamp, IP)
@@ -853,41 +1026,65 @@ Do not ship participant platform without these critical fields.
 
 - participants lose long-term portfolio value.
 
-2. No team workflow:
+1. No team workflow:
 
 - serious hackathon participation becomes impossible.
 
-3. No transparent judging controls:
+1. No transparent judging controls:
 
 - trust and fairness concerns increase.
 
-4. No anti-cheating checks:
+1. No anti-cheating checks:
 
 - duplicate and plagiarized projects can win.
 
-5. No notification reliability:
+1. No notification reliability:
 
 - participants miss critical deadlines.
 
-6. No certificate verification:
+1. No certificate verification:
 
 - credentials become easy to fake.
 
-7. No hiring opt-in/privacy controls:
+1. No hiring opt-in/privacy controls:
 
 - user trust and legal risk increase.
 
-8. No API/contract alignment with existing docs:
+1. No API/contract alignment with existing docs:
 
 - frontend and backend drift quickly.
 
-9. No observability:
+1. No observability:
 
 - production incident triage becomes slow.
 
-10. No phased rollout:
+1. No phased rollout:
 
 - platform complexity can delay launch unnecessarily.
+
+1. No waitlist management:
+
+- capacity-full events silently reject participants with no promotion path.
+
+1. No team role enforcement:
+
+- any member can perform leader-only actions, breaking team governance.
+
+1. No team lock policy:
+
+- team roster can change after submission, corrupting project attribution.
+
+1. No submission edit log:
+
+- post-deadline description edits cannot be detected or audited.
+
+1. No builder profile visibility controls:
+
+- private profiles are exposed in talent search and teammate finder.
+
+1. No documented reputation formula:
+
+- reputation points are assigned inconsistently across events and actions.
 
 ---
 
@@ -923,20 +1120,25 @@ Do not ship participant platform without these critical fields.
 ```text
 React Website (Participants)
   -> Discovery
-  -> RSVP
-  -> Teams
-  -> Submission
+  -> RSVP + Waitlist
+  -> Teams (roles, lock, transfer)
+  -> Submission (lifecycle, edit log)
   -> Judging View
   -> Leaderboard
-  -> Builder Profile
-  -> Reputation
+  -> Builder Profile (visibility, stats, portfolio)
+  -> Reputation + Achievements
   -> Certificates
+  -> Notifications
         |
         v
 CommDesk API Layer
   -> Event System
-  -> RSVP System
+  -> RSVP System (+ WaitlistEntry)
+  -> Team System (planned)
+  -> Submission System (planned)
   -> Judging System
+  -> Notification System (planned)
+  -> Auth System (planned)
   -> Member System
   -> Community System
         |
@@ -955,6 +1157,11 @@ Delivered outcome:
 - end-to-end participant lifecycle
 - production-ready module breakdown
 - route and API contracts
+- Developer Identity schema with visibility controls and reputation formula
+- waitlist management with auto-promotion flow
+- team roles, lock policy, and leadership transfer
+- submission status lifecycle with edit log and deadline enforcement
 - integration with event, RSVP, judging, member, and community systems
+- references to planned Team, Submission, Auth, and Notification system docs
 - fairness, trust, and anti-cheating architecture
 - growth path from MVP to full ecosystem

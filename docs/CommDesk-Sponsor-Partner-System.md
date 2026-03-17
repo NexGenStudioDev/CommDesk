@@ -1,109 +1,486 @@
-# CommDesk Sponsor & Partner Management System
+# CommDesk Sponsor & Partner Marketplace System
 
 ## Overview
 
-This document defines the complete Sponsor and Partner Management System for CommDesk.
+This document defines the end-to-end Sponsor and Partner Marketplace for CommDesk.
 
-It is designed for CommDesk's multi-surface architecture:
+It is aligned with current project docs and source code:
 
-- Organizer Desktop
-- Sponsor Desktop
-- Partner Desktop
-- Judge Desktop
-- Team Member Desktop
-- Participant React Website
+- `docs/CommDesk-Event-System.md`
+- `docs/CommDesk-Member-System.md`
+- `docs/CommDesk-Participant-Platform-System.md`
+- `docs/CommDesk-Judging-System.md`
+- `docs/CommDesk-RSVP-System.md`
+- `docs/Community-Signup-System.md`
+- `src/features/Events/v1/Constants/Event.constant.ts`
+- `src/features/Events/v1/Components/Partners_And_Sponsors.tsx`
+- `src/features/AddMember/v1/Constant/Role.constant.ts`
+- `src/features/AddMember/v1/Constant/Interest.constant.ts`
 
-The goal is to solve a real ecosystem problem:
+This is a 0 -> MONSTER specification, but grounded in the current CommDesk baseline and practical implementation phases.
 
-- communities struggle to find sponsors
-- companies struggle to reach developer communities
-- partnerships are managed manually and get lost after one event
+---
 
-CommDesk should become:
+# 0. What You Are Building
 
 ```text
-Global Sponsor and Partner Marketplace for Developer Communities
+A global platform where sponsors and communities discover, connect, collaborate, and grow in one place.
 ```
 
-This document is aligned with current CommDesk code and docs.
-
-Current code alignment already exists in:
-
-- the `Partners & Sponsors` panel inside the event creation UI
-- sponsor and partner category constants in the Events feature
-- community roles like `Partnerships Lead`, `Sponsorship Lead`, and `Industry Relations Lead`
-
-Related documents:
-
-- [CommDesk Event System](./CommDesk-Event-System.md)
-- [CommDesk Participant Platform System](./CommDesk-Participant-Platform-System.md)
-- [CommDesk Judging System](./CommDesk-Judging-System.md)
-- [CommDesk RSVP System](./CommDesk-RSVP-System.md)
-- [CommDesk Member Creation & Onboarding System](./CommDesk-Member-System.md)
-- [Community Signup System](./Community-Signup-System.md)
+This replaces fragmented workflows like forms, cold outreach, and manual deal tracking.
 
 ---
 
-# 1. System Vision
+# 1. Core Goal
 
-CommDesk should not treat sponsors as event-local logos only.
-
-It should treat sponsors and partners as platform-level organizations with long-term relationships.
-
-Core value for communities:
-
-- easier sponsor discovery
-- repeatable sponsorship workflows
-- stronger event funding
-- long-term partnership programs
-
-Core value for sponsors and partners:
-
-- direct access to developer communities
-- developer tool adoption
-- brand visibility
-- hiring pipeline
-- measurable ROI
+```text
+Make CommDesk the default platform for sponsorships in developer communities.
+```
 
 ---
 
-# 2. Architecture Goals
+# 2. Core Model
 
-The sponsor and partner system must:
+Three primary business entities:
 
-- support global sponsor and partner profiles
-- support event-level assignments without duplicating organization records
-- power the existing event `Partners & Sponsors` UI
-- allow verified communities to send sponsorship requests
-- allow sponsors to negotiate, accept, reject, or build recurring programs
-- support sponsor challenges, resources, workshops, and hiring use cases
-- provide analytics and CRM-style relationship tracking
+1. Sponsors and Partners (organizations)
+2. Communities (organizer workspaces)
+3. Events (hackathons, workshops, meetups, etc.)
+
+Platform rule:
+
+- organizations are global records
+- event sponsor entries are event-level assignments
+- one organization can support many communities and many events
 
 ---
 
-# 3. Current Frontend and Code Alignment
+# 3. Key Concepts
 
-The current codebase already exposes sponsor and partner concepts.
+Core identity model (aligned with Member and Signup docs):
 
-## 3.1 Existing Event UI
+```text
+User -> login/auth account
+Organization -> sponsor or partner company/profile
+Member -> community-scoped role
+Event -> actual program
+```
 
-Current event creation screen already has a `Partners & Sponsors` panel with:
+Important relationship:
 
-- count badge
-- add action
-- compact/full state
-- category-based visual styling
+```text
+One User can belong to multiple communities via Member records.
+```
 
-Current mock categories used in the UI include:
+---
 
-- `Official Partner`
-- `Platinum Sponsor`
-- `Gold Sponsor`
-- `Silver Sponsor`
+# 4. Current Codebase Baseline (Important)
 
-## 3.2 Existing Event Constants
+This is what already exists in repository code today.
 
-Current sponsor and partner categories in code already include:
+## 4.1 Event UI already has Partners and Sponsors panel
+
+From `src/features/Events/v1/Components/Partners_And_Sponsors.tsx`:
+
+- panel with count badge
+- `Add` action button
+- expand/collapse via `Hide` and `View`
+- cards rendered with category-based styling
+
+## 4.2 Category and tier constants already exist
+
+From `src/features/Events/v1/Constants/Event.constant.ts`:
+
+- `SPONSOR_CATEGORY`
+- `PARTNER_CATEGORY`
+- `PARTNERS_AND_SPONSORS_TIER`
+- `PARTNERS_AND_SPONSORS_CATEGORY`
+
+These values are currently the source-of-truth labels for event UI and should be preserved by backend validation.
+
+## 4.3 Existing community role and interest alignment
+
+From `src/features/AddMember/v1/Constant/Role.constant.ts`:
+
+- `Partnerships Lead`
+- `Sponsorship Lead`
+- `Industry Relations Lead`
+
+From `src/features/AddMember/v1/Constant/Interest.constant.ts`:
+
+- `PARTNERSHIPS & SPONSORSHIPS`
+
+## 4.4 Practical implementation reality
+
+Today, sponsor and partner records in the event panel are frontend mock data.
+
+This doc defines the production architecture to move from UI-only data to a global marketplace with requests, deals, contracts, payments, and analytics.
+
+---
+
+# 5. Platform Architecture
+
+```text
+Global Marketplace
+  -> Organization Directory
+  -> Opportunities
+  -> Requests
+  -> Negotiations
+  -> Deals
+  -> Contracts
+  -> Payments
+  -> Analytics
+  -> Hiring
+
+Connected to:
+  -> Event System
+  -> Member System
+  -> Participant Platform
+  -> Judging System
+  -> RSVP System
+```
+
+Design principles:
+
+- global profile first, event assignment second
+- no duplicate organization records per event
+- full auditability for requests, negotiation, and payment state changes
+- role-gated access per community and organization
+
+---
+
+# 6. Sponsor and Partner Onboarding
+
+## 6.1 Apply
+
+Route:
+
+```text
+/become-sponsor
+```
+
+Required input:
+
+- company name
+- logo
+- website
+- official email
+- industry
+- budget range
+- sponsorship type
+
+## 6.2 Verification checks
+
+System checks:
+
+- organization legitimacy
+- domain and email consistency
+- duplicate domain/profile detection
+- trust and spam signals
+
+Verification states:
+
+```text
+Pending Verification
+Verified
+Community Added
+Disabled
+```
+
+## 6.3 Account creation
+
+Create:
+
+- User account(s)
+- Organization profile
+- default organization role assignment
+
+## 6.4 Email and first login
+
+Security alignment with Member/Signup docs:
+
+- do not send plain temporary passwords
+- send secure activation/reset link
+- enforce password setup during first login
+
+Activation outcome:
+
+```text
+Organization status -> Active
+```
+
+---
+
+# 7. Organization Profile (Complete)
+
+## 7.1 Identity
+
+- legalName
+- displayName
+- logoUrl
+- website
+- industry
+- shortDescription
+- longDescription
+
+## 7.2 Capability and fit
+
+- technologies[]
+- developerTools[]
+- supportedRegions[]
+- preferredEventTypes[]
+- supportedCommunityTypes[]
+- budgetRange
+- availableSponsorshipTypes[]
+
+## 7.3 Contacts
+
+- primaryEmail
+- businessEmail
+- devRelEmail
+- hiringEmail
+- billingEmail
+
+## 7.4 Trust and performance
+
+- verificationStatus
+- reputationScore
+- communitiesSupportedCount
+- eventsSponsoredCount
+- developersReachedCount
+
+---
+
+# 8. Community Use Cases and Workflow
+
+Communities can:
+
+- create events
+- create sponsorship opportunities
+- send outbound sponsor requests
+- receive inbound sponsor applications
+- negotiate and finalize deals
+- track fulfillment and outcomes
+
+Core use cases:
+
+1. Community outbound request:
+
+```text
+Community creates event -> sends request to sponsor -> negotiates -> closes deal
+```
+
+1. Sponsor inbound application:
+
+```text
+Sponsor browses opportunities -> applies -> community accepts -> sponsor assigned to event
+```
+
+1. Recurring partner program:
+
+```text
+Organization creates long-term program -> supports multiple communities/events over time
+```
+
+---
+
+# 9. Sponsorship Opportunity (Critical)
+
+Each opportunity is linked to an event.
+
+Example:
+
+```text
+HackFest 2026
+500 participants
+Looking for Platinum Sponsor
+Budget: INR 5L
+Benefits: logo, workshop, hiring access
+```
+
+Opportunity includes:
+
+- event snapshot
+- desired sponsor category
+- requested budget range
+- offered benefits
+- timeline and decision deadline
+
+---
+
+# 10. Two-Way Marketplace
+
+Two symmetric paths must be supported.
+
+## 10.1 Community -> Sponsor
+
+- discover organizations
+- send request
+- sponsor responds
+
+## 10.2 Sponsor -> Community
+
+- browse opportunities
+- apply
+- community accepts/rejects
+
+---
+
+# 11. Sponsor Inbox
+
+Sponsor workspace inbox should include:
+
+- incoming requests
+- submitted applications
+- active negotiations
+- accepted deals
+- historical contracts
+
+Inbox filters:
+
+- status
+- event type
+- region
+- budget band
+- community reputation
+
+---
+
+# 12. Negotiation System
+
+Negotiation must support:
+
+- budget counter offers
+- benefit edits
+- term edits
+- threaded messages
+- multi-step revision history
+
+Suggested status flow:
+
+```text
+Pending -> Negotiation -> Accepted | Rejected | Withdrawn | Expired
+```
+
+---
+
+# 13. Deal and Contract System
+
+After negotiation acceptance:
+
+```text
+Deal accepted -> Contract generated -> Both sides sign
+```
+
+Contract snapshot should include:
+
+- final amount and currency
+- deliverables and benefits
+- SLA and timelines
+- cancellation and dispute terms
+- signatures and signed timestamps
+
+Suggested contract statuses:
+
+```text
+Draft -> PendingSignature -> Signed -> Completed | Cancelled | Disputed
+```
+
+---
+
+# 14. Payment System and Escrow
+
+Recommended flow:
+
+```text
+Sponsor -> CommDesk escrow -> Community
+```
+
+Payment features:
+
+- invoice generation
+- platform fee calculation
+- escrow hold
+- payout release on milestone or event completion
+- refund/dispute handling
+
+Suggested statuses:
+
+```text
+Initiated -> InEscrow -> Released | Refunded | Failed | Disputed
+```
+
+Note:
+
+- payment gateway integration is a backend roadmap item
+- no production payment module exists in current source yet
+
+---
+
+# 15. Reputation and Trust System
+
+Reputation should be computed for both organizations and communities.
+
+Inputs:
+
+- deal success rate
+- response speed
+- completion quality
+- review rating
+- dispute frequency
+
+Used for:
+
+- ranking
+- trust scoring
+- marketplace filtering
+- spam/fraud control
+
+---
+
+# 16. Smart Matching
+
+Matching signals:
+
+- event type and category
+- participant scale
+- region
+- tech stack relevance
+- historical sponsorship outcomes
+
+Examples:
+
+```text
+AI event -> AI companies
+Web event -> frontend and devtools companies
+Cloud event -> AWS, Azure, GCP aligned sponsors
+```
+
+---
+
+# 17. Event Integration (Must Stay Code-Compatible)
+
+Sponsors and partners must appear in events with:
+
+- logo
+- category label
+- website
+
+Event assignment layer uses existing event APIs from Event System docs:
+
+```text
+GET    /api/v1/events/:eventId/partners
+POST   /api/v1/events/:eventId/partners
+PATCH  /api/v1/events/:eventId/partners/:linkId
+DELETE /api/v1/events/:eventId/partners/:linkId
+```
+
+Category compatibility rule:
+
+- backend must accept current category labels from `SPONSOR_CATEGORY` and `PARTNER_CATEGORY`
+- backend must map to normalized tier keywords from `PARTNERS_AND_SPONSORS_TIER`
+
+Current category labels in code:
 
 ```text
 Title Sponsor
@@ -127,7 +504,6 @@ Associate Sponsor
 Contributor Sponsor
 Community Sponsor
 Ecosystem Sponsor
-
 Official Partner
 Community Partner
 Ecosystem Partner
@@ -142,1174 +518,388 @@ Outreach Partner
 Venue Partner
 ```
 
-Normalized tier keywords already present in code:
+---
+
+# 18. Sponsor Benefit Manager
+
+Event-level benefits should be configurable per sponsor assignment.
+
+Benefit examples:
+
+- logo placement
+- keynote/workshop slot
+- booth
+- social promotion
+- newsletter mention
+- hiring access
+
+Behavior:
+
+- default by tier
+- editable per deal
+- tracked for fulfillment status
+
+---
+
+# 19. Sponsor Event Features
+
+## 19.1 Sponsor Challenges
 
 ```text
-title
-presenting
-co-presenting
-diamond
-platinum
-premier
-elite
-gold
-silver
-bronze
-knowledge
-education
-learning
-media
-press
-broadcast
-support
-associate
-contributor
-community
-ecosystem
-partner
-official partner
+Build using sponsor technology and win sponsor prize.
 ```
 
-Important rule:
+Integrated with Judging System criteria and transparency settings.
 
-- backend must preserve these existing category values so the current UI and badges remain valid
+## 19.2 Sponsor Workshops
 
-## 3.3 Existing Member Roles and Interests
+- live sessions
+- speaker metadata
+- attendance tracking
+- recording links
 
-CommDesk already defines organizer-side roles relevant to this system:
+## 19.3 Sponsor Resources
 
-- `Partnerships Lead`
-- `Sponsorship Lead`
-- `Industry Relations Lead`
-
-It also already defines interest:
-
-- `PARTNERSHIPS & SPONSORSHIPS`
-
-That means the sponsor system should integrate directly with current role governance.
-
----
-
-# 4. Platform Architecture
-
-Sponsors and partners must exist at platform level first, and event level second.
-
-```text
-Platform
-  -> Sponsor and Partner Directory
-  -> Communities
-      -> Events
-          -> Event Sponsor Assignments
-          -> Sponsor Challenges
-          -> Sponsor Resources
-          -> Sponsor Workshops
-  -> Sponsorship Requests
-  -> Sponsor Community Relationships
-```
-
-Key architectural rule:
-
-- one sponsor profile can support many communities and many events
-- one partner profile can support many communities and many events
-- event records should store assignment snapshots, not duplicate full sponsor identity
-
----
-
-# 5. Sponsor vs Partner Model
-
-CommDesk must support both a shared UI and a clear data distinction.
-
-## Sponsor
-
-Typical sponsor types:
-
-- technology companies
-- cloud providers
-- AI companies
-- startup ecosystems
-- hiring partners with prize budgets
-
-Primary sponsor value:
-
-- money
-- credits
-- prizes
-- technology adoption
-- hiring pipeline
-
-## Partner
-
-Typical partner types:
-
-- universities
-- developer communities
-- media platforms
-- incubators
-- outreach organizations
-- venue and ecosystem collaborators
-
-Primary partner value:
-
-- distribution
-- community reach
-- workshops
-- venue access
-- mentors and volunteers
-
-## Recommended Storage Model
-
-Because the current UI combines both, use one global profile model with a type discriminator.
-
-```text
-entityType = Sponsor | Partner | SponsorAndPartner
-```
-
-This keeps the current combined event panel simple while preserving business meaning.
-
----
-
-# 6. Multi-Surface Integration
-
-## 6.1 Organizer Desktop
-
-Organizer workflows:
-
-- browse sponsor marketplace
-- discover partners by region and event type
-- send sponsorship requests
-- negotiate terms
-- assign sponsor categories to event
-- configure sponsor benefits, challenges, and workshops
-
-## 6.2 Sponsor Desktop
-
-Sponsor workflows:
-
-- review incoming requests
-- manage company profile
-- approve or reject sponsorships
-- track developer reach and event performance
-- run sponsor challenges
-- shortlist talent
-
-## 6.3 Partner Desktop
-
-Partner workflows:
-
-- collaborate with communities
-- provide promotion, venue, workshops, mentors, or media coverage
-- review partnership requests
-- maintain recurring partner programs
-
-## 6.4 Judge Desktop
-
-Judge workflows connected to sponsor system:
-
-- see sponsor challenge criteria when assigned to sponsor prizes
-- evaluate submissions for sponsor tracks where enabled
-
-Judge desktops should not get sponsor CRM access.
-
-## 6.5 Team Member Desktop and Participant Website
-
-Participants can see:
-
-- sponsor challenges
-- sponsor technologies
-- sponsor documentation and SDKs
-- sponsor workshops
-- sponsor prizes
-- sponsor hiring opportunities
-
----
-
-# 7. Global Sponsor and Partner Directory
-
-CommDesk should expose a marketplace-style directory.
-
-Organizer discovery filters:
-
-- industry
-- technologies
-- supported regions
-- event type preference
-- budget range
-- verification status
-- sponsor reputation
-
-Example directory columns:
-
-```text
-Company
-Industry
-Technologies
-Regions
-Verification
-Budget Range
-```
-
-Organizer actions:
-
-- view full profile
-- send sponsorship request
-- save organization
-- follow organization
-
----
-
-# 8. Global Profile System
-
-Every sponsor or partner must have a full platform profile.
-
-## 8.1 Core Fields
-
-- legalName
-- displayName
-- logoUrl
-- website
-- entityType
-- industry
-- description
-- technologies[]
-- developerTools[]
-
-## 8.2 Opportunity Metadata
-
-- preferredEventTypes[]
-- supportedRegions[]
-- supportedCommunityTypes[]
-- budgetRange
-- availableSponsorshipTypes[]
-- preferredParticipantSegments[]
-
-## 8.3 Contact and Operations
-
-- contactName
-- contactEmail
-- contactRole
-- businessDevelopmentEmail
-- devRelEmail
-- hiringEmail
-
-## 8.4 Reputation and Trust
-
-- verificationStatus
-- reputationScore
-- communitiesSupportedCount
-- eventsSponsoredCount
-- developersReachedCount
-
----
-
-# 9. Sponsor and Partner Creation Workflow
-
-To avoid duplicate profiles, CommDesk must support discovery-first creation.
-
-Workflow:
-
-```text
-Search organization
-  -> if existing profile found, reuse it
-  -> if not found, create new global profile
-  -> mark as Pending Verification or Community Added
-```
-
-Creation sources:
-
-- platform admin
-- organizer
-- sponsor organization user
-- partner organization user
-
----
-
-# 10. Verification System
-
-Verification statuses:
-
-```text
-Verified
-Pending Verification
-Community Added
-Disabled
-```
-
-Purpose:
-
-- reduce fake sponsor records
-- improve trust for organizers
-- improve confidence for communities and participants
-
-Verification checks may include:
-
-- domain ownership
-- company website validation
-- admin review
-- verified contact email
-
----
-
-# 11. Sponsorship Request Workflow
-
-Organizers should not assign sponsors to events without a request/approval workflow.
-
-## Request Fields
-
-- communityId
-- eventId
-- eventName
-- eventType
-- expectedParticipants
-- requestedCategory
-- requestedBudget
-- requestedCurrency
-- message
-- benefitProposal[]
-
-## Status Flow
-
-```text
-Pending
-Negotiation
-Accepted
-Rejected
-Withdrawn
-Expired
-```
-
-Negotiation fields should support:
-
-- counterBudget
-- conditions
-- notes
-- proposedBenefits
-
----
-
-# 12. Event Sponsor Assignment Layer
-
-This is the layer that powers the current Event UI panel.
-
-Important distinction:
-
-- global organization profile lives in sponsor directory
-- event assignment stores the event-specific category, benefit, and visibility snapshot
-
-That means the current event endpoint family can remain:
-
-```text
-GET    /api/v1/events/:eventId/partners
-POST   /api/v1/events/:eventId/partners
-PATCH  /api/v1/events/:eventId/partners/:linkId
-DELETE /api/v1/events/:eventId/partners/:linkId
-```
-
-But these endpoints should operate on event assignment records backed by global sponsor profiles.
-
----
-
-# 13. Category and Tier System (Aligned with Code)
-
-Current CommDesk UI already expects sponsor and partner category strings.
-
-Use:
-
-- `displayCategory` for UI labels
-- `tierKeyword` for normalized filtering, ordering, and styling
-
-Examples:
-
-```text
-displayCategory = Platinum Sponsor
-tierKeyword = platinum
-
-displayCategory = Official Partner
-tierKeyword = official partner
-```
-
-Benefits of this split:
-
-- frontend keeps current labels untouched
-- backend gets consistent grouping and search behavior
-
----
-
-# 14. Sponsor Benefit Manager
-
-Organizers need event-level benefit definitions.
-
-Example benefits:
-
-```text
-Logo on homepage
-Logo on event page
-Keynote slot
-Workshop slot
-Sponsor challenge
-Hiring access
-Office hours
-Booth visibility
-Newsletter mention
-Social media mention
-```
-
-Benefits should be:
-
-- tier-driven by default
-- editable per event assignment
-
----
-
-# 15. Sponsor Challenge System
-
-Sponsors can attach challenge tracks to an event.
-
-Example:
-
-```text
-Best AI Project using OpenAI API
-Prize: $2000
-```
-
-Challenge fields:
-
-- title
-- description
-- eligibility
-- requirements
-- requiredTechnologies[]
-- prizeDescription
-- judgingCriteria[]
-- sponsorId
-- eventId
-- visibility
-
-Integration rule:
-
-- sponsor challenge judging must integrate with Judging System criteria and public transparency rules
-
----
-
-# 16. Sponsor Resource Hub
-
-Sponsors can publish event-specific resources.
-
-Resource types:
-
-- documentation links
+- docs
 - SDK links
-- tutorial links
-- sample projects
-- API credits instructions
-- coupon codes and onboarding forms
+- sample repos
+- onboarding credits and coupons
 
-These resources must be visible inside:
+## 19.4 Sponsor Hiring
 
-- participant website event page
-- participant/team workspaces
-- sponsor challenge detail pages
+- talent search against participant opt-in
+- filters by skill, project score, track, and challenge participation
 
 ---
 
-# 17. Sponsor Workshop System
+# 20. Participant Experience
 
-Sponsors can host learning sessions.
+Participants should see:
 
-Workshop fields:
+- sponsor logos and categories
+- sponsor challenges and prizes
+- workshops and resources
+- sponsor job opportunities
 
-- title
-- description
-- speakerName
-- speakerRole
-- speakerCompany
-- scheduledAt
-- meetingUrl
-- capacityLimit
-- recordingUrl
-- sponsorId
-- eventId
+Privacy rule:
 
-Participant surfaces:
-
-- event page workshop section
-- sponsor challenge detail page
-- notification reminders
+- hiring visibility requires explicit participant opt-in from Participant Platform settings
 
 ---
 
-# 18. Sponsor Analytics Dashboard
+# 21. Analytics
 
-Sponsors need measurable ROI.
-
-Metrics:
+Sponsor analytics should include:
 
 - participants reached
-- projects using sponsor technology
-- workshop attendance
-- sponsor challenge submissions
-- profile clicks
-- documentation clicks
-- resume views or shortlist counts
+- projects built with sponsor technology
+- workshop registrations and attendance
+- challenge submissions and winners
+- profile and resource clicks
+- hiring funnel metrics
+
+Community analytics should include:
+
+- sponsor response rates
+- deal conversion rates
+- sponsor retention by quarter
+- fulfilled vs missed benefit ratio
+
+---
+
+# 22. Long-Term Programs
+
+Support recurring programs across many communities/events.
 
 Example:
 
 ```text
-Participants Reached: 850
-Projects Using OpenAI API: 42
-Workshop Attendees: 210
-Developers Shortlisted: 18
+AI Program -> 10 communities -> 50 events
 ```
 
----
+Program capabilities:
 
-# 19. Sponsor Hiring Pipeline
-
-Sponsors may use events as talent discovery channels.
-
-Filters:
-
-- skill
-- tech stack
-- project score
-- leaderboard rank
-- sponsor challenge participation
-- opt-in to hiring
-
-Important privacy rule:
-
-- participant hiring visibility must always honor explicit participant opt-in from the participant platform
+- reusable templates for benefits/contracts
+- annual/quarterly budget allocation
+- multi-event reporting
 
 ---
 
-# 20. Sponsor CRM and Relationship Tracking
+# 23. Data Model and Collections
 
-Sponsors and partners need longitudinal relationship tracking.
-
-Example metrics:
+Core collections:
 
 ```text
-Communities Supported
-Events Sponsored
-Developers Reached
-Projects Built with Technology
-Workshops Hosted
+Users
+Organizations
+Members
+Events
+Opportunities
+Requests
+Negotiations
+Deals
+Contracts
+Payments
+Challenges
+Workshops
+Resources
+Analytics
+Reputation
+Programs
 ```
 
-This acts as a developer relations CRM for sponsors and an ecosystem memory for communities.
-
----
-
-# 21. Partner Ecosystem Model
-
-Partner contributions differ from sponsor contributions.
-
-Partner contribution types:
-
-- promotion
-- mentors
-- workshops
-- venue
-- media coverage
-- community support
-
-Example partner organizations:
-
-- universities
-- media communities
-- incubators
-- developer chapters
-
-Partners may not always have budget, but can still create major event value.
-
----
-
-# 22. Recommendation Engine
-
-CommDesk should suggest sponsor and partner matches automatically.
-
-Matching inputs:
-
-- event type
-- event category
-- participant count
-- region
-- community reputation
-- past sponsor success
-- technologies relevant to event tracks
-
-Examples:
+Recommended additional collections:
 
 ```text
-AI Hackathon -> OpenAI, Hugging Face, Google AI
-Web3 Hackathon -> Polygon, Solana, Chainlink
-Cloud Workshop -> AWS, Azure, Google Cloud
+OrganizationMembers
+SponsorInboxThread
+ContractSignature
+PaymentLedger
+AuditLog
 ```
 
----
+## 23.1 Key schema notes
 
-# 23. Communication and Engagement Tools
+1. `Organizations`:
 
-Sponsors and partners should be able to interact with communities and participants.
-
-Tools:
-
-- announcements
-- AMA sessions
-- office hours
-- sponsor updates
-- structured direct messaging where allowed
-
-These should be governed by platform moderation and spam rules.
-
----
-
-# 24. Long-Term Programs
-
-CommDesk must support recurring programs, not only one-off deals.
-
-Example:
-
-```text
-OpenAI AI Innovation Program
-```
-
-Long-term program support:
-
-- multiple communities
-- multiple events
-- recurring sponsor benefits
-- annual or quarterly reporting
-
----
-
-# 25. Database Design (Recommended)
-
-## 25.1 SponsorPartnerOrganization
-
-```ts
-SponsorPartnerOrganization;
-{
-  _id: ObjectId;
-
-  legalName: String;
-  displayName: String;
-
-  entityType: "Sponsor" | "Partner" | "SponsorAndPartner";
-
-  logoUrl: String;
-  website: String;
-
-  industry: String;
-  description: String;
-
-  technologies: [String];
-  developerTools: [String];
-
-  preferredEventTypes: [String];
-  supportedRegions: [String];
-  supportedCommunityTypes: [String];
-
-  budgetRange: {
-    min: Number;
-    max: Number;
-    currency: String;
-  }
-
-  availableSponsorshipTypes: [String];
-
-  verificationStatus: "Verified" | "Pending Verification" | "Community Added" | "Disabled";
-
-  reputationScore: Number;
-
-  contact: {
-    primaryName: String;
-    primaryEmail: String;
-    primaryRole: String;
-    devRelEmail: String;
-    hiringEmail: String;
-  }
-
-  createdBy: ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-Recommended indexes:
-
-- unique on normalized website domain
-- text index on `displayName`, `industry`, `technologies`
+- unique normalized domain index
 - index on `entityType`, `verificationStatus`
+- text index on `displayName`, `industry`, `technologies`
 
-## 25.2 SponsorshipRequest
+1. `EventSponsorAssignment`:
 
-```ts
-SponsorshipRequest;
-{
-  _id: ObjectId;
+- stores event snapshot fields (`displayNameSnapshot`, `logoUrlSnapshot`, `websiteSnapshot`)
+- stores `displayCategory` and `tierKeyword`
+- stores `benefits[]` and visibility flags
 
-  communityId: ObjectId;
-  eventId: ObjectId;
-  organizationId: ObjectId;
+1. `Requests/Negotiations/Deals`:
 
-  requestedByUserId: ObjectId;
+- immutable audit timeline
+- actor identity on each state change
 
-  eventName: String;
-  eventType: String;
-  expectedParticipants: Number;
+1. `Contracts`:
 
-  requestedCategory: String;
-  requestedBudget: Number;
-  requestedCurrency: String;
+- references final deal
+- stores signed document hash and signature metadata
 
-  message: String;
-  benefitProposal: [String];
+1. `Payments`:
 
-  status: "Pending" | "Negotiation" | "Accepted" | "Rejected" | "Withdrawn" | "Expired";
-
-  negotiation: {
-    counterBudget: Number;
-    counterCurrency: String;
-    terms: [String];
-    notes: String;
-  }
-
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-## 25.3 EventSponsorAssignment
-
-```ts
-EventSponsorAssignment;
-{
-  _id: ObjectId;
-
-  communityId: ObjectId;
-  eventId: ObjectId;
-  organizationId: ObjectId;
-
-  entityType: "Sponsor" | "Partner" | "SponsorAndPartner";
-
-  displayNameSnapshot: String;
-  logoUrlSnapshot: String;
-  websiteSnapshot: String;
-
-  displayCategory: String;
-  tierKeyword: String;
-
-  benefits: [String];
-
-  visibility: {
-    showOnEventPage: Boolean;
-    showOnParticipantWebsite: Boolean;
-    showOnCertificates: Boolean;
-  }
-
-  hiringEnabled: Boolean;
-
-  createdFromRequestId: ObjectId;
-  createdBy: ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-Important rule:
-
-- `displayCategory` must be one of the existing event sponsor or partner category values already used by the current frontend
-
-## 25.4 SponsorChallenge
-
-```ts
-SponsorChallenge;
-{
-  _id: ObjectId;
-
-  eventId: ObjectId;
-  communityId: ObjectId;
-  organizationId: ObjectId;
-
-  title: String;
-  description: String;
-  eligibility: String;
-
-  requirements: [String];
-  requiredTechnologies: [String];
-
-  prizeDescription: String;
-  judgingCriteria: [String];
-
-  isPublished: Boolean;
-
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-## 25.5 SponsorResource
-
-```ts
-SponsorResource;
-{
-  _id: ObjectId;
-
-  eventId: ObjectId;
-  organizationId: ObjectId;
-
-  title: String;
-  resourceType: String;
-  url: String;
-  description: String;
-
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-## 25.6 SponsorWorkshop
-
-```ts
-SponsorWorkshop;
-{
-  _id: ObjectId;
-
-  eventId: ObjectId;
-  organizationId: ObjectId;
-
-  title: String;
-  description: String;
-  speakerName: String;
-  speakerRole: String;
-  speakerCompany: String;
-
-  scheduledAt: Date;
-  meetingUrl: String;
-  recordingUrl: String;
-
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-## 25.7 SponsorRelationshipSummary (Optional Cached CRM View)
-
-```ts
-SponsorRelationshipSummary;
-{
-  _id: ObjectId;
-
-  organizationId: ObjectId;
-  communityId: ObjectId;
-
-  eventsSupported: Number;
-  developersReached: Number;
-  projectsBuilt: Number;
-  workshopsHosted: Number;
-
-  lastEngagementAt: Date;
-  updatedAt: Date;
-}
-```
+- stores invoice, fee, escrow, payout, and dispute metadata
 
 ---
 
-# 26. Zod Validation Rules
+# 24. Security and Governance
 
-Backend should validate:
+Required controls:
 
-- `entityType` must be allowed enum value
-- `website` must be valid URL when present
-- `displayCategory` must match existing supported category list
-- `tierKeyword` must match normalized tier values
-- no accepted sponsorship without organization profile
-- no event sponsor assignment without accepted request unless admin override is used
-- only approved or active communities can send sponsorship requests
+- verified sponsors for trusted routes
+- rate limiting on requests/messages
+- duplicate request suppression
+- spam and abuse detection
+- role-based access control
+- audit logging on all state transitions
+- signed URL policy for private assets
+- encrypted sensitive fields
+
+Community gate (from Signup docs):
+
+- only approved/active communities can fully use marketplace outreach
 
 ---
 
-# 27. API Contract
+# 25. Roles and Access
 
-## 27.1 Global Directory APIs
+## 25.1 Community side
+
+- Organizer
+- Partnerships Lead
+- Sponsorship Lead
+- Industry Relations Lead
+
+## 25.2 Sponsor side
+
+- Sponsor Admin
+- Sponsor Manager
+- DevRel Manager
+- Hiring Manager
+
+## 25.3 Partner side
+
+- Partner Admin
+- Partnership Manager
+
+## 25.4 Judge and participant constraints
+
+- judges can access sponsor challenge judging context only
+- participants can access public sponsor content and opted-in hiring surfaces
+
+---
+
+# 26. API Contract (Codebase-Aligned)
+
+Use `/api/v1` prefix to align with other CommDesk system docs.
+
+## 26.1 Sponsor onboarding and directory
 
 ```text
-GET    /api/v1/sponsor-directory
-GET    /api/v1/sponsor-directory/:organizationId
-POST   /api/v1/sponsor-directory
-PATCH  /api/v1/sponsor-directory/:organizationId
-POST   /api/v1/sponsor-directory/:organizationId/verify
+POST   /api/v1/sponsors/apply
+GET    /api/v1/sponsors
+GET    /api/v1/sponsors/:organizationId
+GET    /api/v1/sponsors/dashboard
+PATCH  /api/v1/sponsors/:organizationId
+POST   /api/v1/sponsors/:organizationId/verify
 ```
 
-Recommended query filters:
+## 26.2 Opportunities
 
 ```text
-entityType
-industry
-technology
-region
-eventType
-verificationStatus
-budgetMin
-budgetMax
-search
-page
-limit
+POST   /api/v1/opportunities
+GET    /api/v1/opportunities
+GET    /api/v1/opportunities/:opportunityId
+POST   /api/v1/opportunities/:opportunityId/apply
 ```
 
-## 27.2 Sponsorship Request APIs
+## 26.3 Requests and negotiations
 
 ```text
-POST   /api/v1/sponsorship-requests
-GET    /api/v1/sponsorship-requests
-GET    /api/v1/sponsorship-requests/:requestId
-PATCH  /api/v1/sponsorship-requests/:requestId/accept
-PATCH  /api/v1/sponsorship-requests/:requestId/reject
-PATCH  /api/v1/sponsorship-requests/:requestId/negotiate
-PATCH  /api/v1/sponsorship-requests/:requestId/withdraw
+POST   /api/v1/requests
+GET    /api/v1/requests
+GET    /api/v1/requests/:requestId
+PATCH  /api/v1/requests/:requestId/accept
+PATCH  /api/v1/requests/:requestId/reject
+PATCH  /api/v1/requests/:requestId/negotiate
+PATCH  /api/v1/requests/:requestId/withdraw
+POST   /api/v1/negotiations/message
 ```
 
-## 27.3 Event Sponsor Assignment APIs
-
-These should back the current event `Partners & Sponsors` panel.
+## 26.4 Deals and contracts
 
 ```text
+POST   /api/v1/deals
+GET    /api/v1/deals/:dealId
+POST   /api/v1/contracts
+GET    /api/v1/contracts/:contractId
+POST   /api/v1/contracts/:contractId/sign
+```
+
+## 26.5 Event sponsor assignment (existing event integration)
+
+```text
+POST   /api/v1/events/:eventId/sponsors
+GET    /api/v1/events/:eventId/sponsors
 GET    /api/v1/events/:eventId/partners
 POST   /api/v1/events/:eventId/partners
 PATCH  /api/v1/events/:eventId/partners/:linkId
 DELETE /api/v1/events/:eventId/partners/:linkId
 ```
 
-## 27.4 Sponsor Challenge APIs
+## 26.6 Event sponsor modules
 
 ```text
 GET    /api/v1/events/:eventId/sponsor-challenges
 POST   /api/v1/events/:eventId/sponsor-challenges
-PATCH  /api/v1/events/:eventId/sponsor-challenges/:challengeId
-DELETE /api/v1/events/:eventId/sponsor-challenges/:challengeId
-```
-
-## 27.5 Sponsor Resource APIs
-
-```text
-GET    /api/v1/events/:eventId/sponsor-resources
-POST   /api/v1/events/:eventId/sponsor-resources
-PATCH  /api/v1/events/:eventId/sponsor-resources/:resourceId
-DELETE /api/v1/events/:eventId/sponsor-resources/:resourceId
-```
-
-## 27.6 Sponsor Workshop APIs
-
-```text
 GET    /api/v1/events/:eventId/sponsor-workshops
 POST   /api/v1/events/:eventId/sponsor-workshops
-PATCH  /api/v1/events/:eventId/sponsor-workshops/:workshopId
-DELETE /api/v1/events/:eventId/sponsor-workshops/:workshopId
+GET    /api/v1/events/:eventId/sponsor-resources
+POST   /api/v1/events/:eventId/sponsor-resources
 ```
 
-## 27.7 Sponsor Analytics and Hiring APIs
+## 26.7 Payments and analytics
 
 ```text
-GET /api/v1/sponsors/:organizationId/analytics
-GET /api/v1/sponsors/:organizationId/communities
-GET /api/v1/sponsors/:organizationId/talent
+POST   /api/v1/payments
+GET    /api/v1/payments/:paymentId
+GET    /api/v1/analytics/sponsors
+GET    /api/v1/sponsors/:organizationId/analytics
+GET    /api/v1/sponsors/:organizationId/talent
 ```
 
 ---
 
-# 28. Access Control
+# 27. End-to-End Flow
 
-Organizer-side roles allowed to manage sponsor workflows:
-
-- `Organizer`
-- `Community Lead`
-- `Partnerships Lead`
-- `Sponsorship Lead`
-- `Industry Relations Lead`
-
-Sponsor-side roles:
-
-- `Sponsor Admin`
-- `Sponsor Manager`
-- `Developer Relations Manager`
-- `Hiring Manager`
-
-Partner-side roles:
-
-- `Partner Admin`
-- `Partnership Manager`
-
----
-
-# 29. Anti-Spam and Trust Controls
-
-Important protections:
-
-- only verified or approved communities can send sponsorship requests
-- request rate limits per community
-- duplicate request suppression for same event and same organization
-- reputation-weighted request quality scoring
-- sponsor inbox filtering by community credibility and past event success
-
-Recommended examples:
+## 27.1 Sponsor flow
 
 ```text
-Max 10 open sponsorship requests per community
-Max 3 repeated requests to same organization in 30 days
-Only approved or active communities can message verified sponsors
+Apply -> Verified -> Dashboard
+-> Browse opportunities / receive requests
+-> Negotiate -> Accept -> Deal -> Contract -> Pay
+-> Run event modules (challenge/workshop/resources)
+-> Track analytics -> Hire -> Renew
 ```
 
----
-
-# 30. Integration with Existing CommDesk Docs
-
-## Event System Integration
-
-- current `Partners & Sponsors` event panel becomes the event assignment layer
-- event-level partner APIs should manage `EventSponsorAssignment` records backed by global profiles
-- current category values from event constants must stay unchanged
-
-## Participant Platform Integration
-
-- sponsor challenges, resources, workshops, and hiring visibility power the participant website sponsor ecosystem module
-- participant profile hiring opt-in controls must gate sponsor talent access
-
-## Judging System Integration
-
-- sponsor challenge judging criteria may extend event judging workflows
-- sponsor prize visibility must obey judging transparency settings
-
-## Member System Integration
-
-- organizer-side sponsor managers use existing community roles
-- sponsor and partner representatives use the shared user/auth system
-
-## Community Signup Integration
-
-- only approved or active communities should unlock full sponsor marketplace access
-
----
-
-# 31. Important Fields Checklist
-
-Do not ship without these sponsor system fields.
-
-1. Organization identity:
-
-- `organizationId`
-- `entityType`
-- `displayName`
-- `website`
-- `verificationStatus`
-
-2. Event assignment:
-
-- `eventId`
-- `displayCategory`
-- `tierKeyword`
-- `benefits[]`
-- visibility flags
-
-3. Request workflow:
-
-- `communityId`
-- `requestedBudget`
-- `status`
-- negotiation notes
-
-4. Sponsor activation value:
-
-- `technologies[]`
-- `developerTools[]`
-- sponsor challenges
-- workshops
-- resources
-
-5. Trust and operations:
-
-- audit metadata
-- request rate limiting
-- duplicate suppression
-- analytics snapshots
-
----
-
-# 32. Weak Points If Missed
-
-1. No global organization directory:
-
-- duplicate sponsor records will spread across events.
-
-2. No separation between global profile and event assignment:
-
-- every event will re-enter the same sponsor data manually.
-
-3. No verification flow:
-
-- fake company profiles reduce trust.
-
-4. No request throttling:
-
-- sponsors get spammed and abandon the platform.
-
-5. No category compatibility with current code:
-
-- existing event UI badges and labels will drift from backend data.
-
-6. No sponsor analytics:
-
-- companies cannot measure ROI and will not renew.
-
-7. No hiring privacy controls:
-
-- participant trust and compliance risk increase.
-
-8. No CRM layer:
-
-- long-term partnerships become impossible to manage.
-
-9. No sponsor challenge integration:
-
-- sponsor tech adoption value remains weak.
-
-10. No approved-community gate:
-
-- marketplace quality degrades fast.
-
----
-
-# 33. Final Architecture
+## 27.2 Community flow
 
 ```text
-Global Sponsor and Partner Directory
-  -> SponsorPartnerOrganization
-  -> SponsorshipRequest
-  -> EventSponsorAssignment
-      -> SponsorChallenge
-      -> SponsorResource
-      -> SponsorWorkshop
-  -> SponsorRelationshipSummary
-  -> Sponsor Analytics
-  -> Hiring Pipeline
-
-Consumed by:
-  -> Organizer Desktop
-  -> Sponsor Desktop
-  -> Partner Desktop
-  -> Participant Website
-  -> Team Member Desktop
+Create event -> Create opportunity
+-> Send requests / receive sponsor applications
+-> Negotiate and finalize deal
+-> Assign sponsor category to event
+-> Deliver benefits -> Close report -> Build long-term relationship
 ```
 
 ---
 
-# 34. Final Result
+# 28. Growth Loop
 
-This system turns CommDesk from an event tool into a sponsorship ecosystem.
+```text
+More sponsors -> more opportunities
+More opportunities -> more communities
+More communities -> more data
+More data -> better matching
+Better matching -> more successful deals
+```
 
-Delivered value:
+---
 
-- communities can discover and request sponsors inside the platform
-- sponsors can manage ROI, outreach, and hiring in one place
-- partners can collaborate across communities and events
-- participants can access sponsor challenges, resources, workshops, and hiring opportunities
-- current CommDesk event UI can scale from mock event sponsors to a real global marketplace
+# 29. Implementation Plan (0 -> MONSTER)
+
+## Phase 0: Stabilize current event panel
+
+- persist event sponsor assignments using existing event partner APIs
+- enforce category compatibility with source constants
+- replace mock card data with API-backed data
+
+## Phase 1: Marketplace core
+
+- organization onboarding and verification
+- global directory and opportunity listing
+- two-way request and inbox workflows
+- negotiation states and messaging
+
+## Phase 2: Deal closure
+
+- deal objects
+- contract generation and e-sign
+- sponsor benefit fulfillment tracking
+
+## Phase 3: Money and trust
+
+- escrow and payout workflow
+- invoices and platform fees
+- reputation scoring and anti-spam ranking
+
+## Phase 4: Ecosystem scale
+
+- AI matching
+- long-term sponsor programs
+- advanced analytics and hiring pipelines
+
+---
+
+# 30. Final Result
+
+CommDesk becomes global infrastructure for sponsorships, partnerships, and developer ecosystem growth.
+
+Final truth:
+
+```text
+You are not building one feature.
+You are building a marketplace, an ecosystem, and a revenue engine.
+```
+
+One line:
+
+```text
+CommDesk = the place where sponsors and developer communities connect, collaborate, and grow.
+```
