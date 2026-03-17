@@ -278,6 +278,7 @@ SubmissionScore
   {
    criteriaId: ObjectId
    criteriaName: String
+   criteriaDescription: String
    score: Number
    maxScore: Number
    weight: Number
@@ -379,6 +380,104 @@ JudgingAudit;
 }
 ```
 
+## 5.7 JudgingRound
+
+```ts
+JudgingRound;
+{
+  _id: ObjectId;
+
+  eventId: ObjectId;
+  communityId: ObjectId;
+
+  roundNumber: Number;
+  name: String;
+
+  status: "Upcoming" | "Active" | "Completed" | "Cancelled";
+
+  scoringDeadline: Date;
+  startedAt: Date;
+  completedAt: Date;
+
+  assignedSubmissionIds: [ObjectId];
+
+  finalizedBy: ObjectId;
+  finalizedAt: Date;
+
+  createdBy: ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+Required indexes:
+
+- unique: `(eventId, roundNumber)`
+- index: `(eventId, status)`
+
+## 5.8 JudgeSubmissionAssignment
+
+Links individual judges to specific submissions within a round. Supports round-robin, manual, and category-based strategies.
+
+```ts
+JudgeSubmissionAssignment;
+{
+  _id: ObjectId;
+
+  eventId: ObjectId;
+  communityId: ObjectId;
+  roundId: ObjectId;
+
+  judgeId: ObjectId;
+  submissionId: ObjectId;
+
+  assignmentStrategy: "Manual" | "RoundRobin" | "CategoryBased";
+
+  status: "Pending" | "InProgress" | "Completed";
+
+  assignedBy: ObjectId;
+  assignedAt: Date;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+Required indexes:
+
+- unique: `(roundId, judgeId, submissionId)`
+- index: `(eventId, judgeId, status)`
+- index: `(eventId, submissionId)`
+
+## 5.9 JudgeConflictOfInterest
+
+```ts
+JudgeConflictOfInterest;
+{
+  _id: ObjectId;
+
+  eventId: ObjectId;
+  communityId: ObjectId;
+
+  judgeId: ObjectId;
+  submissionId: ObjectId;
+
+  declaredAt: Date;
+  reason: String;
+
+  resolvedBy: ObjectId;
+  resolvedAt: Date;
+  resolution: "Excluded" | "WaivedByOrganizer";
+
+  createdAt: Date;
+}
+```
+
+Required indexes:
+
+- unique: `(eventId, judgeId, submissionId)`
+- index: `(eventId, judgeId)`
+
 ---
 
 # 6. Judging Settings (Transparency and Control)
@@ -400,6 +499,12 @@ judgingSettings;
   allowLeadJudgeUnlock: Boolean;
 
   minJudgeCountForLeaderboard: Number;
+
+  blindedJudging: Boolean;
+
+  scoringDeadline: Date;
+
+  assignmentStrategy: "Manual" | "RoundRobin" | "CategoryBased";
 }
 ```
 
@@ -410,6 +515,8 @@ Recommended defaults:
 - `showFeedback = false`
 - `publishTiming = AfterRoundComplete`
 - `lockEditsAfterSubmit = true`
+- `blindedJudging = false`
+- `assignmentStrategy = Manual`
 
 ---
 
@@ -618,6 +725,33 @@ GET /api/v1/events/:eventId/projects
 GET /api/v1/events/:eventId/projects/:slug
 ```
 
+## 11.5 Judging Round APIs
+
+```text
+POST  /api/v1/events/:eventId/judging/rounds
+GET   /api/v1/events/:eventId/judging/rounds
+GET   /api/v1/events/:eventId/judging/rounds/:roundId
+PATCH /api/v1/events/:eventId/judging/rounds/:roundId
+POST  /api/v1/events/:eventId/judging/rounds/:roundId/finalize
+```
+
+## 11.6 Judge-Submission Assignment APIs
+
+```text
+POST /api/v1/events/:eventId/judging/rounds/:roundId/assignments
+GET  /api/v1/events/:eventId/judging/rounds/:roundId/assignments
+DELETE /api/v1/events/:eventId/judging/rounds/:roundId/assignments/:assignmentId
+POST /api/v1/events/:eventId/judging/rounds/:roundId/assignments/auto-assign
+```
+
+## 11.7 Conflict of Interest APIs
+
+```text
+POST  /api/v1/judge/events/:eventId/conflicts
+GET   /api/v1/events/:eventId/judging/conflicts
+PATCH /api/v1/events/:eventId/judging/conflicts/:conflictId/resolve
+```
+
 ---
 
 # 12. Validation Rules
@@ -681,7 +815,7 @@ Do not ship without these judge system fields.
 - `role`
 - `status`
 
-2. Criteria integrity:
+1. Criteria integrity:
 
 - `criteriaId`
 - `criteriaName`
@@ -689,7 +823,7 @@ Do not ship without these judge system fields.
 - `weight`
 - `order`
 
-3. Score traceability:
+1. Score traceability:
 
 - `judgeId`
 - `submissionId`
@@ -700,19 +834,39 @@ Do not ship without these judge system fields.
 - `isLocked`
 - `scoreVersion`
 
-4. Security and audits:
+1. Security and audits:
 
 - `createdAt`, `submittedAt`, `finalizedAt`
 - `ipAddress`, `userAgent`
 - audit `action`
 - unlock reason metadata
 
-5. Transparency controls:
+1. Transparency controls:
 
 - `mode`
 - `showJudgeNames`
 - `showFeedback`
 - `publishTiming`
+- `blindedJudging`
+
+1. Round management:
+
+- `roundNumber`
+- `scoringDeadline`
+- `status`
+- `finalizedAt`
+
+1. Assignment tracking:
+
+- `JudgeSubmissionAssignment` records
+- `assignmentStrategy`
+
+1. Conflict of interest:
+
+- `JudgeConflictOfInterest` records
+- `declaredAt`
+- `reason`
+- `resolution`
 
 ---
 
@@ -722,41 +876,57 @@ Do not ship without these judge system fields.
 
 - judges can alter historical results.
 
-2. No audit trail:
+1. No audit trail:
 
 - disputes cannot be resolved with evidence.
 
-3. Missing criteria snapshots in score records:
+1. Missing criteria snapshots in score records:
 
 - criteria renames break historical transparency.
 
-4. No conflict-of-interest enforcement:
+1. No conflict-of-interest enforcement:
 
 - trust in judging collapses.
 
-5. No round finalization:
+1. No round finalization:
 
 - leaderboard can keep changing after winners announced.
 
-6. No tie-break policy:
+1. No tie-break policy:
 
 - ranking disputes increase.
 
-7. No transparency timing controls:
+1. No transparency timing controls:
 
 - sensitive feedback may leak too early.
 
-8. Missing unique score constraint:
+1. Missing unique score constraint:
 
 - duplicate scoring by same judge corrupts averages.
 
-9. No role revocation handling:
+1. No role revocation handling:
 
 - disabled judges may still access scoring APIs.
 
-10. No visibility toggles:
+1. No visibility toggles:
 
 - private events may expose judge details unintentionally.
+
+1. No judging round model:
+
+- no deadline enforcement, round sequencing, or controlled finalization per round.
+
+1. No judge-to-submission assignment records:
+
+- impossible to trace which judge was responsible for which submission or enforce assignment limits.
+
+1. Criteria description not snapshotted:
+
+- editing criteria description after scoring creates silent inconsistencies in historical records.
+
+1. No blinded judging toggle:
+
+- team identity can bias scores even when blinded mode is desired.
 
 ---
 
@@ -785,9 +955,12 @@ Integration notes:
 Event
   -> EventJudgingCriteria
   -> EventJudgeAssignment
+  -> JudgingRound
+      -> JudgeSubmissionAssignment
   -> EventSubmission
       -> SubmissionScore
           -> JudgingAudit
+  -> JudgeConflictOfInterest
   -> LeaderboardCache (optional)
   -> Public Judging Pages (when enabled)
 ```
@@ -806,3 +979,63 @@ Delivered capabilities:
 - leaderboard computation and caching
 - transparency controls per event
 - audit-ready anti-manipulation model
+
+---
+
+# 20. Notification Triggers
+
+Defines when the system must dispatch notifications (email, in-app, or push).
+
+| Event | Recipients | Trigger | Channel |
+|---|---|---|---|
+| Judge invited | Judge | Organizer sends invite | Email |
+| Invite about to expire | Judge | 24h before invite token expiry | Email |
+| Invite accepted | Organizer | Judge accepts invite | In-app |
+| Scoring round opened | All assigned judges | Round status → Active | Email + In-app |
+| Scoring deadline reminder | Judges with pending scores | 48h and 24h before `scoringDeadline` | Email |
+| Score submitted | Lead Judge | Judge submits final score | In-app |
+| Score unlocked | Judge | Lead Judge/Admin unlocks their score | Email + In-app |
+| Round finalized | All judges, Organizer | Round status → Completed | Email + In-app |
+| Conflict of interest raised | Organizer, Lead Judge | Judge declares conflict | In-app |
+| Conflict resolved | Judge | Organizer resolves conflict | In-app |
+| Leaderboard published | Participants (if public) | Transparency publish trigger | Email + In-app |
+
+All notification sends must be logged for audit purposes.
+
+---
+
+# 21. Standard API Error Responses
+
+All judging API endpoints must return consistent error shapes.
+
+## 21.1 Error Response Shape
+
+```ts
+ErrorResponse;
+{
+  status: Number;       // HTTP status code
+  code: String;         // machine-readable error code
+  message: String;      // human-readable description
+  field?: String;       // present on validation errors
+  meta?: Mixed;         // optional debug context (dev only)
+}
+```
+
+## 21.2 Common Error Codes
+
+| HTTP | Code | Meaning |
+|---|---|---|
+| 400 | `VALIDATION_ERROR` | Missing or invalid field |
+| 400 | `CRITERIA_SCORE_OUT_OF_RANGE` | Score exceeds `maxScore` |
+| 400 | `REQUIRED_CRITERIA_MISSING` | Not all required criteria scored |
+| 401 | `UNAUTHORIZED` | Not authenticated |
+| 403 | `FORBIDDEN` | Authenticated but lacks permission |
+| 403 | `JUDGE_NOT_ASSIGNED` | Judge not assigned to this submission |
+| 403 | `CONFLICT_OF_INTEREST` | Judge declared a conflict for this submission |
+| 403 | `SCORE_LOCKED` | Score is locked and cannot be edited |
+| 403 | `ROUND_FINALIZED` | Round is closed, no further scoring allowed |
+| 404 | `NOT_FOUND` | Resource does not exist |
+| 409 | `DUPLICATE_SCORE` | Submitted score already exists for this judge+submission |
+| 409 | `INVITE_ALREADY_ACCEPTED` | Invite token already consumed |
+| 410 | `INVITE_EXPIRED` | Invite token has expired |
+| 422 | `SCORING_DEADLINE_PASSED` | Submission attempted after round deadline |

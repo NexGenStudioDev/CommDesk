@@ -10,6 +10,7 @@ It is aligned with the current frontend UI:
 - `/create-event` (event creation)
 - separate role panels for `Speakers`, `Mentors`, `Judges`
 - `Partners and Sponsors`
+- pricing, prize pool, and track reward configuration
 - `Save Draft` and `Create Event` actions
 
 This version removes standalone Participant schema duplication and uses CommDesk Member System as source of truth for people data.
@@ -199,6 +200,123 @@ const EventSchema = new mongoose.Schema(
       },
     },
 
+    pricing: {
+      budgetTier: {
+        type: String,
+        enum: ["Small", "Medium", "Large"],
+        default: "Small",
+      },
+
+      totalBudget: {
+        type: Number,
+        default: 0,
+      },
+
+      totalPrizePool: {
+        type: Number,
+        default: 0,
+      },
+
+      mainPrizes: {
+        type: [
+          {
+            title: { type: String, required: true },
+            amount: { type: Number, required: true },
+            currency: { type: String, default: "INR" },
+          },
+        ],
+        default: [],
+      },
+
+      trackPrizes: {
+        type: [
+          {
+            trackName: { type: String, required: true },
+            winnerAmount: { type: Number, required: true },
+            runnerUpAmount: { type: Number, default: 0 },
+            sponsorPartnerId: { type: mongoose.Schema.Types.ObjectId, default: null },
+            criteriaNote: { type: String, default: "" },
+          },
+        ],
+        default: [],
+      },
+
+      specialPrizes: {
+        type: [
+          {
+            title: { type: String, required: true },
+            amount: { type: Number, required: true },
+            currency: { type: String, default: "INR" },
+          },
+        ],
+        default: [],
+      },
+
+      sponsorRewards: {
+        type: [
+          {
+            sponsorPartnerId: { type: mongoose.Schema.Types.ObjectId, default: null },
+            rewardType: {
+              type: String,
+              enum: ["Cash", "Credit", "Swag", "Hiring"],
+              required: true,
+            },
+            cashAmount: { type: Number, default: 0 },
+            creditNote: { type: String, default: "" },
+            swagNote: { type: String, default: "" },
+            hiringNote: { type: String, default: "" },
+          },
+        ],
+        default: [],
+      },
+
+      workshopPricing: {
+        mode: {
+          type: String,
+          enum: ["Free", "Paid", "Premium", "SponsorFunded"],
+          default: "Free",
+        },
+        minPrice: { type: Number, default: 0 },
+        maxPrice: { type: Number, default: 0 },
+        sponsorFundedAmount: { type: Number, default: 0 },
+      },
+
+      bootcampPricing: {
+        shortBootcampRange: {
+          min: { type: Number, default: 0 },
+          max: { type: Number, default: 0 },
+        },
+        longBootcampRange: {
+          min: { type: Number, default: 0 },
+          max: { type: Number, default: 0 },
+        },
+      },
+
+      meetupPricing: {
+        mode: {
+          type: String,
+          enum: ["Free", "Paid"],
+          default: "Free",
+        },
+        minPrice: { type: Number, default: 0 },
+        maxPrice: { type: Number, default: 0 },
+      },
+
+      expenseAllocation: {
+        prizePoolPercent: { type: Number, default: 0 },
+        marketingPercent: { type: Number, default: 0 },
+        operationsPercent: { type: Number, default: 0 },
+        platformToolsPercent: { type: Number, default: 0 },
+        swagPercent: { type: Number, default: 0 },
+      },
+
+      payoutPolicy: {
+        payoutWindowDaysMin: { type: Number, default: 7 },
+        payoutWindowDaysMax: { type: Number, default: 14 },
+        requireWinnerVerification: { type: Boolean, default: true },
+      },
+    },
+
     settings: {
       publicVisible: {
         type: Boolean,
@@ -260,6 +378,206 @@ EventSchema.index({ communityId: 1, status: 1, startAt: -1 });
 
 export const EventModel = mongoose.model("Event", EventSchema);
 ```
+
+---
+
+# 5. Event Pricing, Budget, and Prize Structure
+
+This section defines event-level pricing and reward design for hackathons, workshops, bootcamps, meetups, and competitions.
+
+## 5.1 Supported Event Types
+
+```text
+Hackathon
+Workshop
+Bootcamp
+Meetup
+Competition
+```
+
+## 5.2 Hackathon Main Prize Distribution
+
+Small hackathon (`INR 50K - 1L`):
+
+```text
+1st: INR 25,000
+2nd: INR 15,000
+3rd: INR 10,000
+Special: INR 5,000
+```
+
+Medium hackathon (`INR 1L - 5L`):
+
+```text
+1st: INR 1,00,000
+2nd: INR 60,000
+3rd: INR 40,000
+Track prizes: INR 20K - 50K each
+Community prizes: INR 10K - 20K
+```
+
+Large hackathon (`INR 5L - 20L`):
+
+```text
+1st: INR 3,00,000
+2nd: INR 2,00,000
+3rd: INR 1,00,000
+Track prizes: INR 50K - 2L
+Sponsor prizes: INR 1L+
+```
+
+## 5.3 Track Prize Structure
+
+Tracks are sponsor-driven or organizer-defined, for example:
+
+```text
+Best AI Project
+Best Web App
+Best Blockchain Project
+Best Beginner Project
+Best Female-led Team
+```
+
+Recommended range per track:
+
+```text
+Winner: INR 20K - 1L
+Runner-up: INR 10K - 50K
+```
+
+Sponsor track example:
+
+```text
+Track: Build using OpenAI API
+Winner: INR 1L
+Runner-up: INR 50K
+```
+
+## 5.4 Special Prize Categories
+
+```text
+Best UI/UX
+Best Innovation
+Best Social Impact
+Best College Team
+Best Solo Developer
+```
+
+## 5.5 Sponsor-Based Rewards
+
+Sponsors can contribute:
+
+- cash rewards (`INR 50K - 5L` per sponsor)
+- cloud/API credits (`AWS`, `OpenAI`, etc.)
+- swag (t-shirts, goodies, stickers)
+- hiring opportunities (internships, interviews, full-time roles)
+
+All sponsor rewards must include explicit fulfillment owner and delivery SLA.
+
+## 5.6 Total Prize Pool Formula
+
+```text
+totalPrizePool = mainPrizes + trackPrizes + specialPrizes + sponsorCashPrizes
+```
+
+Example (medium hackathon):
+
+```text
+Main Prizes: INR 2L
+Track Prizes: INR 2L
+Sponsor Prizes: INR 1L
+Total Prize Pool: INR 5L
+```
+
+## 5.7 Workshop, Bootcamp, Meetup Pricing
+
+Workshop pricing:
+
+- free workshop: `INR 0`
+- paid workshop: `INR 99 - 999`
+- premium workshop: `INR 999 - 4,999` (may include certificate, recordings, mentorship)
+- sponsor-funded workshop: participant cost `INR 0`, sponsor contribution `INR 10K - 1L`
+
+Bootcamp pricing:
+
+- short (1-3 days): `INR 499 - 1,999`
+- long (1-4 weeks): `INR 1,999 - 9,999`
+
+Meetup pricing:
+
+- free meetup: `INR 0`
+- paid meetup: `INR 49 - 299`
+
+## 5.8 Event Budget Tiers
+
+```text
+Small: INR 10K - 50K
+Medium: INR 50K - 5L
+Large: INR 5L - 50L
+```
+
+Recommended expense allocation:
+
+```text
+Prize pool: 40% - 60%
+Marketing: 10% - 20%
+Operations: 10% - 20%
+Platform/tools: 5% - 10%
+Swag: 5% - 15%
+```
+
+## 5.9 Revenue Sources
+
+```text
+Sponsors
+Ticket sales
+Workshops
+Partnerships
+```
+
+## 5.10 Prize Governance Rules
+
+Always enforce:
+
+- public prize breakdown before event starts
+- explicit judging criteria per prize type
+- sponsor track criteria published with the track
+- sponsor prizes awarded strictly against sponsor-defined criteria and eligibility
+- winner verification before payout
+- payout SLA (`7-14 days`) after result finalization
+- optional anti-overlap rule: one project cannot win multiple mutually-exclusive categories
+
+Avoid:
+
+- vague reward promises
+- delayed payout without communication
+- criteria changes after judging starts
+
+## 5.11 Judging Criteria Template (Prize Decisions)
+
+```text
+Innovation: 30%
+Technical Complexity: 25%
+UI/UX: 15%
+Impact: 20%
+Presentation: 10%
+```
+
+## 5.12 Prize Distribution Flow
+
+```text
+Event ends
+  -> Judging complete
+  -> Winners announced
+  -> Winner verification
+  -> Prize distribution (within 7-14 days)
+```
+
+Optional advanced patterns:
+
+- milestone rewards
+- participation rewards
+- early submission bonus
 
 ---
 
@@ -372,6 +690,42 @@ export const createEventSchema = z
       requiredRSVP: z.boolean(),
       allowWaitlist: z.boolean(),
     }),
+    pricing: z
+      .object({
+        budgetTier: z.enum(["Small", "Medium", "Large"]),
+        totalBudget: z.number().nonnegative(),
+        totalPrizePool: z.number().nonnegative(),
+        mainPrizes: z.array(
+          z.object({
+            title: z.string().min(1),
+            amount: z.number().positive(),
+            currency: z.enum(["INR", "USD", "EUR", "GBP"]),
+          }),
+        ),
+        trackPrizes: z.array(
+          z.object({
+            trackName: z.string().min(1),
+            winnerAmount: z.number().positive(),
+            runnerUpAmount: z.number().nonnegative(),
+            sponsorPartnerId: z.string().optional().nullable(),
+            criteriaNote: z.string().optional(),
+          }),
+        ),
+        specialPrizes: z.array(
+          z.object({
+            title: z.string().min(1),
+            amount: z.number().positive(),
+            currency: z.enum(["INR", "USD", "EUR", "GBP"]),
+          }),
+        ),
+        workshopPricing: z.object({
+          mode: z.enum(["Free", "Paid", "Premium", "SponsorFunded"]),
+          minPrice: z.number().nonnegative(),
+          maxPrice: z.number().nonnegative(),
+          sponsorFundedAmount: z.number().nonnegative(),
+        }),
+      })
+      .optional(),
   })
   .superRefine((payload, ctx) => {
     const start = new Date(payload.startAt).getTime();
@@ -399,6 +753,35 @@ export const createEventSchema = z
         path: ["ticketing", "price"],
         message: "price must be null for free events",
       });
+    }
+
+    if (payload.pricing) {
+      const mainTotal = payload.pricing.mainPrizes.reduce((sum, p) => sum + p.amount, 0);
+      const trackTotal = payload.pricing.trackPrizes.reduce(
+        (sum, p) => sum + p.winnerAmount + p.runnerUpAmount,
+        0,
+      );
+      const specialTotal = payload.pricing.specialPrizes.reduce((sum, p) => sum + p.amount, 0);
+      const computedTotal = mainTotal + trackTotal + specialTotal;
+
+      if (computedTotal > payload.pricing.totalPrizePool) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["pricing", "totalPrizePool"],
+          message: "totalPrizePool must be >= sum of configured prize buckets",
+        });
+      }
+
+      if (
+        payload.pricing.workshopPricing.maxPrice > 0 &&
+        payload.pricing.workshopPricing.maxPrice < payload.pricing.workshopPricing.minPrice
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["pricing", "workshopPricing", "maxPrice"],
+          message: "maxPrice must be >= minPrice",
+        });
+      }
     }
   });
 ```
@@ -487,6 +870,32 @@ Response:
 }
 ```
 
+## 9.5 Pricing and Prize APIs
+
+```text
+GET    /api/v1/events/:eventId/pricing
+PATCH  /api/v1/events/:eventId/pricing
+
+POST   /api/v1/events/:eventId/prizes/main
+PATCH  /api/v1/events/:eventId/prizes/main/:prizeId
+DELETE /api/v1/events/:eventId/prizes/main/:prizeId
+
+POST   /api/v1/events/:eventId/prizes/tracks
+PATCH  /api/v1/events/:eventId/prizes/tracks/:trackPrizeId
+DELETE /api/v1/events/:eventId/prizes/tracks/:trackPrizeId
+
+POST   /api/v1/events/:eventId/prizes/special
+PATCH  /api/v1/events/:eventId/prizes/special/:specialPrizeId
+DELETE /api/v1/events/:eventId/prizes/special/:specialPrizeId
+
+POST   /api/v1/events/:eventId/sponsor-rewards
+PATCH  /api/v1/events/:eventId/sponsor-rewards/:rewardId
+DELETE /api/v1/events/:eventId/sponsor-rewards/:rewardId
+
+POST   /api/v1/events/:eventId/prizes/publish
+POST   /api/v1/events/:eventId/prizes/mark-distributed
+```
+
 ---
 
 # 10. Controller and Service Responsibilities
@@ -516,9 +925,18 @@ Service layer should:
 - `Create Event` -> `POST /api/v1/events/:eventId/publish`
 - cover block -> upload first, then set `coverImageUrl`
 - settings toggles -> map to `settings.*`
+- pricing and prizes panel -> map to `pricing.*`
 - ticket type logic:
   - `Free` => `price = null`
   - `Paid` => `price > 0`
+
+Pricing page behavior:
+
+- show budget tier (`Small`/`Medium`/`Large`) with suggested ranges
+- allow adding main, track, and special prizes
+- allow adding sponsor rewards (`Cash`, `Credit`, `Swag`, `Hiring`)
+- show computed total and mismatch warning if bucket sum exceeds `totalPrizePool`
+- allow publishing prize structure only when required fields are complete
 
 ## Role panels
 
@@ -592,50 +1010,75 @@ These are critical gaps often missed in first implementation.
 - risk: concurrent edits can overwrite data.
 - add: `version` field or Mongoose version key checks.
 
-2. No idempotency for publish/archive:
+1. No idempotency for publish/archive:
 
 - risk: double-click/retry creates inconsistent transitions.
 - add: transition guard + idempotency key handling.
 
-3. No scheduled status updater:
+1. No scheduled status updater:
 
 - risk: old events remain `Live`/`Upcoming` incorrectly.
 - add: cron/queue job for status sync by `startAt/endAt`.
 
-4. No soft delete strategy:
+1. No soft delete strategy:
 
 - risk: accidental hard deletion of event data.
 - add: `isDeleted`, `deletedAt`, `deletedBy`.
 
-5. Weak search indexing plan:
+1. Weak search indexing plan:
 
 - risk: slow list queries at scale.
 - add indexes on `(communityId, status, startAt)` and text index for `title/subtitle`.
 
-6. No upload security hardening:
+1. No upload security hardening:
 
 - risk: malicious files.
 - add MIME allowlist, antivirus scan, max size, signed upload flow.
 
-7. No transactional checks on role assignments:
+1. No transactional checks on role assignments:
 
 - risk: assigning members from another community.
 - add explicit member-community verification before write.
 
-8. No observability baseline:
+1. No observability baseline:
 
 - risk: hard to debug production issues.
 - add structured logs, trace IDs, metrics for endpoint latency/error rate.
 
-9. No API contract version strategy:
+1. No API contract version strategy:
 
 - risk: frontend breakage during iterative changes.
 - add explicit versioning and changelog discipline.
 
-10. No policy for archived event edits:
+1. No policy for archived event edits:
 
 - risk: business ambiguity.
 - add clear rule: archived events read-only unless restored.
+
+1. No payout ownership mapping per prize:
+
+- risk: sponsor and organizer each assume the other party will pay.
+- add per-prize `fulfillmentOwner` and SLA.
+
+1. No prize pool reconciliation checks:
+
+- risk: announced total prize pool does not match configured prize buckets.
+- add server-side reconciliation check before publishing prizes.
+
+1. No sponsor track criteria snapshot:
+
+- risk: sponsor track criteria changes after submissions, causing disputes.
+- store immutable criteria snapshot when judging starts.
+
+1. No tax/compliance capture fields:
+
+- risk: payout delays due to missing KYC/tax details.
+- add winner verification checklist before payout release.
+
+1. No payout status tracking:
+
+- risk: cannot answer "paid/not paid" per winner.
+- add payout states (`Pending`, `Processing`, `Paid`, `Failed`) and audit timeline.
 
 ---
 
@@ -644,10 +1087,14 @@ These are critical gaps often missed in first implementation.
 ```text
 Create Event Page
       -> Save Draft
+      -> Configure Budget, Prize Pool, and Track Rewards
       -> Add Speaker/Mentor/Judge (from Members)
       -> Add Partners and Sponsors
       -> Upload Cover Image
       -> Publish Event
+      -> Publish Prize Structure
+      -> Complete Judging and Winner Verification
+      -> Distribute Prizes (7-14 day SLA)
       -> Appears in Event List
 ```
 
