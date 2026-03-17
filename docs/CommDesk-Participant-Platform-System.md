@@ -166,9 +166,9 @@ BuilderProfile;
   _id: ObjectId;
 
   userId: ObjectId;
-  communityId: ObjectId;   // null = global profile
+  communityId: ObjectId; // null = global profile
 
-  username: String;         // unique, URL-safe slug
+  username: String; // unique, URL-safe slug
   fullName: String;
   avatarUrl: String;
   bio: String;
@@ -241,11 +241,11 @@ Recalculated on each scoring event trigger.
 
 ## 5.4 Profile Visibility Rules
 
-| Visibility | Public | Members Only | Private |
-|---|---|---|---|
-| Profile page visible | Yes | Logged-in members only | No |
-| Talent search visible | Yes (if openToHiring) | No | No |
-| Teammate finder visible | Yes | Logged-in only | No |
+| Visibility              | Public                | Members Only           | Private |
+| ----------------------- | --------------------- | ---------------------- | ------- |
+| Profile page visible    | Yes                   | Logged-in members only | No      |
+| Talent search visible   | Yes (if openToHiring) | No                     | No      |
+| Teammate finder visible | Yes                   | Logged-in only         | No      |
 
 ## 5.5 Builder Portfolio
 
@@ -400,7 +400,7 @@ WaitlistEntry;
   status: "Waiting" | "Promoted" | "Expired" | "Cancelled";
 
   promotedAt: Date;
-  expiryAt: Date;        // window to accept promotion before next in queue
+  expiryAt: Date; // window to accept promotion before next in queue
 
   createdAt: Date;
 }
@@ -437,11 +437,11 @@ Team card fields:
 
 ## 9.2 Team Roles
 
-| Role | Permissions |
-|---|---|
-| `Leader` | invite, accept/reject requests, transfer leadership, delete team, finalize submission |
-| `CoLeader` | invite, accept/reject requests, edit team profile |
-| `Member` | view team, leave team |
+| Role       | Permissions                                                                           |
+| ---------- | ------------------------------------------------------------------------------------- |
+| `Leader`   | invite, accept/reject requests, transfer leadership, delete team, finalize submission |
+| `CoLeader` | invite, accept/reject requests, edit team profile                                     |
+| `Member`   | view team, leave team                                                                 |
 
 Only one `Leader` at a time. Leader transfer requires explicit confirmation from the recipient.
 
@@ -914,7 +914,7 @@ Recommended core collections:
 - BuilderAchievement
 - BuilderFollow
 - EventTeam
-- TeamMember *(role: Leader | CoLeader | Member)*
+- TeamMember _(role: Leader | CoLeader | Member)_
 - TeamJoinRequest
 - WaitlistEntry
 - EventSubmission

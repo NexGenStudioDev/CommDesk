@@ -1,6 +1,6 @@
-import { getTheme } from '@/config/them.config';
-import { useState } from 'react';
-import { FiMail, FiCopy, FiCheck } from 'react-icons/fi';
+import { getTheme } from "@/config/them.config";
+import { useState } from "react";
+import { FiMail, FiCopy, FiCheck } from "react-icons/fi";
 
 type TeamMember = {
   id: number;
@@ -8,27 +8,65 @@ type TeamMember = {
   department: string;
   role: string;
   email: string;
-  status: 'active' | 'away' | 'offline';
+  status: "active" | "away" | "offline";
 };
 
 const MEMBERS: TeamMember[] = [
-  { id: 1, name: 'John Doe',      department: 'IT',        role: 'System Admin',     email: 'john.doe@example.com',      status: 'active'  },
-  { id: 2, name: 'Jane Smith',    department: 'HR',        role: 'HR Manager',       email: 'jane.smith@example.com',    status: 'active'  },
-  { id: 3, name: 'Alex Turner',   department: 'Finance',   role: 'Finance Lead',     email: 'alex.turner@example.com',   status: 'away'    },
-  { id: 4, name: 'Maria Garcia',  department: 'Design',    role: 'UI/UX Designer',   email: 'maria.garcia@example.com',  status: 'active'  },
-  { id: 5, name: 'Chris Wilson',  department: 'DevOps',    role: 'Infrastructure',   email: 'chris.wilson@example.com',  status: 'offline' },
+  {
+    id: 1,
+    name: "John Doe",
+    department: "IT",
+    role: "System Admin",
+    email: "john.doe@example.com",
+    status: "active",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    department: "HR",
+    role: "HR Manager",
+    email: "jane.smith@example.com",
+    status: "active",
+  },
+  {
+    id: 3,
+    name: "Alex Turner",
+    department: "Finance",
+    role: "Finance Lead",
+    email: "alex.turner@example.com",
+    status: "away",
+  },
+  {
+    id: 4,
+    name: "Maria Garcia",
+    department: "Design",
+    role: "UI/UX Designer",
+    email: "maria.garcia@example.com",
+    status: "active",
+  },
+  {
+    id: 5,
+    name: "Chris Wilson",
+    department: "DevOps",
+    role: "Infrastructure",
+    email: "chris.wilson@example.com",
+    status: "offline",
+  },
 ];
 
-
-
-const STATUS_DOT: Record<TeamMember['status'], string> = {
-  active:  'bg-green-400',
-  away:    'bg-yellow-400',
-  offline: 'bg-gray-300',
+const STATUS_DOT: Record<TeamMember["status"], string> = {
+  active: "bg-green-400",
+  away: "bg-yellow-400",
+  offline: "bg-gray-300",
 };
 
 function getInitials(name: string): string {
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 }
 
 const CopyEmailButton = ({ email }: { email: string }) => {
@@ -55,8 +93,8 @@ const InternalSupport_Table = () => {
   const theme = getTheme("light");
 
   return (
-    <div className="w-full">
-      <table className="w-full border-collapse">
+    <div className="w-full h-fit">
+      <table className="w-full  border-collapse">
         <thead>
           <tr
             className="text-md font-semibold uppercase tracking-wider py-[3vh]"
@@ -71,20 +109,15 @@ const InternalSupport_Table = () => {
 
         <tbody style={{ background: theme.background.primary }}>
           {MEMBERS.map((member, idx) => {
- 
             return (
-              <tr
-                key={member.id}
-                className="group transition-colors hover:bg-[#f8fafc]"
-
-              >
+              <tr key={member.id} className="group transition-colors hover:bg-[#f8fafc]">
                 {/* Team Member */}
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
                     <div className="relative flex-shrink-0">
                       <div
                         className="w-9 h-9 rounded-full flex items-center justify-center text-md font-bold text-white select-none"
-                        style={{ background: '#5850ec' }}
+                        style={{ background: "#5850ec" }}
                       >
                         {getInitials(member.name)}
                       </div>
@@ -92,7 +125,10 @@ const InternalSupport_Table = () => {
                         className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white ${STATUS_DOT[member.status]}`}
                       />
                     </div>
-                    <span className="font-medium text-md" style={{ color: theme.textColor.primary }}>
+                    <span
+                      className="font-medium text-md"
+                      style={{ color: theme.textColor.primary }}
+                    >
                       {member.name}
                     </span>
                   </div>
@@ -101,10 +137,12 @@ const InternalSupport_Table = () => {
                 {/* Role / Department */}
                 <td className="px-5 py-3.5">
                   <div className="flex flex-col gap-1">
-                    <span className="text-md w-fit p-3 rounded-lg  text-gray-600  font-bold" style={{background: theme.background.secondary }}>
+                    <span
+                      className="text-md w-fit p-3 rounded-lg  text-gray-600  font-bold"
+                      style={{ background: theme.background.secondary }}
+                    >
                       {member.role}
                     </span>
-                
                   </div>
                 </td>
 
