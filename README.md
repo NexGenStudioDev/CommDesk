@@ -2,12 +2,40 @@
 
 ![CommDesk Logo](./public/logo.png)
 
-An all-in-one desktop platform to manage communities, events, hackathons, teams, and day-to-day operations.
+An evolving desktop platform foundation to manage communities, events, hackathons, teams, and day-to-day operations.
 
 [![License](https://img.shields.io/github/license/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/blob/master/LICENSE)
 [![Issues](https://img.shields.io/github/issues/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/pulls)
 [![Stars](https://img.shields.io/github/stars/NexGenStudioDev/CommDesk?style=flat-square)](https://github.com/NexGenStudioDev/CommDesk/stargazers)
+
+---
+
+## Table of Contents
+
+- [About](#about)
+- [Implementation Status and Scope](#implementation-status-and-scope)
+- [Product Architecture](#product-architecture)
+- [Current Desktop Route Map](#current-desktop-route-map)
+- [Quick Start (Desktop in 60 seconds)](#quick-start-desktop-in-60-seconds)
+- [Core Features](#core-features)
+- [Roles](#roles)
+- [Tech Stack](#tech-stack)
+- [Repository Structure](#repository-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Important Scripts](#important-scripts)
+- [Build & Packaging](#build--packaging)
+- [Auto-Update Setup (Production)](#auto-update-setup-production)
+- [Release Delivery Flow (Signed Updater)](#release-delivery-flow-signed-updater)
+- [Release Steps](#release-steps)
+- [Update Manifest (`latest.json`)](#update-manifest-latestjson)
+- [Project Paths](#project-paths)
+- [Recommended Checklist](#recommended-checklist)
+- [Contributing](#contributing)
+- [Community](#community)
+- [Code of Conduct](#code-of-conduct)
+- [License](#license)
 
 ---
 
@@ -21,6 +49,108 @@ It provides one desktop workspace for:
 - Hackathon operations
 - Member and team management
 - Daily community coordination
+
+---
+
+## Implementation Status and Scope
+
+CommDesk documentation includes both:
+
+- target-state architecture docs (what the full platform should become)
+- implementation status docs (what is currently built in this repository)
+
+Before planning or estimating work, check:
+
+- [Implementation Status Matrix (Android branch)](./docs/CommDesk-Implementation-Status.md)
+- [Overall System Master Guide (target-state)](./docs/CommDesk-Overall-System-Summary.md)
+
+If there is a mismatch between product-spec docs and current code in this repository, treat the implementation status matrix as source of truth for shipped scope.
+
+---
+
+## Product Architecture
+
+### Current Repository Architecture (Implemented)
+
+This reflects what is actively present in this repository today.
+
+```mermaid
+flowchart LR
+  U[Community Ops User] --> A[CommDesk Desktop App\nTauri Shell]
+  A --> B[React + TypeScript Frontend]
+  A --> C[Rust Core\nsrc-tauri]
+
+  B --> D[Feature Modules\nDashboard | Member | Add Member | Events | Contact]
+  B --> E[Tauri Plugin Layer\nUpdater | Process | Opener]
+  E --> F[GitHub Releases\nlatest.json + signed assets]
+
+  C --> G[OS Capabilities\nWindowing | Native Process | Packaging]
+```
+
+### Target Platform Architecture (Roadmap)
+
+This reflects the broader target-state described in system docs.
+
+```mermaid
+flowchart LR
+  V[Visitors and Participants] --> W[Website Frontend]
+  O[Community Ops Team] --> D[Desktop Ops Frontend]
+
+  W --> API[CommDesk Backend API]
+  D --> API
+
+  API --> DB[(Primary Database)]
+  API --> OBJ[(Object Storage)]
+  API --> Q[Queue / Jobs]
+  Q --> N[Notification Services]
+  Q --> I[Integrations and Webhooks]
+  API --> T[Trust and Analytics Layer]
+```
+
+### Documentation Index (Important)
+
+Use these docs depending on your objective:
+
+- Full product blueprint: [docs/CommDesk-Overall-System-Summary.md](./docs/CommDesk-Overall-System-Summary.md)
+- What is currently implemented: [docs/CommDesk-Implementation-Status.md](./docs/CommDesk-Implementation-Status.md)
+- Desktop vs website ownership: [docs/CommDesk-Frontend-Boundary-System.md](./docs/CommDesk-Frontend-Boundary-System.md)
+- Events domain contract: [docs/CommDesk-Event-System.md](./docs/CommDesk-Event-System.md)
+- RSVP lifecycle and controls: [docs/CommDesk-RSVP-System.md](./docs/CommDesk-RSVP-System.md)
+- Judging lifecycle and auditability: [docs/CommDesk-Judging-System.md](./docs/CommDesk-Judging-System.md)
+- Sponsor/partner lifecycle: [docs/CommDesk-Sponsor-Partner-System.md](./docs/CommDesk-Sponsor-Partner-System.md)
+
+---
+
+## Current Desktop Route Map
+
+These are the currently mounted app routes in the desktop frontend shell.
+
+| Route | Screen | Purpose |
+| --- | --- | --- |
+| `/` | Dashboard | Default landing screen |
+| `/dashboard` | Dashboard | Operations overview |
+| `/member` | Members | Member listing and search |
+| `/add-member` | Add Member | Member onboarding form |
+| `/events` | Events | Event listing and quick actions |
+| `/create-event` | Create Event | Event authoring UI |
+| `/contact` | Contact and Support | Internal support submissions |
+
+---
+
+## Quick Start (Desktop in 60 seconds)
+
+```bash
+git clone https://github.com/NexGenStudioDev/CommDesk.git
+cd CommDesk
+pnpm install
+pnpm tauri dev
+```
+
+For production desktop bundles:
+
+```bash
+pnpm tauri build
+```
 
 ---
 
@@ -287,6 +417,27 @@ This workflow:
 
 ---
 
+## Release Delivery Flow (Signed Updater)
+
+```mermaid
+sequenceDiagram
+  participant Dev as Maintainer
+  participant CI as GitHub Actions
+  participant GH as GitHub Releases
+  participant App as CommDesk Desktop App
+
+  Dev->>Dev: Update version + changelog
+  Dev->>GH: Push tag (vX.Y.Z)
+  GH->>CI: Trigger tauri-all-platforms workflow
+  CI->>CI: Build + sign bundles per platform
+  CI->>GH: Upload bundles + signatures + latest.json
+  App->>GH: Check latest.json via updater endpoint
+  GH-->>App: Return update metadata
+  App->>App: Download, verify, install, relaunch
+```
+
+---
+
 ## Release Steps
 
 ```bash
@@ -309,9 +460,23 @@ Or run release workflow manually with `workflow_dispatch` and set `tag_name`.
 
 ## Update Manifest (`latest.json`)
 
-Reference template:
+Minimal example structure:
 
-- `docs/latest.json.example`
+```json
+{
+  "version": "v0.1.1",
+  "notes": "Release notes summary",
+  "pub_date": "2026-03-18T00:00:00Z",
+  "platforms": {
+    "linux-x86_64": {
+      "signature": "<signature>",
+      "url": "https://github.com/NexGenStudioDev/CommDesk/releases/download/v0.1.1/commdesk_0.1.1_amd64.AppImage"
+    }
+  }
+}
+```
+
+If you keep an internal template file, use `docs/latest.json.example`.
 
 Runtime endpoint currently configured in app:
 
@@ -329,7 +494,37 @@ https://github.com/NexGenStudioDev/CommDesk/releases/latest/download/latest.json
 - Rust dependencies and metadata: `src-tauri/Cargo.toml`
 - Flatpak manifest: `org.commdesk.CommDesk.json`
 - CI release workflow: `.github/workflows/tauri-all-platforms.yml`
-- Updater production guide: `docs/Tauri_Auto_Update_Production_Guide.md`
+- Updater production guide (recommended internal doc): `docs/Tauri_Auto_Update_Production_Guide.md`
+
+---
+
+## Troubleshooting
+
+### Build fails on Linux due to missing WebKit/GTK packages
+
+Install prerequisites from the Tauri guide and re-run:
+
+```bash
+pnpm install
+pnpm tauri build
+```
+
+### Updater does not detect new release
+
+Verify all of the following:
+
+1. Tag was pushed (`vX.Y.Z`).
+2. Workflow uploaded `latest.json` and signature files.
+3. `plugins.updater.pubkey` in `src-tauri/tauri.conf.json` matches signing key.
+4. Release assets are publicly accessible.
+
+### Signed build fails locally
+
+Check environment variables and key path resolution order:
+
+1. `TAURI_SIGNING_PRIVATE_KEY`
+2. `TAURI_SIGNING_PRIVATE_KEY_PATH`
+3. `~/.tauri/commdesk.key`
 
 ---
 

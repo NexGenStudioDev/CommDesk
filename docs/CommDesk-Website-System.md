@@ -4,6 +4,12 @@
 
 This document defines the complete website-facing platform for CommDesk.
 
+Implementation status note:
+
+- this document is a target-state website specification
+- current code in this repository is primarily desktop-focused and may not include these website routes yet
+- check [CommDesk Implementation Status Matrix](./CommDesk-Implementation-Status.md) for current build reality
+
 It covers public discovery, application, onboarding, participation, transparency, trust, and growth journeys.
 
 This is the website side of CommDesk and should stay aligned with these system docs:

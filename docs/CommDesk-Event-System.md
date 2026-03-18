@@ -4,7 +4,13 @@
 
 This document defines the backend implementation blueprint for the CommDesk Events module.
 
-It is aligned with the current frontend UI:
+Implementation status note:
+
+- this document is a backend target-state blueprint
+- current desktop event screens in this repository may include static or mock wiring until API integration is completed
+- check [CommDesk Implementation Status Matrix](./CommDesk-Implementation-Status.md) for the exact implemented scope
+
+It is intended to align with the current frontend UI structure:
 
 - `/events` (list + tabs)
 - `/create-event` (event creation)

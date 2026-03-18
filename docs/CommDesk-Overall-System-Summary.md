@@ -13,6 +13,7 @@ Use this when you need one place that explains:
 
 If any detailed implementation rule is needed, this guide points to source docs:
 
+- [CommDesk Implementation Status Matrix (Android branch)](./CommDesk-Implementation-Status.md)
 - [Community Signup System](./Community-Signup-System.md)
 - [CommDesk Member Creation and Onboarding System](./CommDesk-Member-System.md)
 - [CommDesk Event System](./CommDesk-Event-System.md)
@@ -714,7 +715,14 @@ Use these quick one-liners:
 
 ---
 
-## 16. Known Gaps and Planned Docs
+## 16. Implementation Reality and Planned Docs
+
+Current implementation status tracker:
+
+- [CommDesk Implementation Status Matrix (Android branch)](./CommDesk-Implementation-Status.md)
+
+Use the status matrix as primary truth for what is currently implemented in this repository.
+This master guide remains the product-level target architecture.
 
 Planned system documents that should be added next:
 
