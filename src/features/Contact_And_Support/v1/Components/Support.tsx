@@ -28,6 +28,7 @@ const Support = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [ticketReference, setTicketReference] = useState<string>("");
 
+
   const validateForm = (): boolean => {
     const nextErrors: FormErrors = {};
 
