@@ -41,7 +41,7 @@ const ProfessionalDetails = () => {
         Professional Details
       </span>
 
-      <div className="flex mt-[3.5vh]">
+      <div className="flex mt-[3.5vh] gap-5">
         <div className="flex flex-col gap-2 w-[40%]">
           <p className="text-md text-gray-400 uppercase font-semibold">Primary Role</p>
 

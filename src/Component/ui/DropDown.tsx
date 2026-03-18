@@ -68,7 +68,7 @@ const DropDown: React.FC<DropDownProps> = ({
   const displayValue = selected || placeholder;
 
   return (
-    <div ref={containerRef} className={`relative w-full sm:w-48 min-w-0 ${className || ""}`}>
+    <div ref={containerRef} className={`relative w-full  ${className || ""}`}>
       {label && (
         <p
           className="text-sm my-2 uppercase font-semibold tracking-wide"
