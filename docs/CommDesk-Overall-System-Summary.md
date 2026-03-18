@@ -20,6 +20,11 @@ If any detailed implementation rule is needed, this guide points to source docs:
 - [CommDesk Participant Platform System](./CommDesk-Participant-Platform-System.md)
 - [CommDesk Judging System](./CommDesk-Judging-System.md)
 - [CommDesk Sponsor and Partner System](./CommDesk-Sponsor-Partner-System.md)
+- [CommDesk Website Public Platform System](./CommDesk-Website-System.md)
+- [CommDesk Frontend Boundary System (Desktop + Website)](./CommDesk-Frontend-Boundary-System.md)
+- [CommDesk Community Trust, Review, and AI Scoring System](./CommDesk-Community-Trust-Scoring-System.md)
+- [CommDesk Integration and Webhook System](./CommDesk-Integration-and-Webhook-System.md)
+- [CommDesk Check-In and Badge System](./CommDesk-CheckIn-and-Badge-System.md)
 
 ---
 
@@ -103,15 +108,16 @@ Sponsors get measurable ecosystem ROI.
 
 ## 4. Full System Ownership Map
 
-| System                     | Core Ownership                                                        | Key Output                         |
-| -------------------------- | --------------------------------------------------------------------- | ---------------------------------- |
-| Community Signup           | Community registration, owner bootstrap, verification, admin approval | Active community workspace         |
-| Member System              | User to member mapping, onboarding, role and status lifecycle         | Trustworthy identity layer         |
-| Event System               | Event authoring, publication, people panels, pricing and prizes       | Runnable event blueprint           |
-| RSVP System                | Registrations, approvals, waitlist, check-in, compliance fields       | Controlled participant entry       |
-| Participant Platform       | Discovery, teams, submissions, profile, leaderboard, certificates     | Participant experience and growth  |
-| Judging System             | Judge onboarding, scoring lifecycle, lock rules, auditing, ranking    | Fair and traceable results         |
-| Sponsor and Partner System | Organization marketplace, opportunities, negotiations, deals          | Revenue and ecosystem partnerships |
+| System | Core Ownership | Key Output |
+| --- | --- | --- |
+| Community Signup | Community registration, owner bootstrap, verification, admin approval | Active community workspace |
+| Member System | User to member mapping, onboarding, role and status lifecycle | Trustworthy identity layer |
+| Event System | Event authoring, publication, people panels, pricing and prizes | Runnable event blueprint |
+| RSVP System | Registrations, approvals, waitlist, check-in, compliance fields | Controlled participant entry |
+| Participant Platform | Discovery, teams, submissions, profile, leaderboard, certificates | Participant experience and growth |
+| Judging System | Judge onboarding, scoring lifecycle, lock rules, auditing, ranking | Fair and traceable results |
+| Sponsor and Partner System | Organization marketplace, opportunities, negotiations, deals | Revenue and ecosystem partnerships |
+| Website Public Platform | Communities/jobs discovery, public applications, sponsor onboarding | Visitor to applicant conversion |
 
 ---
 
@@ -411,6 +417,41 @@ Non-negotiables:
 - maintain compatibility with existing event sponsor categories
 - immutable timeline for request and deal state transitions
 - role-based controls on both community side and organization side
+
+## 7.8 Website Public Platform
+
+Purpose:
+Provide public website journeys for discovery and application before users enter internal operations.
+
+Core capabilities:
+
+- list all communities with search and filters
+- job discovery and role applications
+- community join applications
+- hackathon join applications
+- sponsor and partner self-registration
+- applicant status tracking and notification
+
+Main APIs:
+
+```text
+GET  /api/v1/public/communities
+GET  /api/v1/events
+GET  /api/v1/public/jobs
+POST /api/v1/public/communities/:communityId/join-requests
+POST /api/v1/events/:eventId/rsvp
+POST /api/v1/sponsors/apply
+```
+
+For complete website route and API coverage, refer to:
+
+- [CommDesk Website Public Platform System](./CommDesk-Website-System.md)
+
+Non-negotiables:
+
+- anti-bot and rate limit controls on all public forms
+- verification before approval for sponsor and partner onboarding
+- auditable status transitions for every application lifecycle
 
 ---
 
