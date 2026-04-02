@@ -109,16 +109,16 @@ Sponsors get measurable ecosystem ROI.
 
 ## 4. Full System Ownership Map
 
-| System | Core Ownership | Key Output |
-| --- | --- | --- |
-| Community Signup | Community registration, owner bootstrap, verification, admin approval | Active community workspace |
-| Member System | User to member mapping, onboarding, role and status lifecycle | Trustworthy identity layer |
-| Event System | Event authoring, publication, people panels, pricing and prizes | Runnable event blueprint |
-| RSVP System | Registrations, approvals, waitlist, check-in, compliance fields | Controlled participant entry |
-| Participant Platform | Discovery, teams, submissions, profile, leaderboard, certificates | Participant experience and growth |
-| Judging System | Judge onboarding, scoring lifecycle, lock rules, auditing, ranking | Fair and traceable results |
-| Sponsor and Partner System | Organization marketplace, opportunities, negotiations, deals | Revenue and ecosystem partnerships |
-| Website Public Platform | Communities/jobs discovery, public applications, sponsor onboarding | Visitor to applicant conversion |
+| System                     | Core Ownership                                                        | Key Output                         |
+| -------------------------- | --------------------------------------------------------------------- | ---------------------------------- |
+| Community Signup           | Community registration, owner bootstrap, verification, admin approval | Active community workspace         |
+| Member System              | User to member mapping, onboarding, role and status lifecycle         | Trustworthy identity layer         |
+| Event System               | Event authoring, publication, people panels, pricing and prizes       | Runnable event blueprint           |
+| RSVP System                | Registrations, approvals, waitlist, check-in, compliance fields       | Controlled participant entry       |
+| Participant Platform       | Discovery, teams, submissions, profile, leaderboard, certificates     | Participant experience and growth  |
+| Judging System             | Judge onboarding, scoring lifecycle, lock rules, auditing, ranking    | Fair and traceable results         |
+| Sponsor and Partner System | Organization marketplace, opportunities, negotiations, deals          | Revenue and ecosystem partnerships |
+| Website Public Platform    | Communities/jobs discovery, public applications, sponsor onboarding   | Visitor to applicant conversion    |
 
 ---
 

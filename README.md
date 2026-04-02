@@ -125,15 +125,15 @@ Use these docs depending on your objective:
 
 These are the currently mounted app routes in the desktop frontend shell.
 
-| Route | Screen | Purpose |
-| --- | --- | --- |
-| `/` | Dashboard | Default landing screen |
-| `/dashboard` | Dashboard | Operations overview |
-| `/member` | Members | Member listing and search |
-| `/add-member` | Add Member | Member onboarding form |
-| `/events` | Events | Event listing and quick actions |
-| `/create-event` | Create Event | Event authoring UI |
-| `/contact` | Contact and Support | Internal support submissions |
+| Route           | Screen              | Purpose                         |
+| --------------- | ------------------- | ------------------------------- |
+| `/`             | Dashboard           | Default landing screen          |
+| `/dashboard`    | Dashboard           | Operations overview             |
+| `/member`       | Members             | Member listing and search       |
+| `/add-member`   | Add Member          | Member onboarding form          |
+| `/events`       | Events              | Event listing and quick actions |
+| `/create-event` | Create Event        | Event authoring UI              |
+| `/contact`      | Contact and Support | Internal support submissions    |
 
 ---
 

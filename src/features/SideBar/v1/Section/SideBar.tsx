@@ -39,9 +39,9 @@ const SideBar = () => {
         <h1>Operations</h1>
         <SideBarLink icon={<MdDashboard />} text="Dashboard" />
         <SideBarLink icon={<MdWork />} text="Projects" />
-        <SideBarLink icon={<MdGroup />} text="Teams" link="/member" />
-        <SideBarLink icon={<MdEvent />} text="Events" link="/events" />
-        <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/contact" />
+        <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
+        <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
+        <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
 
         <div
           className="mt-auto w-full border-t flex flex-col py-5"

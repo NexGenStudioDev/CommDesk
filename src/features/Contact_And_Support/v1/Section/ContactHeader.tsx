@@ -1,5 +1,3 @@
-
-
 const ContactHeader = () => {
   return (
     <div className="py-[3vh] bg-white border-b-[1px] border-gray-300 flex   text-xl font-bold  justify-between">

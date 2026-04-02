@@ -148,7 +148,10 @@ const InternalSupport_Table = () => {
 
                 {/* Email */}
                 <td className="px-3 sm:px-5 py-3.5">
-                  <span className="text-xs sm:text-sm break-all" style={{ color: theme.textColor.secondary }}>
+                  <span
+                    className="text-xs sm:text-sm break-all"
+                    style={{ color: theme.textColor.secondary }}
+                  >
                     {member.email}
                   </span>
                 </td>

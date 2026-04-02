@@ -22,7 +22,7 @@ export const TextArea = (props: TextAreaProps) => {
 
   return (
     <div className={`textarea-container flex flex-col gap-2 mb-4 ${props.className || ""}`}>
-      <label className="text-md text-gray-400 uppercase font-semibold" htmlFor={props.name}>
+      <label className="text-sm text-gray-400 uppercase font-semibold" htmlFor={props.name}>
         {props.label}
       </label>
 
@@ -38,7 +38,7 @@ export const TextArea = (props: TextAreaProps) => {
         disabled={props.disabled}
         required={props.required}
         maxLength={props.maxLength}
-        className="border-2 rounded-lg p-2 text-2xl resize-y"
+        className="border-2 rounded-lg p-2  text-[1.8vw] lg:text-lg resize-y"
         style={{
           borderColor: theme.borderColor.primary,
         }}

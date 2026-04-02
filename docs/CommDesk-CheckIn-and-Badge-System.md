@@ -99,13 +99,13 @@ Website should own:
 
 ## 4. Roles and Permissions
 
-| Role | Actions |
-| --- | --- |
-| Owner/Admin/Organizer | full check-in and badge control |
-| Volunteer (Desk Staff) | scan, check-in, issue badge (restricted) |
-| Gate Staff | validate entry scan only |
-| Participant | view own pass/check-in status |
-| Mentor/Judge/Speaker/Sponsor | view own pass/check-in status |
+| Role                         | Actions                                  |
+| ---------------------------- | ---------------------------------------- |
+| Owner/Admin/Organizer        | full check-in and badge control          |
+| Volunteer (Desk Staff)       | scan, check-in, issue badge (restricted) |
+| Gate Staff                   | validate entry scan only                 |
+| Participant                  | view own pass/check-in status            |
+| Mentor/Judge/Speaker/Sponsor | view own pass/check-in status            |
 
 Permission controls:
 

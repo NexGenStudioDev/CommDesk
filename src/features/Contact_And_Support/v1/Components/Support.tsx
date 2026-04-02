@@ -19,15 +19,12 @@ const PRIORITY_OPTIONS: PriorityLevel[] = ["Low", "Medium", "High", "Critical"];
 const Support = () => {
   const theme = getTheme("light");
   const initialCategory = CONTACT_AND_SUPPORT_CONSTANT[0] ?? "";
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    initialCategory,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [priority, setPriority] = useState<PriorityLevel>("Medium");
   const [subject, setSubject] = useState("");
   const [issueDetails, setIssueDetails] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
   const [ticketReference, setTicketReference] = useState<string>("");
-
 
   const validateForm = (): boolean => {
     const nextErrors: FormErrors = {};
@@ -85,8 +82,14 @@ const Support = () => {
         style={{ borderColor: theme.borderColor.primary }}
       >
         <span className="flex items-center">
-          <MdOutlineSupportAgent className="inline text-3xl" style={{ color: theme.textColor.tersiary }} />
-          <h1 className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold ml-2" style={{ color: theme.textColor.primary }}>
+          <MdOutlineSupportAgent
+            className="inline text-3xl"
+            style={{ color: theme.textColor.tersiary }}
+          />
+          <h1
+            className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold ml-2"
+            style={{ color: theme.textColor.primary }}
+          >
             ADMIN SUPPORT
           </h1>
         </span>
@@ -96,7 +99,10 @@ const Support = () => {
         </p>
       </div>
 
-      <form className="flex w-full h-full min-h-0 flex-col p-4 md:p-5 gap-4 overflow-y-auto" onSubmit={onSubmit}>
+      <form
+        className="flex w-full h-full min-h-0 flex-col p-4 md:p-5 gap-4 overflow-y-auto"
+        onSubmit={onSubmit}
+      >
         <DropDown
           className="w-full"
           label="ISSUE CATEGORY"
@@ -170,7 +176,10 @@ const Support = () => {
             }}
           />
 
-          <div className="flex items-center justify-between text-xs" style={{ color: theme.textColor.muted }}>
+          <div
+            className="flex items-center justify-between text-xs"
+            style={{ color: theme.textColor.muted }}
+          >
             <span>Minimum 20 characters recommended.</span>
             <span>{issueDetails.length}/1000</span>
           </div>
@@ -224,7 +233,8 @@ const Support = () => {
             What happens next?
           </p>
           <p className="mt-1" style={{ color: theme.textColor.secondary }}>
-            Critical issues are triaged first. Include reproducible steps and screenshots to reduce turnaround time.
+            Critical issues are triaged first. Include reproducible steps and screenshots to reduce
+            turnaround time.
           </p>
         </div>
       </form>

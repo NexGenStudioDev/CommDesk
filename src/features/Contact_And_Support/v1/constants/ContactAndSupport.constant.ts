@@ -14,5 +14,5 @@ export let CONTACT_AND_SUPPORT_CONSTANT = [
   "Configuration / Settings Issue",
   "Feature Request",
   "General Inquiry",
-  "Unknown / Other Issue"
-]
+  "Unknown / Other Issue",
+];

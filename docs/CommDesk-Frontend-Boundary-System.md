@@ -87,28 +87,28 @@ Read-Many, Write-One
 
 ## 3. Ownership Matrix (Desktop vs Website)
 
-| Capability | Desktop App | Website | Primary Write Owner |
-| --- | --- | --- | --- |
-| Community registration | Review/approve/reject | Community signup form | Website (submit), Desktop/Admin (review) |
-| Member onboarding and bulk import | Full create/invite/import | Activation completion only | Desktop |
-| Event create/edit/publish/archive | Full control | View only | Desktop |
-| RSVP configuration | Full control | Read config for forms | Desktop |
-| RSVP submission/update/cancel | Monitor/report view | Full participant actions | Website |
-| Registration review (approve/reject/waitlist/check-in/export) | Full control | Self-status view only | Desktop |
-| Check-in desk and badge operations | Full control (config, scan, print, reprint, revoke) | Self status/pass view only | Desktop |
-| Team discovery and join requests | Exception override only | Full participant flow | Website |
-| Submission draft/finalize | Override/disqualify only | Full participant flow | Website |
-| Judging criteria/settings/assignments | Full control | Read policy where needed | Desktop |
-| Judge scoring workspace | No duplicate scoring UI | Full judge portal | Website |
-| Leaderboard publishing/finalization | Finalization authority | Public display | Desktop (finalize), Website (display) |
-| Sponsor/partner apply | Review + activation | Public apply form | Website (apply), Desktop/Admin (review) |
-| Sponsor event assignment and benefit fulfillment | Full control | Read-only sponsor display | Desktop |
-| Job posting moderation | Full control | No posting UI | Desktop |
-| Job discovery and applications | View metrics | Full user-facing flow | Website |
-| Certificate issuance | Generate and issue | View and verify | Desktop (issue), Website (consume) |
-| Notification template/rule management | Full control | Preference controls + inbox | Desktop (rules), Website (consume) |
-| Community trust scoring and review intelligence | Rule config, moderation, appeals, override governance | Review submission, trust display, AI summary cards | Website (collect/display), Desktop (governance/moderation) |
-| Analytics and reports | Full operational analytics | Public funnel summaries | Desktop |
+| Capability                                                    | Desktop App                                           | Website                                            | Primary Write Owner                                        |
+| ------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------- |
+| Community registration                                        | Review/approve/reject                                 | Community signup form                              | Website (submit), Desktop/Admin (review)                   |
+| Member onboarding and bulk import                             | Full create/invite/import                             | Activation completion only                         | Desktop                                                    |
+| Event create/edit/publish/archive                             | Full control                                          | View only                                          | Desktop                                                    |
+| RSVP configuration                                            | Full control                                          | Read config for forms                              | Desktop                                                    |
+| RSVP submission/update/cancel                                 | Monitor/report view                                   | Full participant actions                           | Website                                                    |
+| Registration review (approve/reject/waitlist/check-in/export) | Full control                                          | Self-status view only                              | Desktop                                                    |
+| Check-in desk and badge operations                            | Full control (config, scan, print, reprint, revoke)   | Self status/pass view only                         | Desktop                                                    |
+| Team discovery and join requests                              | Exception override only                               | Full participant flow                              | Website                                                    |
+| Submission draft/finalize                                     | Override/disqualify only                              | Full participant flow                              | Website                                                    |
+| Judging criteria/settings/assignments                         | Full control                                          | Read policy where needed                           | Desktop                                                    |
+| Judge scoring workspace                                       | No duplicate scoring UI                               | Full judge portal                                  | Website                                                    |
+| Leaderboard publishing/finalization                           | Finalization authority                                | Public display                                     | Desktop (finalize), Website (display)                      |
+| Sponsor/partner apply                                         | Review + activation                                   | Public apply form                                  | Website (apply), Desktop/Admin (review)                    |
+| Sponsor event assignment and benefit fulfillment              | Full control                                          | Read-only sponsor display                          | Desktop                                                    |
+| Job posting moderation                                        | Full control                                          | No posting UI                                      | Desktop                                                    |
+| Job discovery and applications                                | View metrics                                          | Full user-facing flow                              | Website                                                    |
+| Certificate issuance                                          | Generate and issue                                    | View and verify                                    | Desktop (issue), Website (consume)                         |
+| Notification template/rule management                         | Full control                                          | Preference controls + inbox                        | Desktop (rules), Website (consume)                         |
+| Community trust scoring and review intelligence               | Rule config, moderation, appeals, override governance | Review submission, trust display, AI summary cards | Website (collect/display), Desktop (governance/moderation) |
+| Analytics and reports                                         | Full operational analytics                            | Public funnel summaries                            | Desktop                                                    |
 
 ---
 
