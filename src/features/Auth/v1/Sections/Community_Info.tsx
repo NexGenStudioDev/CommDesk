@@ -112,8 +112,9 @@ const Community_Info = () => {
           />
         </div>
 
-        <div className="flex gap-3 items-center justify-center">
+        <div className="flex gap-3  w-full ">
           <DropDown
+            className="w-1/2! -my-1!"
             label="Country"
             options={["United States", "Canada", "United Kingdom", "Australia", "India"]}
             onSelect={(e) => console.log(e)}
@@ -125,6 +126,7 @@ const Community_Info = () => {
             name="city"
             value={formData.city}
             onChange={handleChange}
+            className="w-1/2 "
           />
         </div>
 

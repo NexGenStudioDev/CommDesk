@@ -31,11 +31,10 @@ const SignUpPage = () => {
   let [currentStep, setCurrentStep] = React.useState(1);
 
   return (
-    <div className="w-screen  flex inter">
-      <div className="left w-1/2 bg-cover bg-center relative top-0 bg-transparent ">
-        <div className="top-0 left-0 w-full z-50 flex items-center sticky ">
-          <img src="/logoWithoutText.png" alt="Logo" className="w-16 h-16 " />
-
+    <div className="w-screen  flex inter ">
+      <div className="left w-1/2 bg-cover bg-center relative top-0  ">
+        <div className="absolute top-0 left-0 w-full z-50 flex items-center bg-transparent p-4">
+          <img src="/logoWithoutText.png" alt="Logo" className="w-16 h-16" />
           <h1 className="text-2xl text-white ml-2 font-bold inter">CommDesk</h1>
         </div>
         <img
