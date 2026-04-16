@@ -27,7 +27,7 @@ const Event_View_Header = () => {
         <div className="flex items-center mr-[2vw]">
           <Button
             text="Create Event"
-            onClick={() => navigate("/create-event")}
+            onClick={() => navigate("/org/create-event")}
             backgroundColor="#4f46e4"
             icon={<IoMdAdd />}
           />
