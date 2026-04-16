@@ -39,6 +39,9 @@ An evolving desktop platform foundation to manage communities, events, hackathon
 
 ---
 
+
+## Nexus Spring of Code
+
 ## About
 
 CommDesk is built for developer communities, student organizations, tech clubs, event organizers, and open-source teams.
