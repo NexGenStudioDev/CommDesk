@@ -72,9 +72,9 @@ export default function ReviewStep() {
 
       <div className="space-y-4">
         <Section title="Community Details">
-          <ReviewRow label="Name"        value={data.communityName}    icon={Globe} />
-          <ReviewRow label="Tagline/Bio" value={data.communityBio}     icon={Globe} />
-          <ReviewRow label="Website"     value={data.communityWebsite} icon={Globe} />
+          <ReviewRow label="Name" value={data.communityName} icon={Globe} />
+          <ReviewRow label="Tagline/Bio" value={data.communityBio} icon={Globe} />
+          <ReviewRow label="Website" value={data.communityWebsite} icon={Globe} />
         </Section>
 
         <Section title="Primary Contact">
@@ -85,18 +85,18 @@ export default function ReviewStep() {
 
         {hasSocials && (
           <Section title="Web Presence">
-            <ReviewRow label="Twitter"   value={data.socialLinks?.twitter}   icon={Twitter} />
-            <ReviewRow label="LinkedIn"  value={data.socialLinks?.linkedin}  icon={Linkedin} />
+            <ReviewRow label="Twitter" value={data.socialLinks?.twitter} icon={Twitter} />
+            <ReviewRow label="LinkedIn" value={data.socialLinks?.linkedin} icon={Linkedin} />
             <ReviewRow label="Instagram" value={data.socialLinks?.instagram} icon={Instagram} />
-            <ReviewRow label="GitHub"    value={data.socialLinks?.github}    icon={Github} />
-            <ReviewRow label="Facebook"  value={data.socialLinks?.facebook}  icon={Facebook} />
+            <ReviewRow label="GitHub" value={data.socialLinks?.github} icon={Github} />
+            <ReviewRow label="Facebook" value={data.socialLinks?.facebook} icon={Facebook} />
           </Section>
         )}
 
         <Section title="Administrator">
-          <ReviewRow label="Name"     value={data.fullName} icon={User} />
-          <ReviewRow label="Email"    value={data.email}    icon={Mail} />
-          <ReviewRow label="Security" value="••••••••"      icon={Lock} />
+          <ReviewRow label="Name" value={`${data.firstName} ${data.lastName}`} icon={User} />
+          <ReviewRow label="Email" value={data.email} icon={Mail} />
+          <ReviewRow label="Security" value="••••••••" icon={Lock} />
         </Section>
       </div>
 

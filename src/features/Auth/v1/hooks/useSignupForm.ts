@@ -39,13 +39,29 @@ export const signupSchema = z.object({
     }),
   }),
 
-  fullName: z.string().min(2, "Full name must be at least 2 characters"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Must be a valid email"),
+  location: z.string().min(1, "Location is required"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
     .regex(/[0-9]/, "Must contain at least one number")
     .regex(/[^a-zA-Z0-9]/, "Must contain at least one special character"),
+  confirmPassword: z.string(),
+  primaryRole: z.string().default("ORGANISER"),
+  skills: z.array(z.string()).min(1, "At least one skill is required"),
+  areaOfInterest: z.array(z.string()).min(1, "Select at least one area of interest"),
+  internalNotes: z.string().optional(),
+  permissions: z.object({
+    internalDashboard: z.boolean().default(false),
+    communityForum: z.boolean().default(false),
+    adminControls: z.boolean().default(false),
+    superAdmin: z.boolean().default(false),
+  }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
 
 export type SignupFormData = z.infer<typeof signupSchema>;
@@ -54,7 +70,19 @@ export const STEP_FIELDS: Record<number, (keyof SignupFormData)[]> = {
   1: ["communityName", "communityBio", "communityWebsite"],
   2: ["country", "city", "officialEmail", "phoneCode", "phoneNumber"],
   3: ["socialLinks"],
-  4: ["fullName", "email", "password"],
+  4: [
+    "firstName",
+    "lastName",
+    "email",
+    "location",
+    "password",
+    "confirmPassword",
+    "primaryRole",
+    "skills",
+    "areaOfInterest",
+    "internalNotes",
+    "permissions",
+  ],
   5: [],
 };
 
@@ -79,9 +107,22 @@ export function useSignupForm() {
         github: "",
         facebook: "",
       },
-      fullName: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      location: "",
       password: "",
+      confirmPassword: "",
+      primaryRole: "ORGANISER",
+      skills: [],
+      areaOfInterest: [],
+      internalNotes: "",
+      permissions: {
+        internalDashboard: false,
+        communityForum: false,
+        adminControls: false,
+        superAdmin: false,
+      },
     },
   });
 }
