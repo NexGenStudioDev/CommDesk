@@ -12,6 +12,7 @@ import ViewEvent from "./features/Events/v1/Pages/ViewEvent";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
+import ProjectDetailPage from "./projects/[id]/page";
 
 function App() {
   useEffect(() => {
@@ -24,6 +25,10 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+
+        <Route path="/projects/:projectId" element={<LoginUserTemplate />}>
+          <Route index element={<ProjectDetailPage />} />
+        </Route>
 
         {/* Protected / Org Routes */}
         <Route path="/org" element={<LoginUserTemplate />}>
