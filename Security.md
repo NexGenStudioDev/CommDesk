@@ -18,7 +18,7 @@ We recommend always using the latest release for security fixes and improvements
 If you discover a security vulnerability, please report it responsibly.
 
 ### 📩 How to Report
-- Email: **security@nexgenstudio.dev** *(replace with actual email if needed)*
+- Email: **security@nexgenstudio.dev** 
 - Or open a **private security advisory** via GitHub:
   - Go to the repository
   - Click **Security → Advisories → Report a vulnerability**
