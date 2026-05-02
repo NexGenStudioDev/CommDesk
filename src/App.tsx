@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./App.css";
+
 import DashboardPage from "./features/Dashboard/v1/Pages/DashboardPage";
 import MemberPage from "./features/Member/v1/Pages/MemberPage";
 import LoginUserTemplate from "./features/template/LoginUserTemplate";
@@ -34,9 +35,10 @@ function App() {
           <Route path="events" element={<ViewEvent />} />
           <Route path="create-event" element={<CreateNewEvent />} />
           <Route path="contact" element={<Contact />} />
-
-          <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
+
+        {/* Fallback */}
+        <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
   );
