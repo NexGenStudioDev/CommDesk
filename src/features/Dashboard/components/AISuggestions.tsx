@@ -29,7 +29,7 @@ export default function AISuggestions({ tasks }: Props) {
             className={`
               p-3 rounded-xl text-sm
               transition-all duration-200
-              hover:bg-indigo-50 hover:shadow-sm
+              hover:bg-indigo-50 hover:shadow-sm break-words
               ${i === 0 ? "bg-green-50 border border-green-100" : "bg-gray-50"}
             `}
           >

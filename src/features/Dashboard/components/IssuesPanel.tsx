@@ -13,9 +13,9 @@ export default function IssuesPanel({ data }: Props) {
   const hasIssues = data.open > 0;
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+    <div className="card hover:shadow-md transition">
       {/* Header */}
-      <h3 className="font-semibold text-lg mb-4">Issues</h3>
+      <h3 className="section-title">Issues</h3>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 mb-4">

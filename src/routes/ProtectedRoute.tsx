@@ -3,14 +3,17 @@ import { Navigate } from "react-router-dom";
 interface Props {
   children: React.ReactNode;
   user: { role: string } | null;
+  allowedRoles: string[];
 }
 
-export default function ProtectedRoute({ children, user }: Props) {
+export default function ProtectedRoute({ children, user, allowedRoles }: Props) {
+  // Not logged in
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
-  if (user.role !== "Member") {
+  // Not authorized
+  if (!allowedRoles.includes(user.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 

@@ -9,9 +9,9 @@ export default function ProductivityScore({ data }: Props) {
   const score = calculateProductivityScore(data);
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+    <div className="card hover:shadow-md transition">
       {/* Header */}
-      <h3 className="font-semibold text-lg mb-4">Productivity Score</h3>
+      <h3 className="section-title">Productivity Score</h3>
 
       <div className="flex justify-center mb-4">
         <div className="relative w-24 h-24 flex items-center justify-center group cursor-pointer">

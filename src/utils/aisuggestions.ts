@@ -1,6 +1,6 @@
 import { Task } from "@/features/Dashboard/types/dashboard";
 
-export const getAISuggestions = (tasks: Task[]) => {
+export const getAISuggestions = (tasks: Task[]): string[] => {
   const now = new Date();
 
   const suggestions: string[] = [];
@@ -9,19 +9,39 @@ export const getAISuggestions = (tasks: Task[]) => {
     if (!task.deadline || task.status === "completed") return;
 
     const deadline = new Date(task.deadline);
+
     const diffHours =
       (deadline.getTime() - now.getTime()) / (1000 * 60 * 60);
 
-    if (diffHours <= 24 && diffHours > 0) {
-      suggestions.push(`Focus on "${task.title}" — due today`);
-    } else if (diffHours <= 48) {
-      suggestions.push(`Start "${task.title}" — deadline approaching`);
+    // OVERDUE
+    if (diffHours <= 0) {
+      suggestions.push(
+        `🚨 "${task.title}" is overdue — take immediate action`
+      );
+    }
+
+    // DUE TODAY
+    else if (diffHours <= 24) {
+      suggestions.push(
+        `⚠️ Focus on "${task.title}" — due today`
+      );
+    }
+
+    //  DUE TOMORROW
+    else if (diffHours <= 48) {
+      suggestions.push(
+        `⏳ Start "${task.title}" — due tomorrow`
+      );
+    }
+
+    // UPCOMING (2–3 days)
+    else if (diffHours <= 72) {
+      suggestions.push(
+        `📅 Plan ahead: "${task.title}" due soon`
+      );
     }
   });
 
-  if (suggestions.length === 0) {
-    suggestions.push("You're on track — keep up the consistency!");
-  }
-
-  return suggestions.slice(0, 3);
+  // top 5 suggestions
+  return suggestions.slice(0, 5);
 };

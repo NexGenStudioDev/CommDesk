@@ -8,7 +8,7 @@ interface Props {
 
 export default function TaskInsightsSection({ tasks }: Props) {
   return (
-    <div className="grid md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6 items-start">
       <TaskOverview tasks={tasks} />
       <RecentTasks tasks={tasks} />
     </div>

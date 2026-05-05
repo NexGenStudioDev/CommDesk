@@ -21,9 +21,25 @@ export const dashboardData: DashboardData = {
   ],
 
   activity: [
-    { id: 1, text: "New task assigned: API Integration", time: "2h ago" },
-    { id: 2, text: "Rahul commented on your task", time: "4h ago" },
-  ],
+  {
+    id: 1,
+    text: "Task completed: API Integration",
+    time: "2h ago",
+    type: "completed",
+  },
+  {
+    id: 2,
+    text: "Rahul commented on your task",
+    time: "4h ago",
+    type: "comment",
+  },
+  {
+    id: 3,
+    text: "New task assigned: UI Revamp",
+    time: "6h ago",
+    type: "assigned",
+  },
+],
 
   performance: {
     completionRate: 82,

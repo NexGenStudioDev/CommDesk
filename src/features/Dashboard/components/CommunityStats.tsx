@@ -9,9 +9,9 @@ export default function CommunityStatsCard({ data }: Props) {
     data.totalMembers > 0 ? Math.round((data.activeMembers / data.totalMembers) * 100) : 0;
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+    <div className="card hover:shadow-md transition">
       {/* Header */}
-      <h3 className="font-semibold text-lg mb-4">Community Insights</h3>
+      <h3 className="section-title">Community Insights</h3>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 mb-4">

@@ -17,8 +17,8 @@ export default function Achievements({ data }: Props) {
   const { badges = [], certificates = [] } = data || {};
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
-      <h3 className="font-semibold text-lg mb-4">Achievements</h3>
+    <div className="card hover:shadow-md transition">
+      <h3 className="section-title">Achievements</h3>
 
       {/* Badges */}
       <div className="mb-5">

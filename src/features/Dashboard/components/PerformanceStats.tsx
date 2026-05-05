@@ -18,8 +18,8 @@ const trendData = [
 
 export default function PerformanceStats({ data }: Props) {
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm">
-      <h3 className="font-semibold text-lg mb-4">Performance Overview</h3>
+    <div className="card">
+      <h3 className="section-title">Performance Overview</h3>
 
       {/* Metrics */}
       <div className="grid grid-cols-2 gap-4 mb-5">

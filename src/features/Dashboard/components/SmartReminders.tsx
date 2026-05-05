@@ -37,7 +37,7 @@ export default function SmartReminders({ tasks }: Props) {
                 </div>
 
                 <div>
-                  <p className="text-sm font-medium text-gray-800">{r.title}</p>
+                  <p className="text-sm font-medium text-gray-800 break-words">{r.title}</p>
                   <p className="text-xs text-red-600">{r.label}</p>
                 </div>
               </div>

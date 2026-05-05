@@ -20,12 +20,14 @@ export interface User {
   role: "Admin" | "Member";
 }
 
+export type ActivityType = "completed" | "comment" | "assigned";
+
 export interface ActivityItem {
   id: number;
   text: string;
   time: string;
+  type: ActivityType; 
 }
-
 export interface Performance {
   completionRate: number;
   avgTime: string;

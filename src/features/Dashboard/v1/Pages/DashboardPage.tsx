@@ -3,8 +3,9 @@ import { useDashboardData } from "../../hooks/useDashboardData";
 import SummaryCard from "../../components/SummaryCard";
 import ActivityFeed from "../../components/ActivityFeed";
 import PerformanceStats from "../../components/PerformanceStats";
-import TaskInsightsSection from "../../components/TaskInsightsSection";
 import UpcomingUrgentTasks from "../../components/UpcomingUrgentTasks";
+import TaskOverview from "../../components/TaskOverview";
+import RecentTasks from "../../components/RecentTasks";
 
 import Achievements from "@/features/Dashboard/components/Achievements";
 import IssuesPanel from "@/features/Dashboard/components/IssuesPanel";
@@ -31,30 +32,21 @@ export default function DashboardPage() {
     );
   }
 
-  if (data.user.role !== "Member") {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
-          <p className="text-lg font-semibold mb-2">Access Restricted</p>
-          <p className="text-sm text-gray-500">This dashboard is only available for members.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <DashboardLayout>
-      <div className="space-y-5">
-        <div className="flex items-center justify-between">
+      <div className="space-y-5 w-full">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h1 className="text-xl font-semibold text-gray-800">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
               Welcome back, {data.user.name.split(" ")[0]} 👋
             </h1>
             <p className="text-sm text-gray-500">Here’s what’s happening today</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {/* Summary Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full">
           <SummaryCard title="Total Tasks" value={data.summary.total} color="purple" />
           <SummaryCard title="Completed" value={data.summary.completed} color="green" />
           <SummaryCard title="Upcoming" value={data.summary.upcoming} color="blue" />
@@ -62,34 +54,30 @@ export default function DashboardPage() {
           <SummaryCard title="In Progress" value={data.summary.inProgress} color="yellow" />
         </div>
 
-        {/* Main grid */}
-        <div className="grid lg:grid-cols-3 gap-5 items-start">
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 items-start w-full">
           {/* LEFT */}
-          <div className="lg:col-span-2 space-y-5">
-            <TaskInsightsSection tasks={data.tasks || []} />
+          <div className="xl:col-span-2 space-y-5 w-full">
+            {/* 🔥 FIXED SECTION (NO EMPTY SPACE NOW) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <TaskOverview tasks={data.tasks || []} />
+              <RecentTasks tasks={data.tasks || []} />
+            </div>
 
             <SmartReminders tasks={data.tasks || []} />
             <AISuggestions tasks={data.tasks || []} />
-
             <ActivityFeed activities={data.activity || []} />
-
             <CalendarWidget data={data.calendar} />
-
             <BudgetCard data={data.rewards} />
           </div>
 
           {/* RIGHT */}
-          <div className="space-y-5 self-start">
+          <div className="space-y-5 w-full">
             <UpcomingUrgentTasks tasks={data.tasks || []} />
-
             <PerformanceStats data={data.performance} />
-
             <IssuesPanel data={data.issues} />
-
             <CommunityStatsCard data={data.community} />
-
             <ProductivityScore data={data.performance} />
-
             <Achievements data={data.achievements} />
           </div>
         </div>

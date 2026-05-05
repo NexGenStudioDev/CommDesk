@@ -28,7 +28,7 @@ export default function UpcomingUrgentTasks({ tasks }: Props) {
 
       {/*Urgent Section */}
       <div className="mb-5">
-        <p className="text-sm font-medium text-red-500 mb-2">Urgent Tasks</p>
+        <p className="text-sm font-medium text-red-500 mb-2 break-words">Urgent Tasks</p>
 
         {urgent.length === 0 ? (
           <p className="text-gray-400 text-sm">No urgent tasks</p>
@@ -43,7 +43,7 @@ export default function UpcomingUrgentTasks({ tasks }: Props) {
 
       {/* Upcoming Section */}
       <div>
-        <p className="text-sm font-medium text-gray-500 mb-2">Upcoming Tasks</p>
+        <p className="text-sm font-medium text-gray-500 mb-2 break-words">Upcoming Tasks</p>
 
         {upcoming.length === 0 ? (
           <p className="text-gray-400 text-sm">No upcoming tasks</p>

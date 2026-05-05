@@ -9,10 +9,10 @@ export default function BudgetCard({ data }: Props) {
   const progress = data.nextReward > 0 ? (data.points / data.nextReward) * 100 : 0;
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
+    <div className="card hover:shadow-md transition-all duration-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-lg">Rewards & Earnings</h3>
+        <h3 className="section-title">Rewards & Earnings</h3>
         <Gift className="text-indigo-500" size={18} />
       </div>
 

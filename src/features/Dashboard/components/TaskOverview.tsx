@@ -19,12 +19,12 @@ export default function TaskOverview({ tasks }: Props) {
   ];
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm">
-      <h3 className="font-semibold text-lg mb-4">Task Overview</h3>
+    <div className="card hover:shadow-md transition">
+      <h3 className="section-title">Task Overview</h3>
 
-      <div className="flex items-center gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
         {/* Chart */}
-        <div className="w-40 h-40 relative">
+        <div className="w-full max-w-[160px] h-[160px] mx-auto sm:mx-0 relative">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie data={data} innerRadius={50} outerRadius={70} paddingAngle={3} dataKey="value">
@@ -43,9 +43,9 @@ export default function TaskOverview({ tasks }: Props) {
         </div>
 
         {/* Legend */}
-        <div className="space-y-3">
+        <div className="space-y-3 w-full">
           {data.map((item) => (
-            <div key={item.name} className="flex items-center gap-2">
+            <div key={item.name} className="flex items-center justify-between gap-2 text-sm">
               <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
               <span className="text-sm text-gray-600">{item.name}</span>
               <span className="text-sm font-semibold ml-auto">{item.value}</span>

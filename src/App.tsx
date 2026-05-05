@@ -14,8 +14,6 @@ import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
 
 import { startAutoUpdater } from "./system/updater/autoUpdater";
-
-// ✅ NEW IMPORTS
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { dashboardData } from "./features/Dashboard/mock/dashboardData";
 
@@ -35,11 +33,11 @@ function App() {
 
         {/* Protected / Org Layout */}
         <Route path="/org" element={<LoginUserTemplate />}>
-          {/* 🔐 Protected Dashboard */}
+          {/* Protected Dashboard */}
           <Route
             index
             element={
-              <ProtectedRoute user={user}>
+              <ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}>
                 <DashboardPage />
               </ProtectedRoute>
             }
@@ -48,13 +46,13 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <ProtectedRoute user={user}>
+              <ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}>
                 <DashboardPage />
               </ProtectedRoute>
             }
           />
 
-          {/* Other routes (not restricted for now) */}
+          {/* Other routes (not restricted) */}
           <Route path="member" element={<MemberPage />} />
           <Route path="add-member" element={<AddMemberPage />} />
           <Route path="events" element={<ViewEvent />} />
@@ -64,7 +62,6 @@ function App() {
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
 
-        {/* Optional */}
         <Route
           path="/unauthorized"
           element={
