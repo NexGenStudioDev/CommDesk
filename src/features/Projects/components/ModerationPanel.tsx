@@ -1,8 +1,7 @@
 import { AlertTriangle, CheckCircle2, Trash2, XCircle } from "lucide-react";
 
+import type { ProjectRecord, ScoreSummary } from "@/features/Projects/types/project.types";
 import { Button } from "@/shadcnComponet/ui/button";
-
-import type { ProjectRecord, ScoreSummary } from "../types";
 
 type ModerationPanelProps = {
   project: ProjectRecord;

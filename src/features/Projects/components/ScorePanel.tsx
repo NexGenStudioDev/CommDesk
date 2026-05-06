@@ -2,9 +2,13 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { CheckCircle2, Clock3, MessageSquareText, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import type {
+  JudgeScoreInput,
+  ProjectPermissions,
+  ProjectRecord,
+  ViewerContext,
+} from "@/features/Projects/types/project.types";
 import { Button } from "@/shadcnComponet/ui/button";
-
-import type { JudgeScoreInput, ProjectPermissions, ProjectRecord, ViewerContext } from "../types";
 
 type ScorePanelProps = {
   project: ProjectRecord;

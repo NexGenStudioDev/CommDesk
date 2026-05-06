@@ -1,6 +1,10 @@
 import { isAfter, parseISO } from "date-fns";
 
-import type { ProjectPermissions, ProjectRecord, ViewerContext } from "./types";
+import type {
+  ProjectPermissions,
+  ProjectRecord,
+  ViewerContext,
+} from "@/features/Projects/types/project.types";
 
 function isProjectInReviewLifecycle(project: ProjectRecord) {
   return project.status === "submitted" || project.status === "under_review";

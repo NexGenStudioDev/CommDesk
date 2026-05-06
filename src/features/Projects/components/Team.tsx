@@ -1,6 +1,6 @@
 import { Crown, Users } from "lucide-react";
 
-import type { ProjectRecord } from "../types";
+import type { ProjectRecord } from "@/features/Projects/types/project.types";
 
 type TeamProps = {
   project: ProjectRecord;

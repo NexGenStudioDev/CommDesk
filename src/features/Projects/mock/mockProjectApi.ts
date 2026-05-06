@@ -8,7 +8,7 @@ import type {
   TimelineEvent,
   UserRole,
   ViewerContext,
-} from "./types";
+} from "@/features/Projects/types/project.types";
 
 const NETWORK_DELAY_MS = 450;
 

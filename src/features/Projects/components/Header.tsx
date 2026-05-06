@@ -1,9 +1,13 @@
 import { CalendarClock, PencilLine, Rocket, ShieldCheck, Trash2, XCircle } from "lucide-react";
 
-import { Button } from "@/shadcnComponet/ui/button";
 import { cn } from "@/lib/utils";
-
-import type { ProjectPermissions, ProjectRecord, UserRole, ViewerContext } from "../types";
+import type {
+  ProjectPermissions,
+  ProjectRecord,
+  UserRole,
+  ViewerContext,
+} from "@/features/Projects/types/project.types";
+import { Button } from "@/shadcnComponet/ui/button";
 
 type HeaderProps = {
   project: ProjectRecord;

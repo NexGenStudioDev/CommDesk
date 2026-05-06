@@ -9,7 +9,7 @@ import {
   UploadCloud,
 } from "lucide-react";
 
-import type { TimelineEvent } from "../types";
+import type { TimelineEvent } from "@/features/Projects/types/project.types";
 
 type TimelineProps = {
   events: TimelineEvent[];

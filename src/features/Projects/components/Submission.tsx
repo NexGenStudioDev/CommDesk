@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { BarChart3, Calendar, FileLock2, Trophy } from "lucide-react";
 
-import type { ProjectRecord, ScoreSummary } from "../types";
+import type { ProjectRecord, ScoreSummary } from "@/features/Projects/types/project.types";
 
 type SubmissionProps = {
   project: ProjectRecord;

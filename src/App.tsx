@@ -12,7 +12,7 @@ import ViewEvent from "./features/Events/v1/Pages/ViewEvent";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
-import ProjectDetailPage from "./projects/[id]/page";
+import ProjectDetailPage from "./features/Projects/pages/ProjectDetailPage";
 
 function App() {
   useEffect(() => {

@@ -1,9 +1,8 @@
 import { Globe, Github, Link2, Save, X } from "lucide-react";
 import { useState } from "react";
 
+import type { ProjectRecord, ProjectUpdateInput } from "@/features/Projects/types/project.types";
 import { Button } from "@/shadcnComponet/ui/button";
-
-import type { ProjectRecord, ProjectUpdateInput } from "../types";
 
 type OverviewProps = {
   project: ProjectRecord;

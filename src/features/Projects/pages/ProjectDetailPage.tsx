@@ -2,16 +2,7 @@ import { AlertTriangle, RefreshCcw, ShieldAlert } from "lucide-react";
 import { startTransition, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
-import { Button } from "@/shadcnComponet/ui/button";
 import { cn } from "@/lib/utils";
-
-import Header from "./components/Header";
-import ModerationPanel from "./components/ModerationPanel";
-import Overview from "./components/Overview";
-import ScorePanel from "./components/ScorePanel";
-import Submission from "./components/Submission";
-import Team from "./components/Team";
-import Timeline from "./components/Timeline";
 import {
   deleteProject,
   fetchProject,
@@ -22,9 +13,22 @@ import {
   submitJudgeScore,
   submitProject,
   updateProjectDraft,
-} from "./mockApi";
-import { getProjectPermissions } from "./permissions";
-import type { JudgeScoreInput, ProjectRecord, ProjectUpdateInput, ViewerContext } from "./types";
+} from "@/features/Projects/services/project.service";
+import { getProjectPermissions } from "@/features/Projects/utils/permissions";
+import type {
+  JudgeScoreInput,
+  ProjectRecord,
+  ProjectUpdateInput,
+  ViewerContext,
+} from "@/features/Projects/types/project.types";
+import Header from "@/features/Projects/components/Header";
+import ModerationPanel from "@/features/Projects/components/ModerationPanel";
+import Overview from "@/features/Projects/components/Overview";
+import ScorePanel from "@/features/Projects/components/ScorePanel";
+import Submission from "@/features/Projects/components/Submission";
+import Team from "@/features/Projects/components/Team";
+import Timeline from "@/features/Projects/components/Timeline";
+import { Button } from "@/shadcnComponet/ui/button";
 
 type PageState = "loading" | "ready" | "error" | "not-found" | "unauthorized" | "deleted";
 
@@ -342,14 +346,14 @@ export default function ProjectDetailPage() {
                 viewer={viewer}
                 permissions={permissions}
                 isSubmitting={pendingAction === "score"}
-                onSubmit={(values: JudgeScoreInput) => {
+                onSubmit={async (values: JudgeScoreInput) => {
                   if (!permissions.canScore) {
                     setErrorMessage("Scoring is only allowed when the project is submitted for review.");
                     setValidationErrors([]);
                     return;
                   }
 
-                  void runAction("score", () => submitJudgeScore(project.id, viewer, values), {
+                  await runAction("score", () => submitJudgeScore(project.id, viewer, values), {
                     successMessage: "Judge score submitted.",
                   });
                 }}
