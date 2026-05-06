@@ -1,3 +1,5 @@
+import type { PermissionSchemaType } from "./permission.types";
+
 export type ProjectStatus = "draft" | "submitted" | "under_review" | "approved" | "rejected";
 
 export type UserRole = "participant" | "judge" | "organizer" | "admin";
@@ -68,6 +70,7 @@ export type ProjectRecord = {
   deletedAt?: string;
 };
 
+
 export type ViewerContext = {
   userId: string;
   name: string;
@@ -75,6 +78,7 @@ export type ViewerContext = {
   assignedProjectIds: string[];
   ownedProjectIds: string[];
   communityIds: string[];
+  permissions: PermissionSchemaType[];
 };
 
 export type ProjectPermissions = {

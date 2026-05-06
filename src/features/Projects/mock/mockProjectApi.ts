@@ -9,6 +9,7 @@ import type {
   UserRole,
   ViewerContext,
 } from "@/features/Projects/types/project.types";
+import { Project_Permissions } from "../constants/permission.constants";
 
 const NETWORK_DELAY_MS = 450;
 
@@ -31,6 +32,12 @@ const viewerDirectory: Record<string, ViewerContext> = {
     assignedProjectIds: [],
     ownedProjectIds: ["project-nebula"],
     communityIds: ["community-01"],
+    permissions: [
+      { name: "View Project", action: "read", resource: Project_Permissions.VIEW_PROJECT, userId: "participant-owner" },
+      { name: "Update Project", action: "update", resource: Project_Permissions.UPDATE_PROJECT, userId: "participant-owner" },
+      { name: "Submit Project", action: "update", resource: Project_Permissions.SUBMIT_PROJECT, userId: "participant-owner" },
+      { name: "Delete Project", action: "delete", resource: Project_Permissions.DELETE_PROJECT, userId: "participant-owner" },
+    ],
   },
   "participant-guest": {
     userId: "participant-guest",
@@ -39,6 +46,9 @@ const viewerDirectory: Record<string, ViewerContext> = {
     assignedProjectIds: [],
     ownedProjectIds: [],
     communityIds: ["community-02"],
+    permissions: [
+       { name: "View Project", action: "read", resource: Project_Permissions.VIEW_PROJECT, userId: "participant-guest" },
+    ],
   },
   "judge-01": {
     userId: "judge-01",
@@ -47,6 +57,10 @@ const viewerDirectory: Record<string, ViewerContext> = {
     assignedProjectIds: ["project-nebula", "project-orbit"],
     ownedProjectIds: [],
     communityIds: [],
+    permissions: [
+      { name: "View Project", action: "read", resource: Project_Permissions.VIEW_PROJECT, userId: "judge-01" },
+      { name: "Score Project", action: "update", resource: Project_Permissions.SCORE_PROJECT, userId: "judge-01" },
+    ],
   },
   "judge-02": {
     userId: "judge-02",
@@ -55,6 +69,10 @@ const viewerDirectory: Record<string, ViewerContext> = {
     assignedProjectIds: ["project-orbit"],
     ownedProjectIds: [],
     communityIds: [],
+    permissions: [
+      { name: "View Project", action: "read", resource: Project_Permissions.VIEW_PROJECT, userId: "judge-02" },
+      { name: "Score Project", action: "update", resource: Project_Permissions.SCORE_PROJECT, userId: "judge-02" },
+    ],
   },
   "organizer-01": {
     userId: "organizer-01",
@@ -63,6 +81,12 @@ const viewerDirectory: Record<string, ViewerContext> = {
     assignedProjectIds: [],
     ownedProjectIds: [],
     communityIds: ["community-01"],
+    permissions: [
+      { name: "View Project", action: "read", resource: Project_Permissions.VIEW_PROJECT, userId: "organizer-01" },
+      { name: "Approve Project", action: "update", resource: Project_Permissions.APPROVE_PROJECT, userId: "organizer-01" },
+      { name: "Reject Project", action: "update", resource: Project_Permissions.REJECT_PROJECT, userId: "organizer-01" },
+      { name: "Delete Project", action: "delete", resource: Project_Permissions.DELETE_PROJECT, userId: "organizer-01" },
+    ],
   },
   "admin-01": {
     userId: "admin-01",
@@ -71,6 +95,14 @@ const viewerDirectory: Record<string, ViewerContext> = {
     assignedProjectIds: [],
     ownedProjectIds: [],
     communityIds: [],
+    permissions: [
+      { name: "View Project", action: "read", resource: Project_Permissions.VIEW_PROJECT, userId: "admin-01" },
+      { name: "Update Project", action: "update", resource: Project_Permissions.UPDATE_PROJECT, userId: "admin-01" },
+      { name: "Delete Project", action: "delete", resource: Project_Permissions.DELETE_PROJECT, userId: "admin-01" },
+      { name: "Approve Project", action: "update", resource: Project_Permissions.APPROVE_PROJECT, userId: "admin-01" },
+      { name: "Reject Project", action: "update", resource: Project_Permissions.REJECT_PROJECT, userId: "admin-01" },
+      { name: "Score Project", action: "update", resource: Project_Permissions.SCORE_PROJECT, userId: "admin-01" },
+    ],
   },
 };
 
