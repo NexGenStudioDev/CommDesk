@@ -1,5 +1,4 @@
 import React from "react";
-import { getTheme } from "../../config/them.config";
 
 type TextAreaProps = {
   label?: string;
@@ -18,13 +17,17 @@ type TextAreaProps = {
 };
 
 export const TextArea = (props: TextAreaProps) => {
-  const theme = getTheme("light");
-
   return (
-    <div className={`textarea-container flex flex-col gap-2 mb-4 ${props.className || ""}`}>
-      <label className="text-sm text-gray-400 uppercase font-semibold" htmlFor={props.name}>
-        {props.label}
-      </label>
+    <div className={`flex flex-col gap-1.5 mb-4 ${props.className || ""}`}>
+      {props.label && (
+        <label
+          className="text-xs font-semibold uppercase tracking-wider"
+          htmlFor={props.name}
+          style={{ color: "var(--cd-text-2)" }}
+        >
+          {props.label}
+        </label>
+      )}
 
       <textarea
         id={props.name}
@@ -38,13 +41,19 @@ export const TextArea = (props: TextAreaProps) => {
         disabled={props.disabled}
         required={props.required}
         maxLength={props.maxLength}
-        className="border-2 rounded-lg p-2  text-[1.8vw] lg:text-lg resize-y"
+        className="rounded-lg p-3 text-sm resize-y outline-none border transition-all duration-150"
         style={{
-          borderColor: theme.borderColor.primary,
+          backgroundColor: "var(--cd-surface)",
+          borderColor: props.error ? "var(--cd-danger)" : "var(--cd-border)",
+          color: "var(--cd-text)",
         }}
       />
 
-      {props.error && <span className="error">{props.error}</span>}
+      {props.error && (
+        <span className="text-xs" style={{ color: "var(--cd-danger)" }}>
+          {props.error}
+        </span>
+      )}
     </div>
   );
 };

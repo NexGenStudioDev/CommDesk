@@ -5,7 +5,6 @@ interface Props {
   data: Performance;
 }
 
-// mock data
 const trendData = [
   { day: "Mon", tasks: 2 },
   { day: "Tue", tasks: 4 },
@@ -18,39 +17,46 @@ const trendData = [
 
 export default function PerformanceStats({ data }: Props) {
   return (
-    <div className="card">
-      <h3 className="section-title">Performance Overview</h3>
+    <div className="cd-card">
+      <h3 className="cd-section-title">Performance Overview</h3>
 
-      {/* Metrics */}
-      <div className="grid grid-cols-2 gap-4 mb-5">
-        <div className="p-3 bg-gray-50 rounded-xl">
-          <p className="text-xs text-gray-500">Completion Rate</p>
-          <p className="text-xl font-semibold text-green-600">{data.completionRate}%</p>
-        </div>
-
-        <div className="p-3 bg-gray-50 rounded-xl">
-          <p className="text-xs text-gray-500">Avg Completion</p>
-          <p className="text-xl font-semibold text-indigo-600">{data.avgTime}</p>
-        </div>
-
-        <div className="p-3 bg-gray-50 rounded-xl">
-          <p className="text-xs text-gray-500">Streak</p>
-          <p className="text-xl font-semibold text-orange-500">{data.streak} days 🔥</p>
-        </div>
-
-        <div className="p-3 bg-gray-50 rounded-xl">
-          <p className="text-xs text-gray-500">Weekly Done</p>
-          <p className="text-xl font-semibold text-blue-600">{data.weeklyCompleted}</p>
-        </div>
+      <div className="grid grid-cols-2 gap-3 mb-5">
+        {[
+          { label: "Completion Rate", value: `${data.completionRate}%`, color: "var(--cd-success)" },
+          { label: "Avg Completion", value: data.avgTime, color: "var(--cd-primary)" },
+          { label: "Streak", value: `${data.streak} days 🔥`, color: "var(--cd-warning)" },
+          { label: "Weekly Done", value: data.weeklyCompleted, color: "var(--cd-accent)" },
+        ].map((m) => (
+          <div key={m.label} className="cd-metric">
+            <p className="text-xs" style={{ color: "var(--cd-text-2)" }}>
+              {m.label}
+            </p>
+            <p className="text-xl font-semibold" style={{ color: m.color }}>
+              {m.value}
+            </p>
+          </div>
+        ))}
       </div>
 
-      {/* Chart */}
       <div className="h-40">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={trendData}>
-            <XAxis dataKey="day" fontSize={12} />
-            <Tooltip />
-            <Line type="monotone" dataKey="tasks" stroke="#6366f1" strokeWidth={3} dot={{ r: 3 }} />
+            <XAxis dataKey="day" fontSize={11} stroke="var(--cd-text-muted)" />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--cd-surface)",
+                border: "1px solid var(--cd-border)",
+                borderRadius: "0.5rem",
+                color: "var(--cd-text)",
+              }}
+            />
+            <Line
+              type="monotone"
+              dataKey="tasks"
+              stroke="var(--cd-primary)"
+              strokeWidth={2.5}
+              dot={{ r: 3, fill: "var(--cd-primary)" }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>

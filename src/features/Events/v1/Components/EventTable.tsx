@@ -7,109 +7,120 @@ type EventProps = {
   itemsPerPage: number;
 };
 
-const statusStyle: Record<Event["status"], string> = {
-  Live: "bg-green-100 text-green-700",
-  Upcoming: "bg-blue-100 text-blue-700",
-  Completed: "bg-gray-200 text-gray-700",
+const statusConfig: Record<Event["status"], { bg: string; color: string }> = {
+  Live: { bg: "var(--cd-success-subtle)", color: "var(--cd-success)" },
+  Upcoming: { bg: "var(--cd-primary-subtle)", color: "var(--cd-primary-text)" },
+  Completed: { bg: "var(--cd-surface-2)", color: "var(--cd-text-2)" },
 };
 
 function EventTable({ events, itemsPerPage }: EventProps) {
   const [currentPage, setCurrentPage] = useState(1);
-
-  const totalItems = events.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  const currentItems = events.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
-  };
+  const totalPages = Math.ceil(events.length / itemsPerPage);
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentItems = events.slice(indexOfFirst, indexOfLast);
 
   return (
-    <div className="bg-white rounded-xl border shadow-sm overflow-hidden h-[63vh] relative">
-      <table className="w-full text-sm">
-        <thead className="text-gray-500 uppercase text-xs border-b bg-gray-50">
+    <div
+      className="rounded-xl overflow-hidden h-[63vh] relative"
+      style={{
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
+        boxShadow: "0 1px 3px var(--cd-shadow)",
+      }}
+    >
+      <table className="cd-table">
+        <thead>
           <tr>
-            <th className="px-6 py-4 text-left">Name</th>
-            <th className="px-6 py-4 text-left">Date</th>
-            <th className="px-6 py-4 text-left">Status</th>
-            <th className="px-6 py-4 text-left">Teams</th>
-            <th className="px-6 py-4 text-left">Submissions</th>
-            <th className="px-6 py-4 text-right">Actions</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Teams</th>
+            <th>Submissions</th>
+            <th className="text-right">Actions</th>
           </tr>
         </thead>
-
         <tbody>
-          {currentItems.map((event) => (
-            <tr key={event.id} className="border-b last:border-none hover:bg-gray-50 transition">
-              <td className="px-6 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
-                    {event.logo}
+          {currentItems.map((event) => {
+            const s = statusConfig[event.status];
+            return (
+              <tr key={event.id}>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0"
+                      style={{
+                        backgroundColor: "var(--cd-primary-subtle)",
+                        color: "var(--cd-primary)",
+                      }}
+                    >
+                      {event.logo}
+                    </div>
+                    <div>
+                      <p className="font-medium" style={{ color: "var(--cd-text)" }}>
+                        {event.name}
+                      </p>
+                      <p className="text-xs" style={{ color: "var(--cd-text-2)" }}>
+                        {event.subtitle}
+                      </p>
+                    </div>
                   </div>
-
-                  <div>
-                    <p className="font-medium text-gray-800">{event.name}</p>
-                    <p className="text-sm text-gray-500">{event.subtitle}</p>
-                  </div>
-                </div>
-              </td>
-
-              <td className="px-6 py-4 text-gray-700">{event.date}</td>
-
-              <td className="px-6 py-4">
-                <span
-                  className={`px-3 py-1 text-xs rounded-full font-medium ${statusStyle[event.status]}`}
-                >
-                  {event.status}
-                </span>
-              </td>
-
-              <td className="px-6 py-4 text-gray-700">{event.teams}</td>
-
-              <td className="px-6 py-4 text-gray-700">{event.submissions}</td>
-
-              <td className="px-6 py-4 text-right">
-                <button className="p-2 rounded-md hover:bg-gray-100">
-                  <MoreVertical size={16} />
-                </button>
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td style={{ color: "var(--cd-text-2)" }}>{event.date}</td>
+                <td>
+                  <span
+                    className="cd-badge"
+                    style={{ backgroundColor: s.bg, color: s.color }}
+                  >
+                    {event.status}
+                  </span>
+                </td>
+                <td style={{ color: "var(--cd-text-2)" }}>{event.teams}</td>
+                <td style={{ color: "var(--cd-text-2)" }}>{event.submissions}</td>
+                <td className="text-right">
+                  <button
+                    className="p-1.5 rounded-lg transition-colors"
+                    style={{ color: "var(--cd-text-2)" }}
+                    onMouseEnter={(e) =>
+                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                        "var(--cd-hover)")
+                    }
+                    onMouseLeave={(e) =>
+                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
+                    }
+                  >
+                    <MoreVertical size={15} />
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
-      {/* FOOTER */}
-      <div className="flex justify-between items-center px-6 py-4 text-sm text-gray-500 border-t absolute w-full bottom-0 bg-white">
+      <div
+        className="flex justify-between items-center px-6 py-3 text-sm border-t absolute w-full bottom-0"
+        style={{
+          backgroundColor: "var(--cd-surface)",
+          borderColor: "var(--cd-border)",
+          color: "var(--cd-text-2)",
+        }}
+      >
         <p>
-          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalItems)} of {totalItems}{" "}
-          results
+          Showing {indexOfFirst + 1}–{Math.min(indexOfLast, events.length)} of {events.length}
         </p>
-
         <div className="flex gap-2">
           <button
-            onClick={handlePrevious}
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
-            className="px-3 py-1 border rounded-md hover:bg-gray-100 disabled:opacity-40"
+            className="cd-btn cd-btn-secondary px-3 py-1 text-xs disabled:opacity-40"
           >
             Previous
           </button>
-
           <button
-            onClick={handleNext}
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 border rounded-md hover:bg-gray-100 disabled:opacity-40"
+            className="cd-btn cd-btn-secondary px-3 py-1 text-xs disabled:opacity-40"
           >
             Next
           </button>

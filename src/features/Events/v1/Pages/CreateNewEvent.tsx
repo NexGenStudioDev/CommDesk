@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getTheme } from "../../../../config/them.config";
 import Judge from "../Components/Judge";
 import Mentors from "../Components/Mentors";
 import Speakers from "../Components/Speakers";
@@ -13,7 +12,6 @@ import Partners_And_Sponsors from "../Components/Partners_And_Sponsors";
 type PanelKey = "speakers" | "mentors" | "judges" | "partners";
 
 const CreateNewEvent = () => {
-  let theme = getTheme("light");
   const [expandedPanel, setExpandedPanel] = useState<PanelKey | null>("speakers");
 
   const handlePanelToggle = (panel: PanelKey) => {
@@ -21,15 +19,27 @@ const CreateNewEvent = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col" style={{ background: theme.background.secondary }}>
+    <div className="w-full h-full flex flex-col cd-page">
       <Event_Header />
-      <div className="flex flex-col items-center min-[1408px]:items-start min-[1408px]:flex-row w-full p-[2vw]  gap-5">
-        <div className="w-[90%] min-[1408px]:w-[65%]  mb-[2vh] bg-gray-200 rounded-lg p-4">
+      <div className="flex flex-col items-center min-[1408px]:items-start min-[1408px]:flex-row w-full p-[2vw] gap-5">
+        <div
+          className="w-[90%] min-[1408px]:w-[65%] mb-[2vh] rounded-xl p-4"
+          style={{
+            backgroundColor: "var(--cd-surface-2)",
+            border: "1px solid var(--cd-border)",
+          }}
+        >
           <Event_Basic_Info />
           <DateAndSchedule />
           <Capacity_And_Registration />
         </div>
-        <div className="w-[90%] min-[1408px]:w-[35%] min-[1408px]:h-screen rounded-2xl space-y-5 min-[1408px]:overflow-y-auto pr-1 bg-gray-200 rounded-lg p-4">
+        <div
+          className="w-[90%] min-[1408px]:w-[35%] min-[1408px]:h-screen rounded-xl space-y-5 min-[1408px]:overflow-y-auto pr-1 p-4"
+          style={{
+            backgroundColor: "var(--cd-surface-2)",
+            border: "1px solid var(--cd-border)",
+          }}
+        >
           <Settings />
           <Speakers
             isExpanded={expandedPanel === "speakers"}
@@ -43,7 +53,6 @@ const CreateNewEvent = () => {
             isExpanded={expandedPanel === "judges"}
             onToggleExpand={() => handlePanelToggle("judges")}
           />
-
           <Partners_And_Sponsors
             isExpanded={expandedPanel === "partners"}
             onToggleExpand={() => handlePanelToggle("partners")}

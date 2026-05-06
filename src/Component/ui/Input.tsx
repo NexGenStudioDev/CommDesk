@@ -1,5 +1,4 @@
 import React, { forwardRef } from "react";
-import { getTheme } from "../../config/them.config";
 
 type InputType = "text" | "email" | "password" | "number" | "url" | "tel" | "time";
 
@@ -9,18 +8,13 @@ type InputProps = {
   placeholder?: string;
   value?: string | number;
   type?: InputType;
-
   onChange?: (name: string, value: string) => void;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-
   error?: string;
-
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-
   className?: string;
   inputClassName?: string;
-
   disabled?: boolean;
   required?: boolean;
 };
@@ -45,28 +39,32 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
-    const theme = getTheme("light");
-
     return (
-      <div className={`flex flex-col gap-2 mb-4 ${className}`}>
+      <div className={`flex flex-col gap-1.5 mb-4 ${className}`}>
         {label && (
-          <label htmlFor={name} className="text-sm text-gray-400 uppercase font-semibold inter">
+          <label
+            htmlFor={name}
+            className="text-xs font-semibold uppercase tracking-wider"
+            style={{ color: "var(--cd-text-2)" }}
+          >
             {label}
           </label>
         )}
 
         <div
-          className={`flex items-center gap-2 border-2 rounded-lg px-3 py-2 ${
-            error ? "border-red-500" : ""
-          }`}
+          className="flex items-center gap-2 rounded-lg px-3 py-2 border transition-all duration-150"
           style={{
-            borderColor: error ? "red" : theme.borderColor.primary,
+            backgroundColor: "var(--cd-surface)",
+            borderColor: error ? "var(--cd-danger)" : "var(--cd-border)",
+            boxShadow: error ? "0 0 0 3px var(--cd-danger-subtle)" : undefined,
           }}
         >
-          {/* Left Icon */}
-          {leftIcon && <div className="flex items-center text-gray-400">{leftIcon}</div>}
+          {leftIcon && (
+            <div className="flex items-center" style={{ color: "var(--cd-text-muted)" }}>
+              {leftIcon}
+            </div>
+          )}
 
-          {/* Input Field */}
           <input
             ref={ref}
             id={name}
@@ -78,15 +76,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             required={required}
             onKeyDown={onKeyDown}
             onChange={(e) => onChange?.(name, e.target.value)}
-            className={`flex-1 bg-transparent outline-none  text-[1.8vw] lg:text-lg ${inputClassName}`}
+            className={`flex-1 bg-transparent outline-none text-sm ${inputClassName}`}
+            style={{ color: "var(--cd-text)" }}
           />
 
-          {/* Right Icon */}
-          {rightIcon && <div className="flex items-center text-gray-400">{rightIcon}</div>}
+          {rightIcon && (
+            <div className="flex items-center" style={{ color: "var(--cd-text-muted)" }}>
+              {rightIcon}
+            </div>
+          )}
         </div>
 
-        {/* Error Message */}
-        {error && <span className="text-red-500 text-sm">{error}</span>}
+        {error && (
+          <span className="text-xs" style={{ color: "var(--cd-danger)" }}>
+            {error}
+          </span>
+        )}
       </div>
     );
   },

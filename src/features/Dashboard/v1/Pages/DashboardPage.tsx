@@ -21,12 +21,22 @@ export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardData();
 
   if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return (
+      <div
+        className="flex items-center justify-center min-h-screen"
+        style={{ color: "var(--cd-text-2)" }}
+      >
+        Loading...
+      </div>
+    );
   }
 
   if (error || !data) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-red-500">
+      <div
+        className="flex items-center justify-center min-h-screen"
+        style={{ color: "var(--cd-danger)" }}
+      >
         Error loading dashboard
       </div>
     );
@@ -38,10 +48,15 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
+            <h1
+              className="text-lg sm:text-xl md:text-2xl font-semibold"
+              style={{ color: "var(--cd-text)" }}
+            >
               Welcome back, {data.user.name.split(" ")[0]} 👋
             </h1>
-            <p className="text-sm text-gray-500">Here’s what’s happening today</p>
+            <p className="text-sm" style={{ color: "var(--cd-text-2)" }}>
+              Here's what's happening today
+            </p>
           </div>
         </div>
 
@@ -58,7 +73,6 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 items-start w-full">
           {/* LEFT */}
           <div className="xl:col-span-2 space-y-5 w-full">
-            {/* 🔥 FIXED SECTION (NO EMPTY SPACE NOW) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <TaskOverview tasks={data.tasks || []} />
               <RecentTasks tasks={data.tasks || []} />
