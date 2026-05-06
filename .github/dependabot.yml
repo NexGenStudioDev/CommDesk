@@ -1,0 +1,42 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    groups:
+      tauri-plugins:
+        patterns:
+          - "@tauri-apps/*"
+      react-ecosystem:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-*"
+          - "@types/react*"
+      dev-tooling:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+          - "prettier*"
+          - "typescript*"
+          - "vite*"
+          - "@vitejs/*"
+          - "tailwindcss*"
+          - "@tailwindcss/*"
+
+  - package-ecosystem: "cargo"
+    directory: "/src-tauri"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
