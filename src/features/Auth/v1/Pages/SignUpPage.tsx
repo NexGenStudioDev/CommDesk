@@ -1,95 +1,284 @@
-import React from "react";
-import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
-import Community_Info from "../Sections/Community_Info";
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { FormProvider } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 
-let Steps = [
-  {
-    id: 1,
-    title: "Info",
-    Element: <Community_Info />,
-  },
-  {
-    id: 2,
-    title: "Set Up Your Organization",
-    description: "Provide details about your organization to create a workspace.",
-  },
-  {
-    id: 3,
-    title: "Invite Team Members",
-    description: "Add your team members to collaborate and manage tasks together.",
-  },
-  {
-    id: 4,
-    title: "Start Managing Tasks",
-    description: "Create and assign tasks, track progress, and stay organized.",
-  },
-];
+import { useSignupForm, STEP_FIELDS, SignupFormData } from "../hooks/useSignupForm";
+import { submitCommunitySignup } from "../api/signup";
+import StepProgress from "../components/signup/StepProgress";
+import CommunityStep from "../components/signup/CommunityStep";
+import ContactStep from "../components/signup/ContactStep";
+import SocialStep from "../components/signup/SocialStep";
+import OwnerStep from "../components/signup/OwnerStep";
+import ReviewStep from "../components/signup/ReviewStep";
+import SuccessScreens from "../components/signup/SuccessScreens";
 
-const SignUpPage = () => {
-  let [currentStep, setCurrentStep] = React.useState(1);
+const TOTAL_STEPS = 5;
+
+const STEP_COMPONENTS: Record<number, () => React.ReactElement> = {
+  1: () => <CommunityStep />,
+  2: () => <ContactStep />,
+  3: () => <SocialStep />,
+  4: () => <OwnerStep />,
+  5: () => <ReviewStep />,
+};
+
+const CURRENT_YEAR = new Date().getFullYear();
+
+type PostState = "idle" | "email" | "pending";
+
+export default function SignUpPage() {
+  const methods = useSignupForm();
+  const { handleSubmit, trigger, setError, formState: { isSubmitting } } = methods;
+
+  const [step, setStep] = useState(1);
+  const [post, setPost] = useState<PostState>("idle");
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const goNext = async () => {
+    const fields = STEP_FIELDS[step] as (keyof SignupFormData)[];
+    const valid = fields.length ? await trigger(fields) : true;
+    if (valid) setStep((s) => Math.min(s + 1, TOTAL_STEPS));
+  };
+
+  const goBack = () => setStep((s) => Math.max(s - 1, 1));
+
+  const onSubmit = handleSubmit(async (data) => {
+    setServerError(null);
+    try {
+      const finalData = {
+        ...data,
+        contactPhone: `${data.phoneCode}${data.phoneNumber}`,
+      };
+      await submitCommunitySignup(finalData as any);
+      setPost("email");
+    } catch (err: unknown) {
+      const e = err as { status?: number; data?: { message?: string; errors?: Record<string, string> } };
+      
+      if (e.status === 422 && e.data?.errors) {
+        Object.entries(e.data.errors).forEach(([rawField, msg]) => {
+          const field = rawField.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
+          if (field in methods.getValues()) {
+            setError(field as keyof SignupFormData, { message: msg });
+          }
+        });
+      } else {
+        const errorMessages: Record<number, string> = {
+          400: "Invalid request. Please check your information and try again.",
+          401: "Session expired. Please refresh the page.",
+          403: "You don't have permission to perform this action.",
+          409: "A community with these details already exists.",
+          429: "Too many requests. Please wait a moment before trying again.",
+          500: "Server error. Our engineers are investigating. Please try again later.",
+        };
+
+        const message = e.data?.message || (e.status ? errorMessages[e.status] : null) || "Unable to connect to service. Please check your internet connection.";
+        setServerError(message);
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (post !== "email") return;
+    const id = setTimeout(() => setPost("pending"), 3500);
+    return () => clearTimeout(id);
+  }, [post]);
 
   return (
-    <div className="w-screen  flex inter ">
-      <div className="left w-1/2 bg-cover bg-center relative top-0  ">
-        <div className="absolute top-0 left-0 w-full z-50 flex items-center bg-transparent p-4">
-          <img src="/logoWithoutText.png" alt="Logo" className="w-16 h-16" />
-          <h1 className="text-2xl text-white ml-2 font-bold inter">CommDesk</h1>
+    <div className="w-screen h-screen flex inter overflow-hidden">
+      {/* Left panel */}
+      <div className="hidden lg:flex w-[45%] xl:w-[42%] relative flex-col overflow-hidden bg-indigo-950">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 blur-[120px] rounded-full" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/20 blur-[120px] rounded-full" />
         </div>
-        <img
-          src="https://img.freepik.com/premium-photo/lego-man-with-glasses-holding-tablet-with-picture-man-holding-tablet_644690-181393.jpg?semt=ais_hybrid&w=740&q=80"
-          alt="Login Icon"
-          className="w-full h-full mx-auto  object-cover absolute"
-        />
-      </div>
-      <div className="right w-1/2 flex flex-col items-center justify-between">
-        <div className="Steps w-[80%]  flex gap-[2vw] mt-[2vh]   ">
-          {Steps.map((step) => (
-            <div
-              key={step.id}
-              className="Step mb-6 flex items-center gap-4 text-gray-700"
-              onClick={() => setCurrentStep(step.id)}
-            >
-              <div
-                className={`Number ${currentStep === step.id ? "bg-[#4f46e5]" : ""}  ${currentStep !== step.id ? "border-2 border-gray-300" : ""} py-[1vh] px-[2vh] rounded-full text-[1vw] font-bold ${currentStep === step.id ? "text-white" : "text-gray-700"}`}
-              >
-                {step.id}
-              </div>
-              {currentStep === step.id && (
-                <div className="Details">
-                  <h3 className="text-lg font-semibold inter text-gray-700">{step.title}</h3>
-                </div>
-              )}
-              {Steps.length !== step.id && <div className="Line w-8 h-1 bg-gray-300"></div>}
+
+        {/* Abstract Illustration Overlay */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay">
+          <svg className="w-full h-full" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+
+        {/* Backdrop Gradient */}
+        <div className="absolute inset-0 bg-linear-to-br from-indigo-900/90 via-indigo-950/95 to-purple-900/90" />
+
+        <div className="relative z-10 flex flex-col h-full p-12 xl:p-16 justify-between">
+          {/* Logo Section */}
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+              <img src="/logoWithoutText.png" alt="Logo" className="w-8 h-8" />
             </div>
-          ))}
+            <span className="text-2xl font-bold text-white tracking-tight">CommDesk</span>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="space-y-10">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-400/20">
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+                <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-[0.2em]">
+                  The Future of Management
+                </span>
+              </div>
+              
+              <h1 className="text-4xl xl:text-5xl font-black text-white leading-[1.15]">
+                Empower Your <br />
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-300 via-purple-300 to-pink-300">
+                  Community
+                </span>
+              </h1>
+              
+              <p className="text-indigo-100/70 text-lg leading-relaxed max-w-md font-medium">
+                The all-in-one workspace designed to help you organize, grow, and manage your members seamlessly.
+              </p>
+            </div>
+
+            {/* Highlight Cards */}
+            <div className="space-y-4">
+              {[
+                { 
+                  icon: <ArrowRight className="w-5 h-5" />, 
+                  title: "12k+ Communities", 
+                  desc: "Trusted by leaders worldwide.",
+                  color: "from-blue-500/20 to-indigo-500/20"
+                },
+                { 
+                  icon: <ArrowRight className="w-5 h-5" />, 
+                  title: "Real-time Insights", 
+                  desc: "Detailed analytics at your fingertips.",
+                  color: "from-purple-500/20 to-pink-500/20"
+                },
+                { 
+                  icon: <ArrowRight className="w-5 h-5" />, 
+                  title: "Scalable Infrastructure", 
+                  desc: "Grows with your community's needs.",
+                  color: "from-indigo-500/20 to-purple-500/20"
+                }
+              ].map((card, i) => (
+                <div 
+                  key={i} 
+                  className={`flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 hover:-translate-y-1 group`}
+                >
+                  <div className={`p-2.5 rounded-xl bg-linear-to-br ${card.color} border border-white/10 text-white shadow-lg`}>
+                    {card.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-sm tracking-wide">{card.title}</h3>
+                    <p className="text-indigo-200/60 text-xs font-medium">{card.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer Info */}
+          <div className="flex items-center justify-between pt-8 border-t border-white/5">
+            <p className="text-indigo-400/60 text-xs font-medium">© {CURRENT_YEAR} CommDesk Inc.</p>
+            <div className="flex gap-4">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+              <span className="text-[10px] font-bold text-indigo-400/60 uppercase tracking-wider">System Operational</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right panel */}
+      <div className="flex-1 flex flex-col overflow-y-auto bg-white">
+        {/* Mobile logo */}
+        <div className="lg:hidden flex items-center gap-2 px-6 pt-6 pb-2">
+          <img src="/logoWithoutText.png" alt="Logo" className="w-8 h-8" />
+          <span className="font-bold text-gray-800">CommDesk</span>
         </div>
 
-        <div className="Navigation_Buttons w-[80%] flex justify-end gap-4 mb-6  flex-col items-center overflow-x-hidden relative">
-          {Steps[currentStep - 1].Element}
-          <button
-            onClick={() => setCurrentStep((prev) => Math.min(prev + 1, Steps.length))}
-            disabled={currentStep === Steps.length}
-            className="w-full bg-[#4f46e5] text-white py-2  hover:bg-blue-600 transition duration-200 inter  mt-[2vh] text-lg"
-          >
-            Continue to Step {currentStep + 1}
-          </button>
+        <div className="flex-1 flex items-start justify-center py-8 px-6">
+          <div className="w-full max-w-[480px]">
 
-          <p className="text-gray-500">Cancel registration</p>
-        </div>
+            {post !== "idle" ? (
+              <SuccessScreens stage={post} />
+            ) : (
+              <div className="space-y-8">
+                {/* Step progress */}
+                <StepProgress current={step} total={TOTAL_STEPS} />
 
-        <div className="w-[80%] mt-[5vh]  flex items-center justify-center py-[2vh]">
-          <p className="text-gray-500">
-            Already have an account?{" "}
-            <Link to="/" className="text-blue-500 hover:underline">
-              Login Here!
-            </Link>
-          </p>
+                {/* Form */}
+                <FormProvider {...methods}>
+                  <form onSubmit={onSubmit} noValidate>
+                    {/* Step content with slide animation */}
+                    <div
+                      key={step}
+                      className="animate-in fade-in slide-in-from-right-4 duration-300"
+                    >
+                      {STEP_COMPONENTS[step]()}
+                    </div>
+
+                    {/* Server error */}
+                    {serverError && (
+                      <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 inter">
+                        {serverError}
+                      </div>
+                    )}
+
+                    {/* Navigation */}
+                    <div className="flex items-center justify-between mt-8 gap-3">
+                      {step > 1 ? (
+                        <button
+                          type="button"
+                          onClick={goBack}
+                          className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors inter"
+                        >
+                          <ArrowLeft className="w-4 h-4" /> Back
+                        </button>
+                      ) : (
+                        <div />
+                      )}
+
+                      {step < TOTAL_STEPS ? (
+                        <button
+                          type="button"
+                          onClick={goNext}
+                          className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:scale-[0.98] transition-all inter shadow-sm shadow-indigo-200"
+                        >
+                          Continue <ArrowRight className="w-4 h-4" />
+                        </button>
+                      ) : (
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] transition-all inter shadow-sm shadow-indigo-200"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Submitting…
+                            </>
+                          ) : (
+                            "Submit Application"
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                </FormProvider>
+
+                {/* Footer */}
+                <p className="text-center text-sm text-gray-500 inter">
+                  Already have an account?{" "}
+                  <Link to="/" className="text-indigo-600 font-semibold hover:underline">
+                    Sign in
+                  </Link>
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default SignUpPage;
+}

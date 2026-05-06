@@ -18,7 +18,7 @@ const MemberHeader = () => {
       <div className="w-1/3 h-full flex justify-end items-center gap-2 px-5">
         <Button
           text="Add Member"
-          onClick={() => navigate("/add-member")}
+          onClick={() => navigate("/org//add-member")}
           backgroundColor="#4f46e4"
           icon={<IoPersonAdd />}
         />

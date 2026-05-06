@@ -37,7 +37,10 @@ An evolving desktop platform foundation to manage communities, events, hackathon
 - [Code of Conduct](#code-of-conduct)
 - [License](#license)
 
----
+
+
+
+## Nexus Spring of Code
 
 ## About
 
