@@ -16,11 +16,7 @@ export class ProjectApiError extends Error {
   code: "NOT_FOUND" | "UNAUTHORIZED" | "CONFLICT" | "VALIDATION" | "DELETED";
   details?: string[];
 
-  constructor(
-    code: ProjectApiError["code"],
-    message: string,
-    details?: string[],
-  ) {
+  constructor(code: ProjectApiError["code"], message: string, details?: string[]) {
     super(message);
     this.code = code;
     this.details = details;
@@ -85,6 +81,17 @@ const defaultViewerByRole: Record<UserRole, string> = {
   admin: "admin-01",
 };
 
+function normalizeProjectLookupId(projectId: string) {
+  return decodeURIComponent(projectId)
+    .trim()
+    .replace(/^\/+|\/+$/g, "")
+    .toLowerCase();
+}
+
+function isUserRole(value: string | null): value is UserRole {
+  return value === "participant" || value === "judge" || value === "organizer" || value === "admin";
+}
+
 function isProjectInReviewLifecycle(project: ProjectRecord) {
   return project.status === "submitted" || project.status === "under_review";
 }
@@ -118,7 +125,12 @@ const projectStore = new Map<string, ProjectRecord>([
       status: "draft",
       teamName: "Nebula Crew",
       members: [
-        { id: "participant-owner", name: "Aarav Sharma", role: "Frontend Engineer", avatarLabel: "AS" },
+        {
+          id: "participant-owner",
+          name: "Aarav Sharma",
+          role: "Frontend Engineer",
+          avatarLabel: "AS",
+        },
         { id: "member-02", name: "Riya Mehta", role: "ML Engineer", avatarLabel: "RM" },
         { id: "member-03", name: "Dev Khanna", role: "Product Designer", avatarLabel: "DK" },
       ],
@@ -245,9 +257,20 @@ function totalScore(input: JudgeScoreInput) {
 }
 
 function ensureProject(projectId: string) {
-  const project = projectStore.get(projectId);
+  const normalizedProjectId = normalizeProjectLookupId(projectId);
+  const project =
+    projectStore.get(projectId) ??
+    projectStore.get(normalizedProjectId) ??
+    Array.from(projectStore.values()).find(
+      (candidate) => normalizeProjectLookupId(candidate.id) === normalizedProjectId,
+    );
 
   if (!project) {
+    console.error("[Projects] Project lookup failed.", {
+      requestedProjectId: projectId,
+      normalizedProjectId,
+      availableProjectIds: Array.from(projectStore.keys()),
+    });
     throw new ProjectApiError("NOT_FOUND", "Project not found.");
   }
 
@@ -270,14 +293,14 @@ export async function fetchProject(projectId: string) {
 export async function getMockViewer(searchParams: URLSearchParams) {
   await wait(150);
 
-  const requestedRole = searchParams.get("role") as UserRole | null;
+  const requestedRole = searchParams.get("role");
   const requestedViewer = searchParams.get("viewer");
 
   if (requestedViewer && viewerDirectory[requestedViewer]) {
     return structuredClone(viewerDirectory[requestedViewer]);
   }
 
-  if (requestedRole && defaultViewerByRole[requestedRole]) {
+  if (isUserRole(requestedRole)) {
     return structuredClone(viewerDirectory[defaultViewerByRole[requestedRole]]);
   }
 
@@ -294,10 +317,7 @@ export async function updateProjectDraft(
   const project = ensureProject(projectId);
 
   if (project.ownerId !== actor.userId || project.status !== "draft") {
-    throw new ProjectApiError(
-      "UNAUTHORIZED",
-      "Only the project owner can edit a draft project.",
-    );
+    throw new ProjectApiError("UNAUTHORIZED", "Only the project owner can edit a draft project.");
   }
 
   const issues = validateProject(payload);
@@ -324,10 +344,7 @@ export async function submitProject(projectId: string, actor: ViewerContext) {
   const project = ensureProject(projectId);
 
   if (project.ownerId !== actor.userId || project.status !== "draft") {
-    throw new ProjectApiError(
-      "UNAUTHORIZED",
-      "Only the project owner can submit a draft project.",
-    );
+    throw new ProjectApiError("UNAUTHORIZED", "Only the project owner can submit a draft project.");
   }
 
   const issues = validateProject({
@@ -383,10 +400,7 @@ export async function submitJudgeScore(
   }
 
   if (new Date(project.judgingDeadline).getTime() < Date.now()) {
-    throw new ProjectApiError(
-      "CONFLICT",
-      "Judging is closed. Scores can no longer be edited.",
-    );
+    throw new ProjectApiError("CONFLICT", "Judging is closed. Scores can no longer be edited.");
   }
 
   const values = [
@@ -398,10 +412,7 @@ export async function submitJudgeScore(
   const invalidValue = values.some((value) => value < 0 || value > 10 || Number.isNaN(value));
 
   if (invalidValue) {
-    throw new ProjectApiError(
-      "VALIDATION",
-      "Each score must be between 0 and 10.",
-    );
+    throw new ProjectApiError("VALIDATION", "Each score must be between 0 and 10.");
   }
 
   if (!payload.feedback.trim()) {
@@ -516,8 +527,7 @@ export function getScoreSummary(project: ProjectRecord): ScoreSummary {
   }
 
   const totals = project.judgeScores.map((score) => totalScore(score));
-  const averageScore =
-    totals.reduce((sum, score) => sum + score, 0) / totals.length;
+  const averageScore = totals.reduce((sum, score) => sum + score, 0) / totals.length;
 
   return {
     averageScore,

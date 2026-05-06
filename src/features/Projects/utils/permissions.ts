@@ -29,7 +29,7 @@ export function getProjectPermissions(
     };
   }
 
-  const isOwner = project.ownerId === viewer.userId;
+  const isOwner = project.ownerId === viewer.userId || viewer.ownedProjectIds.includes(project.id);
   const isAssignedJudge =
     viewer.role === "judge" &&
     project.assignedJudgeIds.includes(viewer.userId) &&
@@ -38,8 +38,7 @@ export function getProjectPermissions(
     viewer.role === "organizer" && viewer.communityIds.includes(project.communityId);
   const isAdmin = viewer.role === "admin";
 
-  const canView =
-    isOwner || isAssignedJudge || isCommunityOrganizer || isAdmin;
+  const canView = isOwner || isAssignedJudge || isCommunityOrganizer || isAdmin;
 
   if (!canView) {
     const denialReason =
@@ -70,7 +69,9 @@ export function getProjectPermissions(
     canDeleteDraft: isOwner && project.status === "draft",
     canSubmit: isOwner && project.status === "draft",
     canScore: isAssignedJudge && reviewLifecycleActive && !deadlinePassed,
-    canEditScore: Boolean(isAssignedJudge && existingScore && reviewLifecycleActive && !deadlinePassed),
+    canEditScore: Boolean(
+      isAssignedJudge && existingScore && reviewLifecycleActive && !deadlinePassed,
+    ),
     canModerate: (isCommunityOrganizer || isAdmin) && reviewLifecycleActive,
     canDeleteAny: isCommunityOrganizer || isAdmin,
   };

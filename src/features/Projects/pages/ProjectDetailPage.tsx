@@ -1,6 +1,14 @@
 import { AlertTriangle, RefreshCcw, ShieldAlert } from "lucide-react";
-import { startTransition, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+import { matchPath, useLocation, useParams, useSearchParams } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import {
@@ -32,14 +40,7 @@ import { Button } from "@/shadcnComponet/ui/button";
 
 type PageState = "loading" | "ready" | "error" | "not-found" | "unauthorized" | "deleted";
 
-type PendingAction =
-  | "save"
-  | "submit"
-  | "score"
-  | "approve"
-  | "reject"
-  | "delete"
-  | null;
+type PendingAction = "save" | "submit" | "score" | "approve" | "reject" | "delete" | null;
 
 function StatePanel({
   title,
@@ -89,6 +90,7 @@ function LoadingSkeleton() {
 
 export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
 
   const [pageState, setPageState] = useState<PageState>("loading");
@@ -99,21 +101,39 @@ export default function ProjectDetailPage() {
   const [flashMessage, setFlashMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const loadSequenceRef = useRef(0);
+
+  const searchParamString = searchParams.toString();
+  const resolvedProjectId = useMemo(() => {
+    const routeMatch = matchPath("/projects/:projectId", location.pathname);
+    return (projectId ?? routeMatch?.params.projectId ?? "").trim();
+  }, [location.pathname, projectId]);
 
   const loadProject = useCallback(async () => {
-    if (!projectId) {
+    const requestId = ++loadSequenceRef.current;
+
+    if (!resolvedProjectId) {
+      console.error("[Projects] Missing project route parameter.", {
+        pathname: location.pathname,
+        params: { projectId },
+      });
       setPageState("not-found");
       return;
     }
 
     setPageState("loading");
     setErrorMessage(null);
+    setFlashMessage(null);
 
     try {
       const [projectResponse, viewerResponse] = await Promise.all([
-        fetchProject(projectId),
-        getMockViewer(searchParams),
+        fetchProject(resolvedProjectId),
+        getMockViewer(new URLSearchParams(searchParamString)),
       ]);
+
+      if (requestId !== loadSequenceRef.current) {
+        return;
+      }
 
       const nextPermissions = getProjectPermissions(projectResponse, viewerResponse);
 
@@ -126,6 +146,10 @@ export default function ProjectDetailPage() {
         setErrorMessage(nextPermissions.denialReason ?? null);
       });
     } catch (error) {
+      if (requestId !== loadSequenceRef.current) {
+        return;
+      }
+
       if (error instanceof ProjectApiError) {
         if (error.code === "DELETED") {
           setPageState("deleted");
@@ -138,10 +162,15 @@ export default function ProjectDetailPage() {
         }
       }
 
+      console.error("[Projects] Unexpected project load failure.", {
+        projectId: resolvedProjectId,
+        roleQuery: searchParamString,
+        error,
+      });
       setPageState("error");
       setErrorMessage("We could not load the project right now.");
     }
-  }, [projectId, searchParams]);
+  }, [location.pathname, projectId, resolvedProjectId, searchParamString]);
 
   useEffect(() => {
     void loadProject();
@@ -256,8 +285,7 @@ export default function ProjectDetailPage() {
       <StatePanel
         title="Access denied"
         description={
-          errorMessage ??
-          "Your current role does not have permission to view this project."
+          errorMessage ?? "Your current role does not have permission to view this project."
         }
         icon={ShieldAlert}
       />
@@ -348,7 +376,9 @@ export default function ProjectDetailPage() {
                 isSubmitting={pendingAction === "score"}
                 onSubmit={async (values: JudgeScoreInput) => {
                   if (!permissions.canScore) {
-                    setErrorMessage("Scoring is only allowed when the project is submitted for review.");
+                    setErrorMessage(
+                      "Scoring is only allowed when the project is submitted for review.",
+                    );
                     setValidationErrors([]);
                     return;
                   }
@@ -360,29 +390,38 @@ export default function ProjectDetailPage() {
               />
             )}
 
-            {(viewer.role === "organizer" || viewer.role === "admin") && permissions.canModerate && (
-              <ModerationPanel
-                project={project}
-                scoreSummary={scoreSummary}
-                isWorking={pendingAction === "approve" || pendingAction === "reject" || pendingAction === "delete"}
-                onApprove={() =>
-                  void runAction("approve", () => moderateProject(project.id, viewer, "approve"), {
-                    successMessage: "Project approved.",
-                  })
-                }
-                onReject={() =>
-                  void runAction("reject", () => moderateProject(project.id, viewer, "reject"), {
-                    successMessage: "Project rejected.",
-                  })
-                }
-                onDelete={() =>
-                  void runAction("delete", () => deleteProject(project.id, viewer), {
-                    deletedState: true,
-                    successMessage: "Project deleted successfully.",
-                  })
-                }
-              />
-            )}
+            {(viewer.role === "organizer" || viewer.role === "admin") &&
+              permissions.canModerate && (
+                <ModerationPanel
+                  project={project}
+                  scoreSummary={scoreSummary}
+                  isWorking={
+                    pendingAction === "approve" ||
+                    pendingAction === "reject" ||
+                    pendingAction === "delete"
+                  }
+                  onApprove={() =>
+                    void runAction(
+                      "approve",
+                      () => moderateProject(project.id, viewer, "approve"),
+                      {
+                        successMessage: "Project approved.",
+                      },
+                    )
+                  }
+                  onReject={() =>
+                    void runAction("reject", () => moderateProject(project.id, viewer, "reject"), {
+                      successMessage: "Project rejected.",
+                    })
+                  }
+                  onDelete={() =>
+                    void runAction("delete", () => deleteProject(project.id, viewer), {
+                      deletedState: true,
+                      successMessage: "Project deleted successfully.",
+                    })
+                  }
+                />
+              )}
           </div>
         </div>
       </div>
