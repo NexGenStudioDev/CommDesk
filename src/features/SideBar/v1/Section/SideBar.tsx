@@ -2,6 +2,7 @@ import { RiContactsBookFill } from "react-icons/ri";
 import { getTheme } from "../../../../config/them.config";
 import SideBarLink from "../Components/SideBarLink";
 import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { dashboardData } from "@/features/Dashboard/mock/dashboardData";
 
 const SideBar = () => {
   let theme = getTheme("light");
@@ -71,7 +72,7 @@ const SideBar = () => {
                   fontFamily: theme.fontFamily.primary,
                 }}
               >
-                John Doe
+                {dashboardData.user.name}
               </p>
               <p
                 className="text-xs truncate font-black"
@@ -80,7 +81,7 @@ const SideBar = () => {
                   fontFamily: theme.fontFamily.primary,
                 }}
               >
-                Admin
+                {dashboardData.user.role}
               </p>
             </div>
           </div>
