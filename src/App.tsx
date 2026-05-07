@@ -32,10 +32,6 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
-        <Route path="/projects/:projectId" element={<LoginUserTemplate />}>
-          <Route index element={<ProjectDetailPage />} />
-        </Route>
-
         {/* Protected / Org Routes */}
         <Route path="/org" element={<LoginUserTemplate />}>
           {/* Protected Dashboard */}
@@ -53,6 +49,15 @@ function App() {
             element={
               <ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}>
                 <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="projects/:id"
+            element={
+              <ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}>
+                <ProjectDetailPage />
               </ProtectedRoute>
             }
           />

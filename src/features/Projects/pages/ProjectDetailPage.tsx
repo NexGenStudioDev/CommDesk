@@ -108,7 +108,7 @@ function LoadingSkeleton() {
 }
 
 export default function ProjectDetailPage() {
-  const { projectId } = useParams<{ projectId: string }>();
+  const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
@@ -124,9 +124,9 @@ export default function ProjectDetailPage() {
 
   const searchParamString = searchParams.toString();
   const resolvedProjectId = useMemo(() => {
-    const routeMatch = matchPath("/projects/:projectId", location.pathname);
-    return (projectId ?? routeMatch?.params.projectId ?? "").trim();
-  }, [location.pathname, projectId]);
+    const routeMatch = matchPath("/org/projects/:id", location.pathname);
+    return (id ?? routeMatch?.params.id ?? "").trim();
+  }, [location.pathname, id]);
 
   const loadProject = useCallback(async () => {
     const requestId = ++loadSequenceRef.current;
