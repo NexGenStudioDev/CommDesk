@@ -35,7 +35,7 @@ export default function CommentSection({ comments, onAddComment }: Props) {
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-semibold text-gray-700">{c.authorName}</span>
                 <span className="text-xs text-gray-400">
-                  {new Date(c.createdAt).toLocaleDateString("en-IN", {
+                  {new Date(c.createdAt).toLocaleDateString(undefined, {
                     day: "numeric",
                     month: "short",
                   })}
