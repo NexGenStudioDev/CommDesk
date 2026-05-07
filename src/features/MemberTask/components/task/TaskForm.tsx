@@ -27,7 +27,7 @@ export default function TaskForm({ initial, onSubmit, onCancel, isSubmitting }: 
         eventId: initial.eventId,
         assignedTo: initial.assignedTo,
         deadline: initial.deadline,
-        tags: initial.tags?.join(", "),
+        tags: initial.tags?.join(", ") ?? "",
       });
     }
   }, [initial, reset]);
