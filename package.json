@@ -12,8 +12,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write --ignore-unknown",
     "format:check": "prettier . --check --ignore-unknown",
-    "audit": "npm audit --omit=dev --audit-level=high",
-    "audit:all": "npm audit --audit-level=moderate"
+    "audit": "pnpm audit --prod --audit-level high",
+    "audit:all": "pnpm audit --audit-level moderate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
