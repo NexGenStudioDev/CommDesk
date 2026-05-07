@@ -1,6 +1,6 @@
 import { RiContactsBookFill } from "react-icons/ri";
 import { type IconType } from "react-icons";
-import { MdDashboard, MdEvent, MdGroup } from "react-icons/md";
+import { MdDashboard, MdEvent, MdGroup, MdAssignment } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 import { getTheme } from "../../../../config/them.config";
 
@@ -29,6 +29,12 @@ const navItems: NavItem[] = [
     text: "Events",
     link: "/events",
     isActive: (pathname) => pathname.startsWith("/events") || pathname.startsWith("/create-event"),
+  },
+  {
+    icon: MdAssignment,
+    text: "Tasks",
+    link: "/org/tasks",
+    isActive: (pathname) => pathname.startsWith("/org/tasks"),
   },
   {
     icon: RiContactsBookFill,

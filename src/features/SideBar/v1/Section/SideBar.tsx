@@ -1,11 +1,13 @@
 import { RiContactsBookFill } from "react-icons/ri";
 import { getTheme } from "../../../../config/them.config";
 import SideBarLink from "../Components/SideBarLink";
-import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork, MdAssignment, MdAddTask } from "react-icons/md";
 import { dashboardData } from "@/features/Dashboard/mock/dashboardData";
+import { usePermissions } from "@/features/MemberTask/context/PermissionContext";
 
 const SideBar = () => {
   let theme = getTheme("light");
+  const { hasPermission } = usePermissions();
 
   return (
     <div
@@ -42,6 +44,10 @@ const SideBar = () => {
         <SideBarLink icon={<MdWork />} text="Projects" />
         <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
+        <SideBarLink icon={<MdAssignment />} text="Tasks" link="/org/tasks" />
+        {hasPermission("CREATE_TASK") && (
+          <SideBarLink icon={<MdAddTask />} text="Create Task" link="/org/tasks/create" />
+        )}
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
 
         <div

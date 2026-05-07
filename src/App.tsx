@@ -12,6 +12,11 @@ import Contact from "./features/Contact_And_Support/v1/Pages/Contact";
 import ViewEvent from "./features/Events/v1/Pages/ViewEvent";
 import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
+import TaskListPage from "./features/MemberTask/pages/TaskListPage";
+import TaskDetailPage from "./features/MemberTask/pages/TaskDetailPage";
+import CreateTaskPage from "./features/MemberTask/pages/CreateTaskPage";
+import EditTaskPage from "./features/MemberTask/pages/EditTaskPage";
+import { PermissionProvider } from "./features/MemberTask/context/PermissionContext";
 
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -25,6 +30,7 @@ function App() {
   const user = dashboardData.user; // mock user
 
   return (
+    <PermissionProvider>
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
@@ -59,6 +65,12 @@ function App() {
           <Route path="create-event" element={<CreateNewEvent />} />
           <Route path="contact" element={<Contact />} />
 
+          {/* Task System */}
+          <Route path="tasks" element={<TaskListPage />} />
+          <Route path="tasks/create" element={<CreateTaskPage />} />
+          <Route path="tasks/:taskId" element={<TaskDetailPage />} />
+          <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
+
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
 
@@ -72,6 +84,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
+    </PermissionProvider>
   );
 }
 
