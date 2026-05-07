@@ -1,5 +1,6 @@
 import { Performance } from "../types/dashboard";
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useTheme } from "@/theme";
 
 interface Props {
   data: Performance;
@@ -16,19 +17,23 @@ const trendData = [
 ];
 
 export default function PerformanceStats({ data }: Props) {
+  const { theme } = useTheme();
+
+  const metrics = [
+    { label: "Completion Rate", value: `${data.completionRate}%`, color: theme.success.default },
+    { label: "Avg Completion", value: data.avgTime, color: theme.primary.default },
+    { label: "Streak", value: `${data.streak} days 🔥`, color: theme.warning.default },
+    { label: "Weekly Done", value: data.weeklyCompleted, color: theme.accent.default },
+  ];
+
   return (
     <div className="cd-card">
       <h3 className="cd-section-title">Performance Overview</h3>
 
       <div className="grid grid-cols-2 gap-3 mb-5">
-        {[
-          { label: "Completion Rate", value: `${data.completionRate}%`, color: "var(--cd-success)" },
-          { label: "Avg Completion", value: data.avgTime, color: "var(--cd-primary)" },
-          { label: "Streak", value: `${data.streak} days 🔥`, color: "var(--cd-warning)" },
-          { label: "Weekly Done", value: data.weeklyCompleted, color: "var(--cd-accent)" },
-        ].map((m) => (
+        {metrics.map((m) => (
           <div key={m.label} className="cd-metric">
-            <p className="text-xs" style={{ color: "var(--cd-text-2)" }}>
+            <p className="text-xs" style={{ color: theme.text.secondary }}>
               {m.label}
             </p>
             <p className="text-xl font-semibold" style={{ color: m.color }}>
@@ -41,21 +46,21 @@ export default function PerformanceStats({ data }: Props) {
       <div className="h-40">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={trendData}>
-            <XAxis dataKey="day" fontSize={11} stroke="var(--cd-text-muted)" />
+            <XAxis dataKey="day" fontSize={11} stroke={theme.text.muted} />
             <Tooltip
               contentStyle={{
-                backgroundColor: "var(--cd-surface)",
-                border: "1px solid var(--cd-border)",
+                backgroundColor: theme.bg.surface,
+                border: `1px solid ${theme.border.default}`,
                 borderRadius: "0.5rem",
-                color: "var(--cd-text)",
+                color: theme.text.primary,
               }}
             />
             <Line
               type="monotone"
               dataKey="tasks"
-              stroke="var(--cd-primary)"
+              stroke={theme.primary.default}
               strokeWidth={2.5}
-              dot={{ r: 3, fill: "var(--cd-primary)" }}
+              dot={{ r: 3, fill: theme.primary.default }}
             />
           </LineChart>
         </ResponsiveContainer>

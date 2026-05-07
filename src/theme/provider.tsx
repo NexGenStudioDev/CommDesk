@@ -1,15 +1,25 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { type ThemeMode, themes, type Theme } from "./theme.config";
+import { type ThemeMode, theme, type ThemeTokens } from "./theme.config";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Context shape
+// ─────────────────────────────────────────────────────────────────────────────
 interface ThemeContextValue {
+  /** Current active mode: "light" | "dark" */
   mode: ThemeMode;
-  theme: Theme;
+  /** Typed design tokens — use these in components instead of raw var() strings */
+  theme: ThemeTokens;
+  /** Toggle between light and dark */
   toggle: () => void;
+  /** Explicitly set a mode */
   setMode: (mode: ThemeMode) => void;
 }
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Persistence key
+// ─────────────────────────────────────────────────────────────────────────────
 const STORAGE_KEY = "commdesk-theme";
 
 function resolveInitialMode(): ThemeMode {
@@ -20,13 +30,16 @@ function resolveInitialMode(): ThemeMode {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Provider
+// ─────────────────────────────────────────────────────────────────────────────
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>(resolveInitialMode);
 
+  // Apply .dark class to <html> so CSS variables resolve correctly
   const applyMode = useCallback((m: ThemeMode) => {
-    const root = document.documentElement;
-    root.classList.toggle("dark", m === "dark");
-    root.setAttribute("data-theme", m);
+    document.documentElement.classList.toggle("dark", m === "dark");
+    document.documentElement.setAttribute("data-theme", m);
   }, []);
 
   useEffect(() => {
@@ -49,7 +62,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [mode, setMode]);
 
   return (
-    <ThemeContext.Provider value={{ mode, theme: themes[mode], toggle, setMode }}>
+    // `theme` is the same object for both modes — CSS variables do the switching
+    <ThemeContext.Provider value={{ mode, theme, toggle, setMode }}>
       {children}
     </ThemeContext.Provider>
   );

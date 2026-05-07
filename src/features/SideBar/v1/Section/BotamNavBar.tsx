@@ -2,6 +2,7 @@ import { RiContactsBookFill } from "react-icons/ri";
 import { type IconType } from "react-icons";
 import { MdDashboard, MdEvent, MdGroup } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "@/theme";
 
 type NavItem = {
   icon: IconType;
@@ -38,6 +39,7 @@ const navItems: NavItem[] = [
 ];
 
 const BotamNavBar = () => {
+  const { theme } = useTheme();
   const { pathname } = useLocation();
 
   return (
@@ -47,17 +49,13 @@ const BotamNavBar = () => {
       aria-label="Mobile navigation"
     >
       <div
-        className="cd-glass relative mx-auto flex max-w-md items-center gap-2 overflow-hidden rounded-[30px] px-3 py-3"
-        style={{ boxShadow: "0 24px 60px -28px var(--cd-shadow-md)" }}
+        className="relative mx-auto flex max-w-md items-center gap-2 overflow-hidden rounded-[30px] px-3 py-3 backdrop-blur-xl"
+        style={{
+          backgroundColor: theme.bg.surface,
+          border: `1px solid ${theme.border.default}`,
+          boxShadow: `0 24px 60px -28px ${theme.shadow.md}`,
+        }}
       >
-        <div
-          className="pointer-events-none absolute inset-x-10 top-0 h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, var(--cd-primary-subtle), transparent)",
-          }}
-        />
-
         {navItems.map((item) => {
           const active = item.isActive(pathname);
           const Icon = item.icon;
@@ -70,11 +68,10 @@ const BotamNavBar = () => {
               className="group relative flex min-w-0 flex-1 items-center justify-center"
             >
               <div
-                className="absolute inset-0 rounded-[24px] border transition-all duration-200"
+                className="absolute inset-0 rounded-[24px] transition-all duration-200"
                 style={{
                   opacity: active ? 1 : 0,
-                  borderColor: "var(--cd-primary-subtle)",
-                  backgroundColor: "var(--cd-primary-subtle)",
+                  backgroundColor: theme.primary.subtle,
                 }}
               />
 
@@ -82,10 +79,10 @@ const BotamNavBar = () => {
                 <div
                   className="flex h-10 w-10 items-center justify-center rounded-[16px] border text-xl transition-all duration-200"
                   style={{
-                    color: active ? "var(--cd-primary)" : "var(--cd-text-2)",
-                    borderColor: active ? "var(--cd-primary-subtle)" : "var(--cd-border)",
-                    backgroundColor: active ? "var(--cd-surface)" : "transparent",
-                    boxShadow: active ? "0 4px 12px var(--cd-shadow)" : "none",
+                    color: active ? theme.primary.default : theme.text.secondary,
+                    borderColor: active ? theme.primary.subtle : theme.border.default,
+                    backgroundColor: active ? theme.bg.surface : "transparent",
+                    boxShadow: active ? `0 4px 12px ${theme.shadow.sm}` : "none",
                   }}
                 >
                   <Icon />
@@ -93,9 +90,7 @@ const BotamNavBar = () => {
 
                 <span
                   className="max-w-full truncate text-[0.7rem] font-semibold tracking-wide transition-colors duration-200"
-                  style={{
-                    color: active ? "var(--cd-primary-text)" : "var(--cd-text-2)",
-                  }}
+                  style={{ color: active ? theme.primary.text : theme.text.secondary }}
                 >
                   {item.text}
                 </span>

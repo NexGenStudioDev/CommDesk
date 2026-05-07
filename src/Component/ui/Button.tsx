@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "@/theme";
 
 type ButtonProps = {
   text: string;
@@ -11,7 +12,16 @@ type ButtonProps = {
   className?: string;
 };
 
-const Button = ({ text, icon, onClick, disabled, width, height, variant = "primary", className = "" }: ButtonProps) => {
+const Button = ({
+  text,
+  icon,
+  onClick,
+  disabled,
+  width,
+  height,
+  variant = "primary",
+  className = "",
+}: ButtonProps) => {
   const variantClass = disabled
     ? "bg-[var(--cd-surface-2)] text-[var(--cd-text-muted)] cursor-not-allowed"
     : variant === "secondary"

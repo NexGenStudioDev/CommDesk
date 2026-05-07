@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "@/theme";
 
 type TextAreaProps = {
   label?: string;
@@ -17,13 +18,15 @@ type TextAreaProps = {
 };
 
 export const TextArea = (props: TextAreaProps) => {
+  const { theme } = useTheme();
+
   return (
     <div className={`flex flex-col gap-1.5 mb-4 ${props.className || ""}`}>
       {props.label && (
         <label
           className="text-xs font-semibold uppercase tracking-wider"
           htmlFor={props.name}
-          style={{ color: "var(--cd-text-2)" }}
+          style={{ color: theme.text.secondary }}
         >
           {props.label}
         </label>
@@ -43,14 +46,14 @@ export const TextArea = (props: TextAreaProps) => {
         maxLength={props.maxLength}
         className="rounded-lg p-3 text-sm resize-y outline-none border transition-all duration-150"
         style={{
-          backgroundColor: "var(--cd-surface)",
-          borderColor: props.error ? "var(--cd-danger)" : "var(--cd-border)",
-          color: "var(--cd-text)",
+          backgroundColor: theme.bg.surface,
+          borderColor: props.error ? theme.danger.default : theme.border.default,
+          color: theme.text.primary,
         }}
       />
 
       {props.error && (
-        <span className="text-xs" style={{ color: "var(--cd-danger)" }}>
+        <span className="text-xs" style={{ color: theme.danger.default }}>
           {props.error}
         </span>
       )}

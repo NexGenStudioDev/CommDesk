@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { useTheme } from "@/theme";
 
 type InputType = "text" | "email" | "password" | "number" | "url" | "tel" | "time";
 
@@ -39,13 +40,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const { theme } = useTheme();
+
     return (
       <div className={`flex flex-col gap-1.5 mb-4 ${className}`}>
         {label && (
           <label
             htmlFor={name}
             className="text-xs font-semibold uppercase tracking-wider"
-            style={{ color: "var(--cd-text-2)" }}
+            style={{ color: theme.text.secondary }}
           >
             {label}
           </label>
@@ -54,13 +57,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div
           className="flex items-center gap-2 rounded-lg px-3 py-2 border transition-all duration-150"
           style={{
-            backgroundColor: "var(--cd-surface)",
-            borderColor: error ? "var(--cd-danger)" : "var(--cd-border)",
-            boxShadow: error ? "0 0 0 3px var(--cd-danger-subtle)" : undefined,
+            backgroundColor: theme.bg.surface,
+            borderColor: error ? theme.danger.default : theme.border.default,
+            boxShadow: error ? `0 0 0 3px ${theme.danger.subtle}` : undefined,
           }}
         >
           {leftIcon && (
-            <div className="flex items-center" style={{ color: "var(--cd-text-muted)" }}>
+            <div className="flex items-center" style={{ color: theme.text.muted }}>
               {leftIcon}
             </div>
           )}
@@ -77,18 +80,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             onKeyDown={onKeyDown}
             onChange={(e) => onChange?.(name, e.target.value)}
             className={`flex-1 bg-transparent outline-none text-sm ${inputClassName}`}
-            style={{ color: "var(--cd-text)" }}
+            style={{ color: theme.text.primary }}
           />
 
           {rightIcon && (
-            <div className="flex items-center" style={{ color: "var(--cd-text-muted)" }}>
+            <div className="flex items-center" style={{ color: theme.text.muted }}>
               {rightIcon}
             </div>
           )}
         </div>
 
         {error && (
-          <span className="text-xs" style={{ color: "var(--cd-danger)" }}>
+          <span className="text-xs" style={{ color: theme.danger.default }}>
             {error}
           </span>
         )}

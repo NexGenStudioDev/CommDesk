@@ -1,31 +1,22 @@
 import { CheckCircle, MessageSquare, Bell } from "lucide-react";
 import { ActivityItem } from "@/features/Dashboard/types/dashboard";
+import { useTheme } from "@/theme";
 
 interface Props {
   activities: ActivityItem[];
 }
 
 export default function ActivityFeed({ activities }: Props) {
+  const { theme } = useTheme();
+
   const getConfig = (type: ActivityItem["type"]) => {
     switch (type) {
       case "completed":
-        return {
-          icon: <CheckCircle size={15} />,
-          color: "var(--cd-success)",
-          subtle: "var(--cd-success-subtle)",
-        };
+        return { icon: <CheckCircle size={15} />, color: theme.success.default, subtle: theme.success.subtle };
       case "comment":
-        return {
-          icon: <MessageSquare size={15} />,
-          color: "var(--cd-warning)",
-          subtle: "var(--cd-warning-subtle)",
-        };
+        return { icon: <MessageSquare size={15} />, color: theme.warning.default, subtle: theme.warning.subtle };
       default:
-        return {
-          icon: <Bell size={15} />,
-          color: "var(--cd-primary)",
-          subtle: "var(--cd-primary-subtle)",
-        };
+        return { icon: <Bell size={15} />, color: theme.primary.default, subtle: theme.primary.subtle };
     }
   };
 
@@ -40,10 +31,7 @@ export default function ActivityFeed({ activities }: Props) {
             <div
               key={activity.id}
               className="flex items-start gap-3 p-3 rounded-xl border transition-all duration-200 hover:-translate-y-[1px]"
-              style={{
-                backgroundColor: cfg.subtle,
-                borderColor: "var(--cd-border-subtle)",
-              }}
+              style={{ backgroundColor: cfg.subtle, borderColor: theme.border.subtle }}
             >
               <div
                 className="p-1.5 rounded-lg flex items-center justify-center shrink-0"
@@ -52,10 +40,10 @@ export default function ActivityFeed({ activities }: Props) {
                 {cfg.icon}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium break-words" style={{ color: "var(--cd-text)" }}>
+                <p className="text-sm font-medium break-words" style={{ color: theme.text.primary }}>
                   {activity.text}
                 </p>
-                <p className="text-xs mt-0.5" style={{ color: "var(--cd-text-muted)" }}>
+                <p className="text-xs mt-0.5" style={{ color: theme.text.muted }}>
                   {activity.time}
                 </p>
               </div>
@@ -64,7 +52,7 @@ export default function ActivityFeed({ activities }: Props) {
         })}
 
         {activities.length === 0 && (
-          <p className="text-sm text-center py-4" style={{ color: "var(--cd-text-muted)" }}>
+          <p className="text-sm text-center py-4" style={{ color: theme.text.muted }}>
             No recent activity
           </p>
         )}

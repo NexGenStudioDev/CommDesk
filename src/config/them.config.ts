@@ -1,3 +1,3 @@
-// Re-exports from the new centralized theme system.
-// Kept for backward compatibility — prefer importing from @/theme directly.
-export { getTheme, themes, type ThemeMode, type Theme } from "../theme/theme.config";
+// Legacy shim — kept so old imports don't break during migration.
+// New code should import directly from "@/theme".
+export { theme as getTheme, type ThemeMode, type ThemeTokens as Theme } from "../theme/theme.config";
