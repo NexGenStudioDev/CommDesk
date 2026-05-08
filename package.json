@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write --ignore-unknown",
-    "format:check": "prettier . --check --ignore-unknown"
+    "format:check": "prettier . --check --ignore-unknown",
+    "audit": "pnpm audit --prod --audit-level high",
+    "audit:all": "pnpm audit --audit-level moderate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -34,7 +36,6 @@
     "react-router": "^7.14.2",
     "react-router-dom": "^7.14.2",
     "recharts": "^3.8.1",
-    "shell": "link:@tauri-apps/api/shell",
     "tailwind-merge": "^3.5.0",
     "zod": "^4.3.6"
   },
@@ -59,5 +60,11 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.59.0",
     "vite": "^7.3.2"
+  },
+  "overrides": {
+    "ip-address": "^10.1.1",
+    "semver": "^7.5.4",
+    "braces": "^3.0.3",
+    "micromatch": "^4.0.8"
   }
 }

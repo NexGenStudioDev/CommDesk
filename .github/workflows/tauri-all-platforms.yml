@@ -76,6 +76,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Security audit
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Build and publish signed bundles
         uses: tauri-apps/tauri-action@v1
         env:
