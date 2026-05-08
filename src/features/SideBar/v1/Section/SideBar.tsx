@@ -39,7 +39,7 @@ const SideBar = () => {
         {/* Sidebar content goes here */}
         <h1>Operations</h1>
         <SideBarLink icon={<MdDashboard />} text="Dashboard" />
-        <SideBarLink icon={<MdWork />} text="Projects" />
+        <SideBarLink icon={<MdWork />} text="Projects" link="/org/admin/projects" />
         <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
