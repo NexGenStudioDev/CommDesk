@@ -6,29 +6,33 @@ interface Props {
 
 const colorMap = {
   green: {
-    text: "text-green-600",
-    border: "border-green-500",
-    bg: "bg-green-50",
+    text: "text-green-600 dark:text-green-400",
+    border: "border-green-200 dark:border-green-500/30",
+    bg: "bg-green-50 dark:bg-green-500/10",
   },
+
   red: {
-    text: "text-red-600",
-    border: "border-red-500",
-    bg: "bg-red-50",
+    text: "text-red-600 dark:text-red-400",
+    border: "border-red-200 dark:border-red-500/30",
+    bg: "bg-red-50 dark:bg-red-500/10",
   },
+
   blue: {
-    text: "text-blue-600",
-    border: "border-blue-500",
-    bg: "bg-blue-50",
+    text: "text-blue-600 dark:text-blue-400",
+    border: "border-blue-200 dark:border-blue-500/30",
+    bg: "bg-blue-50 dark:bg-blue-500/10",
   },
+
   yellow: {
-    text: "text-yellow-600",
-    border: "border-yellow-500",
-    bg: "bg-yellow-50",
+    text: "text-yellow-600 dark:text-yellow-400",
+    border: "border-yellow-200 dark:border-yellow-500/30",
+    bg: "bg-yellow-50 dark:bg-yellow-500/10",
   },
+
   purple: {
-    text: "text-purple-600",
-    border: "border-purple-500",
-    bg: "bg-purple-50",
+    text: "text-purple-600 dark:text-purple-400",
+    border: "border-purple-200 dark:border-purple-500/30",
+    bg: "bg-purple-50 dark:bg-purple-500/10",
   },
 };
 
@@ -39,19 +43,69 @@ export default function SummaryCard({ title, value, color = "blue" }: Props) {
     <div
       className={`
         relative
+
+        overflow-hidden
+
         flex items-center gap-4
+
         p-5
+
         rounded-2xl
-        bg-white
-        shadow-sm hover:shadow-md
-        transition
-        border-l-4 ${styles.border}
+
+        border
+
+        ${styles.border}
+
+        ${styles.bg}
+
+        shadow-sm
+        hover:shadow-md
+
+        transition-all duration-300
+
+        hover:-translate-y-[2px]
+
+        backdrop-blur-xl
       `}
     >
+      {/* Glow */}
+      <div
+        className="
+          absolute -top-8 -right-8
+
+          w-24 h-24
+
+          rounded-full
+
+          bg-white/30
+          dark:bg-white/5
+
+          blur-2xl
+        "
+      />
+
       {/* Content */}
-      <div>
-        <p className="text-gray-500 text-sm">{title}</p>
-        <h2 className={`text-2xl font-bold ${styles.text}`}>{value}</h2>
+      <div className="relative z-10">
+        <p
+          className="
+            text-sm font-medium
+
+            text-gray-600
+            dark:text-zinc-400
+          "
+        >
+          {title}
+        </p>
+
+        <h2
+          className={`
+            text-3xl font-bold mt-1
+
+            ${styles.text}
+          `}
+        >
+          {value}
+        </h2>
       </div>
     </div>
   );

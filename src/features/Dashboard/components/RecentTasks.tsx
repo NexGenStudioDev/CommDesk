@@ -1,4 +1,5 @@
 import { Task } from "../types/dashboard";
+
 import { Check, Eye } from "lucide-react";
 
 interface Props {
@@ -8,16 +9,43 @@ interface Props {
 const getStatusStyle = (status: Task["status"]) => {
   switch (status) {
     case "completed":
-      return "badge-success";
+      return `
+        bg-green-50
+        text-green-600
+        border border-green-100
+
+        dark:bg-green-500/10
+        dark:text-green-400
+        dark:border-green-500/10
+      `;
+
     case "in-progress":
-      return "badge-warning";
+      return `
+        bg-yellow-50
+        text-yellow-600
+        border border-yellow-100
+
+        dark:bg-yellow-500/10
+        dark:text-yellow-400
+        dark:border-yellow-500/10
+      `;
+
     default:
-      return "badge-default";
+      return `
+        bg-gray-100
+        text-gray-600
+        border border-gray-200
+
+        dark:bg-zinc-800
+        dark:text-zinc-300
+        dark:border-zinc-700
+      `;
   }
 };
 
 const formatDeadline = (date: string) => {
   const d = new Date(date);
+
   return d.toLocaleDateString(undefined, {
     day: "numeric",
     month: "short",
@@ -27,44 +55,159 @@ const formatDeadline = (date: string) => {
 export default function RecentTasks({ tasks }: Props) {
   if (!tasks.length) {
     return (
-      <div className="card card-hover w-full">
-        <p className="text-gray-400 text-sm">No tasks assigned</p>
+      <div
+        className="
+          bg-white/90
+          dark:bg-zinc-900
+
+          border border-gray-200
+          dark:border-zinc-800
+
+          rounded-3xl
+          p-5
+
+          shadow-sm
+        "
+      >
+        <p
+          className="
+            text-sm
+
+            text-gray-400
+            dark:text-zinc-500
+          "
+        >
+          No tasks assigned
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="card card-hover w-full">
+    <div
+      className="
+        bg-white/90
+        dark:bg-zinc-900
+
+        border border-gray-200
+        dark:border-zinc-800
+
+        rounded-3xl
+        p-5
+
+        shadow-sm
+        dark:shadow-none
+
+        hover:shadow-md
+        dark:hover:border-zinc-700
+
+        transition-all duration-300
+
+        w-full
+        h-full
+      "
+    >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-        <h3 className="section-title">Recent Tasks</h3>
-        <button className="text-sm text-indigo-500 hover:underline self-start sm:self-auto">
+      <div
+        className="
+          flex items-center justify-between
+
+          mb-6
+        "
+      >
+        <h3
+          className="
+            text-lg font-semibold
+
+            text-gray-900
+            dark:text-white
+          "
+        >
+          Recent Tasks
+        </h3>
+
+        <button
+          className="
+            text-sm font-medium
+
+            text-indigo-600
+            dark:text-indigo-400
+
+            hover:underline
+          "
+        >
           View All
         </button>
       </div>
 
-      {/* Task List */}
-      <div className="space-y-3">
+      {/* Tasks */}
+      <div className="space-y-4">
         {tasks.slice(0, 8).map((task) => (
           <div
             key={task.id}
             className="
-              flex flex-col sm:flex-row sm:items-center sm:justify-between
-              gap-3 p-3 rounded-xl hover:bg-gray-50 transition
+              flex items-center justify-between
+
+              gap-4
+
+              p-4 rounded-2xl
+
+              bg-gray-50
+              dark:bg-zinc-800/50
+
+              border border-gray-100
+              dark:border-zinc-700
+
+              hover:bg-gray-100
+              dark:hover:bg-zinc-800
+
+              hover:-translate-y-[1px]
+              hover:shadow-sm
+
+              transition-all duration-200
             "
           >
-            {/* LEFT */}
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-gray-800 break-words">{task.title}</p>
-              <p className="text-xs text-gray-400">Due {formatDeadline(task.deadline)}</p>
+            {/* Left */}
+            <div className="min-w-0 flex-1">
+              <p
+                className="
+                  text-base font-semibold
+
+                  text-gray-800
+                  dark:text-white
+
+                  break-words
+                "
+              >
+                {task.title}
+              </p>
+
+              <p
+                className="
+                  text-sm mt-1
+
+                  text-gray-400
+                  dark:text-zinc-500
+                "
+              >
+                Due {formatDeadline(task.deadline)}
+              </p>
             </div>
 
-            {/* RIGHT */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-between sm:justify-end w-full sm:w-auto">
+            {/* Right */}
+            <div
+              className="
+                flex items-center gap-3
+
+                shrink-0
+              "
+            >
               {/* Status */}
               <span
                 className={`
-                  text-xs px-2 py-1 rounded-full whitespace-nowrap
+                  text-xs px-3 py-1 rounded-full
+                  whitespace-nowrap font-medium
+
                   ${getStatusStyle(task.status)}
                 `}
               >
@@ -73,12 +216,36 @@ export default function RecentTasks({ tasks }: Props) {
 
               {/* Actions */}
               <div className="flex gap-2">
-                <button className="p-2 rounded-lg hover:bg-gray-100 transition">
+                <button
+                  className="
+                    p-2 rounded-xl
+
+                    hover:bg-gray-200
+                    dark:hover:bg-zinc-700
+
+                    text-gray-600
+                    dark:text-zinc-300
+
+                    transition
+                  "
+                >
                   <Eye size={16} />
                 </button>
 
                 {task.status !== "completed" && (
-                  <button className="p-2 rounded-lg hover:bg-green-100 text-green-600 transition">
+                  <button
+                    className="
+                      p-2 rounded-xl
+
+                      hover:bg-green-100
+                      dark:hover:bg-green-500/15
+
+                      text-green-600
+                      dark:text-green-400
+
+                      transition
+                    "
+                  >
                     <Check size={16} />
                   </button>
                 )}
