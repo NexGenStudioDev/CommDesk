@@ -3,7 +3,7 @@ import { DashboardData } from "../types/dashboard";
 export const dashboardData: DashboardData = {
   user: {
     name: "Arjun Mehta",
-    role: "Member",
+    role: "Admin",
   },
 
   summary: {

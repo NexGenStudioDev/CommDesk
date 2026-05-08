@@ -12,6 +12,8 @@ import Contact from "./features/Contact_And_Support/v1/Pages/Contact";
 import ViewEvent from "./features/Events/v1/Pages/ViewEvent";
 import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
+import ProjectDetailPage from "./features/Projects/pages/ProjectDetailPage";
+import AdminProjectsPage from "./features/AdminProjects/pages/AdminProjectsPage";
 
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -61,6 +63,16 @@ function App() {
           <Route path="events" element={<ViewEvent />} />
           <Route path="create-event" element={<CreateNewEvent />} />
           <Route path="contact" element={<Contact />} />
+
+          {/* Admin Specific Routes */}
+          <Route
+            path="admin/projects"
+            element={
+              <ProtectedRoute user={user} allowedRoles={["Admin"]}>
+                <AdminProjectsPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
