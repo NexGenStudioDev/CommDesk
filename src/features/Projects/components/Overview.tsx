@@ -200,73 +200,120 @@ export default function Overview({
           )}
         </div>
 
-        <div className="mt-10 max-w-4xl">
-          <p className="text-xl font-medium leading-relaxed text-slate-600/90 selection:bg-indigo-100 selection:text-indigo-700">
+        <div className="mt-10 max-w-4xl space-y-3">
+          <p className="text-[11px] font-black uppercase tracking-[0.26em] text-slate-400">
+            Strategic Brief
+          </p>
+          <p className="text-lg font-medium leading-8 text-slate-600/90 selection:bg-indigo-100 selection:text-indigo-700 sm:text-xl">
             {project.description}
           </p>
         </div>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
-          <div className="space-y-8 rounded-3xl bg-slate-50/40 p-8 ring-1 ring-slate-100/50">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-indigo-100/50 rounded-lg">
-                <Layers className="size-4 text-indigo-600" />
+        <div className="mt-12 grid gap-8 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,1fr)]">
+          <div className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.12),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.98))] p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)]">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-lg bg-indigo-100/70 p-2.5 shadow-sm ring-1 ring-indigo-100/80">
+                    <Layers className="size-4 text-indigo-600" />
+                  </div>
+                  <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">
+                    Integrated Tech Stack
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">
+                    Platform technologies in active use
+                  </h3>
+                  <p className="text-sm font-medium leading-6 text-slate-500">
+                    Each technology is surfaced independently for cleaner scanning across project reviews.
+                  </p>
+                </div>
               </div>
-              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">Integrated Tech Stack</p>
+              <div className="inline-flex rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-slate-500 shadow-sm">
+                {project.techStack.length} technologies
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3">
+
+            <div className="mt-8 flex flex-wrap gap-3">
               {project.techStack.map((item) => (
                 <TechChip key={item} label={item} />
               ))}
             </div>
+
+            {project.techStack.length === 0 ? (
+              <div className="mt-8 rounded-2xl border border-dashed border-slate-200 bg-white/70 px-5 py-4 text-sm font-medium text-slate-500">
+                No technologies added yet.
+              </div>
+            ) : null}
           </div>
 
-          <div className="grid gap-6">
+          <div className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.98))] p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)]">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-indigo-100/50 rounded-lg">
-                <Sparkles className="size-4 text-indigo-600" />
+              <div className="rounded-lg bg-indigo-100/70 p-2.5 shadow-sm ring-1 ring-indigo-100/80">
+                <Layers className="size-4 text-indigo-600" />
               </div>
-              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">Project Assets</p>
+              <div className="space-y-1">
+                <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">Project Assets</p>
+                <h3 className="text-xl font-black tracking-tight text-slate-950">Delivery links</h3>
+              </div>
             </div>
-            <div className="grid gap-4">
+
+            <div className="mt-8 grid gap-4">
               <a
-                className="group/link flex items-center justify-between rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-300 hover:border-slate-950 hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
+                className="group/link flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white/90 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-950/70 hover:shadow-[0_20px_45px_-24px_rgba(15,23,42,0.45)]"
                 href={project.repositoryUrl}
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-slate-50 text-slate-950 shadow-sm ring-1 ring-slate-100 group-hover/link:bg-slate-950 group-hover/link:text-white group-hover/link:ring-slate-950 transition-all duration-300">
+                <div className="flex min-w-0 items-center gap-4">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-950 shadow-sm ring-1 ring-slate-100 transition-all duration-300 group-hover/link:bg-slate-950 group-hover/link:text-white group-hover/link:ring-slate-950">
                     <Github className="size-6" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <span className="block text-sm font-black text-slate-900">GitHub Source</span>
-                    <span className="text-[11px] font-medium text-slate-400">View implementation</span>
+                    <span className="block truncate text-[11px] font-medium text-slate-400">View implementation</span>
                   </div>
                 </div>
-                <div className="flex size-8 items-center justify-center rounded-full bg-slate-50 group-hover/link:bg-slate-950/5 transition-colors">
-                  <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-slate-950" />
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition-colors group-hover/link:bg-slate-950/5">
+                  <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-slate-950" />
                 </div>
               </a>
               <a
-                className="group/link flex items-center justify-between rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-300 hover:border-indigo-600 hover:shadow-[0_10px_30px_rgba(79,70,229,0.1)]"
+                className="group/link flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white/90 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-500/70 hover:shadow-[0_20px_45px_-24px_rgba(79,70,229,0.35)]"
                 href={project.demoUrl}
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-indigo-50/50 text-indigo-600 shadow-sm ring-1 ring-indigo-100/50 group-hover/link:bg-indigo-600 group-hover/link:text-white group-hover/link:ring-indigo-600 transition-all duration-300">
+                <div className="flex min-w-0 items-center gap-4">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-indigo-50/70 text-indigo-600 shadow-sm ring-1 ring-indigo-100/70 transition-all duration-300 group-hover/link:bg-indigo-600 group-hover/link:text-white group-hover/link:ring-indigo-600">
                     <Globe className="size-6" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <span className="block text-sm font-black text-slate-900">Live Production</span>
-                    <span className="text-[11px] font-medium text-slate-400">View live deployment</span>
+                    <span className="block truncate text-[11px] font-medium text-slate-400">View live deployment</span>
                   </div>
                 </div>
-                <div className="flex size-8 items-center justify-center rounded-full bg-indigo-50/50 group-hover/link:bg-indigo-600/5 transition-colors">
-                  <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-indigo-600" />
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-indigo-50/70 transition-colors group-hover/link:bg-indigo-600/5">
+                  <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-indigo-600" />
                 </div>
               </a>
+            </div>
+
+            <div className="mt-6 rounded-2xl border border-slate-200/80 bg-slate-950/[0.03] p-4">
+              <div className="flex items-start gap-3">
+                <div className="rounded-lg bg-indigo-100/70 p-2 text-indigo-600">
+                  <Sparkles className="size-4" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-500">
+                    Reviewer Note
+                  </p>
+                  <p className="text-sm font-medium leading-6 text-slate-600">
+                    Assets are grouped separately to make source review and live verification faster during moderation.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
