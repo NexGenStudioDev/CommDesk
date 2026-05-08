@@ -1,5 +1,6 @@
-import { Globe, Github, Save, X, Layout, Code2, ExternalLink } from "lucide-react";
+import { Globe, Github, Save, X, Layout, Code2, ExternalLink, Sparkles, Layers } from "lucide-react";
 import { useState } from "react";
+import TechChip from "./TechChip";
 
 import type { ProjectRecord, ProjectUpdateInput } from "@/features/Projects/types/project.types";
 import { Button } from "@/shadcnComponet/ui/button";
@@ -175,25 +176,23 @@ export default function Overview({
         </div>
       </section>
     );
-  }
-
-  return (
-    <section className="group overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)]">
-      <div className="p-8">
-        <div className="flex flex-wrap items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 shadow-sm">
-              <Layout className="size-6" />
+  }  return (
+    <section className="group overflow-hidden rounded-[32px] border border-slate-200/60 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
+      <div className="p-10">
+        <div className="flex flex-wrap items-center justify-between gap-6 border-b border-slate-100 pb-8">
+          <div className="flex items-center gap-5">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-indigo-50/50 text-indigo-600 shadow-sm ring-1 ring-indigo-100/50 transition-transform group-hover:scale-110 duration-500">
+              <Layout className="size-7" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Project Overview</p>
-              <h2 className="text-2xl font-black tracking-tight text-slate-950">Executive Summary</h2>
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-500/80 mb-1">Project Overview</p>
+              <h2 className="text-3xl font-black tracking-tight text-slate-950">Executive Summary</h2>
             </div>
           </div>
           {canEdit && (
             <Button 
               variant="outline" 
-              className="h-10 rounded-xl border-2 border-slate-100 px-6 font-black uppercase tracking-widest text-[10px] hover:bg-slate-50" 
+              className="h-11 rounded-xl border-2 border-slate-100 px-8 font-bold uppercase tracking-widest text-[10px] hover:border-indigo-600 hover:text-indigo-600 hover:bg-indigo-50/30 transition-all duration-300" 
               onClick={() => onEditingChange(true)}
             >
               Modify Record
@@ -201,63 +200,72 @@ export default function Overview({
           )}
         </div>
 
-        <div className="mt-8">
-          <p className="text-lg font-medium leading-relaxed text-slate-600">
+        <div className="mt-10 max-w-4xl">
+          <p className="text-xl font-medium leading-relaxed text-slate-600/90 selection:bg-indigo-100 selection:text-indigo-700">
             {project.description}
           </p>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
-          <div className="space-y-6">
+        <div className="mt-12 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+          <div className="space-y-8 rounded-3xl bg-slate-50/40 p-8 ring-1 ring-slate-100/50">
             <div className="flex items-center gap-3">
-              <Code2 className="size-4 text-indigo-500" />
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Integrated Tech Stack</p>
+              <div className="p-2 bg-indigo-100/50 rounded-lg">
+                <Layers className="size-4 text-indigo-600" />
+              </div>
+              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">Integrated Tech Stack</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {project.techStack.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-2 text-xs font-black text-slate-700 shadow-sm transition-all hover:scale-105 hover:bg-white hover:shadow-md"
-                >
-                  {item}
-                </span>
+                <TechChip key={item} label={item} />
               ))}
             </div>
           </div>
 
-          <div className="grid gap-4">
+          <div className="grid gap-6">
             <div className="flex items-center gap-3">
-              <ExternalLink className="size-4 text-indigo-500" />
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Project Assets</p>
+              <div className="p-2 bg-indigo-100/50 rounded-lg">
+                <Sparkles className="size-4 text-indigo-600" />
+              </div>
+              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">Project Assets</p>
             </div>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               <a
-                className="group/link flex items-center justify-between rounded-2xl border-2 border-slate-50 bg-slate-50/50 p-4 transition-all hover:border-slate-950 hover:bg-white hover:shadow-xl"
+                className="group/link flex items-center justify-between rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-300 hover:border-slate-950 hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
                 href={project.repositoryUrl}
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-xl bg-white text-slate-950 shadow-sm ring-1 ring-slate-100 group-hover/link:bg-slate-950 group-hover/link:text-white group-hover/link:ring-slate-950 transition-all">
-                    <Github className="size-5" />
+                <div className="flex items-center gap-4">
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-slate-50 text-slate-950 shadow-sm ring-1 ring-slate-100 group-hover/link:bg-slate-950 group-hover/link:text-white group-hover/link:ring-slate-950 transition-all duration-300">
+                    <Github className="size-6" />
                   </div>
-                  <span className="text-sm font-black text-slate-900">GitHub Source</span>
+                  <div>
+                    <span className="block text-sm font-black text-slate-900">GitHub Source</span>
+                    <span className="text-[11px] font-medium text-slate-400">View implementation</span>
+                  </div>
                 </div>
-                <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 group-hover/link:text-slate-950" />
+                <div className="flex size-8 items-center justify-center rounded-full bg-slate-50 group-hover/link:bg-slate-950/5 transition-colors">
+                  <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-slate-950" />
+                </div>
               </a>
               <a
-                className="group/link flex items-center justify-between rounded-2xl border-2 border-slate-50 bg-slate-50/50 p-4 transition-all hover:border-indigo-600 hover:bg-white hover:shadow-xl"
+                className="group/link flex items-center justify-between rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-300 hover:border-indigo-600 hover:shadow-[0_10px_30px_rgba(79,70,229,0.1)]"
                 href={project.demoUrl}
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm ring-1 ring-slate-100 group-hover/link:bg-indigo-600 group-hover/link:text-white group-hover/link:ring-indigo-600 transition-all">
-                    <Globe className="size-5" />
+                <div className="flex items-center gap-4">
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-indigo-50/50 text-indigo-600 shadow-sm ring-1 ring-indigo-100/50 group-hover/link:bg-indigo-600 group-hover/link:text-white group-hover/link:ring-indigo-600 transition-all duration-300">
+                    <Globe className="size-6" />
                   </div>
-                  <span className="text-sm font-black text-slate-900">Live Production</span>
+                  <div>
+                    <span className="block text-sm font-black text-slate-900">Live Production</span>
+                    <span className="text-[11px] font-medium text-slate-400">View live deployment</span>
+                  </div>
                 </div>
-                <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 group-hover/link:text-indigo-600" />
+                <div className="flex size-8 items-center justify-center rounded-full bg-indigo-50/50 group-hover/link:bg-indigo-600/5 transition-colors">
+                  <ExternalLink className="size-4 text-slate-400 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-indigo-600" />
+                </div>
               </a>
             </div>
           </div>
