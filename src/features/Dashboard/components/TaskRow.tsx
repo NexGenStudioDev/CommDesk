@@ -12,25 +12,44 @@ export default function TaskRow({ task, urgent = false }: TaskRowProps) {
 
   return (
     <div
-      className={`
-        flex items-center justify-between
-        p-3 rounded-xl transition
-        hover:bg-gray-50
-        ${urgent ? "border-l-4 border-red-500 bg-red-50/30" : ""}
-      `}
+      className="flex items-center justify-between p-3 rounded-xl transition-colors"
+      style={{
+        borderLeft: urgent ? "3px solid var(--cd-danger)" : undefined,
+        backgroundColor: urgent ? "var(--cd-danger-subtle)" : "transparent",
+      }}
+      onMouseEnter={(e) => {
+        if (!urgent)
+          (e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--cd-hover)";
+      }}
+      onMouseLeave={(e) => {
+        if (!urgent)
+          (e.currentTarget as HTMLDivElement).style.backgroundColor = "transparent";
+      }}
     >
-      {/* Left */}
       <div>
-        <p className="text-sm font-medium text-gray-800">{task.title || "Untitled Task"}</p>
-
-        <p className={`text-xs ${urgent ? "text-red-500" : "text-gray-400"}`}>
+        <p className="text-sm font-medium" style={{ color: "var(--cd-text)" }}>
+          {task.title || "Untitled Task"}
+        </p>
+        <p
+          className="text-xs"
+          style={{ color: urgent ? "var(--cd-danger)" : "var(--cd-text-muted)" }}
+        >
           {formatDueLabel(task.deadline)}
         </p>
       </div>
 
-      {/* Action */}
-      <button className="p-2 rounded-lg hover:bg-green-100 text-green-600">
-        <Check size={16} />
+      <button
+        className="p-1.5 rounded-lg transition-colors"
+        style={{ color: "var(--cd-success)" }}
+        onMouseEnter={(e) =>
+          ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
+            "var(--cd-success-subtle)")
+        }
+        onMouseLeave={(e) =>
+          ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
+        }
+      >
+        <Check size={15} />
       </button>
     </div>
   );

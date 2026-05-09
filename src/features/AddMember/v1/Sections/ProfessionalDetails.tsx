@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { getTheme } from "../../../../config/them.config";
 import { IoBag } from "react-icons/io5";
 import { Input } from "../../../../Component/ui/Input";
 import DropDown from "../../../../Component/ui/DropDown";
@@ -7,17 +6,15 @@ import { Roles } from "../Constant/Role.constant";
 import { SkillColor } from "../Constant/Skill.constant";
 
 const ProfessionalDetails = () => {
-  let theme = getTheme("light");
-
-  const [SkillInput, setSkillInput] = React.useState("");
+  const [skillInput, setSkillInput] = React.useState("");
   const [, setSelectedRole] = React.useState("");
-  const [Location, setLocation] = React.useState("");
-  const [Skills, setSkills] = React.useState<string[]>([]);
+  const [location, setLocation] = React.useState("");
+  const [skills, setSkills] = React.useState<string[]>([]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const skill = SkillInput.trim();
-      if (skill !== "" && !Skills.includes(skill)) {
+      const skill = skillInput.trim();
+      if (skill !== "" && !skills.includes(skill)) {
         setSkills((prev) => [...prev, skill]);
         setSkillInput("");
       }
@@ -25,35 +22,40 @@ const ProfessionalDetails = () => {
   };
 
   const getSkillColor = (skill: string) => {
-    const index = Skills.indexOf(skill);
+    const index = skills.indexOf(skill);
     return SkillColor[index % SkillColor.length];
   };
 
   return (
     <div
-      className="bg-white w-full flex flex-col border-2 rounded-lg self-center mt-5 p-7"
+      className="w-full flex flex-col rounded-xl self-center mt-5 p-7"
       style={{
-        borderColor: theme.borderColor.primary,
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
       }}
     >
-      <span className="font-extrabold text-xl text-gray-800 uppercase mb-[3vh] flex items-center gap-3">
-        <IoBag className="text-[#4f46e5]" />
+      <span
+        className="font-extrabold text-xl uppercase mb-[3vh] flex items-center gap-3"
+        style={{ color: "var(--cd-text)" }}
+      >
+        <IoBag style={{ color: "var(--cd-primary)" }} />
         Professional Details
       </span>
 
       <div className="flex mt-[3.5vh] gap-5">
         <div className="flex flex-col gap-2 w-[40%]">
-          <p className="text-md text-gray-400 uppercase font-semibold">Primary Role</p>
-
+          <p className="text-xs font-semibold uppercase" style={{ color: "var(--cd-text-2)" }}>
+            Primary Role
+          </p>
           <DropDown options={Roles} onSelect={(opt: string) => setSelectedRole(opt)} />
         </div>
 
         <div className="flex flex-col w-[40%]">
           <Input
-            label="CITY / LOCATION"
-            placeholder="San Francisco CA"
+            label="City / Location"
+            placeholder="San Francisco, CA"
             name="location"
-            value={Location}
+            value={location}
             onChange={(_, value) => setLocation(value)}
           />
         </div>
@@ -63,24 +65,27 @@ const ProfessionalDetails = () => {
         <div className="flex flex-col w-full">
           <Input
             name="skills"
-            label="skills & expertise"
+            label="Skills & Expertise"
             placeholder="Type a skill and press Enter"
-            value={SkillInput}
+            value={skillInput}
             className="w-full"
             onKeyDown={handleKeyDown}
             onChange={(_, value) => setSkillInput(value)}
           />
 
           <div className="flex gap-2 mt-2 flex-wrap">
-            {Skills.map((skill, index) => (
+            {skills.map((skill, index) => (
               <div
                 key={index}
-                className={` text-gray-500 font-bold px-3 py-2 rounded-xl text-lg flex items-center gap-2`}
-                style={{ backgroundColor: getSkillColor(skill) }}
+                className="font-semibold px-3 py-1.5 rounded-xl text-sm flex items-center gap-2"
+                style={{
+                  backgroundColor: getSkillColor(skill),
+                  color: "var(--cd-text)",
+                }}
               >
                 {skill}
                 <span
-                  className="cursor-pointer text-2xl"
+                  className="cursor-pointer text-base leading-none"
                   onClick={() => setSkills((prev) => prev.filter((_, i) => i !== index))}
                 >
                   &times;

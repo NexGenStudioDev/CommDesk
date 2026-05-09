@@ -1,5 +1,4 @@
 import React from "react";
-import { getTheme } from "../../config/them.config";
 
 interface UrlProps {
   protocol?: string;
@@ -15,28 +14,25 @@ const isValidDomain = (domain: string) => {
   return /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(domain);
 };
 
+// Remove themeMode from props too since it's unused now
 const Url: React.FC<UrlProps> = ({
   protocol = "https://",
   domain,
-  themeMode = "light",
   className = "url flex",
-
   style,
   ariaLabel = "URL display",
 }) => {
-  const theme = getTheme(themeMode);
   const valid = isValidDomain(domain);
-
-  let [Domain, setDomain] = React.useState(domain);
+  const [Domain, setDomain] = React.useState(domain);
 
   return (
     <div className={className} style={style} aria-label={ariaLabel} role="presentation">
       <div
         className="Protocol p-2 rounded-l-lg border-2 w-[25%]"
         style={{
-          backgroundColor: theme.background.secondary,
-          borderColor: theme.borderColor.primary,
-          color: theme.textColor.primary,
+          backgroundColor: "var(--cd-surface-2)",
+          borderColor: "var(--cd-border)",
+          color: "var(--cd-text)",
         }}
       >
         {protocol}
@@ -47,14 +43,13 @@ const Url: React.FC<UrlProps> = ({
         onChange={(e) => setDomain(e.target.value)}
         className="Domain p-2 rounded-r-lg border w-[80%]"
         style={{
-          color: theme.textColor.primary,
-          backgroundColor: theme.background.primary,
-          borderColor: valid ? theme.borderColor.primary : theme.textColor.error,
+          color: "var(--cd-text)",
+          backgroundColor: "var(--cd-surface)",
+          borderColor: valid ? "var(--cd-border)" : "var(--cd-danger)",
         }}
       />
-
       {!valid && (
-        <span style={{ color: theme.textColor.error || "red", marginLeft: 8 }} role="alert">
+        <span style={{ color: "var(--cd-danger)", marginLeft: 8 }} role="alert">
           Invalid domain
         </span>
       )}

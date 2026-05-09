@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "@/theme";
 
 type ButtonProps = {
   text: string;
@@ -6,38 +7,41 @@ type ButtonProps = {
   width?: string;
   height?: string;
   onClick: () => void;
-  textColor?: string;
+  variant?: "primary" | "secondary" | "ghost" | "danger";
   disabled?: boolean;
-  backgroundColor?: string;
+  className?: string;
 };
 
 const Button = ({
   text,
-  textColor,
   icon,
   onClick,
   disabled,
   width,
-  backgroundColor,
   height,
+  variant = "primary",
+  className = "",
 }: ButtonProps) => {
+  const variantClass = disabled
+    ? "bg-[var(--cd-surface-2)] text-[var(--cd-text-muted)] cursor-not-allowed"
+    : variant === "secondary"
+      ? "cd-btn-secondary"
+      : variant === "ghost"
+        ? "cd-btn-ghost"
+        : variant === "danger"
+          ? "cd-btn-danger"
+          : "cd-btn-primary";
+
   return (
-    <div className="text-sm lg:text-[1vw]">
-      <button
-        onClick={onClick}
-        disabled={disabled}
-        className={`px-5 py-3 rounded-lg flex items-center ${disabled ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
-        style={{
-          width: width || "auto",
-          height: height || "auto",
-          backgroundColor: backgroundColor || undefined,
-          color: textColor || undefined,
-        }}
-      >
-        {icon && <span className="Icon mr-2 inline h-fit w-fit">{icon}</span>}
-        {text}
-      </button>
-    </div>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`cd-btn ${variantClass} ${className}`}
+      style={{ width: width || "auto", height: height || "auto" }}
+    >
+      {icon && <span className="flex items-center">{icon}</span>}
+      {text}
+    </button>
   );
 };
 

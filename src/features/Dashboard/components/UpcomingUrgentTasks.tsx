@@ -9,8 +9,10 @@ interface Props {
 export default function UpcomingUrgentTasks({ tasks }: Props) {
   if (!tasks || !Array.isArray(tasks)) {
     return (
-      <div className="bg-white p-5 rounded-2xl shadow-sm">
-        <p className="text-gray-400 text-sm">No tasks available</p>
+      <div className="cd-card">
+        <p className="text-sm" style={{ color: "var(--cd-text-muted)" }}>
+          No tasks available
+        </p>
       </div>
     );
   }
@@ -18,22 +20,26 @@ export default function UpcomingUrgentTasks({ tasks }: Props) {
   const { urgent, upcoming } = categorizeTasks(tasks);
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm">
-      {/* Header */}
+    <div className="cd-card">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-lg">Upcoming & Urgent Tasks</h3>
-
-        <button className="text-sm text-indigo-500 hover:underline">View All</button>
+        <h3 className="cd-section-title" style={{ marginBottom: 0 }}>
+          Upcoming & Urgent Tasks
+        </h3>
+        <button className="text-xs font-medium" style={{ color: "var(--cd-primary)" }}>
+          View All
+        </button>
       </div>
 
-      {/*Urgent Section */}
       <div className="mb-5">
-        <p className="text-sm font-medium text-red-500 mb-2 break-words">Urgent Tasks</p>
-
+        <p className="text-xs font-semibold mb-2" style={{ color: "var(--cd-danger)" }}>
+          Urgent Tasks
+        </p>
         {urgent.length === 0 ? (
-          <p className="text-gray-400 text-sm">No urgent tasks</p>
+          <p className="text-sm" style={{ color: "var(--cd-text-muted)" }}>
+            No urgent tasks
+          </p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {urgent.slice(0, 4).map((task) => (
               <TaskRow key={task.id} task={task} urgent />
             ))}
@@ -41,14 +47,16 @@ export default function UpcomingUrgentTasks({ tasks }: Props) {
         )}
       </div>
 
-      {/* Upcoming Section */}
       <div>
-        <p className="text-sm font-medium text-gray-500 mb-2 break-words">Upcoming Tasks</p>
-
+        <p className="text-xs font-semibold mb-2" style={{ color: "var(--cd-text-2)" }}>
+          Upcoming Tasks
+        </p>
         {upcoming.length === 0 ? (
-          <p className="text-gray-400 text-sm">No upcoming tasks</p>
+          <p className="text-sm" style={{ color: "var(--cd-text-muted)" }}>
+            No upcoming tasks
+          </p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {upcoming.slice(0, 4).map((task) => (
               <TaskRow key={task.id} task={task} />
             ))}
