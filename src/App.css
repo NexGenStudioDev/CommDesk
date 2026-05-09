@@ -234,7 +234,7 @@ body {
 }
 
 /* ─── CommDesk utility classes ───────────────────────────────────────────── */
-@layer components {
+@layer utilities {
   /* Cards */
   .cd-card {
     background-color: var(--cd-surface);
@@ -247,9 +247,9 @@ body {
   .cd-card:hover {
     box-shadow: 0 4px 12px var(--cd-shadow-md);
   }
-  .cd-card-hover {
-    @apply hover:-translate-y-[2px];
-  }
+  .cd-card-hover:hover {
+  transform: translateY(-2px);
+}
 
   /* Section title */
   .cd-section-title {
@@ -455,23 +455,57 @@ body {
   }
 
   /* Legacy aliases (keep old .card / .section-title working) */
+ /* Legacy aliases */
   .card {
-    @apply cd-card;
+    background-color: var(--cd-surface);
+    border: 1px solid var(--cd-border);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px var(--cd-shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
   .section-title {
-    @apply cd-section-title;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cd-text);
+    margin-bottom: 1rem;
   }
   .text-muted {
-    @apply cd-text-muted;
+    font-size: 0.875rem;
+    color: var(--cd-text-2);
   }
   .badge-success {
-    @apply cd-badge cd-badge-success;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    background-color: var(--cd-success-subtle);
+    color: var(--cd-success);
   }
   .badge-warning {
-    @apply cd-badge cd-badge-warning;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    background-color: var(--cd-warning-subtle);
+    color: var(--cd-warning);
   }
   .badge-default {
-    @apply cd-badge cd-badge-neutral;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    background-color: var(--cd-surface-2);
+    color: var(--cd-text-2);
   }
 }
 
