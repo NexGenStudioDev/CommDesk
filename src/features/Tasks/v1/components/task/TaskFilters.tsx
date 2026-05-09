@@ -225,13 +225,16 @@ function SmartSearch({ value, onChange, filteredCount, totalCount, isFiltered }:
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function TaskFiltersBar({ filters, onChange, totalCount, filteredCount }: Props) {
   const [localSearch, setLocalSearch] = useState(filters.search);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const onChangeRef = useRef(onChange);
+  useEffect(() => { onChangeRef.current = onChange; });
 
   useEffect(() => {
-    clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => onChange({ ...filters, search: localSearch }), 300);
-    return () => clearTimeout(debounceRef.current);
-  }, [localSearch]); // eslint-disable-line
+    if (localSearch === filters.search) return;
+    const timer = setTimeout(() => {
+      onChangeRef.current({ ...filters, search: localSearch });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localSearch, filters]);
 
   const hasActive = filters.status !== "all" || filters.priority !== "all" || filters.time !== "all" || filters.members.length > 0 || filters.search !== "";
   const resetAll  = () => { setLocalSearch(""); onChange({ status:"all", priority:"all", time:"all", members:[], search:"" }); };

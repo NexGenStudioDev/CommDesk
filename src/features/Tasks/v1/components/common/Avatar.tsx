@@ -19,7 +19,7 @@ const BG_COLORS = [
 ];
 
 function getColor(name: string): string {
-  const code = name.charCodeAt(0) + (name.charCodeAt(1) ?? 0);
+  const code = name.charCodeAt(0) + (name.charCodeAt(1) || 0);
   return BG_COLORS[code % BG_COLORS.length];
 }
 
