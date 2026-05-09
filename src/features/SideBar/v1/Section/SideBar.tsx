@@ -1,86 +1,78 @@
 import { RiContactsBookFill } from "react-icons/ri";
-import { getTheme } from "../../../../config/them.config";
-import SideBarLink from "../Components/SideBarLink";
 import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { useTheme } from "@/theme";
+import { ThemeToggle } from "@/Component/ui/ThemeToggle";
 import { dashboardData } from "@/features/Dashboard/mock/dashboardData";
+import SideBarLink from "../Components/SideBarLink";
 
 const SideBar = () => {
-  let theme = getTheme("light");
+  const { theme } = useTheme();
 
   return (
     <div
-      className="sidebar w-[25%] 2xl:w-[18%] min-h-screen hidden lg:flex flex-col border-r"
+      className="w-[25%] 2xl:w-[18%] min-h-screen hidden lg:flex flex-col"
       style={{
-        borderColor: theme.borderColor.primary,
-        background: theme.background.primary,
+        backgroundColor: theme.bg.surface,
+        borderRight: `1px solid ${theme.border.default}`,
       }}
     >
+      {/* Logo */}
       <div
-        className="sidebar-header p-2 border-b border-t-2  min-h-21 w-full flex  items-center justify-center"
-        style={{ borderColor: theme.borderColor.primary }}
+        className="p-2 border-b min-h-21 w-full flex items-center justify-center"
+        style={{ borderColor: theme.border.default }}
       >
         <img
           src="/logoWithoutText.png"
           alt="CommDesk logo"
-          className="w-[6vw] h-full  object-cover shrink-0"
+          className="w-[6vw] h-full object-cover shrink-0"
         />
-
         <h1
-          className="font-bold h-fit  text-[1.40em] leading-0"
-          style={{
-            color: theme.textColor.tersiary,
-            fontFamily: theme.fontFamily.primary,
-          }}
+          className="font-bold h-fit text-[1.40em] leading-none inter"
+          style={{ color: theme.primary.default }}
         >
           CommDesk
         </h1>
       </div>
-      <div className="sidebar-content flex flex-col gap-3 p-4 flex-1 w-full">
-        {/* Sidebar content goes here */}
-        <h1>Operations</h1>
-        <SideBarLink icon={<MdDashboard />} text="Dashboard" />
-        <SideBarLink icon={<MdWork />} text="Projects" />
+
+      {/* Nav */}
+      <div className="flex flex-col gap-1 p-4 flex-1 w-full">
+        <p
+          className="text-xs font-semibold uppercase tracking-widest px-4 py-2"
+          style={{ color: theme.text.muted }}
+        >
+          Operations
+        </p>
+
+        <SideBarLink icon={<MdDashboard />} text="Dashboard" link="/org/dashboard" />
+        <SideBarLink icon={<MdWork />} text="Projects" link="/org" />
         <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
 
+        {/* Footer */}
         <div
           className="mt-auto w-full border-t flex flex-col py-5"
-          style={{ borderColor: theme.borderColor.primary }}
+          style={{ borderColor: theme.border.default }}
         >
-          <div className="w-full">
-            <SideBarLink icon={<MdSettings />} text="Settings" />
+          <div className="flex items-center justify-between mb-2">
+            <SideBarLink icon={<MdSettings />} text="Settings" link="/org" />
+            <ThemeToggle />
           </div>
 
           <div
-            className="Profile mt-4 w-full rounded-lg  p-3 flex items-center gap-3 cursor-pointer  bg-[#f0f4fc]"
-            style={{
-              borderColor: theme.borderColor.primary,
-            }}
+            className="mt-3 w-full rounded-xl p-3 flex items-center gap-3 cursor-pointer transition-colors duration-150"
+            style={{ backgroundColor: theme.bg.surfaceSecondary }}
           >
             <img
               src="https://randomuser.me/api/portraits/men/1.jpg"
               alt="Profile"
-              className="w-10 h-10 rounded-full object-cover shrink-0"
+              className="w-9 h-9 rounded-full object-cover shrink-0"
             />
-
-            <div className="min-w-0 flex-1 flex flex-col justify-center gap-1">
-              <p
-                className="text-sm font-semibold truncate"
-                style={{
-                  color: theme.textColor.primary,
-                  fontFamily: theme.fontFamily.primary,
-                }}
-              >
+            <div className="min-w-0 flex-1 flex flex-col justify-center gap-0.5">
+              <p className="text-sm font-semibold truncate" style={{ color: theme.text.primary }}>
                 {dashboardData.user.name}
               </p>
-              <p
-                className="text-xs truncate font-black"
-                style={{
-                  color: theme.textColor.tersiary,
-                  fontFamily: theme.fontFamily.primary,
-                }}
-              >
+              <p className="text-xs truncate font-medium" style={{ color: theme.primary.default }}>
                 {dashboardData.user.role}
               </p>
             </div>

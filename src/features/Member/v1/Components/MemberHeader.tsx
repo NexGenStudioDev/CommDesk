@@ -6,26 +6,40 @@ const MemberHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full py-[3vh] bg-white border-b-[1px] border-gray-300 flex   text-xl font-bold  justify-between ">
-      <div className="w-1/2 h-full  flex flex-col justify-between gap-2">
-        <h1 className="text-lg sm:text-[2.5vw] lg:text-2xl  font-bold text-gray-800  ml-5 mt-2">
-          Member Managements
+    <div
+      className="w-full py-[3vh] border-b flex text-xl font-bold justify-between"
+      style={{
+        backgroundColor: "var(--cd-surface)",
+        borderColor: "var(--cd-border)",
+      }}
+    >
+      <div className="w-1/2 h-full flex flex-col justify-between gap-2">
+        <h1
+          className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold ml-5 mt-2"
+          style={{ color: "var(--cd-text)" }}
+        >
+          Member Management
         </h1>
-        <span className="text-sm  lg:text-md  w-fit text-gray-600 ml-5 bg-gray-200 rounded-2xl py-1 px-3">
+        <span
+          className="text-sm w-fit ml-5 rounded-2xl py-1 px-3"
+          style={{
+            backgroundColor: "var(--cd-surface-2)",
+            color: "var(--cd-text-2)",
+          }}
+        >
           1,248 Members
         </span>
       </div>
-      <div className="w-1/3 h-full flex justify-end items-center gap-2 px-5">
+      <div className="w-1/3 h-full flex justify-end items-center gap-3 px-5">
         <Button
           text="Add Member"
-          onClick={() => navigate("/org//add-member")}
-          backgroundColor="#4f46e4"
+          onClick={() => navigate("/org/add-member")}
           icon={<IoPersonAdd />}
         />
-
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsPJ9cm0-r5p50py0yUzvM5ZtEB-xWoJRPRA&s"
-          className="w-[4.5vh] h-[4.5vh] rounded-full object-cover"
+          src="https://randomuser.me/api/portraits/men/1.jpg"
+          className="w-9 h-9 rounded-full object-cover"
+          alt="User avatar"
         />
       </div>
     </div>

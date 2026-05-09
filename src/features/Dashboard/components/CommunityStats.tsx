@@ -9,67 +9,64 @@ export default function CommunityStatsCard({ data }: Props) {
     data.totalMembers > 0 ? Math.round((data.activeMembers / data.totalMembers) * 100) : 0;
 
   return (
-    <div className="card hover:shadow-md transition">
-      {/* Header */}
-      <h3 className="section-title">Community Insights</h3>
+    <div className="cd-card cd-card-hover">
+      <h3 className="cd-section-title">Community Insights</h3>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        {/* Members */}
         <div
-          className="
-            p-3 rounded-xl bg-gray-50 cursor-pointer
-            hover:bg-gray-100 hover:-translate-y-[1px] hover:shadow-sm
-            transition
-          "
+          className="cd-metric cursor-pointer hover:-translate-y-[1px] transition-all"
           onClick={() => alert("View members")}
         >
-          <p className="text-xs text-gray-500">Members</p>
-          <p className="text-lg font-semibold text-gray-800">{data.totalMembers}</p>
+          <p className="text-xs" style={{ color: "var(--cd-text-2)" }}>
+            Members
+          </p>
+          <p className="text-lg font-semibold" style={{ color: "var(--cd-text)" }}>
+            {data.totalMembers}
+          </p>
         </div>
 
-        {/* Active members */}
         <div
-          className="
-            p-3 rounded-xl bg-emerald-50 cursor-pointer
-            hover:bg-emerald-100 hover:-translate-y-[1px] hover:shadow-sm
-            transition
-          "
+          className="p-3 rounded-xl cursor-pointer hover:-translate-y-[1px] transition-all"
+          style={{ backgroundColor: "var(--cd-success-subtle)" }}
           onClick={() => alert("View active users")}
         >
-          <p className="text-xs text-gray-500">Active</p>
-          <p className="text-lg font-semibold text-emerald-600">{data.activeMembers}</p>
+          <p className="text-xs" style={{ color: "var(--cd-text-2)" }}>
+            Active
+          </p>
+          <p className="text-lg font-semibold" style={{ color: "var(--cd-success)" }}>
+            {data.activeMembers}
+          </p>
         </div>
       </div>
 
-      {/* Engagement */}
       <div className="mb-3">
-        <div className="flex justify-between text-xs text-gray-500 mb-1">
+        <div className="flex justify-between text-xs mb-1" style={{ color: "var(--cd-text-2)" }}>
           <span>Engagement</span>
           <span>{activityPercent}%</span>
         </div>
-
-        <div className="w-full h-2 bg-gray-100 rounded-full">
+        <div
+          className="w-full h-1.5 rounded-full overflow-hidden"
+          style={{ backgroundColor: "var(--cd-border)" }}
+        >
           <div
-            className="h-2 bg-emerald-500 rounded-full transition-all duration-700"
-            style={{ width: `${activityPercent}%` }}
+            className="h-1.5 rounded-full transition-all duration-700"
+            style={{ width: `${activityPercent}%`, backgroundColor: "var(--cd-success)" }}
           />
         </div>
       </div>
 
-      {/* Rank */}
       {data.rank !== undefined && (
         <div
-          className="
-            mt-3 p-3 rounded-xl bg-indigo-50 cursor-pointer
-            flex justify-between items-center
-            hover:bg-indigo-100 hover:-translate-y-[1px] hover:shadow-sm
-            transition
-          "
+          className="mt-3 p-3 rounded-xl flex justify-between items-center cursor-pointer hover:-translate-y-[1px] transition-all"
+          style={{ backgroundColor: "var(--cd-primary-subtle)" }}
           onClick={() => alert("View leaderboard")}
         >
-          <span className="text-xs text-gray-500">Your Rank</span>
-          <span className="font-semibold text-indigo-600">#{data.rank}</span>
+          <span className="text-xs" style={{ color: "var(--cd-text-2)" }}>
+            Your Rank
+          </span>
+          <span className="font-semibold" style={{ color: "var(--cd-primary)" }}>
+            #{data.rank}
+          </span>
         </div>
       )}
     </div>
