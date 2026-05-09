@@ -19,6 +19,7 @@ export default function TaskManagementPage() {
   const [params, setParams] = useSearchParams();
   const { toasts, addToast, dismiss } = useToast();
 
+  const { data: events = [] } = useEvents();
   const [selectedEventId, setSelectedEventId] = useState<string | null>(
     () => localStorage.getItem(SELECTED_EVENT_KEY)
   );
