@@ -1,5 +1,4 @@
 import { IoMdCalendar } from "react-icons/io";
-import { getTheme } from "../../../../config/them.config";
 import { Input } from "../../../../Component/ui/Input";
 import { memo, useState } from "react";
 import { FaBuilding } from "react-icons/fa";
@@ -8,7 +7,6 @@ import Date from "../../../../Component/ui/Date";
 import Time from "../../../../Component/ui/Time";
 
 const DateAndSchedule = () => {
-  let theme = getTheme("light");
 
   let [eventData, setEventData] = useState({
     EventName: "",
@@ -24,9 +22,9 @@ const DateAndSchedule = () => {
     <div
       className="flex flex-col w-full mt-[5vh] p-8 border-2 rounded-lg"
       style={{
-        background: theme.background.primary,
-        borderColor: theme.borderColor.primary,
-      }}
+  background: "var(--cd-surface)",
+  borderColor: "var(--cd-border)",
+}}
     >
       <span className="font-extrabold text-xl text-gray-800 uppercase mb-[3vh] flex items-center gap-3">
         <IoMdCalendar className="text-[#4f46e5]" />

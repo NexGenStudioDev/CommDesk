@@ -1,9 +1,8 @@
-import { getTheme } from "../../../../config/them.config";
 import MemberHeader from "../Components/MemberHeader";
 import MemberTable from "../Components/MemberTable";
 import SearchMember from "../Components/SearchMember";
 
-let membersData = [
+const membersData = [
   {
     name: "John Doe",
     image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -39,15 +38,10 @@ let membersData = [
 ];
 
 const MemberPage = () => {
-  let theme = getTheme("light");
   return (
-    <div
-      className="w-full  h-screen flex flex-col items-center gap-4"
-      style={{ background: theme.background.secondary }}
-    >
+    <div className="w-full h-screen flex flex-col items-center gap-4 cd-page">
       <MemberHeader />
       <SearchMember />
-
       <MemberTable members={membersData} />
     </div>
   );

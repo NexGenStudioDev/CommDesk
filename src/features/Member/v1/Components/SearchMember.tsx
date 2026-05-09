@@ -1,56 +1,52 @@
 import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { getTheme } from "../../../../config/them.config";
 import DropDown from "../../../../Component/ui/DropDown";
 import Button from "../../../../Component/ui/Button";
 
 const ROLE_OPTIONS = ["All Roles", "Mentor", "Lean Developer", "Mentee", "Observer", "Other"];
-const STATUS_OPTIONS = ["Active", "Inactive", "Pending", "Banned", "On Bording"];
+const STATUS_OPTIONS = ["Active", "Inactive", "Pending", "Banned", "On Boarding"];
 
 const SearchMember = () => {
-  let theme = getTheme("light");
   const [searchText, setSearchText] = useState("");
   const [selectedRole, setSelectedRole] = useState(ROLE_OPTIONS[0]);
   const [selectedStatus, setSelectedStatus] = useState(STATUS_OPTIONS[0]);
 
   const handleSearch = () => {
-    console.log("Member search filters:", {
-      searchText,
-      role: selectedRole,
-      status: selectedStatus,
-    });
+    console.log("Member search filters:", { searchText, role: selectedRole, status: selectedStatus });
   };
 
   return (
     <div
-      className="bg-white w-[90%] h-[7vh] mt-[4vh] flex items-center p-3 rounded-2xl border "
+      className="w-[90%] mt-[4vh] flex items-center p-3 rounded-2xl border gap-3"
       style={{
-        borderColor: theme.borderColor.primary,
+        backgroundColor: "var(--cd-surface)",
+        borderColor: "var(--cd-border)",
       }}
     >
       <div
-        className="Search_Container bg-[#f8fafc] w-1/2 h-full flex items-center gap-4 px-4 border rounded-lg mr-4"
+        className="flex-1 h-10 flex items-center gap-2 px-3 border rounded-lg"
         style={{
-          borderColor: theme.borderColor.primary,
-          backgroundColor: theme.background.secondary,
+          backgroundColor: "var(--cd-surface-2)",
+          borderColor: "var(--cd-border)",
         }}
       >
-        <CiSearch />
+        <CiSearch style={{ color: "var(--cd-text-muted)" }} />
         <input
           type="text"
           placeholder="Search Member"
-          className="w-full h-full px-4 text-lg outline-none"
+          className="flex-1 h-full bg-transparent outline-none text-sm"
+          style={{ color: "var(--cd-text)" }}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
 
-      <div className="DropDownContainer flex gap-3 mr-[2vw]">
+      <div className="flex gap-3">
         <DropDown options={ROLE_OPTIONS} onSelect={setSelectedRole} />
         <DropDown options={STATUS_OPTIONS} onSelect={setSelectedStatus} />
       </div>
 
-      <Button text="Search" width="8vw" icon={<CiSearch />} onClick={handleSearch} />
+      <Button text="Search" icon={<CiSearch />} onClick={handleSearch} />
     </div>
   );
 };
