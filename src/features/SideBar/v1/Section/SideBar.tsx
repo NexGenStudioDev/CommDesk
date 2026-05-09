@@ -1,7 +1,7 @@
 import { RiContactsBookFill } from "react-icons/ri";
 import { getTheme } from "../../../../config/them.config";
 import SideBarLink from "../Components/SideBarLink";
-import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork, MdAssignment } from "react-icons/md";
 import { dashboardData } from "@/features/Dashboard/mock/dashboardData";
 
 const SideBar = () => {
@@ -42,6 +42,7 @@ const SideBar = () => {
         <SideBarLink icon={<MdWork />} text="Projects" />
         <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
+        <SideBarLink icon={<MdAssignment />} text="Tasks" link="/org/tasks" />
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
 
         <div

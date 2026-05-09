@@ -13,6 +13,11 @@ import ViewEvent from "./features/Events/v1/Pages/ViewEvent";
 import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
 
+import TaskManagementPage from "./features/Tasks/v1/pages/TaskManagementPage";
+import CreateTaskPage from "./features/Tasks/v1/pages/CreateTaskPage";
+import TaskDetailPage from "./features/Tasks/v1/pages/TaskDetailPage";
+import EditTaskPage from "./features/Tasks/v1/pages/EditTaskPage";
+
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { dashboardData } from "./features/Dashboard/mock/dashboardData";
@@ -58,6 +63,12 @@ function App() {
           <Route path="events" element={<ViewEvent />} />
           <Route path="create-event" element={<CreateNewEvent />} />
           <Route path="contact" element={<Contact />} />
+
+          {/* Tasks */}
+          <Route path="tasks" element={<ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}><TaskManagementPage /></ProtectedRoute>} />
+          <Route path="tasks/create" element={<ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}><CreateTaskPage /></ProtectedRoute>} />
+          <Route path="tasks/:taskId" element={<ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}><TaskDetailPage /></ProtectedRoute>} />
+          <Route path="tasks/:taskId/edit" element={<ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}><EditTaskPage /></ProtectedRoute>} />
 
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
