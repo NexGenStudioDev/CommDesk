@@ -44,7 +44,7 @@ const SideBar = () => {
         </p>
 
         <SideBarLink icon={<MdDashboard />} text="Dashboard" link="/org/dashboard" />
-        <SideBarLink icon={<MdWork />} text="Projects" link="/org" />
+        <SideBarLink icon={<MdWork />} text="Projects" link="/org/admin/projects" />
         <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
