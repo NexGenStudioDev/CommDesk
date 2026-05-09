@@ -15,32 +15,32 @@ const navItems: NavItem[] = [
   {
     icon: MdDashboard,
     text: "Dashboard",
-    link: "/dashboard",
-    isActive: (pathname) => pathname === "/" || pathname.startsWith("/dashboard"),
+    link: "/org/dashboard",
+    isActive: (pathname) => pathname === "/org" || pathname.startsWith("/org/dashboard"),
   },
   {
     icon: MdGroup,
     text: "Teams",
-    link: "/member",
-    isActive: (pathname) => pathname.startsWith("/member") || pathname.startsWith("/add-member"),
+    link: "/org/member",
+    isActive: (pathname) => pathname.startsWith("/org/member") || pathname.startsWith("/org/add-member"),
   },
   {
     icon: MdEvent,
     text: "Events",
-    link: "/events",
-    isActive: (pathname) => pathname.startsWith("/events") || pathname.startsWith("/create-event"),
+    link: "/org/events",
+    isActive: (pathname) => pathname.startsWith("/org/events") || pathname.startsWith("/org/create-event"),
   },
   {
     icon: MdAssignment,
     text: "Tasks",
-    link: "/tasks",
-    isActive: (pathname) => pathname.startsWith("/tasks"),
+    link: "/org/tasks",
+    isActive: (pathname) => pathname.startsWith("/org/tasks"),
   },
   {
     icon: RiContactsBookFill,
     text: "Support",
-    link: "/contact",
-    isActive: (pathname) => pathname.startsWith("/contact"),
+    link: "/org/contact",
+    isActive: (pathname) => pathname.startsWith("/org/contact"),
   },
 ];
 
