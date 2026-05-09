@@ -1,5 +1,4 @@
 import { MdMedicalInformation } from "react-icons/md";
-import { getTheme } from "../../../../config/them.config";
 import { IoMdCloudUpload } from "react-icons/io";
 import { Input } from "../../../../Component/ui/Input";
 import { useState } from "react";
@@ -10,9 +9,7 @@ import MarkdownToJsx from "../../../../Component/ui/MarkdownToJsx";
 import { FaLink } from "react-icons/fa";
 
 const Event_Basic_Info = () => {
-  let theme = getTheme("light");
-
-  let [eventData, setEventData] = useState({
+  const [eventData, setEventData] = useState({
     title: "",
     eventType: "",
     description: "",
@@ -25,34 +22,44 @@ const Event_Basic_Info = () => {
     tags: [],
   });
 
-  let [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   return (
     <div
-      className="flex flex-col w-full p-8 border-2 rounded-lg"
+      className="flex flex-col w-full p-8 rounded-xl"
       style={{
-        background: theme.background.primary,
-        borderColor: theme.borderColor.primary,
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
       }}
     >
-      <span className="font-extrabold text-xl text-gray-800 uppercase mb-[3vh] flex items-center gap-3">
-        <MdMedicalInformation className="text-[#4f46e5]" />
+      <span
+        className="font-extrabold text-xl uppercase mb-[3vh] flex items-center gap-3"
+        style={{ color: "var(--cd-text)" }}
+      >
+        <MdMedicalInformation style={{ color: "var(--cd-primary)" }} />
         Event Information
       </span>
 
-      <div className="flex flex-col gap-4  ">
-        <p className="text-md text-gray-400 uppercase font-semibold">Event Cover Image</p>
+      <div className="flex flex-col gap-4">
+        <p className="text-xs font-semibold uppercase" style={{ color: "var(--cd-text-2)" }}>
+          Event Cover Image
+        </p>
 
-        <div className="w-full flex h-[15vh] flex-col gap-2  mb-4">
+        <div className="w-full flex h-[15vh] flex-col gap-2 mb-4">
           <div
-            className="w-full h-full border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-gray-50"
+            className="w-full h-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center"
             style={{
-              borderColor: theme.borderColor.primary,
+              borderColor: "var(--cd-border)",
+              backgroundColor: "var(--cd-surface-2)",
             }}
           >
-            <IoMdCloudUpload className="text-2xl text-gray-400" />
-            <p className="text-[1vw]">Click to upload or drag and drop</p>
-            <p className="text-[1vw]">PNG , JPG up to 10MB (16:9 aspect ratio)</p>
+            <IoMdCloudUpload className="text-2xl" style={{ color: "var(--cd-text-muted)" }} />
+            <p className="text-xs mt-1" style={{ color: "var(--cd-text-muted)" }}>
+              Click to upload or drag and drop
+            </p>
+            <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
+              PNG, JPG up to 10MB (16:9 aspect ratio)
+            </p>
           </div>
         </div>
 
@@ -71,19 +78,18 @@ const Event_Basic_Info = () => {
             type="url"
             placeholder="Enter registration link"
             className="my-[2vh]"
-            leftIcon={<FaLink className="text-gray-400" />}
+            leftIcon={<FaLink style={{ color: "var(--cd-text-muted)" }} />}
             value={eventData.registrationLink}
             onChange={(name, value) => setEventData({ ...eventData, [name]: value })}
           />
 
-          <div className="flex gap-[5%] w-full ">
+          <div className="flex gap-[5%] w-full">
             <DropDown
               options={EVENT_TYPE}
               label="Event Type"
               className="w-[48%]"
               onSelect={(value) => setEventData({ ...eventData, eventType: value })}
             />
-
             <DropDown
               options={EVENT_CATEGORY}
               label="Event Category"
@@ -92,70 +98,63 @@ const Event_Basic_Info = () => {
             />
           </div>
 
-          <div className="Description flex flex-col mt-[4vh]">
+          <div className="flex flex-col mt-[4vh]">
             <div
-              className="w-full flex items-center justify-between px-4 py-4 rounded-t-lg border-2 border-b-0"
+              className="w-full flex items-center justify-between px-4 py-3 rounded-t-xl border border-b-0"
               style={{
-                backgroundColor: theme.background.tertiary,
-                borderColor: theme.borderColor.primary,
+                backgroundColor: "var(--cd-surface-2)",
+                borderColor: "var(--cd-border)",
               }}
             >
               <p
-                className="text-base font-semibold uppercase tracking-wide"
-                style={{ color: theme.textColor.primary }}
+                className="text-sm font-semibold uppercase tracking-wide"
+                style={{ color: "var(--cd-text)" }}
               >
                 Event Description
               </p>
-
               <div className="flex gap-2">
                 <Button
                   text="Write"
-                  backgroundColor={
-                    isPreviewMode ? theme.background.primary : theme.textColor.tersiary
-                  }
-                  textColor={isPreviewMode ? theme.textColor.secondary : "#ffffff"}
+                  variant={isPreviewMode ? "secondary" : "primary"}
                   onClick={() => setIsPreviewMode(false)}
                 />
-
                 <Button
                   text="Preview"
-                  backgroundColor={
-                    isPreviewMode ? theme.textColor.tersiary : theme.background.primary
-                  }
-                  textColor={isPreviewMode ? "#ffffff" : theme.textColor.secondary}
+                  variant={isPreviewMode ? "primary" : "secondary"}
                   onClick={() => setIsPreviewMode(true)}
                 />
               </div>
             </div>
 
             <div
-              className="border-2 border-t-0 rounded-b-lg"
-              style={{ borderColor: theme.borderColor.primary }}
+              className="border border-t-0 rounded-b-xl"
+              style={{ borderColor: "var(--cd-border)" }}
             >
               {isPreviewMode ? (
                 <div
                   className="min-h-[24vh] p-4"
                   style={{
-                    backgroundColor: theme.background.primary,
-                    color: theme.textColor.secondary,
+                    backgroundColor: "var(--cd-surface)",
+                    color: "var(--cd-text-2)",
                   }}
                 >
                   {eventData.description.trim() ? (
                     <MarkdownToJsx markdown={eventData.description} />
                   ) : (
-                    <p className="italic">Preview will appear here...</p>
+                    <p className="italic" style={{ color: "var(--cd-text-muted)" }}>
+                      Preview will appear here...
+                    </p>
                   )}
                 </div>
               ) : (
                 <textarea
                   value={eventData.description}
                   onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
-                  placeholder="Write your event description here in markdown language..."
-                  className="w-full min-h-[24vh] p-4  rounded-b-lg resize-none focus:outline-none"
+                  placeholder="Write your event description here in markdown..."
+                  className="w-full min-h-[24vh] p-4 rounded-b-xl resize-none focus:outline-none"
                   style={{
-                    backgroundColor: theme.background.primary,
-                    borderColor: theme.borderColor.primary,
-                    color: theme.textColor.secondary,
+                    backgroundColor: "var(--cd-surface)",
+                    color: "var(--cd-text)",
                   }}
                 />
               )}
@@ -168,8 +167,3 @@ const Event_Basic_Info = () => {
 };
 
 export default Event_Basic_Info;
-
-//  className="w-full flex flex-col "
-//       style={{
-//         background: theme.background.secondary,
-//       }}

@@ -21,6 +21,7 @@ import EditTaskPage from "./features/Tasks/v1/pages/EditTaskPage";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { dashboardData } from "./features/Dashboard/mock/dashboardData";
+import { ThemeProvider } from "next-themes";
 
 function App() {
   useEffect(() => {
@@ -30,6 +31,8 @@ function App() {
   const user = dashboardData.user; // mock user
 
   return (
+    <ThemeProvider attribute="class" defaultTheme="light">
+
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
@@ -46,7 +49,7 @@ function App() {
                 <DashboardPage />
               </ProtectedRoute>
             }
-          />
+            />
 
           <Route
             path="dashboard"
@@ -55,7 +58,7 @@ function App() {
                 <DashboardPage />
               </ProtectedRoute>
             }
-          />
+            />
 
           {/* Other routes (not restricted) */}
           <Route path="member" element={<MemberPage />} />
@@ -83,6 +86,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
+            </ThemeProvider>
   );
 }
 
