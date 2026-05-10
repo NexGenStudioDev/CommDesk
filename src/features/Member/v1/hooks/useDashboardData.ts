@@ -1,6 +1,6 @@
+import { DashboardData } from "@/features/Dashboard/Member/dashboard";
+import { dashboardData } from "@/features/member/mock/dashboardData";
 import { useQuery } from "@tanstack/react-query";
-import { dashboardData } from "../mock/dashboardData";
-import { DashboardData } from "../types/dashboard";
 
 export const useDashboardData = () => {
   return useQuery<DashboardData>({

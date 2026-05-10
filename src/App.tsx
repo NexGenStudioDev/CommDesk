@@ -6,7 +6,7 @@ import "./App.css";
 
 
 
-import DashboardPage from "./features/Dashboard/member/v1/Pages/DashboardPage";
+import DashboardPage from "./features/Member/v1/Pages/DashboardPage";
 
 import MemberPage from "./features/Member/v1/Pages/MemberPage";
 
@@ -23,22 +23,22 @@ import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
 
-import AnalyticsPage from "./features/Dashboard/member/v1/Pages/Analytics";
+import AnalyticsPage from "./features/Member/v1/Pages/Analytics";
 
-import NotificationsPage from "./features/Dashboard/member/v1/Pages/Notifications";
+import NotificationsPage from "./features/Member/v1/Pages/Notifications";
 
-import SettingsPage from "./features/Dashboard/member/v1/Pages/Settings";
+import SettingsPage from "./features/Member/v1/Pages/Settings";
 
-import TasksPage from "./features/Dashboard/member/v1/Pages/Tasks";
+import TasksPage from "./features/Member/v1/Pages/Tasks";
 
-import TeamsPage from "./features/Dashboard/member/v1/Pages/Teams";
+import TeamsPage from "./features/Member/v1/Pages/Teams";
 
-import WorkspacePage from "./features/Dashboard/member/v1/Pages/WorkSpace";
+import WorkspacePage from "./features/Member/v1/Pages/WorkSpace";
 
-import MessagesPage from "./features/Dashboard/member/v1/Pages/Messages";
+import MessagesPage from "./features/Member/v1/Pages/Messages";
 
-import BillingPage from "./features/Dashboard/member/v1/Pages/Billing";
-import { dashboardData } from "./features/Dashboard/member/mock/dashboardData";
+import BillingPage from "./features/Member/v1/Pages/Billing";
+import { dashboardData } from "./features/member/mock/dashboardData";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -46,6 +46,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { ThemeProvider } from "next-themes";
 
 import Organisation_Template from "./features/template/LoginUserTemplate";
+import DashBoardPage from "./features/Dashboard/Organisation/v1/Pages/DashBoardPage";
 
 
 
@@ -76,8 +77,8 @@ function App() {
           <Route
             index
             element={
-              <ProtectedRoute user={user} allowedRoles={["Member"]}>
-                <DashboardPage />
+              <ProtectedRoute user={user} allowedRoles={["organization"]}>
+                <DashBoardPage />
               </ProtectedRoute>
             }
             />
@@ -85,31 +86,17 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <ProtectedRoute user={user} allowedRoles={["Member"]}>
-                <DashboardPage />
+              <ProtectedRoute user={user} allowedRoles={["organization"]}>
+                <DashBoardPage />
               </ProtectedRoute>
             }
             />
 
-          {/* Member Profile */}
-          <Route path="profile" element={<MemberPage />} />
+   
+          <Route path="teams" element={<MemberPage />} />
+     
 
-          {/* Member Modules */}
-          <Route path="analytics" element={<AnalyticsPage />} />
-
-          <Route path="notifications" element={<NotificationsPage />} />
-
-          <Route path="settings" element={<SettingsPage />} />
-
-          <Route path="tasks" element={<TasksPage />} />
-
-          <Route path="teams" element={<TeamsPage />} />
-
-          <Route path="workspace" element={<WorkspacePage />} />
-
-          <Route path="messages" element={<MessagesPage />} />
-
-          <Route path="billing" element={<BillingPage />} />
+  
 
           {/* Events */}
           <Route path="events" element={<ViewEvent />} />
@@ -122,26 +109,7 @@ function App() {
           {/* Add Member */}
           <Route path="add-member" element={<AddMemberPage />} />
 
-          {/* 404 */}
-          <Route
-            path="*"
-            element={
-              <div
-                className="
-                  flex items-center justify-center
-
-                  h-[60vh]
-
-                  text-xl font-semibold
-
-                  text-gray-500
-                  dark:text-zinc-400
-                "
-              >
-                404 Not Found
-              </div>
-            }
-          />
+      
         </Route>
 
 
@@ -165,8 +133,7 @@ function App() {
             }
             />
 
-          {/* Member Profile */}
-          <Route path="profile" element={<MemberPage />} />
+   
 
           {/* Member Modules */}
           <Route path="analytics" element={<AnalyticsPage />} />
@@ -177,7 +144,7 @@ function App() {
 
           <Route path="tasks" element={<TasksPage />} />
 
-          <Route path="teams" element={<TeamsPage />} />
+
 
           <Route path="workspace" element={<WorkspacePage />} />
 
@@ -193,8 +160,6 @@ function App() {
           {/* Contact */}
           <Route path="contact" element={<Contact />} />
 
-          {/* Add Member */}
-          <Route path="add-member" element={<AddMemberPage />} />
 
           {/* 404 */}
           <Route

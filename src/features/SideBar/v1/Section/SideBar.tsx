@@ -2,8 +2,9 @@ import { RiContactsBookFill } from "react-icons/ri";
 import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
 import { useTheme } from "@/theme";
 import { ThemeToggle } from "@/Component/ui/ThemeToggle";
-import { dashboardData } from "@/features/Dashboard/mock/dashboardData";
+
 import SideBarLink from "../Components/SideBarLink";
+import { dashboardData } from "@/features/member/mock/dashboardData";
 
 const SideBar = () => {
   const { theme } = useTheme();

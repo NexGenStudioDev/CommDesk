@@ -1,20 +1,21 @@
-import { useDashboardData } from "@/features/Dashboard/member/hooks/useDashboardData";
+import Achievements from "@/features/Dashboard/components/Achievements";
+import ActivityFeed from "@/features/Dashboard/components/ActivityFeed";
+import AISuggestions from "@/features/Dashboard/components/AISuggestions";
+import BudgetCard from "@/features/Dashboard/components/BudgetCard";
+import CalendarWidget from "@/features/Dashboard/components/CalendarWidget";
+import CommunityStatsCard from "@/features/Dashboard/components/CommunityStats";
+import IssuesPanel from "@/features/Dashboard/components/IssuesPanel";
+import PerformanceStats from "@/features/Dashboard/components/PerformanceStats";
+import ProductivityScore from "@/features/Dashboard/components/ProductivityScore";
+import RecentTasks from "@/features/Dashboard/components/RecentTasks";
+import SmartReminders from "@/features/Dashboard/components/SmartReminders";
+import SummaryCard from "@/features/Dashboard/components/SummaryCard";
+import TaskOverview from "@/features/Dashboard/components/TaskOverview";
+import UpcomingUrgentTasks from "@/features/Dashboard/components/UpcomingUrgentTasks";
+import { useDashboardData } from "@/features/Dashboard/hooks/useDashboardData";
 
-import SummaryCard from "@/features/Dashboard/member/components/SummaryCard";
-import ActivityFeed from "@/features/Dashboard/member/components/ActivityFeed";
-import PerformanceStats from "@/features/Dashboard/member/components/PerformanceStats";
-import UpcomingUrgentTasks from "@/features/Dashboard/member/components/UpcomingUrgentTasks";
-import TaskOverview from "@/features/Dashboard/member/components/TaskOverview";
-import RecentTasks from "@/features/Dashboard/member/components/RecentTasks";
 
-import Achievements from "@/features/Dashboard/member/components/Achievements";
-import IssuesPanel from "@/features/Dashboard/member/components/IssuesPanel";
-import BudgetCard from "@/features/Dashboard/member/components/BudgetCard";
-import CommunityStatsCard from "@/features/Dashboard/member/components/CommunityStats";
-import CalendarWidget from "@/features/Dashboard/member/components/CalendarWidget";
-import ProductivityScore from "@/features/Dashboard/member/components/ProductivityScore";
-import SmartReminders from "@/features/Dashboard/member/components/SmartReminders";
-import AISuggestions from "@/features/Dashboard/member/components/AISuggestions";
+
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardData();

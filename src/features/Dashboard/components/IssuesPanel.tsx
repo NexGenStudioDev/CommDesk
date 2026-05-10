@@ -1,6 +1,6 @@
 import { AlertCircle, CheckCircle, AlertTriangle } from "lucide-react";
 import { useTheme } from "@/theme";
-import { Issues } from "../member/types/dashboard";
+import { Issues } from "../Member/dashboard";
 
 interface Props {
   data: Issues;

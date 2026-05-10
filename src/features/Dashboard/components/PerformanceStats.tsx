@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useTheme } from "@/theme";
-import { Performance } from "../member/types/dashboard";
+import { Performance } from "../Member/dashboard";
 
 interface Props {
   data: Performance;

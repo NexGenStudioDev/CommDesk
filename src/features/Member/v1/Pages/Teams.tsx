@@ -1,4 +1,5 @@
-import PagePlaceholder from "../../components/PagePlaceholder";
+import PagePlaceholder from "../Components/PagePlaceholder";
+
 
 export default function TeamsPage() {
   return (

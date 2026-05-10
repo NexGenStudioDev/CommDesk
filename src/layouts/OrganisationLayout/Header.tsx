@@ -1,9 +1,9 @@
 import { Bell, Search, Menu, ChevronDown } from "lucide-react";
-import { useDashboardData } from "../../features/Dashboard/member/hooks/useDashboardData";
+import { useDashboardData } from "../../features/member/hooks/useDashboardData";
 
 import { useSidebar } from "@/context/SidebarContext";
 
-import ThemeToggle from "../../features/Dashboard/member/components/ThemeToggle";
+import ThemeToggle from "../../features/member/components/ThemeToggle";
 import { useLocation } from "react-router";
 
 export default function Header() {

@@ -1,5 +1,5 @@
 import { Trophy, Flame, Star, Award } from "lucide-react";
-import { AchievementsData } from "../member/types/dashboard";
+import { AchievementsData } from "../Member/dashboard";
 
 interface Props {
   data: AchievementsData;
