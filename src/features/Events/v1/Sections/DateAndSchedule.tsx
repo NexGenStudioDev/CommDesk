@@ -7,7 +7,6 @@ import Date from "../../../../Component/ui/Date";
 import Time from "../../../../Component/ui/Time";
 
 const DateAndSchedule = () => {
-
   let [eventData, setEventData] = useState({
     EventName: "",
     FullAddress: "",
@@ -22,9 +21,9 @@ const DateAndSchedule = () => {
     <div
       className="flex flex-col w-full mt-[5vh] p-8 border-2 rounded-lg"
       style={{
-  background: "var(--cd-surface)",
-  borderColor: "var(--cd-border)",
-}}
+        background: "var(--cd-surface)",
+        borderColor: "var(--cd-border)",
+      }}
     >
       <span className="font-extrabold text-xl text-gray-800 uppercase mb-[3vh] flex items-center gap-3">
         <IoMdCalendar className="text-[#4f46e5]" />

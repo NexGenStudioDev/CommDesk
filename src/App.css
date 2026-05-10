@@ -22,7 +22,12 @@ body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
 #root {
@@ -212,11 +217,11 @@ body {
   --cd-secondary: #a855f7;
   --cd-accent: #22d3ee;
   --cd-success: #4ade80;
-  --cd-success-subtle: rgba(74, 222, 128, 0.10);
+  --cd-success-subtle: rgba(74, 222, 128, 0.1);
   --cd-warning: #facc15;
-  --cd-warning-subtle: rgba(250, 204, 21, 0.10);
+  --cd-warning-subtle: rgba(250, 204, 21, 0.1);
   --cd-danger: #f87171;
-  --cd-danger-subtle: rgba(248, 113, 113, 0.10);
+  --cd-danger-subtle: rgba(248, 113, 113, 0.1);
   --cd-hover: rgba(255, 255, 255, 0.05);
   --cd-shadow: rgba(0, 0, 0, 0.3);
   --cd-shadow-md: rgba(0, 0, 0, 0.4);
@@ -226,7 +231,10 @@ body {
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.15s ease;
   }
   body {
     @apply bg-background text-foreground;
@@ -242,14 +250,16 @@ body {
     border-radius: 1rem;
     padding: 1.25rem;
     box-shadow: 0 1px 3px var(--cd-shadow);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
   }
   .cd-card:hover {
     box-shadow: 0 4px 12px var(--cd-shadow-md);
   }
   .cd-card-hover:hover {
-  transform: translateY(-2px);
-}
+    transform: translateY(-2px);
+  }
 
   /* Section title */
   .cd-section-title {
@@ -360,7 +370,9 @@ body {
     font-size: 0.875rem;
     color: var(--cd-text);
     outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
   }
   .cd-input::placeholder {
     color: var(--cd-text-muted);
@@ -455,14 +467,16 @@ body {
   }
 
   /* Legacy aliases (keep old .card / .section-title working) */
- /* Legacy aliases */
+  /* Legacy aliases */
   .card {
     background-color: var(--cd-surface);
     border: 1px solid var(--cd-border);
     border-radius: 1rem;
     padding: 1.25rem;
     box-shadow: 0 1px 3px var(--cd-shadow);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
   }
   .section-title {
     font-size: 1rem;

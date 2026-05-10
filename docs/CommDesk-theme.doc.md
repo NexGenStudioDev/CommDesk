@@ -24,13 +24,13 @@
 
 CommDesk uses a **two-layer theming architecture**:
 
-| Layer | File | Purpose |
-|---|---|---|
-| **CSS Variables** | `src/App.css` | Actual color values for light/dark. Single source of truth for colors. |
-| **TypeScript Tokens** | `src/theme/theme.config.ts` | Typed bridge — maps CSS variables to readable property names |
-| **Provider** | `src/theme/provider.tsx` | Manages mode state, persists to localStorage, applies `.dark` to `<html>` |
-| **Hook** | `src/theme/hooks/useTheme.ts` | Access tokens and controls in any component |
-| **Palette** | `src/theme/colors.ts` | Raw color palette (blue, purple, gray, etc.) used by App.css |
+| Layer                 | File                          | Purpose                                                                   |
+| --------------------- | ----------------------------- | ------------------------------------------------------------------------- |
+| **CSS Variables**     | `src/App.css`                 | Actual color values for light/dark. Single source of truth for colors.    |
+| **TypeScript Tokens** | `src/theme/theme.config.ts`   | Typed bridge — maps CSS variables to readable property names              |
+| **Provider**          | `src/theme/provider.tsx`      | Manages mode state, persists to localStorage, applies `.dark` to `<html>` |
+| **Hook**              | `src/theme/hooks/useTheme.ts` | Access tokens and controls in any component                               |
+| **Palette**           | `src/theme/colors.ts`         | Raw color palette (blue, purple, gray, etc.) used by App.css              |
 
 **How they connect:**
 
@@ -79,8 +79,12 @@ function resolveInitialMode(): ThemeMode {
 To prevent a white flash before the theme loads, `App.css` sets:
 
 ```css
-html { color-scheme: light; }
-html.dark { color-scheme: dark; }
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
 ```
 
 ---
@@ -124,12 +128,12 @@ import { useTheme } from "@/theme/hooks/useTheme";
 const { theme, mode, toggle, setMode } = useTheme();
 ```
 
-| Property | Type | Description |
-|---|---|---|
-| `theme` | `ThemeTokens` | Typed design tokens object |
-| `mode` | `"light" \| "dark"` | Current active theme mode |
-| `toggle` | `() => void` | Switch between light and dark |
-| `setMode` | `(mode) => void` | Explicitly set a mode |
+| Property  | Type                | Description                   |
+| --------- | ------------------- | ----------------------------- |
+| `theme`   | `ThemeTokens`       | Typed design tokens object    |
+| `mode`    | `"light" \| "dark"` | Current active theme mode     |
+| `toggle`  | `() => void`        | Switch between light and dark |
+| `setMode` | `(mode) => void`    | Explicitly set a mode         |
 
 ### Step 3 — Use tokens in JSX
 
@@ -167,6 +171,7 @@ const MyCard = () => {
 ```
 
 > 💡 **Which to use?**
+>
 > - Use `useTheme()` tokens when building reusable components — TypeScript will catch typos.
 > - Use `var(--cd-*)` directly for quick one-off inline styles or Tailwind classes.
 > - **Never** hardcode color values like `"#ffffff"` or Tailwind classes like `"text-gray-900"`.
@@ -179,58 +184,58 @@ All tokens come from `src/theme/theme.config.ts`. Access them via `theme.*` afte
 
 ### Backgrounds — `theme.bg.*`
 
-| Token | CSS Variable | Usage |
-|---|---|---|
-| `theme.bg.page` | `var(--cd-bg)` | Full page background |
-| `theme.bg.surface` | `var(--cd-surface)` | Cards, panels, modals |
-| `theme.bg.surfaceSecondary` | `var(--cd-surface-2)` | Inputs, tags, table rows |
-| `theme.bg.surfaceTertiary` | `var(--cd-surface-3)` | Hover fills, subtle nested sections |
+| Token                       | CSS Variable          | Usage                               |
+| --------------------------- | --------------------- | ----------------------------------- |
+| `theme.bg.page`             | `var(--cd-bg)`        | Full page background                |
+| `theme.bg.surface`          | `var(--cd-surface)`   | Cards, panels, modals               |
+| `theme.bg.surfaceSecondary` | `var(--cd-surface-2)` | Inputs, tags, table rows            |
+| `theme.bg.surfaceTertiary`  | `var(--cd-surface-3)` | Hover fills, subtle nested sections |
 
 ### Text — `theme.text.*`
 
-| Token | CSS Variable | Usage |
-|---|---|---|
-| `theme.text.primary` | `var(--cd-text)` | Main body text |
-| `theme.text.secondary` | `var(--cd-text-2)` | Labels, supporting text |
-| `theme.text.muted` | `var(--cd-text-muted)` | Placeholders, disabled, hints |
-| `theme.text.inverse` | `"#ffffff"` | Text on colored/dark backgrounds |
+| Token                  | CSS Variable           | Usage                            |
+| ---------------------- | ---------------------- | -------------------------------- |
+| `theme.text.primary`   | `var(--cd-text)`       | Main body text                   |
+| `theme.text.secondary` | `var(--cd-text-2)`     | Labels, supporting text          |
+| `theme.text.muted`     | `var(--cd-text-muted)` | Placeholders, disabled, hints    |
+| `theme.text.inverse`   | `"#ffffff"`            | Text on colored/dark backgrounds |
 
 ### Borders — `theme.border.*`
 
-| Token | CSS Variable | Usage |
-|---|---|---|
-| `theme.border.default` | `var(--cd-border)` | Card, input, modal borders |
-| `theme.border.subtle` | `var(--cd-border-subtle)` | Table row dividers, inner sections |
+| Token                  | CSS Variable              | Usage                              |
+| ---------------------- | ------------------------- | ---------------------------------- |
+| `theme.border.default` | `var(--cd-border)`        | Card, input, modal borders         |
+| `theme.border.subtle`  | `var(--cd-border-subtle)` | Table row dividers, inner sections |
 
 ### Primary Brand — `theme.primary.*`
 
-| Token | CSS Variable | Usage |
-|---|---|---|
-| `theme.primary.default` | `var(--cd-primary)` | Buttons, links, active nav |
-| `theme.primary.hover` | `var(--cd-primary-hover)` | Button hover state |
-| `theme.primary.subtle` | `var(--cd-primary-subtle)` | Badge backgrounds, focus rings |
-| `theme.primary.text` | `var(--cd-primary-text)` | Text on primary-subtle backgrounds |
+| Token                   | CSS Variable               | Usage                              |
+| ----------------------- | -------------------------- | ---------------------------------- |
+| `theme.primary.default` | `var(--cd-primary)`        | Buttons, links, active nav         |
+| `theme.primary.hover`   | `var(--cd-primary-hover)`  | Button hover state                 |
+| `theme.primary.subtle`  | `var(--cd-primary-subtle)` | Badge backgrounds, focus rings     |
+| `theme.primary.text`    | `var(--cd-primary-text)`   | Text on primary-subtle backgrounds |
 
 ### Status — `theme.success / warning / danger`
 
-| Token | Usage |
-|---|---|
-| `theme.success.default` | Success text, icons |
-| `theme.success.subtle` | Success badge backgrounds |
-| `theme.warning.default` | Warning text, icons |
-| `theme.warning.subtle` | Warning badge backgrounds |
-| `theme.danger.default` | Error text, destructive actions |
-| `theme.danger.subtle` | Error badge backgrounds |
+| Token                   | Usage                           |
+| ----------------------- | ------------------------------- |
+| `theme.success.default` | Success text, icons             |
+| `theme.success.subtle`  | Success badge backgrounds       |
+| `theme.warning.default` | Warning text, icons             |
+| `theme.warning.subtle`  | Warning badge backgrounds       |
+| `theme.danger.default`  | Error text, destructive actions |
+| `theme.danger.subtle`   | Error badge backgrounds         |
 
 ### Other Tokens
 
-| Token | Usage |
-|---|---|
-| `theme.secondary.default` | Purple brand accent |
-| `theme.accent.default` | Cyan accent |
-| `theme.interactive.hover` | Row/item hover background |
-| `theme.shadow.sm` | Card default shadow |
-| `theme.shadow.md` | Card elevated/hover shadow |
+| Token                     | Usage                      |
+| ------------------------- | -------------------------- |
+| `theme.secondary.default` | Purple brand accent        |
+| `theme.accent.default`    | Cyan accent                |
+| `theme.interactive.hover` | Row/item hover background  |
+| `theme.shadow.sm`         | Card default shadow        |
+| `theme.shadow.md`         | Card elevated/hover shadow |
 
 ---
 
@@ -243,11 +248,11 @@ Available palettes: `blue`, `purple`, `cyan`, `green`, `yellow`, `red`, `orange`
 ```ts
 import { palette } from "@/theme/colors";
 
-palette.blue[600]      // #2563eb  (light primary)
-palette.blue[500]      // #3b82f6  (dark primary)
-palette.gray[50]       // #f8fafc  (light background)
-palette.charcoal[900]  // #0f1320  (dark background)
-palette.charcoal[800]  // #1a1f2e  (dark surface)
+palette.blue[600]; // #2563eb  (light primary)
+palette.blue[500]; // #3b82f6  (dark primary)
+palette.gray[50]; // #f8fafc  (light background)
+palette.charcoal[900]; // #0f1320  (dark background)
+palette.charcoal[800]; // #1a1f2e  (dark surface)
 ```
 
 > ✅ Prefer `theme.*` tokens in components. Raw palette values don't auto-switch with the theme.
@@ -304,12 +309,17 @@ The `.active` class automatically applies the primary highlight style.
 ```tsx
 <table className="cd-table">
   <thead>
-    <tr><th>Name</th><th>Status</th></tr>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+    </tr>
   </thead>
   <tbody>
     <tr>
       <td>John Doe</td>
-      <td><span className="cd-badge cd-badge-success">Active</span></td>
+      <td>
+        <span className="cd-badge cd-badge-success">Active</span>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -336,7 +346,7 @@ The `.active` class automatically applies the primary highlight style.
 import ThemeToggle from "@/Component/ui/ThemeToggle";
 
 // Drop anywhere — Navbar, Sidebar, Settings page
-<ThemeToggle />
+<ThemeToggle />;
 ```
 
 ### Building a Custom Toggle
@@ -489,7 +499,9 @@ import { useTheme } from "@/theme/hooks/useTheme";
 
 ```css
 /* ❌ Tailwind v4 doesn't support @apply on custom-defined classes */
-.my-class { @apply cd-card; }
+.my-class {
+  @apply cd-card;
+}
 
 /* ✅ Copy the CSS properties directly */
 .my-class {
@@ -525,30 +537,30 @@ import { useTheme } from "@/theme/hooks/useTheme";
 
 ### Token → CSS Variable mapping
 
-| `theme.*` token | CSS Variable | Use for |
-|---|---|---|
-| `theme.bg.page` | `var(--cd-bg)` | Page background |
-| `theme.bg.surface` | `var(--cd-surface)` | Cards, panels |
-| `theme.bg.surfaceSecondary` | `var(--cd-surface-2)` | Inputs, rows |
-| `theme.bg.surfaceTertiary` | `var(--cd-surface-3)` | Nested fills |
-| `theme.text.primary` | `var(--cd-text)` | Main text |
-| `theme.text.secondary` | `var(--cd-text-2)` | Labels |
-| `theme.text.muted` | `var(--cd-text-muted)` | Placeholders |
-| `theme.border.default` | `var(--cd-border)` | Borders |
-| `theme.border.subtle` | `var(--cd-border-subtle)` | Dividers |
-| `theme.primary.default` | `var(--cd-primary)` | Brand blue |
-| `theme.primary.hover` | `var(--cd-primary-hover)` | Button hover |
-| `theme.primary.subtle` | `var(--cd-primary-subtle)` | Badge bg |
-| `theme.primary.text` | `var(--cd-primary-text)` | Badge text |
-| `theme.interactive.hover` | `var(--cd-hover)` | Row hover bg |
-| `theme.success.default` | `var(--cd-success)` | Success text |
-| `theme.success.subtle` | `var(--cd-success-subtle)` | Success bg |
-| `theme.warning.default` | `var(--cd-warning)` | Warning text |
-| `theme.warning.subtle` | `var(--cd-warning-subtle)` | Warning bg |
-| `theme.danger.default` | `var(--cd-danger)` | Error/danger |
-| `theme.danger.subtle` | `var(--cd-danger-subtle)` | Error bg |
-| `theme.shadow.sm` | `var(--cd-shadow)` | Card shadow |
-| `theme.shadow.md` | `var(--cd-shadow-md)` | Hover shadow |
+| `theme.*` token             | CSS Variable               | Use for         |
+| --------------------------- | -------------------------- | --------------- |
+| `theme.bg.page`             | `var(--cd-bg)`             | Page background |
+| `theme.bg.surface`          | `var(--cd-surface)`        | Cards, panels   |
+| `theme.bg.surfaceSecondary` | `var(--cd-surface-2)`      | Inputs, rows    |
+| `theme.bg.surfaceTertiary`  | `var(--cd-surface-3)`      | Nested fills    |
+| `theme.text.primary`        | `var(--cd-text)`           | Main text       |
+| `theme.text.secondary`      | `var(--cd-text-2)`         | Labels          |
+| `theme.text.muted`          | `var(--cd-text-muted)`     | Placeholders    |
+| `theme.border.default`      | `var(--cd-border)`         | Borders         |
+| `theme.border.subtle`       | `var(--cd-border-subtle)`  | Dividers        |
+| `theme.primary.default`     | `var(--cd-primary)`        | Brand blue      |
+| `theme.primary.hover`       | `var(--cd-primary-hover)`  | Button hover    |
+| `theme.primary.subtle`      | `var(--cd-primary-subtle)` | Badge bg        |
+| `theme.primary.text`        | `var(--cd-primary-text)`   | Badge text      |
+| `theme.interactive.hover`   | `var(--cd-hover)`          | Row hover bg    |
+| `theme.success.default`     | `var(--cd-success)`        | Success text    |
+| `theme.success.subtle`      | `var(--cd-success-subtle)` | Success bg      |
+| `theme.warning.default`     | `var(--cd-warning)`        | Warning text    |
+| `theme.warning.subtle`      | `var(--cd-warning-subtle)` | Warning bg      |
+| `theme.danger.default`      | `var(--cd-danger)`         | Error/danger    |
+| `theme.danger.subtle`       | `var(--cd-danger-subtle)`  | Error bg        |
+| `theme.shadow.sm`           | `var(--cd-shadow)`         | Card shadow     |
+| `theme.shadow.md`           | `var(--cd-shadow-md)`      | Hover shadow    |
 
 ### Hook returns
 
@@ -561,32 +573,33 @@ const { theme, mode, toggle, setMode } = useTheme();
 
 ### CSS Utility classes cheatsheet
 
-| Class | Use |
-|---|---|
-| `cd-card` | Card container |
-| `cd-card-hover` | Add hover lift to card |
-| `cd-btn cd-btn-primary` | Primary button |
-| `cd-btn cd-btn-secondary` | Secondary button |
-| `cd-btn cd-btn-ghost` | Ghost/text button |
-| `cd-btn cd-btn-danger` | Danger button |
-| `cd-badge cd-badge-success` | Green badge |
-| `cd-badge cd-badge-warning` | Yellow badge |
-| `cd-badge cd-badge-danger` | Red badge |
-| `cd-badge cd-badge-primary` | Blue badge |
-| `cd-badge cd-badge-neutral` | Gray badge |
-| `cd-input` | Styled input |
-| `cd-table` | Styled table |
-| `cd-nav-link` | Sidebar nav link |
-| `cd-nav-link active` | Active nav link |
-| `cd-page` | Page wrapper background |
-| `cd-section-title` | Section heading |
-| `cd-text-muted` | Muted paragraph |
-| `cd-glass` | Glassmorphism panel |
-| `cd-metric` | Stat metric box |
+| Class                       | Use                     |
+| --------------------------- | ----------------------- |
+| `cd-card`                   | Card container          |
+| `cd-card-hover`             | Add hover lift to card  |
+| `cd-btn cd-btn-primary`     | Primary button          |
+| `cd-btn cd-btn-secondary`   | Secondary button        |
+| `cd-btn cd-btn-ghost`       | Ghost/text button       |
+| `cd-btn cd-btn-danger`      | Danger button           |
+| `cd-badge cd-badge-success` | Green badge             |
+| `cd-badge cd-badge-warning` | Yellow badge            |
+| `cd-badge cd-badge-danger`  | Red badge               |
+| `cd-badge cd-badge-primary` | Blue badge              |
+| `cd-badge cd-badge-neutral` | Gray badge              |
+| `cd-input`                  | Styled input            |
+| `cd-table`                  | Styled table            |
+| `cd-nav-link`               | Sidebar nav link        |
+| `cd-nav-link active`        | Active nav link         |
+| `cd-page`                   | Page wrapper background |
+| `cd-section-title`          | Section heading         |
+| `cd-text-muted`             | Muted paragraph         |
+| `cd-glass`                  | Glassmorphism panel     |
+| `cd-metric`                 | Stat metric box         |
 
 ---
 
 > 📌 **Files to edit when changing the theme:**
+>
 > - Color values → `src/App.css` (`:root` and `.dark` CSS variables)
 > - Add/rename a token → `src/theme/theme.config.ts` (TypeScript will show everywhere to update)
 > - Raw palette → `src/theme/colors.ts`

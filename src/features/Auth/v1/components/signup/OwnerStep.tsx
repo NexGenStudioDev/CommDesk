@@ -24,7 +24,9 @@ interface PasswordRuleProps {
 
 function PasswordRule({ met, label }: PasswordRuleProps) {
   return (
-    <div className={`flex items-center gap-1.5 text-xs transition-colors ${met ? "text-emerald-600" : "text-slate-400"}`}>
+    <div
+      className={`flex items-center gap-1.5 text-xs transition-colors ${met ? "text-emerald-600" : "text-slate-400"}`}
+    >
       {met ? <CheckCircle2 className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
       {label}
     </div>
@@ -32,7 +34,16 @@ function PasswordRule({ met, label }: PasswordRuleProps) {
 }
 
 const ROLES = ["ORGANISER", "ADMIN", "COORDINATOR", "MODERATOR"];
-const INTERESTS = ["Technology", "Education", "Healthcare", "Environment", "Arts & Culture", "Social Welfare", "Business", "Sports"];
+const INTERESTS = [
+  "Technology",
+  "Education",
+  "Healthcare",
+  "Environment",
+  "Arts & Culture",
+  "Social Welfare",
+  "Business",
+  "Sports",
+];
 
 export default function OwnerStep() {
   const {
@@ -68,7 +79,11 @@ export default function OwnerStep() {
   };
 
   const removeSkill = (index: number) => {
-    setValue("skills", skills.filter((_, i) => i !== index), { shouldValidate: true });
+    setValue(
+      "skills",
+      skills.filter((_, i) => i !== index),
+      { shouldValidate: true },
+    );
   };
 
   const toggleInterest = (interest: string) => {
@@ -93,7 +108,9 @@ export default function OwnerStep() {
       <section className="space-y-4">
         <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
           <User className="w-4 h-4 text-indigo-500" />
-          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Basic Information</h3>
+          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+            Basic Information
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -102,20 +119,34 @@ export default function OwnerStep() {
             <input
               {...register("firstName")}
               placeholder="John"
-              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${errors.firstName ? "border-red-300 focus:ring-red-50" : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
-                }`}
+              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${
+                errors.firstName
+                  ? "border-red-300 focus:ring-red-50"
+                  : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
+              }`}
             />
-            {errors.firstName && <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.firstName.message}</span>}
+            {errors.firstName && (
+              <span className="text-[11px] text-red-500 ml-1 font-medium">
+                {errors.firstName.message}
+              </span>
+            )}
           </div>
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-slate-600 ml-1">Last Name *</label>
             <input
               {...register("lastName")}
               placeholder="Doe"
-              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${errors.lastName ? "border-red-300 focus:ring-red-50" : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
-                }`}
+              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${
+                errors.lastName
+                  ? "border-red-300 focus:ring-red-50"
+                  : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
+              }`}
             />
-            {errors.lastName && <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.lastName.message}</span>}
+            {errors.lastName && (
+              <span className="text-[11px] text-red-500 ml-1 font-medium">
+                {errors.lastName.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -128,10 +159,17 @@ export default function OwnerStep() {
               {...register("email")}
               type="email"
               placeholder="john@example.com"
-              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${errors.email ? "border-red-300 focus:ring-red-50" : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
-                }`}
+              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${
+                errors.email
+                  ? "border-red-300 focus:ring-red-50"
+                  : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
+              }`}
             />
-            {errors.email && <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-[11px] text-red-500 ml-1 font-medium">
+                {errors.email.message}
+              </span>
+            )}
           </div>
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-slate-600 ml-1 flex items-center gap-1.5">
@@ -140,10 +178,17 @@ export default function OwnerStep() {
             <input
               {...register("location")}
               placeholder="City, Country"
-              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${errors.location ? "border-red-300 focus:ring-red-50" : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
-                }`}
+              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:ring-4 ${
+                errors.location
+                  ? "border-red-300 focus:ring-red-50"
+                  : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
+              }`}
             />
-            {errors.location && <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.location.message}</span>}
+            {errors.location && (
+              <span className="text-[11px] text-red-500 ml-1 font-medium">
+                {errors.location.message}
+              </span>
+            )}
           </div>
         </div>
       </section>
@@ -163,8 +208,11 @@ export default function OwnerStep() {
                 {...register("password")}
                 type={showPw ? "text" : "password"}
                 placeholder="••••••••"
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all pr-10 focus:ring-4 ${errors.password ? "border-red-300 focus:ring-red-50" : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
-                  }`}
+                className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all pr-10 focus:ring-4 ${
+                  errors.password
+                    ? "border-red-300 focus:ring-red-50"
+                    : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
+                }`}
               />
               <button
                 type="button"
@@ -188,8 +236,11 @@ export default function OwnerStep() {
                 {...register("confirmPassword")}
                 type={showConfirmPw ? "text" : "password"}
                 placeholder="••••••••"
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all pr-10 focus:ring-4 ${errors.confirmPassword ? "border-red-300 focus:ring-red-50" : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
-                  }`}
+                className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all pr-10 focus:ring-4 ${
+                  errors.confirmPassword
+                    ? "border-red-300 focus:ring-red-50"
+                    : "border-slate-200 focus:border-indigo-500 focus:ring-indigo-50"
+                }`}
               />
               <button
                 type="button"
@@ -209,7 +260,9 @@ export default function OwnerStep() {
               )}
             </div>
             {errors.confirmPassword && (
-              <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.confirmPassword.message}</span>
+              <span className="text-[11px] text-red-500 ml-1 font-medium">
+                {errors.confirmPassword.message}
+              </span>
             )}
           </div>
         </div>
@@ -219,7 +272,9 @@ export default function OwnerStep() {
       <section className="space-y-4">
         <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
           <Briefcase className="w-4 h-4 text-indigo-500" />
-          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Professional Profile</h3>
+          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+            Professional Profile
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -229,8 +284,10 @@ export default function OwnerStep() {
               {...register("primaryRole")}
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50 bg-white"
             >
-              {ROLES.map(role => (
-                <option key={role} value={role}>{role}</option>
+              {ROLES.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
               ))}
             </select>
           </div>
@@ -239,15 +296,22 @@ export default function OwnerStep() {
             <label className="text-xs font-semibold text-slate-600 ml-1 flex items-center gap-1.5">
               <Tag className="w-3 h-3" /> Skills (Press Enter) *
             </label>
-            <div className={`flex flex-wrap gap-2 p-2 rounded-xl border transition-all ${errors.skills ? "border-red-300 bg-red-50/20" : "border-slate-200 bg-slate-50/30"
-              }`}>
+            <div
+              className={`flex flex-wrap gap-2 p-2 rounded-xl border transition-all ${
+                errors.skills ? "border-red-300 bg-red-50/20" : "border-slate-200 bg-slate-50/30"
+              }`}
+            >
               {skills.map((skill: string, index: number) => (
                 <span
                   key={index}
                   className="inline-flex items-center gap-1 px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-700 shadow-sm"
                 >
                   {skill}
-                  <button type="button" onClick={() => removeSkill(index)} className="hover:text-red-500">
+                  <button
+                    type="button"
+                    onClick={() => removeSkill(index)}
+                    className="hover:text-red-500"
+                  >
                     <X size={12} />
                   </button>
                 </span>
@@ -256,11 +320,17 @@ export default function OwnerStep() {
                 value={skillInput}
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyDown={handleAddSkill}
-                placeholder={skills.length === 0 ? "e.g. Management, Public Speaking" : "Add more..."}
+                placeholder={
+                  skills.length === 0 ? "e.g. Management, Public Speaking" : "Add more..."
+                }
                 className="flex-1 bg-transparent border-none outline-none text-sm min-w-[120px] py-1"
               />
             </div>
-            {errors.skills && <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.skills.message}</span>}
+            {errors.skills && (
+              <span className="text-[11px] text-red-500 ml-1 font-medium">
+                {errors.skills.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -274,17 +344,20 @@ export default function OwnerStep() {
                 key={interest}
                 type="button"
                 onClick={() => toggleInterest(interest)}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all border ${areaOfInterest.includes(interest)
-                  ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-100"
-                  : "bg-white border-slate-200 text-slate-600 hover:border-indigo-300"
-                  }`}
+                className={`px-4 py-2 rounded-full text-xs font-medium transition-all border ${
+                  areaOfInterest.includes(interest)
+                    ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-100"
+                    : "bg-white border-slate-200 text-slate-600 hover:border-indigo-300"
+                }`}
               >
                 {interest}
               </button>
             ))}
           </div>
           {errors.areaOfInterest && (
-            <span className="text-[11px] text-red-500 ml-1 font-medium">{errors.areaOfInterest.message}</span>
+            <span className="text-[11px] text-red-500 ml-1 font-medium">
+              {errors.areaOfInterest.message}
+            </span>
           )}
         </div>
       </section>
@@ -293,22 +366,37 @@ export default function OwnerStep() {
       <section className="space-y-4">
         <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
           <ShieldCheck className="w-4 h-4 text-indigo-500" />
-          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Access Permissions</h3>
+          <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+            Access Permissions
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
-            { id: "internalDashboard", label: "Internal Dashboard", desc: "Access to community analytics & metrics" },
-            { id: "communityForum", label: "Community Forum", desc: "Moderate discussions and group permissions" },
-            { id: "adminControls", label: "Admin Controls", desc: "Modify system setting and user roles" },
+            {
+              id: "internalDashboard",
+              label: "Internal Dashboard",
+              desc: "Access to community analytics & metrics",
+            },
+            {
+              id: "communityForum",
+              label: "Community Forum",
+              desc: "Moderate discussions and group permissions",
+            },
+            {
+              id: "adminControls",
+              label: "Admin Controls",
+              desc: "Modify system setting and user roles",
+            },
             { id: "superAdmin", label: "Super Admin", desc: "Full system access and data export" },
           ].map((perm) => (
             <label
               key={perm.id}
-              className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all hover:shadow-sm ${watch(`permissions.${perm.id}` as any)
-                ? "border-indigo-200 bg-indigo-50/30"
-                : "border-slate-100 bg-white"
-                }`}
+              className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all hover:shadow-sm ${
+                watch(`permissions.${perm.id}` as any)
+                  ? "border-indigo-200 bg-indigo-50/30"
+                  : "border-slate-100 bg-white"
+              }`}
             >
               <div className="relative flex items-center mt-1">
                 <input
@@ -329,7 +417,9 @@ export default function OwnerStep() {
 
       {/* Internal Notes */}
       <section className="space-y-1.5">
-        <label className="text-xs font-semibold text-slate-600 ml-1">Internal Notes (Optional)</label>
+        <label className="text-xs font-semibold text-slate-600 ml-1">
+          Internal Notes (Optional)
+        </label>
         <textarea
           {...register("internalNotes")}
           rows={3}

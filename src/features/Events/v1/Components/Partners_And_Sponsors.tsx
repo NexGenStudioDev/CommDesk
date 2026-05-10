@@ -2,10 +2,29 @@ import { IoMdAdd } from "react-icons/io";
 import Partners_And_Sponsors_Card from "./Partners_And_Sponsors_Card";
 
 const PARTNERS = [
-  { name: "Google", category: "Official Partner", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIl8zC8WAMHi5JVmKUb3YVvZd5gvoCdy-NQ&s" },
-  { name: "Microsoft", category: "Platinum Sponsor", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy0dDdi3KJgMq_87aJt9us_0yh69ewaKgUzg&s" },
-  { name: "Amazon Web Services", category: "Gold Sponsor", image: "https://amcham.no/wp-content/uploads/2020/04/AWS-Logo-Final-768x768.png" },
-  { name: "IBM", category: "Silver Sponsor", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxk2TBtiMBNmv3VO4APHeB-XCGatVy5aW0bw&s" },
+  {
+    name: "Google",
+    category: "Official Partner",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIl8zC8WAMHi5JVmKUb3YVvZd5gvoCdy-NQ&s",
+  },
+  {
+    name: "Microsoft",
+    category: "Platinum Sponsor",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy0dDdi3KJgMq_87aJt9us_0yh69ewaKgUzg&s",
+  },
+  {
+    name: "Amazon Web Services",
+    category: "Gold Sponsor",
+    image: "https://amcham.no/wp-content/uploads/2020/04/AWS-Logo-Final-768x768.png",
+  },
+  {
+    name: "IBM",
+    category: "Silver Sponsor",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxk2TBtiMBNmv3VO4APHeB-XCGatVy5aW0bw&s",
+  },
 ];
 
 type Partners_And_SponsorsProps = {
@@ -13,7 +32,10 @@ type Partners_And_SponsorsProps = {
   onToggleExpand?: () => void;
 };
 
-const Partners_And_Sponsors = ({ isExpanded = true, onToggleExpand }: Partners_And_SponsorsProps) => {
+const Partners_And_Sponsors = ({
+  isExpanded = true,
+  onToggleExpand,
+}: Partners_And_SponsorsProps) => {
   return (
     <div
       className="flex w-full flex-col rounded-xl p-4 transition-all duration-200"

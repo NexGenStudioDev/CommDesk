@@ -13,10 +13,7 @@ const AddMemberHeader = () => {
       }}
     >
       <Link to="/org/member" className="w-1/3 h-full flex items-center">
-        <h1
-          className="text-2xl font-bold ml-5 mt-2"
-          style={{ color: "var(--cd-text)" }}
-        >
+        <h1 className="text-2xl font-bold ml-5 mt-2" style={{ color: "var(--cd-text)" }}>
           <IoMdArrowRoundBack className="mr-[3vw] inline" />
           Create New Member
         </h1>
@@ -28,10 +25,7 @@ const AddMemberHeader = () => {
           variant="secondary"
           onClick={() => alert("Discard Draft clicked")}
         />
-        <Button
-          text="Create Member"
-          onClick={() => alert("Create Member clicked")}
-        />
+        <Button text="Create Member" onClick={() => alert("Create Member clicked")} />
       </div>
     </div>
   );

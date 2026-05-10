@@ -11,11 +11,46 @@ type TeamMember = {
 };
 
 const MEMBERS: TeamMember[] = [
-  { id: 1, name: "John Doe", department: "IT", role: "System Admin", email: "john.doe@example.com", status: "active" },
-  { id: 2, name: "Jane Smith", department: "HR", role: "HR Manager", email: "jane.smith@example.com", status: "active" },
-  { id: 3, name: "Alex Turner", department: "Finance", role: "Finance Lead", email: "alex.turner@example.com", status: "away" },
-  { id: 4, name: "Maria Garcia", department: "Design", role: "UI/UX Designer", email: "maria.garcia@example.com", status: "active" },
-  { id: 5, name: "Chris Wilson", department: "DevOps", role: "Infrastructure", email: "chris.wilson@example.com", status: "offline" },
+  {
+    id: 1,
+    name: "John Doe",
+    department: "IT",
+    role: "System Admin",
+    email: "john.doe@example.com",
+    status: "active",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    department: "HR",
+    role: "HR Manager",
+    email: "jane.smith@example.com",
+    status: "active",
+  },
+  {
+    id: 3,
+    name: "Alex Turner",
+    department: "Finance",
+    role: "Finance Lead",
+    email: "alex.turner@example.com",
+    status: "away",
+  },
+  {
+    id: 4,
+    name: "Maria Garcia",
+    department: "Design",
+    role: "UI/UX Designer",
+    email: "maria.garcia@example.com",
+    status: "active",
+  },
+  {
+    id: 5,
+    name: "Chris Wilson",
+    department: "DevOps",
+    role: "Infrastructure",
+    email: "chris.wilson@example.com",
+    status: "offline",
+  },
 ];
 
 const STATUS_COLOR: Record<TeamMember["status"], string> = {
@@ -25,7 +60,12 @@ const STATUS_COLOR: Record<TeamMember["status"], string> = {
 };
 
 function getInitials(name: string): string {
-  return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 }
 
 const CopyEmailButton = ({ email }: { email: string }) => {
@@ -48,11 +88,7 @@ const CopyEmailButton = ({ email }: { email: string }) => {
         ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
       }
     >
-      {copied ? (
-        <FiCheck size={14} style={{ color: "var(--cd-success)" }} />
-      ) : (
-        <FiCopy size={14} />
-      )}
+      {copied ? <FiCheck size={14} style={{ color: "var(--cd-success)" }} /> : <FiCopy size={14} />}
     </button>
   );
 };

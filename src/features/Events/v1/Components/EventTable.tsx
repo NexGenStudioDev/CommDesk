@@ -68,10 +68,7 @@ function EventTable({ events, itemsPerPage }: EventProps) {
                 </td>
                 <td style={{ color: "var(--cd-text-2)" }}>{event.date}</td>
                 <td>
-                  <span
-                    className="cd-badge"
-                    style={{ backgroundColor: s.bg, color: s.color }}
-                  >
+                  <span className="cd-badge" style={{ backgroundColor: s.bg, color: s.color }}>
                     {event.status}
                   </span>
                 </td>

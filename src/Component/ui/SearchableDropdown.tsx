@@ -23,9 +23,7 @@ export function SearchableDropdown({
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const filteredOptions = options.filter((opt) =>
-    opt.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredOptions = options.filter((opt) => opt.toLowerCase().includes(search.toLowerCase()));
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -100,7 +98,7 @@ export function SearchableDropdown({
         className={cn(
           "flex h-[42px] w-full items-center justify-between rounded-lg border bg-white px-4 py-2.5 text-sm ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 transition-all cursor-pointer group inter",
           error ? "border-red-400" : "border-gray-300",
-          !value && "text-gray-400"
+          !value && "text-gray-400",
         )}
       >
         <span className="truncate">{value || placeholder}</span>
@@ -141,7 +139,7 @@ export function SearchableDropdown({
                   className={cn(
                     "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2.5 px-9 text-sm outline-none transition-colors inter",
                     index === activeIndex ? "bg-indigo-50 text-indigo-900" : "text-gray-700",
-                    value === option && "bg-indigo-50 font-semibold text-indigo-600"
+                    value === option && "bg-indigo-50 font-semibold text-indigo-600",
                   )}
                 >
                   {value === option && (

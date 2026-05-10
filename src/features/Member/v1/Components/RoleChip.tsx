@@ -14,10 +14,7 @@ const RoleChip = ({ role }: { role: string }) => {
   };
 
   return (
-    <span
-      className="cd-badge"
-      style={{ backgroundColor: cfg.bg, color: cfg.color }}
-    >
+    <span className="cd-badge" style={{ backgroundColor: cfg.bg, color: cfg.color }}>
       {role}
     </span>
   );

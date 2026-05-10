@@ -4,7 +4,7 @@ export interface Task {
   id: number;
   title: string;
   status: TaskStatus;
-  deadline: string; 
+  deadline: string;
 }
 
 export interface Summary {
@@ -26,7 +26,7 @@ export interface ActivityItem {
   id: number;
   text: string;
   time: string;
-  type: ActivityType; 
+  type: ActivityType;
 }
 export interface Performance {
   completionRate: number;
@@ -59,9 +59,9 @@ export interface Rewards {
   points: number;
   nextReward: number;
 
-  stipend?: number;  
-  rewardsEarned?: number; 
-  history?: { title: string; points: number }[]; 
+  stipend?: number;
+  rewardsEarned?: number;
+  history?: { title: string; points: number }[];
 }
 
 export interface CommunityStats {
@@ -71,7 +71,7 @@ export interface CommunityStats {
 }
 
 export interface CalendarEvent {
-  date: string; 
+  date: string;
   time: string;
   title: string;
   type?: "task" | "event";
@@ -82,7 +82,7 @@ export interface CalendarData {
 }
 
 export interface DashboardData {
-   user: User;
+  user: User;
   summary: Summary;
   tasks: Task[];
   activity: ActivityItem[];

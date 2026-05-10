@@ -1,5 +1,3 @@
-import { useDashboardData } from "../../hooks/useDashboardData";
-
 import SummaryCard from "../../components/SummaryCard";
 import ActivityFeed from "../../components/ActivityFeed";
 import PerformanceStats from "../../components/PerformanceStats";
@@ -16,6 +14,7 @@ import CalendarWidget from "@/features/Dashboard/components/CalendarWidget";
 import ProductivityScore from "@/features/Dashboard/components/ProductivityScore";
 import SmartReminders from "@/features/Dashboard/components/SmartReminders";
 import AISuggestions from "@/features/Dashboard/components/AISuggestions";
+import { useDashboardData } from "../../member/hooks/useDashboardData";
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardData();
