@@ -1,4 +1,4 @@
-import PagePlaceholder from "../../../member/components/PagePlaceholder";
+import PagePlaceholder from "../../components/PagePlaceholder";
 
 export default function SettingsPage() {
   return (

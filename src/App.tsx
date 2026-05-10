@@ -8,7 +8,7 @@ import DashboardPage from "./features/Dashboard/member/v1/Pages/DashboardPage";
 
 import MemberPage from "./features/Member/v1/Pages/MemberPage";
 
-import MemberLayout from "./layouts/OrganisationLayout";
+import MemberLayout from "./layouts/MemberLayout";
 
 import AddMemberPage from "./features/AddMember/v1/Page/AddMemberPage";
 
@@ -59,13 +59,13 @@ function App() {
 
         <Route path="/signup" element={<SignUpPage />} />
 
-        {/* Protected Member Layout */}
-        <Route path="/org" element={<MemberLayout />}>
+        {/* Member Routes */}
+        <Route path="/member" element={<MemberLayout />}>
           {/* Dashboard */}
           <Route
             index
             element={
-              <ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}>
+              <ProtectedRoute user={user} allowedRoles={["Member"]}>
                 <DashboardPage />
               </ProtectedRoute>
             }
@@ -74,26 +74,16 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <ProtectedRoute user={user} allowedRoles={["Member", "Admin"]}>
+              <ProtectedRoute user={user} allowedRoles={["Member"]}>
                 <DashboardPage />
               </ProtectedRoute>
             }
           />
 
-          {/* Member Pages */}
-          <Route path="member" element={<MemberPage />} />
+          {/* Member Profile */}
+          <Route path="profile" element={<MemberPage />} />
 
-          <Route path="add-member" element={<AddMemberPage />} />
-
-          {/* Events */}
-          <Route path="events" element={<ViewEvent />} />
-
-          <Route path="create-event" element={<CreateNewEvent />} />
-
-          {/* Contact */}
-          <Route path="contact" element={<Contact />} />
-
-          {/* New Dashboard Modules */}
+          {/* Member Modules */}
           <Route path="analytics" element={<AnalyticsPage />} />
 
           <Route path="notifications" element={<NotificationsPage />} />
@@ -105,8 +95,21 @@ function App() {
           <Route path="teams" element={<TeamsPage />} />
 
           <Route path="workspace" element={<WorkspacePage />} />
+
           <Route path="messages" element={<MessagesPage />} />
+
           <Route path="billing" element={<BillingPage />} />
+
+          {/* Events */}
+          <Route path="events" element={<ViewEvent />} />
+
+          <Route path="create-event" element={<CreateNewEvent />} />
+
+          {/* Contact */}
+          <Route path="contact" element={<Contact />} />
+
+          {/* Add Member */}
+          <Route path="add-member" element={<AddMemberPage />} />
 
           {/* 404 */}
           <Route

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import Sidebar from "./OrganisationLayout/Sidebar";
-import Header from "../../../layouts/OrganisationLayout/Header";
+import Header from "./OrganisationLayout/Header";
 import MobileSidebar from "./OrganisationLayout/MobileSidebar";
 
 export default function MemberLayout() {
