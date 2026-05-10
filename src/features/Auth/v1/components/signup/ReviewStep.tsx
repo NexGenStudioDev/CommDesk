@@ -1,11 +1,29 @@
 import { useFormContext } from "react-hook-form";
 import {
-  Globe, MapPin, Mail, Phone, Twitter, Linkedin,
-  Instagram, Github, Facebook, User, Lock, Image,
+  Globe,
+  MapPin,
+  Mail,
+  Phone,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Github,
+  Facebook,
+  User,
+  Lock,
+  Image,
 } from "lucide-react";
 import { SignupFormData } from "../../hooks/useSignupForm";
 
-function ReviewRow({ label, value, icon: Icon }: { label: string; value?: string; icon: React.ElementType }) {
+function ReviewRow({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string;
+  value?: string;
+  icon: React.ElementType;
+}) {
   if (!value) return null;
   return (
     <div className="flex items-start gap-3 py-2.5 border-b border-gray-100 last:border-0">
@@ -24,7 +42,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div className="rounded-xl border border-gray-200 overflow-hidden">
       <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-        <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider inter">{title}</h4>
+        <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider inter">
+          {title}
+        </h4>
       </div>
       <div className="px-4 divide-y divide-gray-100">{children}</div>
     </div>
@@ -33,12 +53,22 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function ReviewStep() {
   const context = useFormContext<SignupFormData>();
-  if (!context) return <div className="p-4 text-red-600 bg-red-50 rounded-lg inter text-sm">Error: Form context unavailable.</div>;
+  if (!context)
+    return (
+      <div className="p-4 text-red-600 bg-red-50 rounded-lg inter text-sm">
+        Error: Form context unavailable.
+      </div>
+    );
 
   const { watch } = context;
   const data = watch();
 
-  if (!data) return <div className="p-4 text-gray-500 bg-gray-50 rounded-lg inter text-sm">No review data available.</div>;
+  if (!data)
+    return (
+      <div className="p-4 text-gray-500 bg-gray-50 rounded-lg inter text-sm">
+        No review data available.
+      </div>
+    );
 
   const hasSocials = data.socialLinks ? Object.values(data.socialLinks).some(Boolean) : false;
 
@@ -78,9 +108,21 @@ export default function ReviewStep() {
         </Section>
 
         <Section title="Primary Contact">
-          <ReviewRow label="Location" value={data.city && data.country ? `${data.city}, ${data.country}` : undefined} icon={MapPin} />
+          <ReviewRow
+            label="Location"
+            value={data.city && data.country ? `${data.city}, ${data.country}` : undefined}
+            icon={MapPin}
+          />
           <ReviewRow label="Official Email" value={data.officialEmail} icon={Mail} />
-          <ReviewRow label="Contact Phone" value={data.phoneCode && data.phoneNumber ? `${data.phoneCode} ${data.phoneNumber}` : undefined} icon={Phone} />
+          <ReviewRow
+            label="Contact Phone"
+            value={
+              data.phoneCode && data.phoneNumber
+                ? `${data.phoneCode} ${data.phoneNumber}`
+                : undefined
+            }
+            icon={Phone}
+          />
         </Section>
 
         {hasSocials && (
@@ -101,7 +143,8 @@ export default function ReviewStep() {
       </div>
 
       <p className="text-[10px] text-gray-400 inter text-center pt-2 px-6">
-        By submitting, you confirm that all information provided is accurate and you agree to our Terms of Use.
+        By submitting, you confirm that all information provided is accurate and you agree to our
+        Terms of Use.
       </p>
     </div>
   );

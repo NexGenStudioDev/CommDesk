@@ -33,8 +33,8 @@ export default function StepProgress({ current, total }: StepProgressProps) {
                 done
                   ? "bg-indigo-500 border-indigo-500 text-white"
                   : active
-                  ? "bg-white border-indigo-500 text-indigo-500 shadow-md shadow-indigo-100"
-                  : "bg-white border-gray-200 text-gray-400"
+                    ? "bg-white border-indigo-500 text-indigo-500 shadow-md shadow-indigo-100"
+                    : "bg-white border-gray-200 text-gray-400"
               }`}
             >
               {done ? <CheckCircle2 className="w-4.5 h-4.5" /> : step.id}

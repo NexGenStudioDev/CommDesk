@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import Input from "@/Component/ui/Input";
-import { getTheme } from "@/config/them.config";
 import { CiSearch } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
 import SpeakerCard from "./SpeakerCard";
@@ -32,92 +31,78 @@ const SPEAKERS = [
 ];
 
 const Speakers = ({ isExpanded = true, onToggleExpand }: SpeakersProps) => {
-  const theme = getTheme("light");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredSpeakers = useMemo(() => {
-    const normalizedQuery = searchTerm.trim().toLowerCase();
-
-    if (!normalizedQuery) {
-      return SPEAKERS;
-    }
-
-    return SPEAKERS.filter((speaker) => {
-      const searchableText = `${speaker.name} ${speaker.role}`.toLowerCase();
-      return searchableText.includes(normalizedQuery);
-    });
+  const filtered = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    return q ? SPEAKERS.filter((s) => `${s.name} ${s.role}`.toLowerCase().includes(q)) : SPEAKERS;
   }, [searchTerm]);
-
-  const visibleCount = isExpanded ? filteredSpeakers.length : SPEAKERS.length;
 
   return (
     <div
-      className="flex flex-col w-full p-4 border-2 rounded-lg shadow-sm transition-all duration-200"
+      className="flex flex-col w-full p-4 rounded-xl transition-all duration-200"
       style={{
-        background: theme.background.primary,
-        borderColor: theme.borderColor.primary,
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
       }}
     >
-      <div className="mb-1 flex items-center justify-between gap-3">
+      <div className="mb-2 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h2 className="font-bold text-lg text-black uppercase">Speakers</h2>
-          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
-            {visibleCount}
+          <h2 className="font-bold text-base uppercase" style={{ color: "var(--cd-text)" }}>
+            Speakers
+          </h2>
+          <span
+            className="cd-badge cd-badge-primary"
+            style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary-text)" }}
+          >
+            {isExpanded ? filtered.length : SPEAKERS.length}
           </span>
         </div>
-
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="flex items-center justify-center gap-1 rounded-md border border-blue-200 bg-blue-50 px-2.5 py-1.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-100"
-          >
-            <IoMdAdd className="text-base" />
-            Add
+          <button type="button" className="cd-btn cd-btn-primary px-2.5 py-1.5 text-xs">
+            <IoMdAdd className="text-base" /> Add
           </button>
-
-          {onToggleExpand ? (
+          {onToggleExpand && (
             <button
               type="button"
               onClick={onToggleExpand}
-              className="rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+              className="cd-btn cd-btn-secondary px-2.5 py-1.5 text-xs"
             >
               {isExpanded ? "Hide" : "View"}
             </button>
-          ) : null}
+          )}
         </div>
       </div>
 
       {isExpanded ? (
         <>
-          <div className="Search">
-            <Input
-              name="SearchSpeaker"
-              placeholder="Search Speakers..."
-              leftIcon={<CiSearch />}
-              value={searchTerm}
-              onChange={(_, value) => setSearchTerm(value)}
-            />
-          </div>
-
+          <Input
+            name="SearchSpeaker"
+            placeholder="Search Speakers..."
+            leftIcon={<CiSearch />}
+            value={searchTerm}
+            onChange={(_, value) => setSearchTerm(value)}
+          />
           <div className="mt-1 grid grid-cols-1 gap-3">
-            {filteredSpeakers.length === 0 ? (
-              <p className="rounded-md border border-dashed border-gray-300 px-3 py-4 text-sm text-gray-500">
+            {filtered.length === 0 ? (
+              <p
+                className="rounded-xl border border-dashed px-3 py-4 text-sm"
+                style={{ borderColor: "var(--cd-border)", color: "var(--cd-text-muted)" }}
+              >
                 No speakers found.
               </p>
             ) : (
-              filteredSpeakers.map((speaker) => (
-                <SpeakerCard
-                  key={speaker.id}
-                  image={speaker.image}
-                  name={speaker.name}
-                  role={speaker.role}
-                />
+              filtered.map((s) => (
+                <SpeakerCard key={s.id} image={s.image} name={s.name} role={s.role} />
               ))
             )}
           </div>
         </>
       ) : (
-        <p className="mt-2 rounded-md border border-dashed border-gray-300 px-3 py-2 text-xs text-gray-500">
+        <p
+          className="mt-2 rounded-xl border border-dashed px-3 py-2 text-xs"
+          style={{ borderColor: "var(--cd-border)", color: "var(--cd-text-muted)" }}
+        >
           Collapsed. Click View to manage speakers.
         </p>
       )}

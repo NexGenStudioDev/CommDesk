@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 
 export const categorizeTasks = (tasks: Task[]) => {
   const now = new Date();
@@ -13,8 +13,7 @@ export const categorizeTasks = (tasks: Task[]) => {
 
     if (isNaN(deadline.getTime())) return;
 
-    const diffHours =
-      (deadline.getTime() - now.getTime()) / (1000 * 60 * 60);
+    const diffHours = (deadline.getTime() - now.getTime()) / (1000 * 60 * 60);
 
     if (diffHours <= 48 && diffHours > 0) {
       urgent.push(task);
@@ -26,7 +25,6 @@ export const categorizeTasks = (tasks: Task[]) => {
   return { urgent, upcoming };
 };
 
-
 export const formatDueLabel = (date: string) => {
   if (!date) return "No deadline";
 
@@ -37,8 +35,7 @@ export const formatDueLabel = (date: string) => {
   today.setHours(0, 0, 0, 0);
   d.setHours(0, 0, 0, 0);
 
-  const diffDays =
-    (d.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+  const diffDays = (d.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
 
   if (diffDays === 0) return "Due Today";
   if (diffDays === 1) return "Due Tomorrow";

@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 
 export type Reminder = {
   title: string;
@@ -25,12 +25,7 @@ export const getSmartReminders = (tasks: Task[]): Reminder[] => {
     if (daysLeft <= 1) {
       reminders.push({
         title: task.title,
-        label:
-          daysLeft < 0
-            ? "Overdue"
-            : daysLeft === 0
-            ? "Due today"
-            : "Due tomorrow",
+        label: daysLeft < 0 ? "Overdue" : daysLeft === 0 ? "Due today" : "Due tomorrow",
         type: "urgent",
       });
     }
@@ -46,7 +41,5 @@ export const getSmartReminders = (tasks: Task[]): Reminder[] => {
   });
 
   //sorting acc to priority
-  return reminders
-    .sort((a, b) => (a.type === "urgent" ? -1 : 1))
-    .slice(0, 5);
+  return reminders.sort((a, b) => (a.type === "urgent" ? -1 : 1)).slice(0, 5);
 };

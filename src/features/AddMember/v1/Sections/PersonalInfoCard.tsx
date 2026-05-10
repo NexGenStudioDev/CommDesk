@@ -1,46 +1,52 @@
 import React, { memo } from "react";
 import { Input } from "../../../../Component/ui/Input";
-import { getTheme } from "../../../../config/them.config";
 import Url from "../../../../Component/ui/Url";
 import { CiCamera } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 
 const PersonalInfoCard = () => {
-  let theme = getTheme("light");
-
-  let [firstName, setFirstName] = React.useState("");
-  let [lastName, setLastName] = React.useState("");
-  let [email, setEmail] = React.useState("");
-  let [profileUrl, setProfileUrl] = React.useState("example.com");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [profileUrl, setProfileUrl] = React.useState("example.com");
 
   return (
     <div
-      className="bg-white w-full flex flex-col border-2 rounded-lg self-center mt-5 p-7"
+      className="w-full flex flex-col rounded-xl self-center mt-5 p-7"
       style={{
-        borderColor: theme.borderColor.primary,
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
       }}
     >
-      <span className="font-extrabold text-xl text-gray-800 uppercase mb-[3vh] flex items-center gap-3">
-        <FaUser className="text-[#4f46e5]" />
+      <span
+        className="font-extrabold text-xl uppercase mb-[3vh] flex items-center gap-3"
+        style={{ color: "var(--cd-text)" }}
+      >
+        <FaUser style={{ color: "var(--cd-primary)" }} />
         Personal Information
       </span>
-      <div className="flex gap-4  ">
-        <div className="w-[18%] flex flex-col gap-2  mb-4">
+
+      <div className="flex gap-4">
+        <div className="w-[18%] flex flex-col gap-2 mb-4">
           <div
-            className="w-[130px] h-[150px] border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-2xl"
+            className="w-[130px] h-[150px] border-2 border-dashed rounded-xl flex flex-col items-center justify-center"
             style={{
-              borderColor: theme.borderColor.primary,
-              backgroundColor: theme.background.secondary,
+              borderColor: "var(--cd-border)",
+              backgroundColor: "var(--cd-surface-2)",
             }}
           >
-            <CiCamera className="text-4xl text-gray-400" />
-            <p className="text-2xl text-gray-400">Upload</p>
+            <CiCamera className="text-4xl" style={{ color: "var(--cd-text-muted)" }} />
+            <p className="text-sm mt-1" style={{ color: "var(--cd-text-muted)" }}>
+              Upload
+            </p>
           </div>
         </div>
-        <div className="w-1/2 flex flex-col gap-2  p-4 mb-4 text-md">
-          <p className="font-bold ">Profile Photo</p>
-          <p className="w-full  text-gray-500">
-            Recommended size is 400x400px. Max file size is 5MB. Allowed formats are
+        <div className="w-1/2 flex flex-col gap-2 p-4 mb-4">
+          <p className="font-bold" style={{ color: "var(--cd-text)" }}>
+            Profile Photo
+          </p>
+          <p className="w-full text-sm" style={{ color: "var(--cd-text-2)" }}>
+            Recommended size is 400x400px. Max file size is 5MB. Allowed formats are JPG, PNG.
           </p>
         </div>
       </div>
@@ -74,13 +80,17 @@ const PersonalInfoCard = () => {
             value={email}
             onChange={(_, value) => setEmail(value)}
           />
-
-          <div className="w-1/2 flex flex-col gap-2  mb-4">
-            <div className="Label">Public Profile URL</div>
+          <div className="w-1/2 flex flex-col gap-2 mb-4">
+            <div
+              className="text-xs font-semibold uppercase tracking-wider"
+              style={{ color: "var(--cd-text-2)" }}
+            >
+              Public Profile URL
+            </div>
             <Url
               protocol="http://"
               domain={profileUrl}
-              className="w-[80%] text-2xl  flex"
+              className="w-[80%] text-2xl flex"
               setDomain={(domain) => setProfileUrl(domain)}
             />
           </div>

@@ -1,28 +1,17 @@
 import SideBar from "../SideBar/v1/Section/SideBar";
-import { getTheme } from "../../config/them.config";
 import { Outlet } from "react-router";
 import BotamNavBar from "../SideBar/v1/Section/BotamNavBar";
 
-const LoginUserTemplate = () => {
-  let theme = getTheme("light");
-
+const Organisation_Template = () => {
   return (
-    <div
-      className="dashboard-page flex w-screen min-h-screen overflow-x-hidden items-stretch"
-      style={{ background: theme.background.secondary }}
-    >
+    <div className="flex w-screen min-h-screen overflow-x-hidden items-stretch cd-page">
       <SideBar />
-
       <BotamNavBar />
-
-      <div
-        className="dashboard-content flex min-h-screen min-w-0 flex-1 flex-row pb-32 lg:pb-0"
-        style={{ background: theme.background.secondary }}
-      >
+      <div className="flex min-h-screen min-w-0 flex-1 flex-row pb-32 lg:pb-0">
         <Outlet />
       </div>
     </div>
   );
 };
 
-export default LoginUserTemplate;
+export default Organisation_Template;

@@ -6,8 +6,8 @@ The following versions of CommDesk are currently supported with security updates
 
 | Version | Supported |
 | ------- | --------- |
-| 0.1.x   | ✅ Yes     |
-| < 0.1   | ❌ No      |
+| 0.1.x   | ✅ Yes    |
+| < 0.1   | ❌ No     |
 
 We recommend always using the latest release for security fixes and improvements.
 
@@ -18,12 +18,14 @@ We recommend always using the latest release for security fixes and improvements
 If you discover a security vulnerability, please report it responsibly.
 
 ### 📩 How to Report
-- Email: **security@nexgenstudio.dev** 
+
+- Email: **security@nexgenstudio.dev**
 - Or open a **private security advisory** via GitHub:
   - Go to the repository
   - Click **Security → Advisories → Report a vulnerability**
 
 ### ❗ Please DO NOT:
+
 - Open public issues for security vulnerabilities
 - Share exploits publicly before disclosure
 
@@ -43,11 +45,11 @@ To help us respond quickly, include:
 
 ## ⏱️ Response Timeline
 
-| Stage                  | Timeline        |
-|-----------------------|---------------|
-| Acknowledgement       | Within 48 hours |
-| Initial assessment    | Within 3–5 days |
-| Fix & patch release   | Depends on severity |
+| Stage               | Timeline            |
+| ------------------- | ------------------- |
+| Acknowledgement     | Within 48 hours     |
+| Initial assessment  | Within 3–5 days     |
+| Fix & patch release | Depends on severity |
 
 We aim to resolve critical issues as quickly as possible.
 

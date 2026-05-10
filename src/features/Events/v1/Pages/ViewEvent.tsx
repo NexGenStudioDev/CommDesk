@@ -1,7 +1,5 @@
-import { getTheme } from "@/config/them.config";
 import Event_View_Header from "../Sections/Event_View_Header";
 import EventTable from "../Components/EventTable";
-
 import { FaRocket, FaCode, FaGlobe, FaBolt, FaPalette } from "react-icons/fa";
 import { Event } from "../Event.type";
 
@@ -56,7 +54,6 @@ const events: Event[] = [
     teams: 24,
     submissions: "-",
   },
-
   {
     id: 6,
     name: "Design Systems Hack",
@@ -80,9 +77,8 @@ const events: Event[] = [
 ];
 
 const ViewEvent = () => {
-  let theme = getTheme("light");
   return (
-    <div className="w-full h-full flex flex-col" style={{ background: theme.background.secondary }}>
+    <div className="w-full h-full flex flex-col cd-page">
       <Event_View_Header />
       <div className="w-full h-full p-[3vw]">
         <EventTable events={events} itemsPerPage={5} />

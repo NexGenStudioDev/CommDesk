@@ -1,51 +1,48 @@
 import { Trophy, Flame, Star, Award } from "lucide-react";
-
-import { AchievementsData } from "@/features/Dashboard/types/dashboard";
+import { AchievementsData } from "../Member/v1/Type/dashboard";
 
 interface Props {
   data: AchievementsData;
 }
 
 const iconMap = {
-  trophy: <Trophy size={20} />,
-  flame: <Flame size={20} />,
-  star: <Star size={20} />,
-  award: <Award size={20} />,
+  trophy: <Trophy size={18} />,
+  flame: <Flame size={18} />,
+  star: <Star size={18} />,
+  award: <Award size={18} />,
 };
 
 export default function Achievements({ data }: Props) {
   const { badges = [], certificates = [] } = data || {};
 
   return (
-    <div className="card hover:shadow-md transition">
-      <h3 className="section-title">Achievements</h3>
+    <div className="cd-card cd-card-hover">
+      <h3 className="cd-section-title">Achievements</h3>
 
-      {/* Badges */}
       <div className="mb-5">
-        <p className="text-xs text-gray-500 mb-3">Badges</p>
-
+        <p className="text-xs font-semibold mb-3" style={{ color: "var(--cd-text-2)" }}>
+          Badges
+        </p>
         {badges.length === 0 ? (
-          <p className="text-gray-400 text-sm">No badges yet</p>
+          <p className="text-sm" style={{ color: "var(--cd-text-muted)" }}>
+            No badges yet
+          </p>
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {badges.map((b, i) => (
               <div
                 key={i}
-                className="
-                  p-3 rounded-xl
-                  bg-gradient-to-br from-indigo-50 to-indigo-100
-                  hover:shadow-md hover:scale-[1.03]
-                  transition-all duration-200
-                  flex items-center gap-3
-                "
+                className="p-3 rounded-xl flex items-center gap-3 hover:scale-[1.03] transition-all duration-200 cursor-pointer"
+                style={{ backgroundColor: "var(--cd-primary-subtle)" }}
               >
-                {/* Icon */}
-                <div className="text-indigo-600">{iconMap[b.icon]}</div>
-
-                {/* Text */}
+                <div style={{ color: "var(--cd-primary)" }}>{iconMap[b.icon]}</div>
                 <div>
-                  <p className="text-sm font-semibold text-indigo-700">{b.title}</p>
-                  <p className="text-xs text-gray-500">Earned</p>
+                  <p className="text-sm font-semibold" style={{ color: "var(--cd-primary-text)" }}>
+                    {b.title}
+                  </p>
+                  <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
+                    Earned
+                  </p>
                 </div>
               </div>
             ))}
@@ -53,14 +50,28 @@ export default function Achievements({ data }: Props) {
         )}
       </div>
 
-      {/* Certificates */}
       <div>
-        <p className="text-xs text-gray-500 mb-2">Certificates</p>
-
+        <p className="text-xs font-semibold mb-2" style={{ color: "var(--cd-text-2)" }}>
+          Certificates
+        </p>
         {certificates.map((c, i) => (
-          <div key={i} className="p-2 rounded-xl bg-gray-50 hover:bg-gray-100 transition">
-            <p className="text-sm font-medium text-gray-800">{c.title}</p>
-            <p className="text-xs text-gray-400">{c.issuer}</p>
+          <div
+            key={i}
+            className="p-2.5 rounded-xl mb-1.5 transition-colors"
+            style={{ backgroundColor: "var(--cd-surface-2)" }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--cd-hover)")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--cd-surface-2)")
+            }
+          >
+            <p className="text-sm font-medium" style={{ color: "var(--cd-text)" }}>
+              {c.title}
+            </p>
+            <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
+              {c.issuer}
+            </p>
           </div>
         ))}
       </div>

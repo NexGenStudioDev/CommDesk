@@ -29,7 +29,12 @@ type PostState = "idle" | "email" | "pending";
 
 export default function SignUpPage() {
   const methods = useSignupForm();
-  const { handleSubmit, trigger, setError, formState: { isSubmitting } } = methods;
+  const {
+    handleSubmit,
+    trigger,
+    setError,
+    formState: { isSubmitting },
+  } = methods;
 
   const [step, setStep] = useState(1);
   const [post, setPost] = useState<PostState>("idle");
@@ -53,8 +58,11 @@ export default function SignUpPage() {
       await submitCommunitySignup(finalData as any);
       setPost("email");
     } catch (err: unknown) {
-      const e = err as { status?: number; data?: { message?: string; errors?: Record<string, string> } };
-      
+      const e = err as {
+        status?: number;
+        data?: { message?: string; errors?: Record<string, string> };
+      };
+
       if (e.status === 422 && e.data?.errors) {
         Object.entries(e.data.errors).forEach(([rawField, msg]) => {
           const field = rawField.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
@@ -72,7 +80,10 @@ export default function SignUpPage() {
           500: "Server error. Our engineers are investigating. Please try again later.",
         };
 
-        const message = e.data?.message || (e.status ? errorMessages[e.status] : null) || "Unable to connect to service. Please check your internet connection.";
+        const message =
+          e.data?.message ||
+          (e.status ? errorMessages[e.status] : null) ||
+          "Unable to connect to service. Please check your internet connection.";
         setServerError(message);
       }
     }
@@ -127,46 +138,49 @@ export default function SignUpPage() {
                   The Future of Management
                 </span>
               </div>
-              
+
               <h1 className="text-4xl xl:text-5xl font-black text-white leading-[1.15]">
                 Empower Your <br />
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-300 via-purple-300 to-pink-300">
                   Community
                 </span>
               </h1>
-              
+
               <p className="text-indigo-100/70 text-lg leading-relaxed max-w-md font-medium">
-                The all-in-one workspace designed to help you organize, grow, and manage your members seamlessly.
+                The all-in-one workspace designed to help you organize, grow, and manage your
+                members seamlessly.
               </p>
             </div>
 
             {/* Highlight Cards */}
             <div className="space-y-4">
               {[
-                { 
-                  icon: <ArrowRight className="w-5 h-5" />, 
-                  title: "12k+ Communities", 
+                {
+                  icon: <ArrowRight className="w-5 h-5" />,
+                  title: "12k+ Communities",
                   desc: "Trusted by leaders worldwide.",
-                  color: "from-blue-500/20 to-indigo-500/20"
+                  color: "from-blue-500/20 to-indigo-500/20",
                 },
-                { 
-                  icon: <ArrowRight className="w-5 h-5" />, 
-                  title: "Real-time Insights", 
+                {
+                  icon: <ArrowRight className="w-5 h-5" />,
+                  title: "Real-time Insights",
                   desc: "Detailed analytics at your fingertips.",
-                  color: "from-purple-500/20 to-pink-500/20"
+                  color: "from-purple-500/20 to-pink-500/20",
                 },
-                { 
-                  icon: <ArrowRight className="w-5 h-5" />, 
-                  title: "Scalable Infrastructure", 
+                {
+                  icon: <ArrowRight className="w-5 h-5" />,
+                  title: "Scalable Infrastructure",
                   desc: "Grows with your community's needs.",
-                  color: "from-indigo-500/20 to-purple-500/20"
-                }
+                  color: "from-indigo-500/20 to-purple-500/20",
+                },
               ].map((card, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 hover:-translate-y-1 group`}
                 >
-                  <div className={`p-2.5 rounded-xl bg-linear-to-br ${card.color} border border-white/10 text-white shadow-lg`}>
+                  <div
+                    className={`p-2.5 rounded-xl bg-linear-to-br ${card.color} border border-white/10 text-white shadow-lg`}
+                  >
                     {card.icon}
                   </div>
                   <div>
@@ -183,7 +197,9 @@ export default function SignUpPage() {
             <p className="text-indigo-400/60 text-xs font-medium">© {CURRENT_YEAR} CommDesk Inc.</p>
             <div className="flex gap-4">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-              <span className="text-[10px] font-bold text-indigo-400/60 uppercase tracking-wider">System Operational</span>
+              <span className="text-[10px] font-bold text-indigo-400/60 uppercase tracking-wider">
+                System Operational
+              </span>
             </div>
           </div>
         </div>
@@ -199,7 +215,6 @@ export default function SignUpPage() {
 
         <div className="flex-1 flex items-start justify-center py-8 px-6">
           <div className="w-full max-w-[480px]">
-
             {post !== "idle" ? (
               <SuccessScreens stage={post} />
             ) : (

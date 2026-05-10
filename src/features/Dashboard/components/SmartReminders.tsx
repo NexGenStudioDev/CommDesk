@@ -8,37 +8,44 @@ interface Props {
 
 export default function SmartReminders({ tasks }: Props) {
   const reminders = getSmartReminders(tasks);
-
   const urgent = reminders.filter((r) => r.type === "urgent");
   const upcoming = reminders.filter((r) => r.type === "upcoming");
 
   return (
-    <div className="bg-white/70 backdrop-blur-xl p-5 rounded-2xl border border-white/40 shadow-sm">
-      {/* Header */}
-      <h3 className="font-semibold text-lg mb-4">Smart Reminders</h3>
+    <div className="cd-card">
+      <h3 className="cd-section-title">Smart Reminders</h3>
 
-      {/* 🔴 URGENT */}
       {urgent.length > 0 && (
         <div className="mb-4">
-          <p className="text-xs text-red-500 mb-2 font-medium">Urgent</p>
-
+          <p className="text-xs font-semibold mb-2" style={{ color: "var(--cd-danger)" }}>
+            Urgent
+          </p>
           <div className="space-y-2">
             {urgent.map((r, i) => (
               <div
                 key={i}
-                className="
-                  flex items-start gap-3 p-3 rounded-xl
-                  bg-red-50 border border-red-100
-                  hover:bg-red-100 transition cursor-pointer
-                "
+                className="flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                style={{ backgroundColor: "var(--cd-danger-subtle)" }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLDivElement).style.filter = "brightness(0.95)")
+                }
+                onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.filter = "none")}
               >
-                <div className="text-red-600 mt-[2px]">
-                  <AlertTriangle size={16} />
-                </div>
-
+                <AlertTriangle
+                  size={15}
+                  className="mt-[2px] shrink-0"
+                  style={{ color: "var(--cd-danger)" }}
+                />
                 <div>
-                  <p className="text-sm font-medium text-gray-800 break-words">{r.title}</p>
-                  <p className="text-xs text-red-600">{r.label}</p>
+                  <p
+                    className="text-sm font-medium break-words"
+                    style={{ color: "var(--cd-text)" }}
+                  >
+                    {r.title}
+                  </p>
+                  <p className="text-xs" style={{ color: "var(--cd-danger)" }}>
+                    {r.label}
+                  </p>
                 </div>
               </div>
             ))}
@@ -46,28 +53,34 @@ export default function SmartReminders({ tasks }: Props) {
         </div>
       )}
 
-      {/* 🟡 UPCOMING */}
       {upcoming.length > 0 && (
         <div>
-          <p className="text-xs text-yellow-600 mb-2 font-medium">Upcoming</p>
-
+          <p className="text-xs font-semibold mb-2" style={{ color: "var(--cd-warning)" }}>
+            Upcoming
+          </p>
           <div className="space-y-2">
             {upcoming.map((r, i) => (
               <div
                 key={i}
-                className="
-                  flex items-start gap-3 p-3 rounded-xl
-                  bg-yellow-50 border border-yellow-100
-                  hover:bg-yellow-100 transition cursor-pointer
-                "
+                className="flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                style={{ backgroundColor: "var(--cd-warning-subtle)" }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLDivElement).style.filter = "brightness(0.95)")
+                }
+                onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.filter = "none")}
               >
-                <div className="text-yellow-600 mt-[2px]">
-                  <Clock size={16} />
-                </div>
-
+                <Clock
+                  size={15}
+                  className="mt-[2px] shrink-0"
+                  style={{ color: "var(--cd-warning)" }}
+                />
                 <div>
-                  <p className="text-sm font-medium text-gray-800">{r.title}</p>
-                  <p className="text-xs text-yellow-700">{r.label}</p>
+                  <p className="text-sm font-medium" style={{ color: "var(--cd-text)" }}>
+                    {r.title}
+                  </p>
+                  <p className="text-xs" style={{ color: "var(--cd-warning)" }}>
+                    {r.label}
+                  </p>
                 </div>
               </div>
             ))}
@@ -75,9 +88,10 @@ export default function SmartReminders({ tasks }: Props) {
         </div>
       )}
 
-      {/* Empty */}
       {reminders.length === 0 && (
-        <p className="text-sm text-gray-400 text-center py-4">🎉 You're all caught up!</p>
+        <p className="text-sm text-center py-4" style={{ color: "var(--cd-text-muted)" }}>
+          🎉 You're all caught up!
+        </p>
       )}
     </div>
   );

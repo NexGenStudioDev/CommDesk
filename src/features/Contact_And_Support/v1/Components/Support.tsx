@@ -1,8 +1,6 @@
 import DropDown from "@/Component/ui/DropDown";
 import Input from "@/Component/ui/Input";
-import { getTheme } from "@/config/them.config";
 import { FormEvent, useState } from "react";
-
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 import { CONTACT_AND_SUPPORT_CONSTANT } from "../constants/ContactAndSupport.constant";
@@ -16,8 +14,14 @@ type FormErrors = {
 
 const PRIORITY_OPTIONS: PriorityLevel[] = ["Low", "Medium", "High", "Critical"];
 
+const priorityColor: Record<PriorityLevel, string> = {
+  Low: "var(--cd-success)",
+  Medium: "var(--cd-warning)",
+  High: "var(--cd-danger)",
+  Critical: "var(--cd-secondary)",
+};
+
 const Support = () => {
-  const theme = getTheme("light");
   const initialCategory = CONTACT_AND_SUPPORT_CONSTANT[0] ?? "";
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [priority, setPriority] = useState<PriorityLevel>("Medium");
@@ -28,21 +32,12 @@ const Support = () => {
 
   const validateForm = (): boolean => {
     const nextErrors: FormErrors = {};
-
-    if (!subject.trim()) {
-      nextErrors.subject = "Issue subject is required.";
-    } else if (subject.trim().length < 6) {
-      nextErrors.subject = "Use at least 6 characters for a clear subject.";
-    }
-
-    if (!issueDetails.trim()) {
-      nextErrors.issueDetails = "Issue details are required.";
-    } else if (issueDetails.trim().length < 20) {
-      nextErrors.issueDetails = "Add a few more details so support can reproduce the issue.";
-    }
-
+    if (!subject.trim()) nextErrors.subject = "Issue subject is required.";
+    else if (subject.trim().length < 6) nextErrors.subject = "Use at least 6 characters.";
+    if (!issueDetails.trim()) nextErrors.issueDetails = "Issue details are required.";
+    else if (issueDetails.trim().length < 20)
+      nextErrors.issueDetails = "Add more details so support can reproduce the issue.";
     setErrors(nextErrors);
-
     return Object.keys(nextErrors).length === 0;
   };
 
@@ -61,40 +56,33 @@ const Support = () => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     if (!validateForm()) {
       setTicketReference("");
       return;
     }
-
-    const reference = `SUP-${Date.now().toString().slice(-6)}`;
-    setTicketReference(reference);
+    setTicketReference(`SUP-${Date.now().toString().slice(-6)}`);
     resetForm();
   };
 
   return (
     <div
-      className="h-full w-full rounded-xl border-2 overflow-hidden"
-      style={{ background: theme.background.primary, borderColor: theme.borderColor.primary }}
+      className="h-full w-full rounded-xl overflow-hidden"
+      style={{
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
+      }}
     >
-      <div
-        className="flex flex-col p-5 gap-2 border-b-2"
-        style={{ borderColor: theme.borderColor.primary }}
-      >
-        <span className="flex items-center">
-          <MdOutlineSupportAgent
-            className="inline text-3xl"
-            style={{ color: theme.textColor.tersiary }}
-          />
+      <div className="flex flex-col p-5 gap-2 border-b" style={{ borderColor: "var(--cd-border)" }}>
+        <span className="flex items-center gap-2">
+          <MdOutlineSupportAgent className="text-3xl" style={{ color: "var(--cd-primary)" }} />
           <h1
-            className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold ml-2"
-            style={{ color: theme.textColor.primary }}
+            className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold"
+            style={{ color: "var(--cd-text)" }}
           >
-            ADMIN SUPPORT
+            Admin Support
           </h1>
         </span>
-
-        <p className="text-sm md:text-base" style={{ color: theme.textColor.secondary }}>
+        <p className="text-sm" style={{ color: "var(--cd-text-2)" }}>
           Submit Technical Issues, Report Bugs, or Operational Queries.
         </p>
       </div>
@@ -105,7 +93,7 @@ const Support = () => {
       >
         <DropDown
           className="w-full"
-          label="ISSUE CATEGORY"
+          label="Issue Category"
           options={CONTACT_AND_SUPPORT_CONSTANT}
           value={selectedCategory}
           onSelect={setSelectedCategory}
@@ -113,26 +101,26 @@ const Support = () => {
 
         <div className="flex flex-col gap-2">
           <p
-            className="text-sm uppercase font-semibold tracking-wide"
-            style={{ color: theme.textColor.secondary, fontFamily: theme.fontFamily.primary }}
+            className="text-xs font-semibold uppercase tracking-wider"
+            style={{ color: "var(--cd-text-2)" }}
           >
             Priority Level
           </p>
-
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {PRIORITY_OPTIONS.map((option) => {
               const isSelected = option === priority;
-
               return (
                 <button
                   key={option}
                   type="button"
                   onClick={() => setPriority(option)}
-                  className="rounded-lg border px-3 py-2 text-sm font-semibold transition-colors"
+                  className="rounded-lg px-3 py-2 text-sm font-semibold transition-all"
                   style={{
-                    borderColor: isSelected ? theme.textColor.tersiary : theme.borderColor.primary,
-                    background: isSelected ? theme.background.tertiary : theme.background.primary,
-                    color: isSelected ? theme.textColor.tersiary : theme.textColor.secondary,
+                    border: `1px solid ${isSelected ? priorityColor[option] : "var(--cd-border)"}`,
+                    backgroundColor: isSelected
+                      ? "var(--cd-primary-subtle)"
+                      : "var(--cd-surface-2)",
+                    color: isSelected ? priorityColor[option] : "var(--cd-text-2)",
                   }}
                 >
                   {option}
@@ -143,7 +131,7 @@ const Support = () => {
         </div>
 
         <Input
-          label="ISSUE SUBJECT"
+          label="Issue Subject"
           name="Issue Subject"
           value={subject}
           onChange={(_, value) => setSubject(value)}
@@ -152,87 +140,76 @@ const Support = () => {
           error={errors.subject}
         />
 
-        <div className="flex flex-col gap-2 -mt-2">
+        <div className="flex flex-col gap-1.5 -mt-2">
           <label
             htmlFor="issue-details"
-            className="text-sm uppercase font-semibold tracking-wide"
-            style={{ color: theme.textColor.secondary, fontFamily: theme.fontFamily.primary }}
+            className="text-xs font-semibold uppercase tracking-wider"
+            style={{ color: "var(--cd-text-2)" }}
           >
             Issue Details
           </label>
-
           <textarea
             id="issue-details"
             name="issue-details"
             value={issueDetails}
-            onChange={(event) => setIssueDetails(event.target.value)}
+            onChange={(e) => setIssueDetails(e.target.value)}
             placeholder="Share exact steps, affected section, and what result you expected."
             rows={5}
-            className="w-full border-2 rounded-lg px-3 py-2 text-sm md:text-base resize-y outline-none"
+            className="w-full rounded-lg px-3 py-2 text-sm resize-y outline-none transition-all"
             style={{
-              borderColor: errors.issueDetails ? theme.textColor.error : theme.borderColor.primary,
-              background: theme.background.primary,
-              color: theme.textColor.primary,
+              border: `1px solid ${errors.issueDetails ? "var(--cd-danger)" : "var(--cd-border)"}`,
+              backgroundColor: "var(--cd-surface)",
+              color: "var(--cd-text)",
             }}
           />
-
           <div
             className="flex items-center justify-between text-xs"
-            style={{ color: theme.textColor.muted }}
+            style={{ color: "var(--cd-text-muted)" }}
           >
             <span>Minimum 20 characters recommended.</span>
             <span>{issueDetails.length}/1000</span>
           </div>
-
           {errors.issueDetails && (
-            <p className="text-sm flex items-center gap-1" style={{ color: theme.textColor.error }}>
-              <FiAlertCircle />
-              {errors.issueDetails}
+            <p className="text-xs flex items-center gap-1" style={{ color: "var(--cd-danger)" }}>
+              <FiAlertCircle /> {errors.issueDetails}
             </p>
           )}
         </div>
 
         {ticketReference && (
           <div
-            className="rounded-lg border px-3 py-2 text-sm flex items-center gap-2"
+            className="rounded-lg px-3 py-2 text-sm flex items-center gap-2"
             style={{
-              background: theme.alert.success.background,
-              color: theme.alert.success.text,
-              borderColor: theme.alert.success.border,
+              backgroundColor: "var(--cd-success-subtle)",
+              color: "var(--cd-success)",
+              border: "1px solid var(--cd-border-subtle)",
             }}
           >
             <FiCheckCircle />
-            Ticket submitted successfully. Reference: <strong>{ticketReference}</strong>
+            Ticket submitted. Reference: <strong>{ticketReference}</strong>
           </div>
         )}
 
         <div className="flex flex-wrap items-center gap-3 pt-1">
-          <button
-            type="submit"
-            className="px-4 py-2 rounded-lg text-sm font-semibold"
-            style={{ background: theme.textColor.tersiary, color: "#ffffff" }}
-          >
+          <button type="submit" className="cd-btn cd-btn-primary">
             Submit Ticket
           </button>
-
-          <button
-            type="button"
-            onClick={clearAll}
-            className="px-4 py-2 rounded-lg text-sm font-semibold border"
-            style={{ borderColor: theme.borderColor.primary, color: theme.textColor.secondary }}
-          >
+          <button type="button" onClick={clearAll} className="cd-btn cd-btn-secondary">
             Clear Form
           </button>
         </div>
 
         <div
-          className="rounded-lg border p-3 text-sm"
-          style={{ borderColor: theme.borderColor.primary, background: theme.background.secondary }}
+          className="rounded-lg p-3 text-sm"
+          style={{
+            border: "1px solid var(--cd-border)",
+            backgroundColor: "var(--cd-surface-2)",
+          }}
         >
-          <p className="font-semibold" style={{ color: theme.textColor.primary }}>
+          <p className="font-semibold" style={{ color: "var(--cd-text)" }}>
             What happens next?
           </p>
-          <p className="mt-1" style={{ color: theme.textColor.secondary }}>
+          <p className="mt-1" style={{ color: "var(--cd-text-2)" }}>
             Critical issues are triaged first. Include reproducible steps and screenshots to reduce
             turnaround time.
           </p>
