@@ -1,5 +1,5 @@
 import { RiContactsBookFill } from "react-icons/ri";
-import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { MdAssignment, MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
 import { useTheme } from "@/theme";
 import { ThemeToggle } from "@/Component/ui/ThemeToggle";
 
