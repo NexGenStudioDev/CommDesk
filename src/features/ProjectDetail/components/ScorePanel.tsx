@@ -48,7 +48,7 @@ export function ScorePanel({ project, onSubmitScore }: ScorePanelProps) {
               min="0"
               max="10"
               value={scores[criteria]}
-              onChange={(e) => setScores(s => ({ ...s, [criteria]: parseInt(e.target.value) }))}
+              onChange={(e) => setScores(s => ({ ...s, [criteria]: parseInt(e.target.value, 10) }))}
               className="w-full accent-indigo-500 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer"
             />
           </div>
