@@ -163,7 +163,7 @@ export default function ActivityFeed({ activities }: Props) {
           );
         })}
 
-        {/* Empty State */}
+        {/* Empty */}
         {activities.length === 0 && (
           <p
             className="

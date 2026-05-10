@@ -157,7 +157,7 @@ export default function ProductivityScore({ data }: Props) {
           </p>
         </div>
 
-        {/* Streak */}
+        {/* Streak*/}
         <div
           className="
             p-4 rounded-2xl
