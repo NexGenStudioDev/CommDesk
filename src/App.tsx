@@ -16,6 +16,7 @@ import TaskListPage from "./features/MemberTask/pages/TaskListPage";
 import TaskDetailPage from "./features/MemberTask/pages/TaskDetailPage";
 import CreateTaskPage from "./features/MemberTask/pages/CreateTaskPage";
 import EditTaskPage from "./features/MemberTask/pages/EditTaskPage";
+import ProjectDetailPage from "./features/ProjectDetail/pages/ProjectDetailPage";
 import { PermissionProvider } from "./features/MemberTask/context/PermissionContext";
 
 import { startAutoUpdater } from "./system/updater/autoUpdater";
@@ -70,6 +71,9 @@ function App() {
           <Route path="tasks/create" element={<CreateTaskPage />} />
           <Route path="tasks/:taskId" element={<TaskDetailPage />} />
           <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
+
+          {/* Project System */}
+          <Route path="projects/:projectId" element={<ProjectDetailPage />} />
 
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
