@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "notes": "Initial production release",
+  "pub_date": "2026-05-10T00:00:00Z",
+  "platforms": {
+    "linux-x86_64": {
+      "signature": "",
+      "url": ""
+    },
+    "darwin-aarch64": {
+      "signature": "",
+      "url": ""
+    },
+    "darwin-x86_64": {
+      "signature": "",
+      "url": ""
+    },
+    "windows-x86_64": {
+      "signature": "",
+      "url": ""
+    }
+  }
+}
