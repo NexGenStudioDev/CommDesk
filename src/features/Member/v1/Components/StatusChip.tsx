@@ -20,10 +20,7 @@ const StatusChip = ({ status }: { status: string }) => {
   };
 
   return (
-    <span
-      className="cd-badge"
-      style={{ backgroundColor: cfg.bg, color: cfg.color }}
-    >
+    <span className="cd-badge" style={{ backgroundColor: cfg.bg, color: cfg.color }}>
       {status}
     </span>
   );

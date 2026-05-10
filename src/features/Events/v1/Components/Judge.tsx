@@ -10,8 +10,18 @@ type JudgeProps = {
 };
 
 const JUDGES = [
-  { id: 1, image: "https://randomuser.me/api/portraits/men/36.jpg", name: "Kabir Shah", role: "Technical Judge" },
-  { id: 2, image: "https://randomuser.me/api/portraits/women/31.jpg", name: "Meera Joshi", role: "Design Judge" },
+  {
+    id: 1,
+    image: "https://randomuser.me/api/portraits/men/36.jpg",
+    name: "Kabir Shah",
+    role: "Technical Judge",
+  },
+  {
+    id: 2,
+    image: "https://randomuser.me/api/portraits/women/31.jpg",
+    name: "Meera Joshi",
+    role: "Design Judge",
+  },
 ];
 
 const Judge = ({ isExpanded = true, onToggleExpand }: JudgeProps) => {

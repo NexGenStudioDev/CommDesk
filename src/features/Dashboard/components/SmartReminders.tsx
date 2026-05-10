@@ -29,13 +29,18 @@ export default function SmartReminders({ tasks }: Props) {
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLDivElement).style.filter = "brightness(0.95)")
                 }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLDivElement).style.filter = "none")
-                }
+                onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.filter = "none")}
               >
-                <AlertTriangle size={15} className="mt-[2px] shrink-0" style={{ color: "var(--cd-danger)" }} />
+                <AlertTriangle
+                  size={15}
+                  className="mt-[2px] shrink-0"
+                  style={{ color: "var(--cd-danger)" }}
+                />
                 <div>
-                  <p className="text-sm font-medium break-words" style={{ color: "var(--cd-text)" }}>
+                  <p
+                    className="text-sm font-medium break-words"
+                    style={{ color: "var(--cd-text)" }}
+                  >
                     {r.title}
                   </p>
                   <p className="text-xs" style={{ color: "var(--cd-danger)" }}>
@@ -62,11 +67,13 @@ export default function SmartReminders({ tasks }: Props) {
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLDivElement).style.filter = "brightness(0.95)")
                 }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLDivElement).style.filter = "none")
-                }
+                onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.filter = "none")}
               >
-                <Clock size={15} className="mt-[2px] shrink-0" style={{ color: "var(--cd-warning)" }} />
+                <Clock
+                  size={15}
+                  className="mt-[2px] shrink-0"
+                  style={{ color: "var(--cd-warning)" }}
+                />
                 <div>
                   <p className="text-sm font-medium" style={{ color: "var(--cd-text)" }}>
                     {r.title}

@@ -18,12 +18,10 @@ export default function TaskRow({ task, urgent = false }: TaskRowProps) {
         backgroundColor: urgent ? "var(--cd-danger-subtle)" : "transparent",
       }}
       onMouseEnter={(e) => {
-        if (!urgent)
-          (e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--cd-hover)";
+        if (!urgent) (e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--cd-hover)";
       }}
       onMouseLeave={(e) => {
-        if (!urgent)
-          (e.currentTarget as HTMLDivElement).style.backgroundColor = "transparent";
+        if (!urgent) (e.currentTarget as HTMLDivElement).style.backgroundColor = "transparent";
       }}
     >
       <div>
