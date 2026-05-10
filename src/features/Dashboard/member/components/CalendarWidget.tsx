@@ -24,7 +24,12 @@ export default function CalendarWidget({ data }: Props) {
 
   // Auto-select today
   useEffect(() => {
-    setSelectedDay(new Date().getDate());
+    const today = new Date();
+    if (month === today.getMonth() && year === today.getFullYear()) {
+      setSelectedDay(today.getDate());
+    } else {
+      setSelectedDay(null);
+    }
   }, [month, year]);
 
   const today = new Date();
