@@ -14,9 +14,10 @@ export function Timeline({ project }: { project: Project }) {
   };
 
   // Sort timeline newest first
-  const sortedTimeline = [...project.timeline].sort(
-    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-  );
+  const sortedTimeline = useMemo(() => 
+    [...project.timeline].sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    ), [project.timeline]);
 
   return (
     <div className="flex flex-col gap-6 p-6 bg-slate-900/50 border border-slate-800 rounded-xl backdrop-blur-sm">
