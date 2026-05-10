@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   ChevronDown, ChevronUp, Calendar, Star, Loader2,
@@ -112,6 +112,7 @@ export default function TaskForm({ mode, task }: Props) {
   const { data: events = [] } = useEvents();
   const createTask = useCreateTask();
   const updateTask = useUpdateTask();
+  const deadlineInputRef = useRef<HTMLInputElement>(null);
 
   const [eventId,        setEventId]        = useState(task?.eventId ?? params.get("eventId") ?? "");
   const [title,          setTitle]          = useState(task?.title ?? "");
@@ -160,6 +161,14 @@ export default function TaskForm({ mode, task }: Props) {
   };
 
   const isLoading = createTask.isPending || updateTask.isPending;
+
+  const openDeadlinePicker = () => {
+    const input = deadlineInputRef.current;
+    if (!input) return;
+
+    input.focus();
+    (input as HTMLInputElement & { showPicker?: () => void }).showPicker?.();
+  };
 
   const PRIORITY_OPTIONS: { value: TaskPriority; label: string; dot: string }[] = [
     { value: "high",   label: "High",   dot: "bg-red-500"   },
@@ -234,9 +243,22 @@ export default function TaskForm({ mode, task }: Props) {
       <div className="grid grid-cols-2 gap-4">
         <Field label="Deadline" required error={errors.deadline}>
           <div className="relative">
-            <Calendar size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            <input type="datetime-local" value={deadline} onChange={(e) => setDeadline(e.target.value)}
-              className={`${inputCls(errors.deadline)} pl-8`} />
+            <input
+              ref={deadlineInputRef}
+              type="datetime-local"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              className={`w-full text-sm rounded-xl border py-2.5 pl-3 pr-11 outline-none transition-all text-gray-900 bg-white ${errors.deadline ? "border-red-300 ring-2 ring-red-100" : "border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"}`}
+            />
+            <button
+              type="button"
+              onClick={openDeadlinePicker}
+              title="Select deadline"
+              aria-label="Select deadline"
+              className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+            >
+              <Calendar size={16} />
+            </button>
           </div>
         </Field>
         <Field label="Priority">
