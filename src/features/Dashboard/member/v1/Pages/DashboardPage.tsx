@@ -1,11 +1,11 @@
-import { useDashboardData } from "../../../member/hooks/useDashboardData";
+import { useDashboardData } from "@/features/Dashboard/member/hooks/useDashboardData";
 
-import SummaryCard from "../../../member/components/SummaryCard";
-import ActivityFeed from "../../../member/components/ActivityFeed";
-import PerformanceStats from "../../../member/components/PerformanceStats";
-import UpcomingUrgentTasks from "../../../member/components/UpcomingUrgentTasks";
-import TaskOverview from "../../../member/components/TaskOverview";
-import RecentTasks from "../../../member/components/RecentTasks";
+import SummaryCard from "@/features/Dashboard/member/components/SummaryCard";
+import ActivityFeed from "@/features/Dashboard/member/components/ActivityFeed";
+import PerformanceStats from "@/features/Dashboard/member/components/PerformanceStats";
+import UpcomingUrgentTasks from "@/features/Dashboard/member/components/UpcomingUrgentTasks";
+import TaskOverview from "@/features/Dashboard/member/components/TaskOverview";
+import RecentTasks from "@/features/Dashboard/member/components/RecentTasks";
 
 import Achievements from "@/features/Dashboard/member/components/Achievements";
 import IssuesPanel from "@/features/Dashboard/member/components/IssuesPanel";
