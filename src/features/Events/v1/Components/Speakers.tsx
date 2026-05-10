@@ -10,9 +10,24 @@ type SpeakersProps = {
 };
 
 const SPEAKERS = [
-  { id: 1, image: "https://randomuser.me/api/portraits/women/68.jpg", name: "Aanya Patel", role: "Product Strategist" },
-  { id: 2, image: "https://randomuser.me/api/portraits/men/41.jpg", name: "Rohan Mehta", role: "Engineering Lead" },
-  { id: 3, image: "https://randomuser.me/api/portraits/women/44.jpg", name: "Nisha Verma", role: "Community Mentor" },
+  {
+    id: 1,
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
+    name: "Aanya Patel",
+    role: "Product Strategist",
+  },
+  {
+    id: 2,
+    image: "https://randomuser.me/api/portraits/men/41.jpg",
+    name: "Rohan Mehta",
+    role: "Engineering Lead",
+  },
+  {
+    id: 3,
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: "Nisha Verma",
+    role: "Community Mentor",
+  },
 ];
 
 const Speakers = ({ isExpanded = true, onToggleExpand }: SpeakersProps) => {
@@ -44,10 +59,7 @@ const Speakers = ({ isExpanded = true, onToggleExpand }: SpeakersProps) => {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="cd-btn cd-btn-primary px-2.5 py-1.5 text-xs"
-          >
+          <button type="button" className="cd-btn cd-btn-primary px-2.5 py-1.5 text-xs">
             <IoMdAdd className="text-base" /> Add
           </button>
           {onToggleExpand && (

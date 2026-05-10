@@ -45,7 +45,10 @@ export default function TaskOverview({ tasks }: Props) {
         <div className="space-y-3 w-full">
           {data.map((item) => (
             <div key={item.name} className="flex items-center gap-2 text-sm">
-              <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+              <span
+                className="w-2.5 h-2.5 rounded-full shrink-0"
+                style={{ backgroundColor: item.color }}
+              />
               <span style={{ color: "var(--cd-text-2)" }}>{item.name}</span>
               <span className="font-semibold ml-auto" style={{ color: "var(--cd-text)" }}>
                 {item.value}

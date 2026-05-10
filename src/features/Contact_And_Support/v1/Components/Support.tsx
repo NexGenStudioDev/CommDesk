@@ -56,7 +56,10 @@ const Support = () => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!validateForm()) { setTicketReference(""); return; }
+    if (!validateForm()) {
+      setTicketReference("");
+      return;
+    }
     setTicketReference(`SUP-${Date.now().toString().slice(-6)}`);
     resetForm();
   };
@@ -69,15 +72,9 @@ const Support = () => {
         border: "1px solid var(--cd-border)",
       }}
     >
-      <div
-        className="flex flex-col p-5 gap-2 border-b"
-        style={{ borderColor: "var(--cd-border)" }}
-      >
+      <div className="flex flex-col p-5 gap-2 border-b" style={{ borderColor: "var(--cd-border)" }}>
         <span className="flex items-center gap-2">
-          <MdOutlineSupportAgent
-            className="text-3xl"
-            style={{ color: "var(--cd-primary)" }}
-          />
+          <MdOutlineSupportAgent className="text-3xl" style={{ color: "var(--cd-primary)" }} />
           <h1
             className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold"
             style={{ color: "var(--cd-text)" }}
@@ -103,7 +100,10 @@ const Support = () => {
         />
 
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--cd-text-2)" }}>
+          <p
+            className="text-xs font-semibold uppercase tracking-wider"
+            style={{ color: "var(--cd-text-2)" }}
+          >
             Priority Level
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -117,7 +117,9 @@ const Support = () => {
                   className="rounded-lg px-3 py-2 text-sm font-semibold transition-all"
                   style={{
                     border: `1px solid ${isSelected ? priorityColor[option] : "var(--cd-border)"}`,
-                    backgroundColor: isSelected ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
+                    backgroundColor: isSelected
+                      ? "var(--cd-primary-subtle)"
+                      : "var(--cd-surface-2)",
                     color: isSelected ? priorityColor[option] : "var(--cd-text-2)",
                   }}
                 >
@@ -160,7 +162,10 @@ const Support = () => {
               color: "var(--cd-text)",
             }}
           />
-          <div className="flex items-center justify-between text-xs" style={{ color: "var(--cd-text-muted)" }}>
+          <div
+            className="flex items-center justify-between text-xs"
+            style={{ color: "var(--cd-text-muted)" }}
+          >
             <span>Minimum 20 characters recommended.</span>
             <span>{issueDetails.length}/1000</span>
           </div>
@@ -186,17 +191,10 @@ const Support = () => {
         )}
 
         <div className="flex flex-wrap items-center gap-3 pt-1">
-          <button
-            type="submit"
-            className="cd-btn cd-btn-primary"
-          >
+          <button type="submit" className="cd-btn cd-btn-primary">
             Submit Ticket
           </button>
-          <button
-            type="button"
-            onClick={clearAll}
-            className="cd-btn cd-btn-secondary"
-          >
+          <button type="button" onClick={clearAll} className="cd-btn cd-btn-secondary">
             Clear Form
           </button>
         </div>

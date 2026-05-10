@@ -36,7 +36,10 @@ export default function RecentTasks({ tasks }: Props) {
         <h3 className="cd-section-title" style={{ marginBottom: 0 }}>
           Recent Tasks
         </h3>
-        <button className="text-xs font-medium self-start sm:self-auto" style={{ color: "var(--cd-primary)" }}>
+        <button
+          className="text-xs font-medium self-start sm:self-auto"
+          style={{ color: "var(--cd-primary)" }}
+        >
           View All
         </button>
       </div>

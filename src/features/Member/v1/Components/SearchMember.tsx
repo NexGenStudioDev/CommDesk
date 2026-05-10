@@ -12,7 +12,11 @@ const SearchMember = () => {
   const [selectedStatus, setSelectedStatus] = useState(STATUS_OPTIONS[0]);
 
   const handleSearch = () => {
-    console.log("Member search filters:", { searchText, role: selectedRole, status: selectedStatus });
+    console.log("Member search filters:", {
+      searchText,
+      role: selectedRole,
+      status: selectedStatus,
+    });
   };
 
   return (

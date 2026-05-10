@@ -12,11 +12,23 @@ export default function ActivityFeed({ activities }: Props) {
   const getConfig = (type: ActivityItem["type"]) => {
     switch (type) {
       case "completed":
-        return { icon: <CheckCircle size={15} />, color: theme.success.default, subtle: theme.success.subtle };
+        return {
+          icon: <CheckCircle size={15} />,
+          color: theme.success.default,
+          subtle: theme.success.subtle,
+        };
       case "comment":
-        return { icon: <MessageSquare size={15} />, color: theme.warning.default, subtle: theme.warning.subtle };
+        return {
+          icon: <MessageSquare size={15} />,
+          color: theme.warning.default,
+          subtle: theme.warning.subtle,
+        };
       default:
-        return { icon: <Bell size={15} />, color: theme.primary.default, subtle: theme.primary.subtle };
+        return {
+          icon: <Bell size={15} />,
+          color: theme.primary.default,
+          subtle: theme.primary.subtle,
+        };
     }
   };
 
@@ -40,7 +52,10 @@ export default function ActivityFeed({ activities }: Props) {
                 {cfg.icon}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium break-words" style={{ color: theme.text.primary }}>
+                <p
+                  className="text-sm font-medium break-words"
+                  style={{ color: theme.text.primary }}
+                >
                   {activity.text}
                 </p>
                 <p className="text-xs mt-0.5" style={{ color: theme.text.muted }}>

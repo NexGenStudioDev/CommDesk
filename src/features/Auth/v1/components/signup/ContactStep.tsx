@@ -2,18 +2,63 @@ import { useFormContext, Controller } from "react-hook-form";
 import { SignupFormData } from "../../hooks/useSignupForm";
 import { SearchableDropdown } from "@/Component/ui/SearchableDropdown";
 
-
 const COUNTRIES = [
-  "Afghanistan", "Albania", "Algeria", "Australia", "Austria", "Bangladesh",
-  "Belgium", "Brazil", "Canada", "China", "Denmark", "Egypt", "Ethiopia",
-  "Finland", "France", "Germany", "Ghana", "Greece", "India", "Indonesia",
-  "Iraq", "Ireland", "Israel", "Italy", "Japan", "Jordan", "Kenya",
-  "Malaysia", "Mexico", "Morocco", "Netherlands", "New Zealand", "Nigeria",
-  "Norway", "Pakistan", "Philippines", "Portugal", "Romania", "Russia",
-  "Saudi Arabia", "Singapore", "South Africa", "South Korea", "Spain",
-  "Sweden", "Switzerland", "Tanzania", "Thailand", "Turkey", "Uganda",
-  "Ukraine", "United Arab Emirates", "United Kingdom", "United States",
-  "Vietnam", "Zimbabwe",
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Australia",
+  "Austria",
+  "Bangladesh",
+  "Belgium",
+  "Brazil",
+  "Canada",
+  "China",
+  "Denmark",
+  "Egypt",
+  "Ethiopia",
+  "Finland",
+  "France",
+  "Germany",
+  "Ghana",
+  "Greece",
+  "India",
+  "Indonesia",
+  "Iraq",
+  "Ireland",
+  "Israel",
+  "Italy",
+  "Japan",
+  "Jordan",
+  "Kenya",
+  "Malaysia",
+  "Mexico",
+  "Morocco",
+  "Netherlands",
+  "New Zealand",
+  "Nigeria",
+  "Norway",
+  "Pakistan",
+  "Philippines",
+  "Portugal",
+  "Romania",
+  "Russia",
+  "Saudi Arabia",
+  "Singapore",
+  "South Africa",
+  "South Korea",
+  "Spain",
+  "Sweden",
+  "Switzerland",
+  "Tanzania",
+  "Thailand",
+  "Turkey",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "Vietnam",
+  "Zimbabwe",
 ];
 
 export default function ContactStep() {
@@ -27,9 +72,7 @@ export default function ContactStep() {
     <div className="space-y-5">
       <div className="mb-2">
         <h2 className="text-2xl font-bold text-gray-800 inter">Contact Information</h2>
-        <p className="text-gray-500 text-sm mt-1 inter">
-          How can people reach your community?
-        </p>
+        <p className="text-gray-500 text-sm mt-1 inter">How can people reach your community?</p>
       </div>
 
       {/* Country */}
@@ -66,9 +109,7 @@ export default function ContactStep() {
               : "border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
           }`}
         />
-        {errors.city && (
-          <span className="text-xs text-red-500">{errors.city.message}</span>
-        )}
+        {errors.city && <span className="text-xs text-red-500">{errors.city.message}</span>}
       </div>
 
       {/* Official Email */}
