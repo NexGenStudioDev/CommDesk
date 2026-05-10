@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/Member/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 
 export const categorizeTasks = (tasks: Task[]) => {
   const now = new Date();

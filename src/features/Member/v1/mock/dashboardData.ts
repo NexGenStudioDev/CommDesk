@@ -1,4 +1,4 @@
-import { DashboardData } from "../../Dashboard/Member/dashboard";
+import { DashboardData } from "../../../Dashboard/Member/v1/Type/dashboard";
 
 export const dashboardData: DashboardData = {
   user: {

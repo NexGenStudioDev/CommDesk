@@ -12,10 +12,7 @@ import SmartReminders from "@/features/Dashboard/components/SmartReminders";
 import SummaryCard from "@/features/Dashboard/components/SummaryCard";
 import TaskOverview from "@/features/Dashboard/components/TaskOverview";
 import UpcomingUrgentTasks from "@/features/Dashboard/components/UpcomingUrgentTasks";
-import { useDashboardData } from "@/features/Dashboard/hooks/useDashboardData";
-
-
-
+import { useDashboardData } from "@/features/Member/v1/hooks/useDashboardData";
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardData();

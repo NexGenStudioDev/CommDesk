@@ -1,55 +1,15 @@
 import { useEffect } from "react";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import "./App.css";
 
-
-
-import DashboardPage from "./features/Member/v1/Pages/DashboardPage";
-
-import MemberPage from "./features/Member/v1/Pages/MemberPage";
-
-import MemberLayout from "./layouts/MemberLayout";
-
-import AddMemberPage from "./features/AddMember/v1/Page/AddMemberPage";
-
-import CreateNewEvent from "./features/Events/v1/Pages/CreateNewEvent";
-
-import Contact from "./features/Contact_And_Support/v1/Pages/Contact";
-
-import ViewEvent from "./features/Events/v1/Pages/ViewEvent";
-import LoginPage from "./features/Auth/v1/Pages/LoginPage";
-
-import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
-
-import AnalyticsPage from "./features/Member/v1/Pages/Analytics";
-
-import NotificationsPage from "./features/Member/v1/Pages/Notifications";
-
-import SettingsPage from "./features/Member/v1/Pages/Settings";
-
-import TasksPage from "./features/Member/v1/Pages/Tasks";
-
-import TeamsPage from "./features/Member/v1/Pages/Teams";
-
-import WorkspacePage from "./features/Member/v1/Pages/WorkSpace";
-
-import MessagesPage from "./features/Member/v1/Pages/Messages";
-
-import BillingPage from "./features/Member/v1/Pages/Billing";
-import { dashboardData } from "./features/member/mock/dashboardData";
+import { dashboardData } from "./features/Member/v1/mock/dashboardData";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 
-import ProtectedRoute from "./routes/ProtectedRoute";
-
 import { ThemeProvider } from "next-themes";
-
-import Organisation_Template from "./features/template/LoginUserTemplate";
-import DashBoardPage from "./features/Dashboard/Organisation/v1/Pages/DashBoardPage";
-
-
-
+import OrgRoute from "./routes/OrgRoute";
+import MemberRoutes from "./routes/MemberRoutes";
 
 function App() {
   useEffect(() => {
@@ -60,151 +20,14 @@ function App() {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
+      <BrowserRouter>
 
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LoginPage />} />
+       <OrgRoute />
 
-        <Route path="/signup" element={<SignUpPage />} />
-
-        {/* Member Routes */}
-     
-
-
-         <Route path="/org" element={<Organisation_Template />}>
-          {/* Dashboard */}
-          <Route
-            index
-            element={
-              <ProtectedRoute user={user} allowedRoles={["organization"]}>
-                <DashBoardPage />
-              </ProtectedRoute>
-            }
-            />
-
-          <Route
-            path="dashboard"
-            element={
-              <ProtectedRoute user={user} allowedRoles={["organization"]}>
-                <DashBoardPage />
-              </ProtectedRoute>
-            }
-            />
-
-   
-          <Route path="teams" element={<MemberPage />} />
-     
-
-  
-
-          {/* Events */}
-          <Route path="events" element={<ViewEvent />} />
-
-          <Route path="create-event" element={<CreateNewEvent />} />
-
-          {/* Contact */}
-          <Route path="contact" element={<Contact />} />
-
-          {/* Add Member */}
-          <Route path="add-member" element={<AddMemberPage />} />
-
-      
-        </Route>
-
-
-           <Route path="/member" element={<MemberLayout />}>
-          {/* Dashboard */}
-          <Route
-            index
-            element={
-              <ProtectedRoute user={user} allowedRoles={["Member"]}>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-            />
-
-          <Route
-            path="dashboard"
-            element={
-              <ProtectedRoute user={user} allowedRoles={["Member"]}>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-            />
-
-   
-
-          {/* Member Modules */}
-          <Route path="analytics" element={<AnalyticsPage />} />
-
-          <Route path="notifications" element={<NotificationsPage />} />
-
-          <Route path="settings" element={<SettingsPage />} />
-
-          <Route path="tasks" element={<TasksPage />} />
-
-
-
-          <Route path="workspace" element={<WorkspacePage />} />
-
-          <Route path="messages" element={<MessagesPage />} />
-
-          <Route path="billing" element={<BillingPage />} />
-
-          {/* Events */}
-          <Route path="events" element={<ViewEvent />} />
-
+       <MemberRoutes />
         
-
-          {/* Contact */}
-          <Route path="contact" element={<Contact />} />
-
-
-          {/* 404 */}
-          <Route
-            path="*"
-            element={
-              <div
-                className="
-                  flex items-center justify-center
-
-                  h-[60vh]
-
-                  text-xl font-semibold
-
-                  text-gray-500
-                  dark:text-zinc-400
-                "
-              >
-                404 Not Found
-              </div>
-            }
-          />
-        </Route>
-
-        {/* Unauthorized */}
-        <Route
-          path="/unauthorized"
-          element={
-            <div
-              className="
-                flex items-center justify-center
-
-                h-screen
-
-                text-xl font-semibold
-
-                text-red-500
-              "
-            >
-              Unauthorized Access
-            </div>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-            </ThemeProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

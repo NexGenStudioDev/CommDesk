@@ -1,6 +1,5 @@
 import PagePlaceholder from "../Components/PagePlaceholder";
 
-
 export default function AnalyticsPage() {
   return (
     <PagePlaceholder

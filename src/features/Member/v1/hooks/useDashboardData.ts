@@ -1,5 +1,5 @@
-import { DashboardData } from "@/features/Dashboard/Member/dashboard";
-import { dashboardData } from "@/features/member/mock/dashboardData";
+import { DashboardData } from "@/features/Dashboard/Member/v1/Type/dashboard";
+import { dashboardData } from "@/features/Member/v1/mock/dashboardData";
 import { useQuery } from "@tanstack/react-query";
 
 export const useDashboardData = () => {
