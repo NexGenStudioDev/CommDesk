@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/member/types/dashboard";
 
 export type Reminder = {
   title: string;

@@ -53,6 +53,7 @@ const formatDeadline = (date: string) => {
 };
 
 export default function RecentTasks({ tasks }: Props) {
+  const MAX_TASKS_DISPLAY = 8;
   if (!tasks.length) {
     return (
       <div
@@ -142,7 +143,7 @@ export default function RecentTasks({ tasks }: Props) {
 
       {/* Tasks */}
       <div className="space-y-4">
-        {tasks.slice(0, 8).map((task) => (
+        {tasks.slice(0, MAX_TASKS_DISPLAY).map((task) => (
           <div
             key={task.id}
             className="

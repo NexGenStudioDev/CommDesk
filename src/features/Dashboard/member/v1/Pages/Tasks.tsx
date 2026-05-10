@@ -1,4 +1,4 @@
-import PagePlaceholder from "../../components/PagePlaceholder";
+import PagePlaceholder from "../../../member/components/PagePlaceholder";
 
 export default function TasksPage() {
   return (

@@ -1,6 +1,6 @@
 import { PanelLeftClose, PanelLeftOpen, LogOut } from "lucide-react";
 
-import NavItem from "./NavItem";
+import NavItem from "../../layouts/OrganisationLayout/NavItem";
 
 import { sidebarItems } from "@/config/sidebar.config";
 

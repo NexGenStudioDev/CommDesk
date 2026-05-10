@@ -1,14 +1,27 @@
 import { Bell, Search, Menu, ChevronDown } from "lucide-react";
-import { useDashboardData } from "../../hooks/useDashboardData";
+import { useDashboardData } from "../../features/Dashboard/member/hooks/useDashboardData";
 
 import { useSidebar } from "@/context/SidebarContext";
 
-import ThemeToggle from "../../components/ThemeToggle";
+import ThemeToggle from "../../features/Dashboard/member/components/ThemeToggle";
+import { useLocation } from "react-router";
 
 export default function Header() {
   const { setOpen } = useSidebar();
+  const location = useLocation();
 
   const { data } = useDashboardData();
+
+  const getPageTitle = () => {
+    const path = location.pathname.split("/").pop();
+
+    if (!path || path === "org") return "Dashboard";
+
+    return path
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
 
   return (
     <header
@@ -77,7 +90,7 @@ export default function Header() {
                 dark:text-zinc-100
               "
             >
-              Dashboard
+              {getPageTitle()}
             </h2>
           </div>
         </div>

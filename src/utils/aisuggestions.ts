@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/member/types/dashboard";
 
 export const getAISuggestions = (tasks: Task[]): string[] => {
   const now = new Date();

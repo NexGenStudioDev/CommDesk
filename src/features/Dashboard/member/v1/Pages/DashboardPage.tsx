@@ -1,20 +1,20 @@
-import { useDashboardData } from "../../hooks/useDashboardData";
+import { useDashboardData } from "../../../member/hooks/useDashboardData";
 
-import SummaryCard from "../../components/SummaryCard";
-import ActivityFeed from "../../components/ActivityFeed";
-import PerformanceStats from "../../components/PerformanceStats";
-import UpcomingUrgentTasks from "../../components/UpcomingUrgentTasks";
-import TaskOverview from "../../components/TaskOverview";
-import RecentTasks from "../../components/RecentTasks";
+import SummaryCard from "../../../member/components/SummaryCard";
+import ActivityFeed from "../../../member/components/ActivityFeed";
+import PerformanceStats from "../../../member/components/PerformanceStats";
+import UpcomingUrgentTasks from "../../../member/components/UpcomingUrgentTasks";
+import TaskOverview from "../../../member/components/TaskOverview";
+import RecentTasks from "../../../member/components/RecentTasks";
 
-import Achievements from "@/features/Dashboard/components/Achievements";
-import IssuesPanel from "@/features/Dashboard/components/IssuesPanel";
-import BudgetCard from "@/features/Dashboard/components/BudgetCard";
-import CommunityStatsCard from "@/features/Dashboard/components/CommunityStats";
-import CalendarWidget from "@/features/Dashboard/components/CalendarWidget";
-import ProductivityScore from "@/features/Dashboard/components/ProductivityScore";
-import SmartReminders from "@/features/Dashboard/components/SmartReminders";
-import AISuggestions from "@/features/Dashboard/components/AISuggestions";
+import Achievements from "@/features/Dashboard/member/components/Achievements";
+import IssuesPanel from "@/features/Dashboard/member/components/IssuesPanel";
+import BudgetCard from "@/features/Dashboard/member/components/BudgetCard";
+import CommunityStatsCard from "@/features/Dashboard/member/components/CommunityStats";
+import CalendarWidget from "@/features/Dashboard/member/components/CalendarWidget";
+import ProductivityScore from "@/features/Dashboard/member/components/ProductivityScore";
+import SmartReminders from "@/features/Dashboard/member/components/SmartReminders";
+import AISuggestions from "@/features/Dashboard/member/components/AISuggestions";
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardData();
@@ -51,7 +51,6 @@ export default function DashboardPage() {
   }
 
   return (
-    // <DashboardLayout>
     <div className="space-y-5 w-full">
       {/* Header */}
       <div
@@ -182,6 +181,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
-    //</DashboardLayout>
   );
 }

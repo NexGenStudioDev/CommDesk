@@ -4,11 +4,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./App.css";
 
-import DashboardPage from "./features/Dashboard/v1/Pages/DashboardPage";
+import DashboardPage from "./features/Dashboard/member/v1/Pages/DashboardPage";
 
 import MemberPage from "./features/Member/v1/Pages/MemberPage";
 
-import MemberLayout from "./features/Dashboard/layouts/MemberLayout";
+import MemberLayout from "./layouts/OrganisationLayout";
 
 import AddMemberPage from "./features/AddMember/v1/Page/AddMemberPage";
 
@@ -22,27 +22,27 @@ import LoginPage from "./features/Auth/v1/Pages/LoginPage";
 
 import SignUpPage from "./features/Auth/v1/Pages/SignUpPage";
 
-import AnalyticsPage from "./features/Dashboard/v1/Pages/Analytics";
+import AnalyticsPage from "./features/Dashboard/member/v1/Pages/Analytics";
 
-import NotificationsPage from "./features/Dashboard/v1/Pages/Notifications";
+import NotificationsPage from "./features/Dashboard/member/v1/Pages/Notifications";
 
-import SettingsPage from "./features/Dashboard/v1/Pages/Settings";
+import SettingsPage from "./features/Dashboard/member/v1/Pages/Settings";
 
-import TasksPage from "./features/Dashboard/v1/Pages/Tasks";
+import TasksPage from "./features/Dashboard/member/v1/Pages/Tasks";
 
-import TeamsPage from "./features/Dashboard/v1/Pages/Teams";
+import TeamsPage from "./features/Dashboard/member/v1/Pages/Teams";
 
-import WorkspacePage from "./features/Dashboard/v1/Pages/WorkSpace";
+import WorkspacePage from "./features/Dashboard/member/v1/Pages/WorkSpace";
 
-import MessagesPage from "./features/Dashboard/v1/Pages/Messages";
+import MessagesPage from "./features/Dashboard/member/v1/Pages/Messages";
 
-import BillingPage from "./features/Dashboard/v1/Pages/Billing";
+import BillingPage from "./features/Dashboard/member/v1/Pages/Billing";
 
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-import { dashboardData } from "./features/Dashboard/mock/dashboardData";
+import { dashboardData } from "./features/Dashboard/member/mock/dashboardData";
 
 function App() {
   useEffect(() => {

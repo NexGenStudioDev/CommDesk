@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/member/types/dashboard";
 import { formatDueLabel } from "@/utils/task.utils";
 
 import { Check } from "lucide-react";

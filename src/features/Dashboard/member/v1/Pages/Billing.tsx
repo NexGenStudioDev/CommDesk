@@ -1,4 +1,4 @@
-import PagePlaceholder from "../../components/PagePlaceholder";
+import PagePlaceholder from "@/features/Dashboard/member/components/PagePlaceholder";
 
 export default function BillingPage() {
   return (

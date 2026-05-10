@@ -1,6 +1,6 @@
 import { AlertTriangle, Clock } from "lucide-react";
 
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/member/types/dashboard";
 
 import { getSmartReminders } from "@/utils/reminders";
 

@@ -1,4 +1,4 @@
-import { CommunityStats } from "@/features/Dashboard/types/dashboard";
+import { CommunityStats } from "@/features/Dashboard/member/types/dashboard";
 
 interface Props {
   data: CommunityStats;

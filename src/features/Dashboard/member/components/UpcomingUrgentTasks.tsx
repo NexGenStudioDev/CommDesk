@@ -1,8 +1,8 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/member/types/dashboard";
 
 import { categorizeTasks } from "@/utils/task.utils";
 
-import TaskRow from "@/features/Dashboard/components/TaskRow";
+import TaskRow from "@/features/Dashboard/member/components/TaskRow";
 
 interface Props {
   tasks: Task[];

@@ -1,4 +1,5 @@
 import { Performance } from "../types/dashboard";
+import { useTheme } from "@/context/ThemeContext";
 
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -18,6 +19,8 @@ const trendData = [
 ];
 
 export default function PerformanceStats({ data }: Props) {
+  const { theme } = useTheme();
+
   return (
     <div
       className="
@@ -234,9 +237,12 @@ export default function PerformanceStats({ data }: Props) {
             <Tooltip
               contentStyle={{
                 borderRadius: "12px",
-                border: "1px solid #27272a",
-                backgroundColor: "#18181b",
-                color: "#fff",
+
+                border: theme === "dark" ? "1px solid rgba(255,255,255,0.08)" : "1px solid #e5e7eb",
+
+                backgroundColor: theme === "dark" ? "#18181b" : "#ffffff",
+
+                color: theme === "dark" ? "#ffffff" : "#111827",
               }}
             />
 

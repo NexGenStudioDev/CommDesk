@@ -1,6 +1,6 @@
 import { calculateProductivityScore } from "@/utils/productivity";
 
-import { Performance } from "@/features/Dashboard/types/dashboard";
+import { Performance } from "@/features/Dashboard/member/types/dashboard";
 
 interface Props {
   data: Performance;

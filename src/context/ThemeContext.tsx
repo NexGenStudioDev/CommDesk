@@ -10,17 +10,19 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
+  const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem("commdesk-theme") as Theme | null;
 
-    if (savedTheme) {
-      setTheme(savedTheme);
+    if (savedTheme) return savedTheme;
 
-      document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    }
-  }, []);
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+
+    localStorage.setItem("commdesk-theme", theme);
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
