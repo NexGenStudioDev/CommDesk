@@ -45,7 +45,7 @@ export default function CalendarWidget({ data }: Props) {
   ];
 
   // Events map
-  const eventMap: Record<number, any[]> = {};
+  const eventMap: Record<number, CalendarEvent[]> = {};
 
   data.events.forEach((e) => {
     const eventDate = new Date(e.date);
