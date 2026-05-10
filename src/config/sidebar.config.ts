@@ -13,12 +13,12 @@ import {
 export const sidebarItems = [
   {
     title: "Dashboard",
-    path: "/org/dashboard",
+    path: "/member/dashboard",
     icon: LayoutDashboard,
   },
   {
     title: "Workspace",
-    path: "/org/workspace",
+    path: "/member/workspace",
     icon: Briefcase,
   },
   {
