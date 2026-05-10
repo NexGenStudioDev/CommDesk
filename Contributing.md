@@ -170,7 +170,7 @@ Be considerate in:
 * Code reviews
 * Documentation discussions
 
-This project follows a code of conduct. All contributors are expected to follow it.
+This project follows a [code of conduct](CODE_OF_CONDUCT.md). All contributors are expected to follow it.
 
 ## Maintainers
 
