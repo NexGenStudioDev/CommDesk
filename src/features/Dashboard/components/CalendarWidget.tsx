@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
-import { CalendarData } from "@/features/Dashboard/types/dashboard";
+import { CalendarData } from "@/features/Dashboard/Member/v1/Type/dashboard";
 
 interface Props {
   data: CalendarData;
