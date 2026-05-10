@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+
+release.key
+*.key
+*.sec
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -30,3 +35,5 @@ build-dir
 .env
 .env.*
 !.env.example
+
+

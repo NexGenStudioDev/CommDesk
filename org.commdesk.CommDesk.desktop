@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=CommDesk
+Comment=Community communication desktop application
+Exec=commdesk
+Icon=org.commdesk.CommDesk
+Categories=Utility;
+Terminal=false
+StartupNotify=true
