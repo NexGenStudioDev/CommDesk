@@ -1,3 +1,4 @@
+import React from "react";
 import type { ReactNode } from "react";
 
 // ─── Inline SVG illustrations ─────────────────────────────────────────────────
@@ -66,7 +67,7 @@ interface EmptyStateProps {
   action?: ReactNode;
 }
 
-const illustrations: Record<string, () => JSX.Element> = {
+const illustrations: Record<string, () => React.JSX.Element> = {
   "no-event":   NoEventIllustration,
   "no-tasks":   NoTasksIllustration,
   "no-results": NoResultsIllustration,
@@ -85,15 +86,22 @@ export default function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center text-center px-6 py-12 max-w-sm mx-auto">
       {icon ? (
-        <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-400 mb-4">
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+          style={{ backgroundColor: "var(--cd-surface-2)", color: "var(--cd-text-muted)" }}
+        >
           {icon}
         </div>
       ) : (
         <Illustration />
       )}
-      <p className="text-sm font-semibold text-gray-800 mt-3">{title}</p>
+      <p className="text-sm font-semibold mt-3" style={{ color: "var(--cd-text)" }}>
+        {title}
+      </p>
       {description && (
-        <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">{description}</p>
+        <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "var(--cd-text-muted)" }}>
+          {description}
+        </p>
       )}
       {action && <div className="mt-5">{action}</div>}
     </div>

@@ -7,22 +7,38 @@ import type { Task, TaskFilters, CreateTaskPayload, UpdateTaskPayload } from "..
 function matchesSearch(task: Task, q: string): boolean {
   const query = q.toLowerCase().trim();
   if (!query) return true;
+  const deadline = parseISO(task.deadline);
+  const isOverdue = isPast(deadline) && task.status !== "completed";
+  const isUpcoming = isFuture(deadline);
 
-  // Search across: title, description, tech tags, member names, priority, status, submission type
   const fields = [
     task.title,
     task.description,
     task.priority,
     task.status,
     task.submissionType,
+    task.submissionStatus,
     ...(task.technologies ?? []).map(t => t.label),
+    ...(task.technologies ?? []).map(t => t.id),
     ...task.assignedTo.map(m => m.name),
     ...task.assignedTo.map(m => m.role),
     task.isMandatory ? "mandatory" : "",
     task.points !== undefined ? `${task.points} pts` : "",
+    isOverdue ? "overdue past late" : "",
+    isUpcoming ? "upcoming future" : "",
+    task.status === "completed" ? "done complete completed" : "",
+    task.status === "in-progress" ? "progress inprogress active working" : "",
+    task.status === "todo" ? "todo to do open pending" : "",
+    task.submissionStatus === "not-submitted" ? "not submitted missing" : "",
   ];
+  const haystack = fields.join(" ").toLowerCase();
+  const normalized = query
+    .replaceAll("in progress", "in-progress")
+    .replaceAll("not submitted", "not-submitted")
+    .replaceAll("to do", "todo");
+  const terms = normalized.split(/\s+/).filter(Boolean);
 
-  return fields.some(f => f.toLowerCase().includes(query));
+  return terms.every((term) => haystack.includes(term));
 }
 
 function applyFilters(tasks: Task[], filters: TaskFilters): Task[] {
@@ -94,7 +110,9 @@ export function useUpdateTask() {
   return useMutation({
     mutationFn: async ({ id, payload }: { id: string; payload: UpdateTaskPayload }): Promise<Task> => {
       await new Promise((r) => setTimeout(r, 400));
-      const patch: Partial<Task> = { ...payload };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { assignedTo: _ids, ...rest } = payload;
+      const patch: Partial<Task> = { ...rest };
       if (payload.assignedTo) {
         patch.assignedTo = payload.assignedTo
           .map((mid) => mockMembers.find((m) => m.id === mid))

@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Avatar from "../common/Avatar";
 import { ExternalLink, Github, FileUp, Clock, CheckCircle2, XCircle, Star } from "lucide-react";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { REVIEW_DECISION_CONFIG } from "../../constants/task.constants";
+import ReviewPanel from "./ReviewPanel";
 import type { Submission } from "../../Task.types";
 
 interface Props {
@@ -10,45 +12,46 @@ interface Props {
 }
 
 export default function SubmissionCard({ submission, onReview }: Props) {
+  const [isReviewing, setIsReviewing] = useState(false);
   const { submittedBy: member, review } = submission;
   const reviewCfg = review ? REVIEW_DECISION_CONFIG[review.decision] : null;
 
   return (
     <div
       className={`
-        flex flex-col gap-3 p-4 rounded-xl border transition-all duration-200
+        flex flex-col gap-4 p-5 rounded-2xl border transition-all duration-300
         ${review?.decision === "approved"
-          ? "border-emerald-200 bg-emerald-50/40"
+          ? "border-[var(--cd-success)] bg-[var(--cd-success-subtle)]"
           : review?.decision === "rejected"
-          ? "border-red-200 bg-red-50/40"
-          : "border-gray-200 bg-white hover:border-indigo-200 hover:shadow-sm"}
+          ? "border-[var(--cd-danger)] bg-[var(--cd-danger-subtle)]"
+          : "bg-[var(--cd-surface)] border-[var(--cd-border)] hover:border-[var(--cd-primary)] hover:shadow-md"}
       `}
     >
       {/* ── Member row ───────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <Avatar name={member.name} src={member.avatar} role={member.role} size="md" showTooltip ring ringColor="ring-white" />
+        <div className="flex items-center gap-3 min-w-0">
+          <Avatar name={member.name} src={member.avatar} role={member.role} size="md" showTooltip ring ringColor="ring-[var(--cd-surface)]" />
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-900 truncate">{member.name}</p>
-            <p className="text-xs text-gray-400 truncate">{member.role}</p>
+            <p className="text-sm font-bold truncate" style={{ color: "var(--cd-text)" }}>{member.name}</p>
+            <p className="text-xs truncate" style={{ color: "var(--cd-text-muted)" }}>{member.role}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           {/* Timestamp */}
-          <span className="flex items-center gap-1 text-[10px] text-gray-400">
+          <span className="flex items-center gap-1 text-[10px]" style={{ color: "var(--cd-text-muted)" }}>
             <Clock size={10} />
             {formatDistanceToNow(parseISO(submission.submittedAt), { addSuffix: true })}
           </span>
 
           {/* Review status chip */}
           {reviewCfg ? (
-            <span className={`flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${reviewCfg.bg} ${reviewCfg.text} ${reviewCfg.border}`}>
+            <span className={`flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${reviewCfg.bg} ${reviewCfg.text} ${reviewCfg.border}`}>
               {review!.decision === "approved" ? <CheckCircle2 size={10} /> : <XCircle size={10} />}
               {reviewCfg.label}
             </span>
           ) : (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">
+            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full border bg-[var(--cd-warning-subtle)] text-[var(--cd-warning)] border-[var(--cd-warning)]">
               Pending Review
             </span>
           )}
@@ -56,18 +59,19 @@ export default function SubmissionCard({ submission, onReview }: Props) {
       </div>
 
       {/* ── Links ────────────────────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         {submission.githubUrl && (
           <a
             href={submission.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold transition-colors group/link"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[var(--cd-surface-3)] hover:bg-[var(--cd-hover)] border border-[var(--cd-border-subtle)] text-xs font-bold transition-all group/link"
+            style={{ color: "var(--cd-text)" }}
           >
-            <Github size={13} />
+            <Github size={14} className="text-[var(--cd-text-muted)] group-hover/link:text-[var(--cd-primary)]" />
             <span className="flex-1 truncate">{submission.githubUrl.replace("https://", "")}</span>
-            <ExternalLink size={11} className="opacity-50 group-hover/link:opacity-100 transition" />
+            <ExternalLink size={11} className="opacity-40 group-hover/link:opacity-100 transition" />
           </a>
         )}
         {submission.fileUrl && (
@@ -76,47 +80,80 @@ export default function SubmissionCard({ submission, onReview }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition-colors group/link"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[var(--cd-primary-subtle)] hover:opacity-80 border border-[var(--cd-primary-subtle)] text-xs font-bold transition-all group/link"
+            style={{ color: "var(--cd-primary-text)" }}
           >
-            <FileUp size={13} />
+            <FileUp size={14} />
             <span className="flex-1 truncate">{submission.fileUrl}</span>
-            <ExternalLink size={11} className="opacity-50 group-hover/link:opacity-100 transition" />
+            <ExternalLink size={11} className="opacity-60 group-hover/link:opacity-100 transition" />
+          </a>
+        )}
+        {submission.linkUrl && (
+          <a
+            href={submission.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[var(--cd-secondary-subtle)] hover:opacity-80 border border-[var(--cd-secondary-subtle)] text-xs font-bold transition-all group/link"
+            style={{ color: "var(--cd-secondary)" }}
+          >
+            <ExternalLink size={14} />
+            <span className="flex-1 truncate">{submission.linkUrl}</span>
+            <ExternalLink size={11} className="opacity-60 group-hover/link:opacity-100 transition" />
           </a>
         )}
       </div>
 
       {/* ── Notes ────────────────────────────────────────────────────────────── */}
       {submission.notes && (
-        <p className="text-xs text-gray-500 leading-relaxed bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">
-          {submission.notes}
-        </p>
+        <div className="p-3 rounded-xl border border-[var(--cd-border-subtle)] bg-[var(--cd-surface-2)]">
+          <p className="text-xs leading-relaxed" style={{ color: "var(--cd-text-2)" }}>
+            {submission.notes}
+          </p>
+        </div>
       )}
 
-      {/* ── Review details ───────────────────────────────────────────────────── */}
-      {review && (
-        <div className={`rounded-xl p-3 border flex flex-col gap-2 ${reviewCfg!.bg} ${reviewCfg!.border}`}>
+      {/* ── Review details (Existing) ────────────────────────────────────────── */}
+      {review && !isReviewing && (
+        <div className={`rounded-xl p-4 border flex flex-col gap-2.5 ${reviewCfg!.bg} ${reviewCfg!.border}`}>
           <div className="flex items-center justify-between">
             <span className={`text-xs font-bold ${reviewCfg!.text}`}>
               {review.decision === "approved" ? "✓ Approved" : "✗ Rejected"} by {review.reviewedBy}
             </span>
             {review.score !== undefined && (
-              <span className="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
-                <Star size={10} fill="currentColor" />
+              <span className="flex items-center gap-1 text-xs font-bold bg-[var(--cd-surface)] px-2 py-1 rounded-full border border-[var(--cd-warning)]" style={{ color: "var(--cd-warning)" }}>
+                <Star size={11} fill="currentColor" />
                 {review.score}/100
               </span>
             )}
           </div>
           {review.feedback && (
-            <p className="text-xs text-gray-600 leading-relaxed">{review.feedback}</p>
+            <p className="text-xs leading-relaxed opacity-90" style={{ color: "var(--cd-text)" }}>{review.feedback}</p>
           )}
         </div>
       )}
 
-      {/* ── Review action (if not yet reviewed) ──────────────────────────────── */}
-      {!review && (
+      {/* ── Inline Review Panel ──────────────────────────────────────────────── */}
+      {isReviewing && (
+        <div className="mt-2 animate-in fade-in slide-in-from-top-2 duration-300">
+          <ReviewPanel
+            submissionId={submission.id}
+            taskId={submission.taskId}
+            currentTaskStatus="todo" // Fallback status
+            onSuccess={() => {
+              setIsReviewing(false);
+              onReview(submission.id); // Trigger parent refresh
+            }}
+            onCancel={() => setIsReviewing(false)}
+          />
+        </div>
+      )}
+
+      {/* ── Review action (if not yet reviewed & not currently reviewing) ─────── */}
+      {!review && !isReviewing && (
         <button
-          onClick={() => onReview(submission.id)}
-          className="self-start flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-semibold transition-all"
+          onClick={() => setIsReviewing(true)}
+          className="cd-btn cd-btn-primary self-start text-xs font-bold py-2 shadow-sm shadow-[var(--cd-primary-subtle)] active:scale-95 transition-all"
         >
           Review Submission
         </button>

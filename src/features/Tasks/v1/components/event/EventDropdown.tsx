@@ -19,21 +19,19 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
   const listRef = useRef<HTMLUListElement>(null);
 
   const { data: events = [], isLoading } = useEvents();
-
   const selectedEvent = events.find((e) => e.id === selectedEventId) ?? null;
 
-  // Filter events by query
-  const filtered = events.filter((e) =>
-    query.trim() === "" ||
-    e.name.toLowerCase().includes(query.toLowerCase()) ||
-    e.subtitle.toLowerCase().includes(query.toLowerCase())
+  const filtered = events.filter(
+    (event) =>
+      query.trim() === "" ||
+      event.name.toLowerCase().includes(query.toLowerCase()) ||
+      event.subtitle.toLowerCase().includes(query.toLowerCase())
   );
 
-  // Persist selection
   const handleSelect = useCallback(
-    (evt: EventOption) => {
-      localStorage.setItem(SELECTED_EVENT_KEY, evt.id);
-      onSelect(evt.id);
+    (event: EventOption) => {
+      localStorage.setItem(SELECTED_EVENT_KEY, event.id);
+      onSelect(event.id);
       setOpen(false);
       setQuery("");
       setHighlighted(0);
@@ -41,16 +39,15 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
     [onSelect]
   );
 
-  const handleClear = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClear = (event: React.MouseEvent) => {
+    event.stopPropagation();
     localStorage.removeItem(SELECTED_EVENT_KEY);
     onSelect(null);
   };
 
-  // Close on outside click
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (!containerRef.current?.contains(e.target as Node)) {
+    const handler = (event: MouseEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
         setOpen(false);
         setQuery("");
       }
@@ -59,66 +56,65 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Focus search on open
   useEffect(() => {
-    if (open) {
-      setTimeout(() => searchRef.current?.focus(), 80);
-      setHighlighted(0);
-    }
+    if (!open) return;
+    setTimeout(() => searchRef.current?.focus(), 80);
   }, [open]);
 
-  // Keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
     if (!open) {
-      if (e.key === "Enter" || e.key === " ") setOpen(true);
+      if (event.key === "Enter" || event.key === " ") setOpen(true);
       return;
     }
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setHighlighted((h) => Math.min(h + 1, filtered.length - 1));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlighted((h) => Math.max(h - 1, 0));
-    } else if (e.key === "Enter") {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setHighlighted((value) => Math.min(value + 1, filtered.length - 1));
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setHighlighted((value) => Math.max(value - 1, 0));
+    } else if (event.key === "Enter") {
       if (filtered[highlighted]) handleSelect(filtered[highlighted]);
-    } else if (e.key === "Escape") {
+    } else if (event.key === "Escape") {
       setOpen(false);
       setQuery("");
     }
   };
 
-  // Scroll highlighted item into view
   useEffect(() => {
     const el = listRef.current?.children[highlighted] as HTMLElement | undefined;
     el?.scrollIntoView({ block: "nearest" });
   }, [highlighted]);
 
   return (
-    <div ref={containerRef} className="relative w-72 shrink-0" onKeyDown={handleKeyDown}>
-      {/* Trigger button */}
+    <div ref={containerRef} className="relative w-full max-w-[432px] sm:w-[432px] shrink-0" onKeyDown={handleKeyDown}>
       <button
-        onClick={() => setOpen((o) => !o)}
-        className={`
-          w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border text-sm font-medium transition-all
-          ${open
-            ? "border-indigo-400 ring-2 ring-indigo-100 bg-white"
-            : "border-gray-200 bg-white hover:border-gray-300"}
-        `}
+        onClick={() => {
+          setHighlighted(0);
+          setOpen((value) => !value);
+        }}
+        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border text-sm font-medium transition-all"
+        style={{
+          backgroundColor: "var(--cd-surface)",
+          borderColor: open ? "var(--cd-primary)" : "var(--cd-border)",
+          boxShadow: open ? "0 0 0 3px var(--cd-primary-subtle)" : "none",
+        }}
         aria-haspopup="listbox"
         aria-expanded={open}
       >
         {isLoading ? (
-          <Loader2 size={15} className="text-gray-400 animate-spin shrink-0" />
+          <Loader2 size={15} className="animate-spin shrink-0" style={{ color: "var(--cd-text-muted)" }} />
         ) : (
-          <CalendarDays size={15} className="text-indigo-500 shrink-0" />
+          <CalendarDays size={15} className="shrink-0" style={{ color: "var(--cd-primary)" }} />
         )}
 
         <span className="flex-1 text-left truncate">
           {isLoading ? (
-            <span className="text-gray-400">Loading events…</span>
+            <span style={{ color: "var(--cd-text-muted)" }}>Loading events...</span>
           ) : selectedEvent ? (
             <span className="flex items-center gap-2">
-              <span className="text-gray-900 font-semibold truncate">{selectedEvent.name}</span>
+              <span className="font-semibold truncate" style={{ color: "var(--cd-text)" }}>
+                {selectedEvent.name}
+              </span>
               {(() => {
                 const cfg = EVENT_TYPE_CONFIG[selectedEvent.type];
                 return (
@@ -129,7 +125,7 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
               })()}
             </span>
           ) : (
-            <span className="text-gray-400">Select an event…</span>
+            <span style={{ color: "var(--cd-text-muted)" }}>Select an event...</span>
           )}
         </span>
 
@@ -139,8 +135,9 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
               role="button"
               tabIndex={0}
               onClick={handleClear}
-              onKeyDown={(e) => e.key === "Enter" && handleClear(e as unknown as React.MouseEvent)}
-              className="p-0.5 rounded text-gray-300 hover:text-gray-500 transition"
+              onKeyDown={(event) => event.key === "Enter" && handleClear(event as unknown as React.MouseEvent)}
+              className="p-0.5 rounded transition"
+              style={{ color: "var(--cd-text-muted)" }}
               aria-label="Clear selection"
             >
               <X size={13} />
@@ -148,82 +145,101 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
           )}
           <ChevronDown
             size={15}
-            className={`text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            style={{ color: "var(--cd-text-muted)" }}
           />
         </div>
       </button>
 
-      {/* Dropdown panel */}
       {open && (
-        <div className="absolute top-full left-0 mt-1.5 w-[340px] bg-white rounded-2xl border border-gray-200 shadow-xl shadow-gray-100/80 z-50 overflow-hidden">
-          {/* Search */}
-          <div className="flex items-center gap-2 px-3 py-2.5 border-b">
-            <Search size={14} className="text-gray-400 shrink-0" />
+        <div
+          className="absolute top-full left-0 mt-1.5 w-full sm:w-[420px] rounded-xl border shadow-xl z-50 overflow-hidden"
+          style={{
+            backgroundColor: "var(--cd-surface)",
+            borderColor: "var(--cd-border)",
+            boxShadow: "0 8px 24px var(--cd-shadow-md)",
+          }}
+        >
+          <div className="flex items-center gap-2 px-3 py-2.5 border-b" style={{ borderColor: "var(--cd-border)" }}>
+            <Search size={14} className="shrink-0" style={{ color: "var(--cd-text-muted)" }} />
             <input
               ref={searchRef}
               value={query}
-              onChange={(e) => { setQuery(e.target.value); setHighlighted(0); }}
-              placeholder="Search events…"
-              className="flex-1 text-sm outline-none placeholder-gray-400 text-gray-900 bg-transparent"
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setHighlighted(0);
+              }}
+              placeholder="Search events..."
+              className="flex-1 text-sm outline-none bg-transparent"
+              style={{ color: "var(--cd-text)" }}
             />
             {query && (
-              <button onClick={() => setQuery("")} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setQuery("")} style={{ color: "var(--cd-text-muted)" }}>
                 <X size={13} />
               </button>
             )}
           </div>
 
-          {/* List */}
           {filtered.length === 0 ? (
             <div className="py-8 text-center">
-              <p className="text-sm text-gray-400">No events match "{query}"</p>
+              <p className="text-sm" style={{ color: "var(--cd-text-muted)" }}>
+                No events match "{query}"
+              </p>
             </div>
           ) : (
             <ul ref={listRef} role="listbox" className="max-h-64 overflow-y-auto py-1.5">
-              {filtered.map((evt, i) => {
-                const typeCfg   = EVENT_TYPE_CONFIG[evt.type];
-                const statusCfg = EVENT_STATUS_CONFIG[evt.status];
-                const isActive  = evt.id === selectedEventId;
-                const isHl      = i === highlighted;
+              {filtered.map((event, index) => {
+                const typeCfg = EVENT_TYPE_CONFIG[event.type];
+                const statusCfg = EVENT_STATUS_CONFIG[event.status];
+                const isActive = event.id === selectedEventId;
+                const isHighlighted = index === highlighted;
 
                 return (
                   <li
-                    key={evt.id}
+                    key={event.id}
                     role="option"
                     aria-selected={isActive}
-                    onClick={() => handleSelect(evt)}
-                    onMouseEnter={() => setHighlighted(i)}
-                    className={`
-                      flex items-start gap-3 px-3 py-3 cursor-pointer transition-colors
-                      ${isHl ? "bg-indigo-50" : "hover:bg-gray-50"}
-                      ${isActive ? "bg-indigo-50/70" : ""}
-                    `}
+                    onClick={() => handleSelect(event)}
+                    onMouseEnter={(mouseEvent) => {
+                      setHighlighted(index);
+                      (mouseEvent.currentTarget as HTMLLIElement).style.backgroundColor = "var(--cd-primary-subtle)";
+                    }}
+                    onMouseLeave={(mouseEvent) => {
+                      (mouseEvent.currentTarget as HTMLLIElement).style.backgroundColor = isActive
+                        ? "var(--cd-primary-subtle)"
+                        : "transparent";
+                    }}
+                    className="flex items-start gap-3 px-3 py-3 cursor-pointer transition-colors"
+                    style={{
+                      backgroundColor: isActive || isHighlighted ? "var(--cd-primary-subtle)" : "transparent",
+                    }}
                   >
-                    {/* Type color bar */}
                     <div className={`w-1 self-stretch rounded-full mt-0.5 ${typeCfg.dot}`} />
 
                     <div className="flex-1 min-w-0">
-                      {/* Event name + type badge */}
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-sm font-semibold truncate ${isActive ? "text-indigo-700" : "text-gray-900"}`}>
-                          {evt.name}
+                        <span
+                          className="text-sm font-semibold truncate"
+                          style={{ color: isActive ? "var(--cd-primary-text)" : "var(--cd-text)" }}
+                        >
+                          {event.name}
                         </span>
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${typeCfg.bg} ${typeCfg.text}`}>
                           {typeCfg.label}
                         </span>
                       </div>
 
-                      {/* Subtitle + dates */}
                       <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                        <span className="text-xs text-gray-400 truncate">{evt.subtitle}</span>
-                        <span className="text-gray-200">·</span>
-                        <span className="text-[10px] text-gray-400 shrink-0">
-                          {format(parseISO(evt.startDate), "MMM d")} – {format(parseISO(evt.endDate), "MMM d, yyyy")}
+                        <span className="text-xs truncate" style={{ color: "var(--cd-text-muted)" }}>
+                          {event.subtitle}
+                        </span>
+                        <span style={{ color: "var(--cd-border)" }}>·</span>
+                        <span className="text-[10px] shrink-0" style={{ color: "var(--cd-text-muted)" }}>
+                          {format(parseISO(event.startDate), "MMM d")} - {format(parseISO(event.endDate), "MMM d, yyyy")}
                         </span>
                       </div>
                     </div>
 
-                    {/* Status chip */}
                     <span className={`shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-full ${statusCfg.bg} ${statusCfg.text}`}>
                       {statusCfg.pulse ? (
                         <span className="relative flex h-1.5 w-1.5">
@@ -233,7 +249,7 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
                       ) : (
                         <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.dot}`} />
                       )}
-                      {evt.status}
+                      {event.status}
                     </span>
                   </li>
                 );
@@ -241,10 +257,13 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
             </ul>
           )}
 
-          {/* Footer */}
-          <div className="border-t px-3 py-2 flex items-center justify-between">
-            <span className="text-[10px] text-gray-400">{filtered.length} event{filtered.length !== 1 ? "s" : ""}</span>
-            <span className="text-[10px] text-gray-400">↑↓ navigate · Enter select · Esc close</span>
+          <div className="border-t px-3 py-2 flex items-center justify-between gap-3" style={{ borderColor: "var(--cd-border)" }}>
+            <span className="text-[10px]" style={{ color: "var(--cd-text-muted)" }}>
+              {filtered.length} event{filtered.length !== 1 ? "s" : ""}
+            </span>
+            <span className="text-[10px] hidden sm:inline" style={{ color: "var(--cd-text-muted)" }}>
+              Use arrows, Enter, Esc
+            </span>
           </div>
         </div>
       )}

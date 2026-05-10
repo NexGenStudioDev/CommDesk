@@ -2,9 +2,10 @@
 function Shimmer({ className }: { className: string }) {
   return (
     <div
-      className={`relative overflow-hidden bg-gray-100 rounded ${className}`}
+      className={`relative overflow-hidden rounded ${className}`}
+      style={{ backgroundColor: "var(--cd-surface-3)" }}
     >
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </div>
   );
 }
@@ -12,9 +13,22 @@ function Shimmer({ className }: { className: string }) {
 // ─── Table skeleton ───────────────────────────────────────────────────────────
 function TableSkeleton() {
   return (
-    <div className="w-full">
+    <div
+      className="w-full rounded-xl overflow-hidden"
+      style={{
+        backgroundColor: "var(--cd-surface)",
+        border: "1px solid var(--cd-border)",
+        boxShadow: "0 1px 3px var(--cd-shadow)",
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center gap-4 px-4 py-3 border-b bg-gray-50">
+      <div
+        className="flex items-center gap-4 px-4 py-3 border-b"
+        style={{
+          backgroundColor: "var(--cd-surface-2)",
+          borderColor: "var(--cd-border)",
+        }}
+      >
         <Shimmer className="h-3 w-40" />
         <Shimmer className="h-3 w-24 ml-auto" />
         <Shimmer className="h-3 w-20" />
@@ -26,7 +40,11 @@ function TableSkeleton() {
       {Array.from({ length: 5 }).map((_, i) => (
         <div
           key={i}
-          className="flex items-center gap-4 px-4 py-4 border-b border-gray-50 border-l-4 border-l-gray-100"
+          className="flex items-center gap-4 px-4 py-4 border-b border-l-4"
+          style={{
+            borderBottomColor: "var(--cd-border-subtle)",
+            borderLeftColor: "var(--cd-border)",
+          }}
         >
           {/* Title */}
           <div className="flex-1 flex flex-col gap-1.5">
@@ -66,7 +84,10 @@ function DetailSkeleton() {
   return (
     <div className="flex flex-1 overflow-hidden">
       {/* Left panel */}
-      <div className="w-[420px] shrink-0 border-r bg-white p-6 flex flex-col gap-5">
+      <div 
+        className="w-[420px] shrink-0 border-r p-6 flex flex-col gap-5"
+        style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
+      >
         <Shimmer className="h-3 w-28" />
         <Shimmer className="h-6 w-4/5" />
         <Shimmer className="h-3 w-full" />

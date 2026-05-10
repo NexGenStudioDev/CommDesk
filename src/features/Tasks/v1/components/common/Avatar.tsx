@@ -42,7 +42,7 @@ const STATUS_COLOR = {
 
 export default function Avatar({
   name, src, role, size = "sm",
-  showTooltip = true, status = null, ring = false, ringColor = "ring-white",
+  showTooltip = true, status = null, ring = false, ringColor = "ring-[var(--cd-surface)]",
 }: AvatarProps) {
   const [imgError, setImgError] = useState(false);
   const [hovered, setHovered]   = useState(false);
@@ -80,7 +80,10 @@ export default function Avatar({
 
       {/* Status dot */}
       {status && (
-        <span className={`absolute ${sz.dot} rounded-full border-2 border-white ${STATUS_COLOR[status]}`} />
+        <span
+          className={`absolute ${sz.dot} rounded-full border-2 ${STATUS_COLOR[status]}`}
+          style={{ borderColor: "var(--cd-surface)" }}
+        />
       )}
 
       {/* Tooltip */}
@@ -122,17 +125,19 @@ export function AvatarGroup({ members, max = 3, size = "sm" }: AvatarGroupProps)
           role={m.role}
           size={size}
           ring
-          ringColor="ring-white"
+          ringColor="ring-[var(--cd-surface)]"
           showTooltip
         />
       ))}
       {overflow > 0 && (
-        <div className={`
-          ${sz.outer} rounded-full bg-gray-100 border-2 border-white
-          flex items-center justify-center shadow-sm z-10
-          ring-2 ring-white
-        `}>
-          <span className={`${sz.text} font-bold text-gray-500`}>+{overflow}</span>
+        <div
+          className={`${sz.outer} rounded-full border-2 flex items-center justify-center shadow-sm z-10 ring-2 ring-[var(--cd-surface)]`}
+          style={{
+            backgroundColor: "var(--cd-surface-2)",
+            borderColor: "var(--cd-surface)",
+          }}
+        >
+          <span className={`${sz.text} font-bold`} style={{ color: "var(--cd-text-2)" }}>+{overflow}</span>
         </div>
       )}
     </div>

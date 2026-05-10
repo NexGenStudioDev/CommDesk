@@ -91,7 +91,9 @@ body {
   --color-cd-primary-subtle: var(--cd-primary-subtle);
   --color-cd-primary-text: var(--cd-primary-text);
   --color-cd-secondary: var(--cd-secondary);
+  --color-cd-secondary-subtle: var(--cd-secondary-subtle);
   --color-cd-accent: var(--cd-accent);
+  --color-cd-accent-subtle: var(--cd-accent-subtle);
   --color-cd-success: var(--cd-success);
   --color-cd-success-subtle: var(--cd-success-subtle);
   --color-cd-warning: var(--cd-warning);
@@ -153,7 +155,9 @@ body {
   --cd-primary-subtle: #eff6ff;
   --cd-primary-text: #1d4ed8;
   --cd-secondary: #9333ea;
+  --cd-secondary-subtle: #f5f3ff;
   --cd-accent: #06b6d4;
+  --cd-accent-subtle: #ecfeff;
   --cd-success: #16a34a;
   --cd-success-subtle: #f0fdf4;
   --cd-warning: #ca8a04;
@@ -215,7 +219,9 @@ body {
   --cd-primary-subtle: rgba(59, 130, 246, 0.12);
   --cd-primary-text: #93c5fd;
   --cd-secondary: #a855f7;
+  --cd-secondary-subtle: rgba(168, 85, 247, 0.12);
   --cd-accent: #22d3ee;
+  --cd-accent-subtle: rgba(34, 211, 238, 0.12);
   --cd-success: #4ade80;
   --cd-success-subtle: rgba(74, 222, 128, 0.1);
   --cd-warning: #facc15;
@@ -558,4 +564,20 @@ html {
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--cd-text-muted);
+}
+
+/* ─── Custom Scrollbar Utility ───────────────────────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--cd-border);
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--cd-primary);
 }

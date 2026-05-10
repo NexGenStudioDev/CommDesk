@@ -77,7 +77,7 @@ export const mockTasks: Task[] = [
     description: "Build a real-time analytics dashboard showing participant statistics, submission rates, and leaderboard.",
     status: "todo", priority: "low", deadline: "2026-06-14T23:59:00",
     assignedTo: [mockMembers[3], mockMembers[5]],
-    submissionType: "both", submissionStatus: "not-submitted",
+    submissionType: "all", submissionStatus: "not-submitted",
     isMandatory: false, points: 150, allowLateSubmission: true,
     technologies: [
       { id: "python", label: "Python", color: "bg-yellow-100 text-yellow-700" },
@@ -113,7 +113,7 @@ export const mockTasks: Task[] = [
     description: "Connect React frontend with Metamask and smart contracts.",
     status: "todo", priority: "high", deadline: "2026-06-30T23:59:00",
     assignedTo: [mockMembers[0], mockMembers[3]],
-    submissionType: "both", submissionStatus: "not-submitted",
+    submissionType: "all", submissionStatus: "not-submitted",
     isMandatory: true, allowLateSubmission: false,
     technologies: [
       { id: "react", label: "React", color: "bg-sky-100 text-sky-700" },
