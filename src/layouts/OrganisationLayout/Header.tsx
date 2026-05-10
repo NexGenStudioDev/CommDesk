@@ -15,7 +15,7 @@ export default function Header() {
   const getPageTitle = () => {
     const path = location.pathname.split("/").pop();
 
-    if (!path || path === "org") return "Dashboard";
+    if (!path || path === "member") return "Dashboard";
 
     return path
       .split("-")
