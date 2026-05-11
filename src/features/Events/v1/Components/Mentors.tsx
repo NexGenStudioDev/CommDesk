@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import Input from "@/Component/ui/Input";
+import { Event_Permissions, PermissionGate } from "@/permissions";
 import { CiSearch } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
 import MentorCard from "./MentorCard";
@@ -53,9 +54,11 @@ const Mentors = ({ isExpanded = true, onToggleExpand }: MentorsProps) => {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" className="cd-btn cd-btn-primary px-2.5 py-1.5 text-xs">
-            <IoMdAdd className="text-base" /> Add
-          </button>
+          <PermissionGate permission={Event_Permissions.UPDATE_EVENT}>
+            <button type="button" className="cd-btn cd-btn-primary px-2.5 py-1.5 text-xs">
+              <IoMdAdd className="text-base" /> Add
+            </button>
+          </PermissionGate>
           {onToggleExpand && (
             <button
               type="button"

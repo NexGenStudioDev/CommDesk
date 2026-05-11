@@ -1,5 +1,5 @@
-import { MoreVertical } from "lucide-react";
 import { useState } from "react";
+import { Event_Permissions, usePermissionMap } from "@/permissions";
 import { Event } from "../Event.type";
 
 type EventProps = {
@@ -14,11 +14,18 @@ const statusConfig: Record<Event["status"], { bg: string; color: string }> = {
 };
 
 function EventTable({ events, itemsPerPage }: EventProps) {
+  const { canView, canEdit, canDelete, canPublish } = usePermissionMap({
+    canView: Event_Permissions.VIEW_EVENT,
+    canEdit: Event_Permissions.UPDATE_EVENT,
+    canDelete: Event_Permissions.DELETE_EVENT,
+    canPublish: Event_Permissions.PUBLISH_EVENT,
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(events.length / itemsPerPage);
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentItems = events.slice(indexOfFirst, indexOfLast);
+  const canManageActions = canView || canEdit || canDelete || canPublish;
 
   return (
     <div
@@ -37,7 +44,7 @@ function EventTable({ events, itemsPerPage }: EventProps) {
             <th>Status</th>
             <th>Teams</th>
             <th>Submissions</th>
-            <th className="text-right">Actions</th>
+            {canManageActions && <th className="text-right">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -74,21 +81,26 @@ function EventTable({ events, itemsPerPage }: EventProps) {
                 </td>
                 <td style={{ color: "var(--cd-text-2)" }}>{event.teams}</td>
                 <td style={{ color: "var(--cd-text-2)" }}>{event.submissions}</td>
-                <td className="text-right">
-                  <button
-                    className="p-1.5 rounded-lg transition-colors"
-                    style={{ color: "var(--cd-text-2)" }}
-                    onMouseEnter={(e) =>
-                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                        "var(--cd-hover)")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
-                    }
-                  >
-                    <MoreVertical size={15} />
-                  </button>
-                </td>
+                {canManageActions && (
+                  <td className="text-right">
+                    <div className="flex flex-wrap justify-end gap-2">
+                      {canView && (
+                        <button className="cd-btn cd-btn-secondary px-3 py-1 text-xs">View</button>
+                      )}
+                      {canEdit && (
+                        <button className="cd-btn cd-btn-secondary px-3 py-1 text-xs">Edit</button>
+                      )}
+                      {canPublish && event.status !== "Completed" && (
+                        <button className="cd-btn cd-btn-primary px-3 py-1 text-xs">
+                          Publish
+                        </button>
+                      )}
+                      {canDelete && (
+                        <button className="cd-btn cd-btn-danger px-3 py-1 text-xs">Delete</button>
+                      )}
+                    </div>
+                  </td>
+                )}
               </tr>
             );
           })}

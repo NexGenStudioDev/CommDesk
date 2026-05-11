@@ -1,5 +1,6 @@
 import DropDown from "@/Component/ui/DropDown";
 import Input from "@/Component/ui/Input";
+import { Contact_Permissions, usePermissionMap } from "@/permissions";
 import { FormEvent, useState } from "react";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
@@ -22,6 +23,9 @@ const priorityColor: Record<PriorityLevel, string> = {
 };
 
 const Support = () => {
+  const { canSubmitTicket } = usePermissionMap({
+    canSubmitTicket: Contact_Permissions.SUBMIT_SUPPORT_TICKET,
+  });
   const initialCategory = CONTACT_AND_SUPPORT_CONSTANT[0] ?? "";
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [priority, setPriority] = useState<PriorityLevel>("Medium");
@@ -56,6 +60,7 @@ const Support = () => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!canSubmitTicket) return;
     if (!validateForm()) {
       setTicketReference("");
       return;
@@ -191,11 +196,18 @@ const Support = () => {
         )}
 
         <div className="flex flex-wrap items-center gap-3 pt-1">
-          <button type="submit" className="cd-btn cd-btn-primary">
-            Submit Ticket
-          </button>
-          <button type="button" onClick={clearAll} className="cd-btn cd-btn-secondary">
-            Clear Form
+          {canSubmitTicket && (
+            <button type="submit" className="cd-btn cd-btn-primary">
+              Submit Ticket
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={canSubmitTicket ? clearAll : undefined}
+            className="cd-btn cd-btn-secondary"
+            disabled={!canSubmitTicket}
+          >
+            {canSubmitTicket ? "Clear Form" : "View Only"}
           </button>
         </div>
 
@@ -214,6 +226,11 @@ const Support = () => {
             turnaround time.
           </p>
         </div>
+        {!canSubmitTicket && (
+          <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
+            Ticket submission is hidden until support-request permission is granted.
+          </p>
+        )}
       </form>
     </div>
   );

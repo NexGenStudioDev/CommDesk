@@ -1,12 +1,7 @@
 import { useEffect } from "react";
-
 import { BrowserRouter } from "react-router-dom";
-
 import "./App.css";
-
-import { dashboardData } from "./features/Member/v1/mock/dashboardData";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
-
 import { ThemeProvider } from "next-themes";
 import OrgRoute from "./routes/OrgRoute";
 import MemberRoutes from "./routes/MemberRoutes";
@@ -16,16 +11,11 @@ function App() {
     void startAutoUpdater();
   }, []);
 
-  const user = dashboardData.user;
-
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
       <BrowserRouter>
-
-       <OrgRoute />
-
-       <MemberRoutes />
-        
+        <OrgRoute />
+        <MemberRoutes />
       </BrowserRouter>
     </ThemeProvider>
   );

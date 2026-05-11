@@ -1,5 +1,5 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaCertificate } from "react-icons/fa";
+import { Member_Permissions, usePermissionMap } from "@/permissions";
 import RoleChip from "./RoleChip";
 import StatusChip from "./StatusChip";
 
@@ -15,6 +15,12 @@ type MemberTableProps = {
 };
 
 const MemberTable = ({ members }: MemberTableProps) => {
+  const { canEdit, canDelete } = usePermissionMap({
+    canEdit: Member_Permissions.UPDATE_MEMBER,
+    canDelete: Member_Permissions.DELETE_MEMBER,
+  });
+  const canManageMembers = canEdit || canDelete;
+
   return (
     <div
       className="w-[90%] mt-4 rounded-2xl overflow-hidden"
@@ -28,7 +34,7 @@ const MemberTable = ({ members }: MemberTableProps) => {
             <th>Status</th>
             <th>Skills</th>
             <th>Certificates</th>
-            <th>Actions</th>
+            {canManageMembers && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -55,21 +61,18 @@ const MemberTable = ({ members }: MemberTableProps) => {
                 <FaCertificate className="inline mr-1.5" style={{ color: "var(--cd-warning)" }} />
                 {member.certificates}
               </td>
-              <td>
-                <button
-                  className="p-2 rounded-lg transition-colors"
-                  style={{ color: "var(--cd-text-2)" }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                      "var(--cd-hover)")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
-                  }
-                >
-                  <BsThreeDotsVertical />
-                </button>
-              </td>
+              {canManageMembers && (
+                <td>
+                  <div className="flex items-center gap-2">
+                    {canEdit && (
+                      <button className="cd-btn cd-btn-secondary px-3 py-1 text-xs">Edit</button>
+                    )}
+                    {canDelete && (
+                      <button className="cd-btn cd-btn-danger px-3 py-1 text-xs">Delete</button>
+                    )}
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
