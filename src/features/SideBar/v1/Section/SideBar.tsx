@@ -1,5 +1,5 @@
 import { RiContactsBookFill } from "react-icons/ri";
-import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork, MdSecurity } from "react-icons/md";
 import { useTheme } from "@/theme";
 import { ThemeToggle } from "@/Component/ui/ThemeToggle";
 
@@ -49,6 +49,7 @@ const SideBar = () => {
         <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
+        <SideBarLink icon={<MdSecurity />} text="Permissions" link="/org/permissions" />
 
         {/* Footer */}
         <div

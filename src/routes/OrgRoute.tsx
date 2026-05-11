@@ -7,6 +7,7 @@ import ViewEvent from "@/features/Events/v1/Pages/ViewEvent";
 import MemberPage from "@/features/Member/v1/Pages/MemberPage";
 import ProjectsPage from "@/features/Projects/Pages/ProjectsPage";
 import Organisation_Template from "@/features/template/LoginUserTemplate";
+import PermissionPage from "@/features/Permissions/v1/Pages/PermissionPage";
 
 const OrgRoute = () => {
   return (
@@ -32,6 +33,8 @@ const OrgRoute = () => {
 
       {/* Add Member */}
       <Route path="add-member" element={<AddMemberPage />} />
+
+      <Route path="permissions" element={<PermissionPage />} />
     </Route>
 
     </Routes>
