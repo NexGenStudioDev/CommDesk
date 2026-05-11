@@ -3,11 +3,26 @@ import { Twitter, Linkedin, Instagram, Github, Facebook } from "lucide-react";
 import { SignupFormData } from "../../hooks/useSignupForm";
 
 const SOCIAL_FIELDS = [
-  { key: "twitter",   label: "Twitter / X",  icon: Twitter,   placeholder: "https://twitter.com/yourcommunity" },
-  { key: "linkedin",  label: "LinkedIn",      icon: Linkedin,  placeholder: "https://linkedin.com/company/..." },
-  { key: "instagram", label: "Instagram",     icon: Instagram, placeholder: "https://instagram.com/..." },
-  { key: "github",    label: "GitHub",        icon: Github,    placeholder: "https://github.com/..." },
-  { key: "facebook",  label: "Facebook",      icon: Facebook,  placeholder: "https://facebook.com/..." },
+  {
+    key: "twitter",
+    label: "Twitter / X",
+    icon: Twitter,
+    placeholder: "https://twitter.com/yourcommunity",
+  },
+  {
+    key: "linkedin",
+    label: "LinkedIn",
+    icon: Linkedin,
+    placeholder: "https://linkedin.com/company/...",
+  },
+  {
+    key: "instagram",
+    label: "Instagram",
+    icon: Instagram,
+    placeholder: "https://instagram.com/...",
+  },
+  { key: "github", label: "GitHub", icon: Github, placeholder: "https://github.com/..." },
+  { key: "facebook", label: "Facebook", icon: Facebook, placeholder: "https://facebook.com/..." },
 ] as const;
 
 export default function SocialStep() {
@@ -46,9 +61,7 @@ export default function SocialStep() {
               }`}
             />
             {errors.socialLinks?.[key] && (
-              <span className="text-xs text-red-500">
-                {errors.socialLinks[key]?.message}
-              </span>
+              <span className="text-xs text-red-500">{errors.socialLinks[key]?.message}</span>
             )}
           </div>
         ))}

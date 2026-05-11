@@ -27,7 +27,10 @@ const DropDown: React.FC<DropDownProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (value !== undefined) { setSelected(value); return; }
+    if (value !== undefined) {
+      setSelected(value);
+      return;
+    }
     setSelected((prev) => (prev && options.includes(prev) ? prev : (options[0] ?? "")));
   }, [options, value]);
 
@@ -99,7 +102,8 @@ const DropDown: React.FC<DropDownProps> = ({
               }}
               onMouseEnter={(e) => {
                 if (selected !== opt)
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = theme.interactive.hover;
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                    theme.interactive.hover;
               }}
               onMouseLeave={(e) => {
                 if (selected !== opt)

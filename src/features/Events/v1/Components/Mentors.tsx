@@ -10,8 +10,18 @@ type MentorsProps = {
 };
 
 const MENTORS = [
-  { id: 1, image: "https://randomuser.me/api/portraits/men/52.jpg", name: "Arjun Rao", role: "Startup Mentor" },
-  { id: 2, image: "https://randomuser.me/api/portraits/women/63.jpg", name: "Priya Nair", role: "Leadership Mentor" },
+  {
+    id: 1,
+    image: "https://randomuser.me/api/portraits/men/52.jpg",
+    name: "Arjun Rao",
+    role: "Startup Mentor",
+  },
+  {
+    id: 2,
+    image: "https://randomuser.me/api/portraits/women/63.jpg",
+    name: "Priya Nair",
+    role: "Leadership Mentor",
+  },
 ];
 
 const Mentors = ({ isExpanded = true, onToggleExpand }: MentorsProps) => {

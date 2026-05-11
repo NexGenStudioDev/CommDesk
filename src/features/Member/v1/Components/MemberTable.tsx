@@ -52,10 +52,7 @@ const MemberTable = ({ members }: MemberTableProps) => {
               </td>
               <td style={{ color: "var(--cd-text-2)" }}>{member.skills}</td>
               <td style={{ color: "var(--cd-text-2)" }}>
-                <FaCertificate
-                  className="inline mr-1.5"
-                  style={{ color: "var(--cd-warning)" }}
-                />
+                <FaCertificate className="inline mr-1.5" style={{ color: "var(--cd-warning)" }} />
                 {member.certificates}
               </td>
               <td>

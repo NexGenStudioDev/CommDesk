@@ -1,11 +1,12 @@
 import Input from "@/Component/ui/Input";
-import { getTheme } from "@/config/them.config";
+
 import React, { memo, useCallback } from "react";
 import { FaTicketSimple } from "react-icons/fa6";
 import DropDown from "@/Component/ui/DropDown";
+import { theme } from "@/theme";
 
 const Capacity_And_Registration = () => {
-  let theme = getTheme("light");
+
 
   let [eventData, setEventData] = React.useState({
     MaxAttendees: "",
@@ -25,8 +26,8 @@ const Capacity_And_Registration = () => {
     <div
       className="flex flex-col w-full mt-[5vh] p-8 border-2 rounded-lg"
       style={{
-        background: theme.background.primary,
-        borderColor: theme.borderColor.primary,
+        background: theme.bg.surface,
+        borderColor: theme.border.default,
       }}
     >
       <span className="font-extrabold text-xl text-gray-800 uppercase mb-[3vh] flex items-center gap-3">

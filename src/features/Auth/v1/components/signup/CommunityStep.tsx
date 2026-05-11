@@ -50,7 +50,9 @@ export default function CommunityStep() {
     <div className="space-y-5">
       <div className="mb-2">
         <h2 className="text-2xl font-bold text-gray-800 inter">Community Information</h2>
-        <p className="text-gray-500 text-sm mt-1 inter">Tell us about your community to get started.</p>
+        <p className="text-gray-500 text-sm mt-1 inter">
+          Tell us about your community to get started.
+        </p>
       </div>
 
       {/* Logo Upload */}
@@ -76,7 +78,9 @@ export default function CommunityStep() {
             >
               {logoUrl ? "Change Logo" : "Upload Community Logo"}
             </button>
-            <p className="text-xs text-gray-400">JPG, PNG, WEBP · Max 2MB · 400×400px recommended</p>
+            <p className="text-xs text-gray-400">
+              JPG, PNG, WEBP · Max 2MB · 400×400px recommended
+            </p>
             {logoUrl && (
               <button
                 type="button"

@@ -40,18 +40,18 @@ export default function SuccessScreens({ stage }: { stage: Stage }) {
             <div key={step} className="flex items-center gap-3">
               <div
                 className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                  i < 2
-                    ? "bg-indigo-500 text-white"
-                    : "bg-gray-100 text-gray-400"
+                  i < 2 ? "bg-indigo-500 text-white" : "bg-gray-100 text-gray-400"
                 }`}
               >
                 {i + 1}
               </div>
-              <span className={`text-sm inter ${i < 2 ? "text-gray-700 font-medium" : "text-gray-400"}`}>
+              <span
+                className={`text-sm inter ${i < 2 ? "text-gray-700 font-medium" : "text-gray-400"}`}
+              >
                 {step}
               </span>
             </div>
-          )
+          ),
         )}
       </div>
       <Link
