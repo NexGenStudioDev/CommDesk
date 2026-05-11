@@ -26,7 +26,7 @@ const PermissionHeader = () => {
       </div>
       <div className="w-1/3 h-full flex justify-end items-center gap-3 px-5">
         <img
-          src="https://randomuser.me/api/portraits/men/1.jpg"
+          src={`https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff`}
           className="w-9 h-9 rounded-full object-cover"
           alt="User avatar"
         />

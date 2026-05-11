@@ -41,6 +41,7 @@ const PermissionSearch = ({ onSearch }: PermissionSearchProps) => {
           style={{ color: "var(--cd-text)" }}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
       </div>
 
@@ -48,7 +49,10 @@ const PermissionSearch = ({ onSearch }: PermissionSearchProps) => {
       <div className="w-40">
         <DropDown
           options={ROLE_OPTIONS}
-          onSelect={setSelectedRole}
+          onSelect={(role) => {
+            setSelectedRole(role);
+            onSearch(searchText, role);
+          }}
         />
       </div>
 

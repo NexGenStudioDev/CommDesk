@@ -16,7 +16,7 @@ const MemberPermissionCard = ({ member }: { member: PermissionMember }) => {
         <img
           src={member.image}
           alt={member.name}
-          className="w-14 h-14 rounded-full object-cover"
+          className="w-14 h-14 rounded-full object-cover shrink-0"
         />
         <div className="flex flex-col gap-1">
           <h3
