@@ -19,39 +19,39 @@ export default function SubmissionCard({ submission, onReview }: Props) {
   return (
     <div
       className={`
-        flex flex-col gap-4 p-5 rounded-2xl border transition-all duration-300
+        flex flex-col gap-4 rounded-xl border p-4 transition-colors duration-200 sm:p-5
         ${review?.decision === "approved"
-          ? "border-[var(--cd-success)] bg-[var(--cd-success-subtle)]"
+          ? "border-[var(--cd-success-subtle)] bg-[var(--cd-success-subtle)]"
           : review?.decision === "rejected"
-          ? "border-[var(--cd-danger)] bg-[var(--cd-danger-subtle)]"
-          : "bg-[var(--cd-surface)] border-[var(--cd-border)] hover:border-[var(--cd-primary)] hover:shadow-md"}
+          ? "border-[var(--cd-danger-subtle)] bg-[var(--cd-danger-subtle)]"
+          : "bg-[var(--cd-surface)] border-[var(--cd-border-subtle)] hover:bg-[var(--cd-hover)]"}
       `}
     >
       {/* ── Member row ───────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <Avatar name={member.name} src={member.avatar} role={member.role} size="md" showTooltip ring ringColor="ring-[var(--cd-surface)]" />
+          <Avatar name={member.name} src={member.avatar} role={member.role} size="md" showTooltip={false} />
           <div className="min-w-0">
-            <p className="text-sm font-bold truncate" style={{ color: "var(--cd-text)" }}>{member.name}</p>
+            <p className="truncate text-sm font-semibold" style={{ color: "var(--cd-text)" }}>{member.name}</p>
             <p className="text-xs truncate" style={{ color: "var(--cd-text-muted)" }}>{member.role}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           {/* Timestamp */}
-          <span className="flex items-center gap-1 text-[10px]" style={{ color: "var(--cd-text-muted)" }}>
+          <span className="flex items-center gap-1 text-xs" style={{ color: "var(--cd-text-muted)" }}>
             <Clock size={10} />
             {formatDistanceToNow(parseISO(submission.submittedAt), { addSuffix: true })}
           </span>
 
           {/* Review status chip */}
           {reviewCfg ? (
-            <span className={`flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${reviewCfg.bg} ${reviewCfg.text} ${reviewCfg.border}`}>
+            <span className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-medium ${reviewCfg.bg} ${reviewCfg.text} ${reviewCfg.border}`}>
               {review!.decision === "approved" ? <CheckCircle2 size={10} /> : <XCircle size={10} />}
               {reviewCfg.label}
             </span>
           ) : (
-            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full border bg-[var(--cd-warning-subtle)] text-[var(--cd-warning)] border-[var(--cd-warning)]">
+            <span className="rounded-md border px-2 py-1 text-[11px] font-medium bg-[var(--cd-warning-subtle)] text-[var(--cd-warning)] border-[var(--cd-warning-subtle)]">
               Pending Review
             </span>
           )}
@@ -66,7 +66,7 @@ export default function SubmissionCard({ submission, onReview }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[var(--cd-surface-3)] hover:bg-[var(--cd-hover)] border border-[var(--cd-border-subtle)] text-xs font-bold transition-all group/link"
+            className="group/link flex items-center gap-2 rounded-lg border border-[var(--cd-border-subtle)] bg-[var(--cd-surface-2)] px-3 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--cd-hover)]"
             style={{ color: "var(--cd-text)" }}
           >
             <Github size={14} className="text-[var(--cd-text-muted)] group-hover/link:text-[var(--cd-primary)]" />
@@ -80,7 +80,7 @@ export default function SubmissionCard({ submission, onReview }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[var(--cd-primary-subtle)] hover:opacity-80 border border-[var(--cd-primary-subtle)] text-xs font-bold transition-all group/link"
+            className="group/link flex items-center gap-2 rounded-lg border border-[var(--cd-primary-subtle)] bg-[var(--cd-primary-subtle)] px-3 py-2.5 text-sm font-medium transition-colors hover:opacity-80"
             style={{ color: "var(--cd-primary-text)" }}
           >
             <FileUp size={14} />
@@ -94,7 +94,7 @@ export default function SubmissionCard({ submission, onReview }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[var(--cd-secondary-subtle)] hover:opacity-80 border border-[var(--cd-secondary-subtle)] text-xs font-bold transition-all group/link"
+            className="group/link flex items-center gap-2 rounded-lg border border-[var(--cd-secondary-subtle)] bg-[var(--cd-secondary-subtle)] px-3 py-2.5 text-sm font-medium transition-colors hover:opacity-80"
             style={{ color: "var(--cd-secondary)" }}
           >
             <ExternalLink size={14} />
@@ -106,8 +106,8 @@ export default function SubmissionCard({ submission, onReview }: Props) {
 
       {/* ── Notes ────────────────────────────────────────────────────────────── */}
       {submission.notes && (
-        <div className="p-3 rounded-xl border border-[var(--cd-border-subtle)] bg-[var(--cd-surface-2)]">
-          <p className="text-xs leading-relaxed" style={{ color: "var(--cd-text-2)" }}>
+        <div className="rounded-lg border border-[var(--cd-border-subtle)] bg-[var(--cd-surface-2)] p-3">
+          <p className="text-sm leading-relaxed" style={{ color: "var(--cd-text-2)" }}>
             {submission.notes}
           </p>
         </div>
@@ -115,20 +115,20 @@ export default function SubmissionCard({ submission, onReview }: Props) {
 
       {/* ── Review details (Existing) ────────────────────────────────────────── */}
       {review && !isReviewing && (
-        <div className={`rounded-xl p-4 border flex flex-col gap-2.5 ${reviewCfg!.bg} ${reviewCfg!.border}`}>
+        <div className={`flex flex-col gap-2.5 rounded-lg border p-4 ${reviewCfg!.bg} ${reviewCfg!.border}`}>
           <div className="flex items-center justify-between">
-            <span className={`text-xs font-bold ${reviewCfg!.text}`}>
-              {review.decision === "approved" ? "✓ Approved" : "✗ Rejected"} by {review.reviewedBy}
+            <span className={`text-sm font-semibold ${reviewCfg!.text}`}>
+              {review.decision === "approved" ? "Approved" : "Rejected"} by {review.reviewedBy}
             </span>
             {review.score !== undefined && (
-              <span className="flex items-center gap-1 text-xs font-bold bg-[var(--cd-surface)] px-2 py-1 rounded-full border border-[var(--cd-warning)]" style={{ color: "var(--cd-warning)" }}>
+              <span className="flex items-center gap-1 rounded-md border border-[var(--cd-warning-subtle)] bg-[var(--cd-surface)] px-2 py-1 text-xs font-medium" style={{ color: "var(--cd-warning)" }}>
                 <Star size={11} fill="currentColor" />
                 {review.score}/100
               </span>
             )}
           </div>
           {review.feedback && (
-            <p className="text-xs leading-relaxed opacity-90" style={{ color: "var(--cd-text)" }}>{review.feedback}</p>
+            <p className="text-sm leading-relaxed opacity-90" style={{ color: "var(--cd-text)" }}>{review.feedback}</p>
           )}
         </div>
       )}
@@ -153,7 +153,7 @@ export default function SubmissionCard({ submission, onReview }: Props) {
       {!review && !isReviewing && (
         <button
           onClick={() => setIsReviewing(true)}
-          className="cd-btn cd-btn-primary self-start text-xs font-bold py-2 shadow-sm shadow-[var(--cd-primary-subtle)] active:scale-95 transition-all"
+          className="cd-btn cd-btn-primary h-9 self-start rounded-lg px-4 text-sm font-medium shadow-none"
         >
           Review Submission
         </button>

@@ -19,12 +19,6 @@ const SORT_OPTIONS: { value: SortKey; label: string; dot: string }[] = [
   { value: "pending", label: "Pending first", dot: "bg-amber-400"   },
 ];
 
-const SORT_ACTIVE_COLOR: Record<SortKey, string> = {
-  newest:  "bg-indigo-600 text-white",
-  oldest:  "bg-gray-600 text-white",
-  pending: "bg-amber-500 text-white",
-};
-
 // ─── Reusable portal dropdown (same pattern as TaskFilters) ───────────────────
 function SortDropdown({ sort, onChange }: { sort: SortKey; onChange: (v: SortKey) => void }) {
   const [open, setOpen] = useState(false);
@@ -63,8 +57,12 @@ function SortDropdown({ sort, onChange }: { sort: SortKey; onChange: (v: SortKey
       <button
         ref={btnRef}
         onClick={() => setOpen(o => !o)}
-        className={`flex items-center gap-1.5 pl-3 pr-2.5 py-1.5 rounded-full text-xs font-semibold border transition-all select-none
-          ${SORT_ACTIVE_COLOR[sort]} border-transparent shadow-sm`}
+        className="flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-colors select-none hover:bg-[var(--cd-hover)]"
+        style={{
+          backgroundColor: "var(--cd-surface-2)",
+          borderColor: "var(--cd-border)",
+          color: "var(--cd-text-2)",
+        }}
       >
         <ArrowUpDown size={11} className="opacity-80" />
         {current.label}
@@ -72,14 +70,22 @@ function SortDropdown({ sort, onChange }: { sort: SortKey; onChange: (v: SortKey
       </button>
 
       {open && createPortal(
-        <div ref={panelRef} style={{ ...style, backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
-          className="rounded-xl border shadow-2xl py-1 overflow-hidden min-w-[160px]">
+        <div
+          ref={panelRef}
+          style={{
+            ...style,
+            backgroundColor: "var(--cd-surface)",
+            borderColor: "var(--cd-border)",
+            boxShadow: "0 18px 48px -24px var(--cd-shadow-md)",
+          }}
+          className="min-w-[160px] overflow-hidden rounded-lg border py-1"
+        >
           {SORT_OPTIONS.map(opt => (
             <button
               key={opt.value}
               onMouseDown={(e) => { e.preventDefault(); onChange(opt.value); setOpen(false); }}
               className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-left transition-colors
-                ${opt.value === sort ? "bg-[var(--cd-hover)] text-[var(--cd-primary)]" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"}`}
+                ${opt.value === sort ? "bg-[var(--cd-hover)] text-[var(--cd-primary-text)]" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"}`}
             >
               <span className={`w-2 h-2 rounded-full shrink-0 ${opt.dot}`} />
               <span className="flex-1">{opt.label}</span>
@@ -99,10 +105,10 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: bool
     <label className="flex items-center gap-2 cursor-pointer select-none group">
       <div
         onClick={() => onChange(!value)}
-        className="relative w-9 h-5 rounded-full transition-colors duration-200"
+        className="relative h-5 w-9 rounded-full transition-colors duration-200"
         style={{ backgroundColor: value ? "var(--cd-primary)" : "var(--cd-surface-3)" }}
       >
-        <span className="absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200" style={{ transform: value ? "translateX(16px)" : "translateX(2px)" }} />
+        <span className="absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform duration-200" style={{ transform: value ? "translateX(16px)" : "translateX(2px)" }} />
       </div>
       <span className="text-xs font-semibold transition-colors" style={{ color: value ? "var(--cd-primary-text)" : "var(--cd-text-muted)" }}>
         {label}
@@ -129,11 +135,11 @@ export default function SubmissionList({ submissions, isLoading, onReview }: Pro
   return (
     <div className="flex flex-col gap-4">
       {/* ── Header bar ──────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between gap-3 flex-wrap">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         {/* Title + count */}
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-bold" style={{ color: "var(--cd-text)" }}>Submissions</h3>
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-bold"
+          <h3 className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>Submissions</h3>
+          <span className="rounded-md px-1.5 py-0.5 text-[11px] font-medium"
             style={{ 
               backgroundColor: submissions.length > 0 ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
               color: submissions.length > 0 ? "var(--cd-primary-text)" : "var(--cd-text-muted)"
@@ -141,7 +147,7 @@ export default function SubmissionList({ submissions, isLoading, onReview }: Pro
             {submissions.length}
           </span>
           {submissions.filter(s => !s.review).length > 0 && (
-            <span className="px-2 py-0.5 rounded-full text-[11px] font-bold border"
+            <span className="rounded-md border px-1.5 py-0.5 text-[11px] font-medium"
               style={{
                 backgroundColor: "var(--cd-warning-subtle)",
                 color: "var(--cd-warning)",

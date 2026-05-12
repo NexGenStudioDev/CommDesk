@@ -10,24 +10,24 @@ export default function EditTaskPage() {
   const { data: task, isLoading, isError } = useTaskDetail(taskId);
 
   return (
-    <div className="w-full min-h-screen flex flex-col" style={{ backgroundColor: "var(--cd-bg)" }}>
+    <div className="flex min-h-screen w-full flex-col" style={{ backgroundColor: "var(--cd-bg)" }}>
       <div
-        className="border-b px-6 py-4 flex items-center gap-3"
-        style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
+        className="flex items-center gap-3 border-b px-5 py-4 sm:px-8 lg:px-10"
+        style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border-subtle)" }}
       >
         <button
           onClick={() => navigate(-1)}
-          className="p-2 rounded-xl transition"
+          className="rounded-lg p-2 transition-colors hover:bg-[var(--cd-hover)]"
           style={{ color: "var(--cd-text-muted)" }}
         >
           <ArrowLeft size={18} />
         </button>
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ backgroundColor: "var(--cd-warning)" }}>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: "var(--cd-warning)" }}>
             <Pencil size={15} className="text-white" />
           </div>
           <div>
-            <h1 className="text-base font-bold" style={{ color: "var(--cd-text)" }}>Edit Task</h1>
+            <h1 className="text-base font-semibold" style={{ color: "var(--cd-text)" }}>Edit Task</h1>
             <p className="text-xs truncate max-w-[280px]" style={{ color: "var(--cd-text-muted)" }}>
               {task?.title ?? "Loading…"}
             </p>

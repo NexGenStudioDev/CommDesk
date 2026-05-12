@@ -84,10 +84,10 @@ export default function EmptyState({
   const Illustration = illustrations[variant];
 
   return (
-    <div className="flex flex-col items-center justify-center text-center px-6 py-12 max-w-sm mx-auto">
+    <div className="mx-auto flex max-w-sm flex-col items-center justify-center px-6 py-10 text-center">
       {icon ? (
         <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+          className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
           style={{ backgroundColor: "var(--cd-surface-2)", color: "var(--cd-text-muted)" }}
         >
           {icon}
@@ -95,11 +95,11 @@ export default function EmptyState({
       ) : (
         <Illustration />
       )}
-      <p className="text-sm font-semibold mt-3" style={{ color: "var(--cd-text)" }}>
+      <p className="mt-3 text-sm font-semibold" style={{ color: "var(--cd-text)" }}>
         {title}
       </p>
       {description && (
-        <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "var(--cd-text-muted)" }}>
+        <p className="mt-1.5 text-xs leading-relaxed" style={{ color: "var(--cd-text-muted)" }}>
           {description}
         </p>
       )}

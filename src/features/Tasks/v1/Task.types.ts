@@ -1,9 +1,9 @@
-export type TaskStatus      = "todo" | "in-progress" | "completed";
-export type TaskPriority    = "low" | "medium" | "high";
-export type SubmissionType  = "file" | "github" | "link" | "all";
+export type TaskStatus = "todo" | "in-progress" | "completed";
+export type TaskPriority = "low" | "medium" | "high";
+export type SubmissionType = "file" | "github" | "link" | "all";
 export type SubmissionStatus = "not-submitted" | "submitted" | "reviewed";
-export type ReviewDecision  = "approved" | "rejected" | "pending";
-export type EventType       = "hackathon" | "workshop" | "internal" | "community";
+export type ReviewDecision = "approved" | "rejected" | "pending";
+export type EventType = "hackathon" | "workshop" | "internal" | "community";
 
 // ─── Technology tag ───────────────────────────────────────────────────────────
 export interface TechTag {

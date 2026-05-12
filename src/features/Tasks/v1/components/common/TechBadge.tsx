@@ -6,7 +6,7 @@ export default function TechBadge({ tech, size = "sm" }: { tech: TechTag; size?:
 
   return (
     <span
-      className={`inline-flex items-center rounded-md border py-0.5 font-semibold ${cls}`}
+      className={`inline-flex items-center rounded-md border py-0.5 font-medium ${cls}`}
       style={techBadgeStyle(tech.id)}
     >
       {tech.label}

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronDown, Search, CalendarDays, Loader2, X } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { FaRocket, FaCode, FaGlobe, FaBolt, FaPalette, FaUsers } from "react-icons/fa";
 import { useEvents } from "../../hooks/useEvents";
 import { EVENT_TYPE_CONFIG, EVENT_STATUS_CONFIG, SELECTED_EVENT_KEY } from "../../constants/task.constants";
 import type { EventOption } from "../../Task.types";
@@ -214,7 +215,21 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
                       backgroundColor: isActive || isHighlighted ? "var(--cd-primary-subtle)" : "transparent",
                     }}
                   >
-                    <div className={`w-1 self-stretch rounded-full mt-0.5 ${typeCfg.dot}`} />
+                    {/* Event Icon */}
+                    <div
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${isActive ? "bg-[var(--cd-primary)] text-white" : "bg-[var(--cd-surface-3)] text-[var(--cd-primary)]"}`}
+                    >
+                      {(() => {
+                        const name = event.name.toLowerCase();
+                        if (name.includes("ai hackathon") || name.includes("ai challenge")) return <FaRocket size={16} />;
+                        if (name.includes("web3")) return <FaCode size={16} />;
+                        if (name.includes("open source")) return <FaGlobe size={18} />;
+                        if (name.includes("speed code")) return <FaBolt size={16} />;
+                        if (name.includes("design")) return <FaPalette size={16} />;
+                        if (name.includes("community")) return <FaUsers size={16} />;
+                        return <CalendarDays size={16} />;
+                      })()}
+                    </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">

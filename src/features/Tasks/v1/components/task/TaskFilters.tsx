@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import { Search, X, SlidersHorizontal, ChevronDown, Check, Star } from "lucide-react";
 import { mockMembers } from "../../mock/taskMockData";
-import type { TaskFilters, TaskStatus, TaskPriority } from "../../Task.types";
+import type { Task, TaskFilters, TaskStatus, TaskPriority } from "../../Task.types";
 
 interface Props {
   filters: TaskFilters;
@@ -11,8 +11,8 @@ interface Props {
   filteredCount: number;
 }
 
-const STATUS_DOTS:   Record<string, string> = { all: "bg-gray-400", todo: "bg-gray-500", "in-progress": "bg-indigo-500", completed: "bg-emerald-500" };
-const TIME_DOTS:     Record<string, string> = { all: "bg-gray-400", upcoming: "bg-sky-500", past: "bg-red-500", completed: "bg-emerald-500" };
+const STATUS_DOTS: Record<string, string> = { all: "bg-gray-400", todo: "bg-gray-500", "in-progress": "bg-indigo-500", completed: "bg-emerald-500" };
+const TIME_DOTS: Record<string, string> = { all: "bg-gray-400", upcoming: "bg-sky-500", past: "bg-red-500", completed: "bg-emerald-500" };
 const PRIORITY_DOTS: Record<string, string> = { all: "bg-gray-400", high: "bg-red-500", medium: "bg-amber-400", low: "bg-sky-400" };
 
 const STATUS_STYLES: Record<string, { bg: string; color: string; border: string }> = {
@@ -34,7 +34,7 @@ const PRIORITY_STYLES: Record<string, { bg: string; color: string; border: strin
 // ─── Dropdown state hook ──────────────────────────────────────────────────────
 function useDropdown() {
   const [open, setOpen] = useState(false);
-  const btnRef   = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -58,7 +58,7 @@ function DropdownPortal({ btnRef, panelRef, open, children }: {
   const [style, setStyle] = useState<React.CSSProperties>({});
   useLayoutEffect(() => {
     if (!open || !btnRef.current) return;
-    const rect  = btnRef.current.getBoundingClientRect();
+    const rect = btnRef.current.getBoundingClientRect();
     const below = window.innerHeight - rect.bottom;
     if (below < 240 && rect.top > below)
       setStyle({ position: "fixed", left: rect.left, bottom: window.innerHeight - rect.top + 6, zIndex: 9999 });
@@ -73,9 +73,9 @@ function DropdownPortal({ btnRef, panelRef, open, children }: {
         ...style,
         backgroundColor: "var(--cd-surface)",
         border: "1px solid var(--cd-border)",
-        boxShadow: "0 8px 24px var(--cd-shadow-md)",
+        boxShadow: "0 18px 48px -24px var(--cd-shadow-md)",
       }}
-      className="rounded-xl py-1 overflow-hidden min-w-[150px]"
+      className="rounded-lg py-1 overflow-hidden min-w-[150px]"
     >
       {children}
     </div>,
@@ -94,7 +94,7 @@ function PillDropdown<T extends string>({ label: pillLabel, value, options, onCh
 }) {
   const { open, setOpen, btnRef, panelRef } = useDropdown();
   const isActive = value !== options[0].value;
-  const current  = options.find((o) => o.value === value)?.label ?? pillLabel;
+  const current = options.find((o) => o.value === value)?.label ?? pillLabel;
   const activeStyle = styleMap[value] ?? { bg: "var(--cd-primary)", color: "#fff", border: "var(--cd-primary)" };
 
   return (
@@ -102,7 +102,7 @@ function PillDropdown<T extends string>({ label: pillLabel, value, options, onCh
       <button
         ref={btnRef}
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all whitespace-nowrap select-none"
+        className="flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-all whitespace-nowrap select-none hover:bg-[var(--cd-hover)]"
         style={{
           backgroundColor: isActive ? activeStyle.bg : "var(--cd-surface-2)",
           color: isActive ? activeStyle.color : "var(--cd-text-2)",
@@ -159,7 +159,7 @@ function MemberFilter({ selected, onChange }: { selected: string[]; onChange: (i
       <button
         ref={btnRef}
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all select-none"
+        className="flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-all select-none hover:bg-[var(--cd-hover)]"
         style={{
           backgroundColor: isActive ? "var(--cd-secondary)" : "var(--cd-surface-2)",
           color: isActive ? "#fff" : "var(--cd-text-2)",
@@ -240,7 +240,7 @@ function SmartSearch({ value, onChange, filteredCount, tasks }: {
   tasks: Task[];
 }) {
   const [focused, setFocused] = useState(false);
-  const { open, setOpen, btnRef, panelRef } = useDropdown();
+  const { open, setOpen, panelRef } = useDropdown();
   const hasResults = !value || filteredCount > 0;
 
   // Suggestions logic
@@ -253,11 +253,11 @@ function SmartSearch({ value, onChange, filteredCount, tasks }: {
       // Popular tech
       const popularTech = ["React", "TypeScript", "Tailwind", "Python", "Figma"];
       popularTech.forEach(t => items.push({ id: `pop-${t}`, label: t, type: "tech" }));
-      
+
       // Common statuses
       items.push({ id: "status-todo", label: "Todo", type: "status" });
       items.push({ id: "status-ip", label: "In Progress", type: "status" });
-      
+
       return items;
     }
 
@@ -296,11 +296,9 @@ function SmartSearch({ value, onChange, filteredCount, tasks }: {
   const showSuggestions = open && suggestions.length > 0;
 
   return (
-    <div className="relative shrink-0" ref={panelRef as any}>
+    <div className="relative shrink-0" ref={panelRef}>
       <div
-        className={`flex items-center gap-1.5 pl-2.5 pr-2 py-1.5 rounded-full border transition-all ${
-          focused || open ? "w-64 sm:w-80" : value ? "w-48 sm:w-64" : "w-44 sm:w-64"
-        }`}
+        className="flex h-9 w-full min-w-[220px] items-center gap-2 rounded-lg border pl-3 pr-2 transition-all sm:min-w-[280px]"
         style={{
           backgroundColor: focused || open ? "var(--cd-surface)" : "var(--cd-surface-2)",
           borderColor: focused || open ? "var(--cd-primary)" : value ? "var(--cd-primary)" : "var(--cd-border)",
@@ -345,8 +343,8 @@ function SmartSearch({ value, onChange, filteredCount, tasks }: {
       </div>
 
       {showSuggestions && (
-        <div 
-          className="absolute z-50 top-full left-0 right-0 mt-2 p-2 rounded-2xl border shadow-2xl overflow-hidden"
+        <div
+          className="absolute z-50 top-full left-0 right-0 mt-2 p-2 rounded-xl border shadow-2xl overflow-hidden"
           style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
         >
           <div className="flex items-center justify-between px-2.5 py-1.5 mb-1">
@@ -355,7 +353,7 @@ function SmartSearch({ value, onChange, filteredCount, tasks }: {
             </p>
             {!value && <Star size={10} className="text-[var(--cd-warning)]" />}
           </div>
-          <div 
+          <div
             className="flex flex-col gap-0.5 max-h-[160px] overflow-y-auto pr-1 custom-scrollbar"
             style={{ overscrollBehaviorY: "contain" }}
           >
@@ -363,7 +361,7 @@ function SmartSearch({ value, onChange, filteredCount, tasks }: {
               <button
                 key={s.id}
                 onClick={() => { onChange(s.label); setOpen(false); }}
-                className="w-full flex items-center justify-between gap-3 p-1.5 rounded-xl transition-all hover:bg-[var(--cd-hover)] hover:translate-x-1 text-left group"
+                className="w-full flex items-center justify-between gap-3 rounded-lg p-1.5 text-left transition-colors hover:bg-[var(--cd-hover)] group"
               >
                 <div className="flex items-center gap-2.5 flex-1 min-w-0">
                   <div className="w-1.5 h-1.5 rounded-full opacity-40 group-hover:opacity-100 transition-opacity" style={{ backgroundColor: "var(--cd-primary)" }} />
@@ -406,105 +404,96 @@ export default function TaskFiltersBar({ filters, onChange, totalCount, filtered
   };
 
   return (
-    <div className="border-b" style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}>
-      {/* Filter pills row */}
-      <div className="flex items-center gap-3 px-6 sm:px-10 py-4 flex-wrap">
-        <SlidersHorizontal size={14} className="shrink-0" style={{ color: "var(--cd-text-muted)" }} />
+    <div
+      className="border-b transition-all duration-300"
+      style={{
+        backgroundColor: "var(--cd-bg)",
+        borderColor: "var(--cd-border-subtle)",
+      }}
+    >
+      <div className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center gap-3 px-5 py-4 sm:px-8 lg:px-10">
+        {/* Simple Icon */}
+        <SlidersHorizontal size={14} style={{ color: "var(--cd-text-muted)" }} className="shrink-0 mr-1" />
 
-        <PillDropdown<TaskStatus | "all">
-          label="Status"
-          value={filters.status}
-          dotMap={STATUS_DOTS}
-          styleMap={STATUS_STYLES}
-          onChange={(v) => onChange({ ...filters, status: v })}
-          options={[
-            { value: "all",         label: "Status"      },
-            { value: "todo",        label: "Todo"        },
-            { value: "in-progress", label: "In Progress" },
-            { value: "completed",   label: "Completed"   },
-          ]}
-        />
+        <div className="flex items-center gap-2 flex-wrap">
+          <PillDropdown<TaskStatus | "all">
+            label="Status"
+            value={filters.status}
+            dotMap={STATUS_DOTS}
+            styleMap={STATUS_STYLES}
+            onChange={(v) => onChange({ ...filters, status: v })}
+            options={[
+              { value: "all", label: "Status" },
+              { value: "todo", label: "Todo" },
+              { value: "in-progress", label: "In Progress" },
+              { value: "completed", label: "Completed" },
+            ]}
+          />
 
-        <PillDropdown<"all" | "upcoming" | "past" | "completed">
-          label="Time"
-          value={filters.time}
-          dotMap={TIME_DOTS}
-          styleMap={TIME_STYLES}
-          onChange={(v) => onChange({ ...filters, time: v })}
-          options={[
-            { value: "all",       label: "Time"      },
-            { value: "upcoming",  label: "Upcoming"  },
-            { value: "past",      label: "Past"      },
-            { value: "completed", label: "Completed" },
-          ]}
-        />
+          <PillDropdown<"all" | "upcoming" | "past" | "completed">
+            label="Time"
+            value={filters.time}
+            dotMap={TIME_DOTS}
+            styleMap={TIME_STYLES}
+            onChange={(v) => onChange({ ...filters, time: v })}
+            options={[
+              { value: "all", label: "Time" },
+              { value: "upcoming", label: "Upcoming" },
+              { value: "past", label: "Past" },
+              { value: "completed", label: "Completed" },
+            ]}
+          />
 
-        <PillDropdown<TaskPriority | "all">
-          label="Priority"
-          value={filters.priority}
-          dotMap={PRIORITY_DOTS}
-          styleMap={PRIORITY_STYLES}
-          onChange={(v) => onChange({ ...filters, priority: v as TaskPriority | "all" })}
-          options={[
-            { value: "all",    label: "Priority" },
-            { value: "high",   label: "High"     },
-            { value: "medium", label: "Medium"   },
-            { value: "low",    label: "Low"      },
-          ]}
-        />
+          <PillDropdown<TaskPriority | "all">
+            label="Priority"
+            value={filters.priority}
+            dotMap={PRIORITY_DOTS}
+            styleMap={PRIORITY_STYLES}
+            onChange={(v) => onChange({ ...filters, priority: v as TaskPriority | "all" })}
+            options={[
+              { value: "all", label: "Priority" },
+              { value: "high", label: "High" },
+              { value: "medium", label: "Medium" },
+              { value: "low", label: "Low" },
+            ]}
+          />
 
-        <MemberFilter selected={filters.members} onChange={(ids) => onChange({ ...filters, members: ids })} />
+          <MemberFilter selected={filters.members} onChange={(ids) => onChange({ ...filters, members: ids })} />
+        </div>
 
-        <SmartSearch
-          value={localSearch}
-          onChange={setLocalSearch}
-          filteredCount={filteredCount}
-          totalCount={totalCount}
-          isFiltered={hasActive}
-          tasks={tasks}
-        />
+        <div className="min-w-[220px] flex-1">
+          <SmartSearch
+            value={localSearch}
+            onChange={setLocalSearch}
+            filteredCount={filteredCount}
+            totalCount={totalCount}
+            isFiltered={hasActive}
+            tasks={tasks}
+          />
+        </div>
 
         {hasActive && (
           <button
             onClick={resetAll}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition border"
-            style={{
-              color: "var(--cd-danger)",
-              backgroundColor: "var(--cd-danger-subtle)",
-              borderColor: "var(--cd-danger-subtle)",
-            }}
+            className="flex h-8 items-center gap-1.5 rounded-lg border border-[var(--cd-border)] bg-transparent px-2.5 text-xs font-medium text-[var(--cd-text-2)] shrink-0 transition-colors hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"
           >
-            <X size={11} /> Reset
+            <X size={12} /> Clear
           </button>
         )}
       </div>
 
-      {/* Count context row */}
-      <div className="px-6 sm:px-10 pb-4 flex items-center gap-2 flex-wrap">
-        <span className="text-[11px]" style={{ color: "var(--cd-text-muted)" }}>
-          Showing{" "}
-          <span className="font-semibold" style={{ color: "var(--cd-text)" }}>{filteredCount}</span>
-          {filteredCount !== totalCount && (
-            <>
-              {" "}of{" "}
-              <span className="font-semibold" style={{ color: "var(--cd-text)" }}>{totalCount}</span>
-            </>
-          )}{" "}
-          task{filteredCount !== 1 ? "s" : ""}
-          {hasActive && (
-            <span style={{ color: "var(--cd-primary)" }} className="font-semibold"> · filtered</span>
+      {/* Subtle count info */}
+      <div className="mx-auto w-full max-w-[1440px] px-5 pb-4 sm:px-8 lg:px-10">
+        <p className="text-xs font-medium" style={{ color: "var(--cd-text-muted)" }}>
+          {hasActive ? (
+            <span className="flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-[var(--cd-primary)]" />
+              Showing <span className="text-[var(--cd-text)] font-bold">{filteredCount}</span> filtered results from {totalCount} total tasks
+            </span>
+          ) : (
+            `Total tasks: ${totalCount}`
           )}
-        </span>
-        {localSearch && filteredCount === 0 && (
-          <span className="text-[11px] font-medium" style={{ color: "var(--cd-danger)" }}>
-            No results for "{localSearch}" — try technology name, member, or status
-          </span>
-        )}
-        {localSearch && filteredCount > 0 && (
-          <span className="text-[11px] font-medium" style={{ color: "var(--cd-primary)" }}>
-            Searching across title, description, tech tags, members &amp; more
-          </span>
-        )}
+        </p>
       </div>
     </div>
   );

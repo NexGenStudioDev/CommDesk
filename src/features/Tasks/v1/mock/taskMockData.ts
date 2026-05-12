@@ -8,22 +8,22 @@ const av = (name: string, bg: string) =>
 
 // ─── Mock Events ──────────────────────────────────────────────────────────────
 export const mockEvents: EventOption[] = [
-  { id: "evt-001", name: "Summer AI Hackathon 2026", subtitle: "Sponsored by TechCorp",   type: "hackathon", status: "Live",      startDate: "2026-06-15", endDate: "2026-06-17" },
-  { id: "evt-002", name: "Web3 Builders Sprint",     subtitle: "Internal Team Event",     type: "internal",  status: "Upcoming",  startDate: "2026-07-01", endDate: "2026-07-03" },
-  { id: "evt-003", name: "Global Open Source Hack",  subtitle: "Public Event",            type: "hackathon", status: "Completed", startDate: "2026-05-10", endDate: "2026-05-12" },
-  { id: "evt-004", name: "Speed Code Blitz",         subtitle: "Internal Team Event",     type: "internal",  status: "Completed", startDate: "2026-04-22", endDate: "2026-04-22" },
-  { id: "evt-005", name: "Design Systems Workshop",  subtitle: "Design Department",       type: "workshop",  status: "Upcoming",  startDate: "2026-08-05", endDate: "2026-08-07" },
-  { id: "evt-006", name: "Community Growth Sprint",  subtitle: "Open to all members",     type: "community", status: "Live",      startDate: "2026-05-01", endDate: "2026-05-31" },
+  { id: "evt-001", name: "Summer AI Hackathon 2026", subtitle: "Sponsored by TechCorp", type: "hackathon", status: "Live", startDate: "2026-06-15", endDate: "2026-06-17" },
+  { id: "evt-002", name: "Web3 Builders Sprint", subtitle: "Internal Team Event", type: "internal", status: "Upcoming", startDate: "2026-07-01", endDate: "2026-07-03" },
+  { id: "evt-003", name: "Global Open Source Hack", subtitle: "Public Event", type: "hackathon", status: "Completed", startDate: "2026-05-10", endDate: "2026-05-12" },
+  { id: "evt-004", name: "Speed Code Blitz", subtitle: "Internal Team Event", type: "internal", status: "Completed", startDate: "2026-04-22", endDate: "2026-04-22" },
+  { id: "evt-005", name: "Design Systems Workshop", subtitle: "Design Department", type: "workshop", status: "Upcoming", startDate: "2026-08-05", endDate: "2026-08-07" },
+  { id: "evt-006", name: "Community Growth Sprint", subtitle: "Open to all members", type: "community", status: "Live", startDate: "2026-05-01", endDate: "2026-05-31" },
 ];
 
 // ─── Mock Members ─────────────────────────────────────────────────────────────
 export const mockMembers: MemberOption[] = [
-  { id: "mem-001", name: "Arjun Mehta",   avatar: av("Arjun Mehta",   "6366f1"), role: "Frontend Developer",   email: "arjun@commdesk.io"  },
-  { id: "mem-002", name: "Priya Sharma",  avatar: av("Priya Sharma",  "ec4899"), role: "UI/UX Designer",       email: "priya@commdesk.io"  },
-  { id: "mem-003", name: "Rohit Verma",   avatar: av("Rohit Verma",   "f97316"), role: "Backend Developer",    email: "rohit@commdesk.io"  },
-  { id: "mem-004", name: "Sneha Patel",   avatar: av("Sneha Patel",   "10b981"), role: "Full Stack Developer", email: "sneha@commdesk.io"  },
-  { id: "mem-005", name: "Kiran Joshi",   avatar: av("Kiran Joshi",   "3b82f6"), role: "DevOps Engineer",      email: "kiran@commdesk.io"  },
-  { id: "mem-006", name: "Ananya Reddy",  avatar: av("Ananya Reddy",  "8b5cf6"), role: "Data Scientist",       email: "ananya@commdesk.io" },
+  { id: "mem-001", name: "John Doe", avatar: "https://randomuser.me/api/portraits/men/1.jpg", role: "Mentor", email: "john@commdesk.io" },
+  { id: "mem-002", name: "Jane Smith", avatar: "https://randomuser.me/api/portraits/women/2.jpg", role: "Mentee", email: "jane@commdesk.io" },
+  { id: "mem-003", name: "Alice Johnson", avatar: "https://randomuser.me/api/portraits/women/3.jpg", role: "Lean Developer", email: "alice@commdesk.io" },
+  { id: "mem-004", name: "Bob Brown", avatar: "https://randomuser.me/api/portraits/men/4.jpg", role: "Observer", email: "bob@commdesk.io" },
+  { id: "mem-005", name: "Sarah Wilson", avatar: "https://randomuser.me/api/portraits/women/5.jpg", role: "Lead Designer", email: "sarah@commdesk.io" },
+  { id: "mem-006", name: "Mike Ross", avatar: "https://randomuser.me/api/portraits/men/6.jpg", role: "Software Engineer", email: "mike@commdesk.io" },
 ];
 
 // ─── Mock Tasks ───────────────────────────────────────────────────────────────
@@ -138,20 +138,20 @@ export const mockTasks: Task[] = [
 export const mockSubmissions: Submission[] = [
   {
     id: "sub-001", taskId: "task-001", submittedBy: mockMembers[0],
-    githubUrl: "https://github.com/arjun/ai-landing-page",
+    githubUrl: "https://github.com/johndoe/ai-landing-page",
     notes: "Completed responsive design with animations. Mobile tested.",
     submittedAt: "2026-06-08T15:30:00",
     review: { decision: "approved", score: 92, feedback: "Excellent work! Clean code and great animations.", reviewedBy: "Organizer", reviewedAt: "2026-06-09T10:00:00" },
   },
   {
     id: "sub-002", taskId: "task-001", submittedBy: mockMembers[1],
-    githubUrl: "https://github.com/priya/ai-landing-page-designs",
+    githubUrl: "https://github.com/janesmith/ai-landing-page-designs",
     notes: "Added Figma components and updated CSS variables.",
     submittedAt: "2026-06-09T11:00:00",
   },
   {
     id: "sub-003", taskId: "task-003", submittedBy: mockMembers[2],
-    githubUrl: "https://github.com/rohit/hackathon-cicd",
+    githubUrl: "https://github.com/alicej/hackathon-cicd",
     notes: "Set up GitHub Actions with matrix testing on Node 18 & 20.",
     submittedAt: "2026-05-27T14:00:00",
     review: { decision: "approved", score: 98, feedback: "Perfect pipeline setup.", reviewedBy: "Organizer", reviewedAt: "2026-05-28T09:00:00" },
@@ -161,16 +161,16 @@ export const mockSubmissions: Submission[] = [
 // ─── Mock Activity ────────────────────────────────────────────────────────────
 export const mockActivity: Record<string, ActivityEvent[]> = {
   "task-001": [
-    { id: "act-001", type: "created",   actor: "Organizer",   description: "Task created and assigned to Arjun & Priya",      timestamp: "2026-05-01T10:00:00" },
-    { id: "act-002", type: "updated",   actor: "Arjun Mehta", description: "Status changed from Todo → In Progress",          timestamp: "2026-05-15T09:30:00" },
-    { id: "act-003", type: "submitted", actor: "Arjun Mehta", description: "Submitted GitHub repository link",                timestamp: "2026-06-08T15:30:00" },
-    { id: "act-004", type: "reviewed",  actor: "Organizer",   description: "Submission approved · Score: 92/100",             timestamp: "2026-06-09T10:00:00" },
-    { id: "act-005", type: "submitted", actor: "Priya Sharma", description: "Submitted design assets",                       timestamp: "2026-06-09T11:00:00" },
+    { id: "act-001", type: "created", actor: "Organizer", description: "Task created and assigned to John & Jane", timestamp: "2026-05-01T10:00:00" },
+    { id: "act-002", type: "updated", actor: "John Doe", description: "Status changed from Todo → In Progress", timestamp: "2026-05-15T09:30:00" },
+    { id: "act-003", type: "submitted", actor: "John Doe", description: "Submitted GitHub repository link", timestamp: "2026-06-08T15:30:00" },
+    { id: "act-004", type: "reviewed", actor: "Organizer", description: "Submission approved · Score: 92/100", timestamp: "2026-06-09T10:00:00" },
+    { id: "act-005", type: "submitted", actor: "Jane Smith", description: "Submitted design assets", timestamp: "2026-06-09T11:00:00" },
   ],
   "task-003": [
-    { id: "act-006", type: "created",   actor: "Organizer",   description: "Task created and assigned to Rohit & Kiran",     timestamp: "2026-04-28T11:00:00" },
-    { id: "act-007", type: "submitted", actor: "Rohit Verma", description: "Submitted CI/CD pipeline implementation",        timestamp: "2026-05-27T14:00:00" },
-    { id: "act-008", type: "reviewed",  actor: "Organizer",   description: "Submission approved · Score: 98/100",            timestamp: "2026-05-28T09:00:00" },
+    { id: "act-006", type: "created", actor: "Organizer", description: "Task created and assigned to Alice & Bob", timestamp: "2026-04-28T11:00:00" },
+    { id: "act-007", type: "submitted", actor: "Alice Johnson", description: "Submitted CI/CD pipeline implementation", timestamp: "2026-05-27T14:00:00" },
+    { id: "act-008", type: "reviewed", actor: "Organizer", description: "Submission approved · Score: 98/100", timestamp: "2026-05-28T09:00:00" },
   ],
 };
 
@@ -186,8 +186,8 @@ export const mockComments: Record<string, TaskComment[]> = {
     },
     {
       id: "cmt-002", taskId: "task-001",
-      author: "Arjun Mehta",
-      avatar: av("Arjun Mehta", "6366f1"),
+      author: "John Doe",
+      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
       text: "Got it! I'll start with the mobile layout and scale up.",
       createdAt: "2026-05-02T11:30:00",
     },

@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
-  ArrowLeft, Pencil, Trash2, CalendarDays, Users, Flag,
-  UploadCloud, Star, Clock, Activity, ChevronRight,
-  CheckCircle2, Circle, Zap,
+  Activity,
+  ArrowLeft,
+  CalendarDays,
+  CheckCircle2,
+  ChevronRight,
+  Circle,
+  Clock,
+  Pencil,
+  Star,
+  Trash2,
+  UploadCloud,
+  Users,
+  Zap,
 } from "lucide-react";
 import { formatDistanceToNow, format, isPast, parseISO } from "date-fns";
 import { useTaskDetail, useTaskActivity } from "../hooks/useTaskDetail";
@@ -29,22 +39,24 @@ import {
 
 export default function TaskDetailPage() {
   const { taskId } = useParams<{ taskId: string }>();
-  const navigate   = useNavigate();
+  const navigate = useNavigate();
   const { toasts, addToast, dismiss } = useToast();
 
   const { data: task, isLoading, isError } = useTaskDetail(taskId);
   const { data: submissions = [], isLoading: subLoading } = useSubmissions(taskId);
-  const { data: activity = [] }  = useTaskActivity(taskId);
-  const { data: events = [] }    = useEvents();
-  const deleteTask               = useDeleteTask();
-  const updateTask               = useUpdateTask();
-  const [activeTab, setActiveTab]                     = useState<"submissions" | "activity" | "comments">("submissions");
-  const [reviewingSubmissionId, setReviewingSubmissionId] = useState<string | null>(null);
-  const [showDeleteModal, setShowDeleteModal]         = useState(false);
+  const { data: activity = [] } = useTaskActivity(taskId);
+  const { data: events = [] } = useEvents();
+  const deleteTask = useDeleteTask();
+  const updateTask = useUpdateTask();
 
-  const eventName   = events.find((e) => e.id === task?.eventId)?.name;
-  const subCfg      = task ? SUBMISSION_STATUS_CONFIG[task.submissionStatus] : null;
+  const [activeTab, setActiveTab] = useState<"submissions" | "activity" | "comments">("submissions");
+  const [reviewingSubmissionId, setReviewingSubmissionId] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const eventName = events.find((e) => e.id === task?.eventId)?.name;
+  const subCfg = task ? SUBMISSION_STATUS_CONFIG[task.submissionStatus] : null;
   const isDeadlinePast = task ? isPast(parseISO(task.deadline)) : false;
+  const isOverdue = Boolean(isDeadlinePast && task?.status !== "completed");
 
   const handleDelete = async () => {
     if (!task) return;
@@ -69,21 +81,17 @@ export default function TaskDetailPage() {
     }
   };
 
-  // ── Error ──────────────────────────────────────────────────────────────────
   if (isError) {
     return (
       <div
-        className="w-full min-h-screen flex items-center justify-center"
+        className="flex min-h-screen w-full items-center justify-center"
         style={{ backgroundColor: "var(--cd-bg)" }}
       >
-        <div className="text-center flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 text-center">
           <p className="text-lg font-semibold" style={{ color: "var(--cd-text)" }}>
             Task not found
           </p>
-          <button
-            onClick={() => navigate("/org/tasks")}
-            className="cd-btn cd-btn-primary"
-          >
+          <button onClick={() => navigate("/org/tasks")} className="cd-btn cd-btn-primary">
             Back to Tasks
           </button>
         </div>
@@ -93,512 +101,337 @@ export default function TaskDetailPage() {
 
   return (
     <div
-      className="w-full h-screen flex flex-col overflow-hidden"
+      className="flex min-h-screen w-full flex-col"
       style={{ backgroundColor: "var(--cd-bg)" }}
     >
-      {/* ── Top bar (Events-style header) ─────────────────────────────────────── */}
-      <div
-        className="border-b px-5 sm:px-[3vw] py-3.5 flex items-center justify-between gap-4 flex-wrap shrink-0"
+      <header
+        className="border-b px-5 py-4 sm:px-8 lg:px-10"
         style={{
           backgroundColor: "var(--cd-surface)",
-          borderColor: "var(--cd-border)",
+          borderColor: "var(--cd-border-subtle)",
         }}
       >
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="p-2 rounded-xl transition-all hover:bg-[var(--cd-hover)] text-[var(--cd-text-muted)] hover:text-[var(--cd-text)] active:scale-95"
-            aria-label="Go back"
-          >
-            <ArrowLeft size={18} />
-          </button>
-
-          {/* Breadcrumb */}
-          <nav
-            className="flex items-center gap-2 text-xs text-[var(--cd-text-muted)]"
-            aria-label="Breadcrumb"
-          >
-            <Link
-              to="/org/tasks"
-              className="font-medium hover:text-[var(--cd-primary)] transition-colors"
-            >
-              Tasks
-            </Link>
-            <ChevronRight size={12} className="opacity-50" />
-            <span
-              className="font-bold truncate max-w-[200px] text-[var(--cd-text)]"
-            >
-              {isLoading ? "Loading…" : task?.title}
-            </span>
-          </nav>
-        </div>
-
-        {task && (
-          <div className="flex items-center gap-2">
-            <Link
-              to={`/org/tasks/${task.id}/edit`}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[var(--cd-border)] text-[var(--cd-text-2)] hover:text-[var(--cd-text)] hover:bg-[var(--cd-hover)] text-xs font-bold transition-all active:scale-95"
-            >
-              <Pencil size={13} /> Edit
-            </Link>
+        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
             <button
-              onClick={() => setShowDeleteModal(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[var(--cd-danger-subtle)] text-[var(--cd-danger)] hover:bg-[var(--cd-danger-subtle)] text-xs font-bold transition-all active:scale-95"
+              onClick={() => navigate(-1)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--cd-text-muted)] transition-colors hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"
+              aria-label="Go back"
             >
-              <Trash2 size={13} /> Delete
+              <ArrowLeft size={18} />
             </button>
-          </div>
-        )}
-      </div>
 
-      {/* ── Content ─────────────────────────────────────────────────────────────── */}
+            <div className="min-w-0">
+              <nav
+                className="mb-1 flex items-center gap-2 text-xs"
+                style={{ color: "var(--cd-text-muted)" }}
+                aria-label="Breadcrumb"
+              >
+                <Link to="/org/tasks" className="font-medium transition-colors hover:text-[var(--cd-primary)]">
+                  Tasks
+                </Link>
+                <ChevronRight size={12} className="opacity-50" />
+                <span className="truncate">{eventName ?? "Task detail"}</span>
+              </nav>
+              <h1
+                className="truncate text-base font-semibold leading-tight sm:text-lg"
+                style={{ color: "var(--cd-text)" }}
+              >
+                {isLoading ? "Loading..." : task?.title}
+              </h1>
+            </div>
+          </div>
+
+          {task && (
+            <div className="flex shrink-0 items-center gap-2">
+              <Link
+                to={`/org/tasks/${task.id}/edit`}
+                className="inline-flex h-9 items-center gap-2 rounded-lg border px-3 text-sm font-medium text-[var(--cd-text-2)] transition-colors hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"
+                style={{ borderColor: "var(--cd-border)" }}
+              >
+                <Pencil size={14} /> Edit
+              </Link>
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="inline-flex h-9 items-center gap-2 rounded-lg border px-3 text-sm font-medium text-[var(--cd-danger)] transition-colors hover:bg-[var(--cd-danger-subtle)]"
+                style={{ borderColor: "var(--cd-danger-subtle)" }}
+              >
+                <Trash2 size={14} /> Delete
+              </button>
+            </div>
+          )}
+        </div>
+      </header>
+
       {isLoading ? (
         <SkeletonLoader type="detail" />
       ) : task ? (
-        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
-
-          {/* ── LEFT panel: task info ──────────────────────────────────────────── */}
-          <div
-            className="lg:w-[420px] xl:w-[460px] shrink-0 flex flex-col gap-5 p-5 border-r overflow-y-auto"
-            style={{
-              backgroundColor: "var(--cd-surface)",
-              borderColor: "var(--cd-border)",
-            }}
-          >
-            {/* Event link + title + description */}
-            <div className="flex flex-col gap-3">
+        <main className="flex-1 overflow-auto px-5 py-6 sm:px-8 lg:px-10">
+          <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5">
+            <section
+              className="rounded-xl border p-5 sm:p-6"
+              style={{
+                backgroundColor: "var(--cd-surface)",
+                borderColor: "var(--cd-border-subtle)",
+              }}
+            >
               <Link
                 to="/org/events"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--cd-primary)] hover:opacity-75 transition-opacity"
+                className="mb-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--cd-primary-text)] transition-colors hover:text-[var(--cd-primary)]"
               >
-                <CalendarDays size={12} />
+                <CalendarDays size={14} />
                 {eventName ?? "Unknown Event"}
               </Link>
-              <h1
-                className="text-2xl font-black leading-tight text-[var(--cd-text)]"
+
+              <h2
+                className="max-w-4xl text-2xl font-semibold leading-tight tracking-tight sm:text-3xl"
+                style={{ color: "var(--cd-text)" }}
               >
                 {task.title}
-              </h1>
-              <p
-                className="text-sm leading-relaxed text-[var(--cd-text-2)]"
-              >
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6" style={{ color: "var(--cd-text-2)" }}>
                 {task.description}
               </p>
-            </div>
 
-            {/* Badges row */}
-            <div className="flex flex-wrap gap-2">
-              <StatusBadge status={task.status} />
-              <PriorityBadge priority={task.priority} />
-              {subCfg && (
-                <span
-                  className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${subCfg.bg} ${subCfg.text}`}
-                >
-                  {subCfg.label}
-                </span>
-              )}
-              {task.isMandatory && (
-                <span
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"
-                  style={{
-                    backgroundColor: "var(--cd-primary-subtle)",
-                    color: "var(--cd-primary-text)",
-                  }}
-                >
-                  <Flag size={10} /> Mandatory
-                </span>
-              )}
-            </div>
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <StatusBadge status={task.status} />
+                <PriorityBadge priority={task.priority} />
+                {subCfg && (
+                  <span
+                    className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${subCfg.bg} ${subCfg.text}`}
+                  >
+                    {subCfg.label}
+                  </span>
+                )}
+                {task.isMandatory && (
+                  <span
+                    className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium"
+                    style={{
+                      backgroundColor: "var(--cd-surface-2)",
+                      color: "var(--cd-text-2)",
+                    }}
+                  >
+                    Required
+                  </span>
+                )}
+              </div>
+            </section>
 
-            {/* Change Status */}
-            <div className="flex flex-col gap-3">
+            <section
+              className="rounded-xl border p-4 sm:p-5"
+              style={{
+                backgroundColor: "var(--cd-surface)",
+                borderColor: "var(--cd-border-subtle)",
+              }}
+            >
               <p
-                className="text-[10px] font-bold uppercase tracking-widest text-[var(--cd-text-muted)]"
+                className="mb-3 text-[11px] font-semibold uppercase tracking-wider"
+                style={{ color: "var(--cd-text-muted)" }}
               >
                 Change Status
               </p>
-              <div className="flex gap-2 p-1.5 rounded-2xl bg-[var(--cd-surface-2)] border border-[var(--cd-border-subtle)]">
-                {(["todo", "in-progress", "completed"] as const).map((s) => {
-                  const isActive = task.status === s;
+              <div className="grid gap-2 rounded-2xl border p-1.5 sm:grid-cols-3" style={{ backgroundColor: "var(--cd-surface-2)", borderColor: "rgba(255,255,255,0.05)" }}>
+                {(["todo", "in-progress", "completed"] as const).map((status) => {
+                  const isActive = task.status === status;
+                  const iconClass = isActive ? "!text-[#3B82F6] drop-shadow-[0_0_6px_rgba(59,130,246,0.45)]"
+                  : "text-current";
                   const icons = {
-                    "todo":        <Circle size={12} />,
-                    "in-progress": <Zap size={12} />,
-                    "completed":   <CheckCircle2 size={12} />,
+                    todo: <Circle size={14} className={iconClass} />,
+                    "in-progress": <Zap size={14} className={iconClass} />,
+                    completed: <CheckCircle2 size={14} className={iconClass} />,
                   };
                   return (
                     <button
-                      key={s}
-                      onClick={() => void handleStatusChange(s)}
+                      key={status}
+                      onClick={() => void handleStatusChange(status)}
                       disabled={isActive || updateTask.isPending}
-                      className={`
-                        flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold transition-all
-                        ${isActive 
-                          ? "bg-[var(--cd-surface)] text-[var(--cd-primary)] shadow-sm border border-[var(--cd-border)]" 
-                          : "text-[var(--cd-text-2)] hover:text-[var(--cd-text)] hover:bg-[var(--cd-hover)] border border-transparent"}
-                        disabled:opacity-40 disabled:cursor-not-allowed
-                      `}
+                      className={`flex items-center justify-center gap-2.5 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 disabled:cursor-not-allowed ${
+                        isActive
+                          ? "bg-[var(--cd-surface-3)] text-[var(--cd-primary)] font-bold shadow-lg shadow-[var(--cd-primary-subtle)] border border-[var(--cd-border-subtle)]"
+                          : "text-[var(--cd-text-2)] font-medium hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"
+                      }`}
                     >
-                      {icons[s]}
-                      {s === "todo" ? "Todo" : s === "in-progress" ? "Working" : "Done"}
+                      {icons[status]}
+                      {status === "todo" ? "Todo" : status === "in-progress" ? "Working" : "Done"}
                     </button>
                   );
                 })}
               </div>
-            </div>
+            </section>
 
-            {/* Meta grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {/* Deadline */}
-              <div
-                className="flex flex-col gap-1 p-4 rounded-2xl border"
-                style={{
-                  backgroundColor:
-                    isDeadlinePast && task.status !== "completed"
-                      ? "var(--cd-danger-subtle)"
-                      : "var(--cd-surface-2)",
-                  borderColor:
-                    isDeadlinePast && task.status !== "completed"
-                      ? "var(--cd-danger)"
-                      : "var(--cd-border)",
-                }}
-              >
-                <div
-                  className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider"
-                  style={{ color: "var(--cd-text-muted)" }}
-                >
-                  <Clock size={11} /> Deadline
-                </div>
-                <p
-                  className="text-sm font-bold mt-0.5"
-                  style={{
-                    color:
-                      isDeadlinePast && task.status !== "completed"
-                        ? "var(--cd-danger)"
-                        : "var(--cd-text)",
-                  }}
-                >
-                  {format(parseISO(task.deadline), "MMM d, yyyy")}
-                </p>
-                <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
-                  {formatDistanceToNow(parseISO(task.deadline), { addSuffix: true })}
-                </p>
-                {isDeadlinePast && task.status !== "completed" && (
-                  <span
-                    className="text-[10px] font-bold px-1.5 py-0.5 rounded-md self-start animate-pulse"
-                    style={{
-                      color: "var(--cd-danger)",
-                      backgroundColor: "var(--cd-danger-subtle)",
-                    }}
-                  >
-                    OVERDUE
-                  </span>
-                )}
-              </div>
+            <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <MetaCard
+                icon={<Clock size={12} />}
+                label="Deadline"
+                value={format(parseISO(task.deadline), "MMM d, yyyy")}
+                detail={formatDistanceToNow(parseISO(task.deadline), { addSuffix: true })}
+                danger={isOverdue}
+              />
 
-              {/* Points */}
               {task.points !== undefined && (
-                <div
-                  className="flex flex-col gap-1 p-4 rounded-2xl border"
-                  style={{
-                    backgroundColor: "rgba(251,191,36,0.08)",
-                    borderColor: "rgba(251,191,36,0.25)",
-                  }}
-                >
-                  <div
-                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider"
-                    style={{ color: "var(--cd-warning)" }}
-                  >
-                    <Star size={11} /> Points
-                  </div>
-                  <p className="text-2xl font-extrabold leading-none mt-0.5" style={{ color: "var(--cd-warning)" }}>
-                    {task.points}
-                  </p>
-                  <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
-                    hackathon pts
-                  </p>
-                </div>
+                <MetaCard
+                  icon={<Star size={12} />}
+                  label="Points"
+                  value={String(task.points)}
+                  detail="hackathon pts"
+                />
               )}
 
-              {/* Submission type */}
+              <MetaCard
+                icon={<UploadCloud size={12} />}
+                label="Submission"
+                value={SUBMISSION_TYPE_CONFIG[task.submissionType]?.label ?? task.submissionType}
+                detail={task.allowLateSubmission ? "Late allowed" : "On-time only"}
+              />
+
+              <MetaCard
+                icon={<Activity size={12} />}
+                label="Updated"
+                value={formatDistanceToNow(parseISO(task.updatedAt), { addSuffix: true })}
+                detail={`by ${task.createdBy}`}
+              />
+            </section>
+
+            <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
               <div
-                className="flex flex-col gap-1 p-4 rounded-2xl border"
+                className="rounded-xl border p-5"
                 style={{
-                  backgroundColor: "var(--cd-surface-2)",
-                  borderColor: "var(--cd-border)",
+                  backgroundColor: "var(--cd-surface)",
+                  borderColor: "var(--cd-border-subtle)",
                 }}
               >
                 <div
-                  className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider"
+                  className="mb-4 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider"
                   style={{ color: "var(--cd-text-muted)" }}
                 >
-                  <UploadCloud size={11} /> Submission
+                  <Users size={13} />
+                  Assigned To ({task.assignedTo.length})
                 </div>
-                <p className="text-sm font-bold mt-0.5" style={{ color: "var(--cd-text)" }}>
-                  {SUBMISSION_TYPE_CONFIG[task.submissionType]?.label ?? task.submissionType}
-                </p>
-                <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
-                  {task.allowLateSubmission ? "Late allowed" : "On-time only"}
-                </p>
-              </div>
-
-              {/* Last updated */}
-              <div
-                className="flex flex-col gap-1 p-4 rounded-2xl border"
-                style={{
-                  backgroundColor: "var(--cd-surface-2)",
-                  borderColor: "var(--cd-border)",
-                }}
-              >
-                <div
-                  className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider"
-                  style={{ color: "var(--cd-text-muted)" }}
-                >
-                  <Activity size={11} /> Updated
-                </div>
-                <p className="text-sm font-bold mt-0.5" style={{ color: "var(--cd-text)" }}>
-                  {formatDistanceToNow(parseISO(task.updatedAt), { addSuffix: true })}
-                </p>
-                <p className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
-                  by {task.createdBy}
-                </p>
-              </div>
-            </div>
-
-            {/* Technologies */}
-            {task.technologies && task.technologies.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <p
-                  className="text-[10px] font-bold uppercase tracking-wider"
-                  style={{ color: "var(--cd-text-muted)" }}
-                >
-                  Technologies
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {task.technologies.map((tech) => (
-                    <TechBadge key={tech.id} tech={tech} />
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {task.assignedTo.map((member) => (
+                    <div
+                      key={member.id}
+                      className="flex items-center gap-3 rounded-lg border p-3"
+                      style={{
+                        backgroundColor: "var(--cd-surface-2)",
+                        borderColor: "var(--cd-border-subtle)",
+                      }}
+                    >
+                      <Avatar
+                        name={member.name}
+                        src={member.avatar}
+                        role={member.role}
+                        size="md"
+                        showTooltip={false}
+                      />
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium" style={{ color: "var(--cd-text)" }}>
+                          {member.name}
+                        </p>
+                        <p className="truncate text-xs" style={{ color: "var(--cd-text-muted)" }}>
+                          {member.role}
+                        </p>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
-            )}
 
-            {/* Assignees */}
-            <div className="flex flex-col gap-3">
-              <div
-                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--cd-text-muted)]"
-              >
-                <Users size={12} />
-                Assigned To ({task.assignedTo.length})
-              </div>
-              <div className="flex flex-col gap-2.5">
-                {task.assignedTo.map((m, idx) => (
-                  <div
-                    key={m.id}
-                    className="flex items-center gap-3 p-3.5 rounded-2xl border border-[var(--cd-border)] bg-[var(--cd-surface-2)] hover:border-[var(--cd-primary)] hover:bg-[var(--cd-primary-subtle)] transition-all duration-200 group cursor-default"
-                  >
-                    <div className="relative shrink-0">
-                      <Avatar
-                        name={m.name}
-                        src={m.avatar}
-                        role={m.role}
-                        size="md"
-                        showTooltip={false}
-                        ring
-                        ringColor="ring-[var(--cd-surface)]"
-                      />
-                      <span
-                        className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[var(--cd-surface)] shadow-sm ${
-                          idx % 3 === 0 ? "bg-emerald-400" : idx % 3 === 1 ? "bg-amber-400" : "bg-gray-300"
-                        }`}
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold truncate text-[var(--cd-text)]">
-                        {m.name}
-                      </p>
-                      <p className="text-xs truncate text-[var(--cd-text-muted)]">
-                        {m.role}
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end gap-1.5 shrink-0">
-                      <span
-                        className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[var(--cd-surface)] text-[var(--cd-text-muted)] transition-colors truncate max-w-[120px] border border-[var(--cd-border-subtle)]"
-                      >
-                        {m.email}
-                      </span>
-                      <span
-                        className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter ${
-                          idx % 3 === 0
-                            ? "bg-[var(--cd-success-subtle)] text-[var(--cd-success)]"
-                            : idx % 3 === 1
-                            ? "bg-[var(--cd-warning-subtle)] text-[var(--cd-warning)]"
-                            : "bg-[var(--cd-surface-3)] text-[var(--cd-text-muted)]"
-                        }`}
-                      >
-                        {idx % 3 === 0 ? "Online" : idx % 3 === 1 ? "Away" : "Offline"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* ── RIGHT panel: submissions + activity ────────────────────────────── */}
-          <div
-            className="flex-1 flex flex-col overflow-hidden min-h-0"
-            style={{ backgroundColor: "var(--cd-bg)" }}
-          >
-            {/* Tab bar (Events-style) */}
-            <div
-              className="border-b px-5 flex gap-0 shrink-0"
-              style={{
-                backgroundColor: "var(--cd-surface)",
-                borderColor: "var(--cd-border)",
-              }}
-            >
-              {(["submissions", "activity", "comments"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className="flex items-center gap-1.5 px-5 py-3.5 text-sm font-bold border-b-2 transition-colors capitalize whitespace-nowrap"
+              {task.technologies && task.technologies.length > 0 && (
+                <div
+                  className="rounded-xl border p-5"
                   style={{
-                    color: activeTab === tab ? "var(--cd-primary)" : "var(--cd-text-2)",
-                    borderColor: activeTab === tab ? "var(--cd-primary)" : "transparent",
+                    backgroundColor: "var(--cd-surface)",
+                    borderColor: "var(--cd-border-subtle)",
                   }}
                 >
-                  {tab}
-                  {tab === "submissions" && (
-                    <span
-                      className="px-2 py-0.5 rounded-full text-[10px] font-bold transition-colors"
-                      style={{
-                        backgroundColor: activeTab === tab ? "var(--cd-primary-subtle)" : "var(--cd-surface-3)",
-                        color: activeTab === tab ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
-                      }}
-                    >
-                      {submissions.length}
-                    </span>
-                  )}
-                  {tab === "activity" && (
-                    <span
-                      className="px-2 py-0.5 rounded-full text-[10px] font-bold transition-colors"
-                      style={{
-                        backgroundColor: activeTab === tab ? "var(--cd-primary-subtle)" : "var(--cd-surface-3)",
-                        color: activeTab === tab ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
-                      }}
-                    >
-                      {activity.length}
-                    </span>
-                  )}
-                  {tab === "comments" && (
-                    <span
-                      className="px-2 py-0.5 rounded-full text-[10px] font-bold transition-colors"
-                      style={{
-                        backgroundColor: activeTab === tab ? "var(--cd-primary-subtle)" : "var(--cd-surface-3)",
-                        color: activeTab === tab ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
-                      }}
-                    >
-                      💬
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Tab content */}
-            <div className="flex-1 overflow-auto p-5">
-              {activeTab === "submissions" ? (
-                <div className="flex flex-col gap-5">
-                  {reviewingSubmissionId && (
-                    <ReviewPanel
-                      submissionId={reviewingSubmissionId}
-                      taskId={task.id}
-                      currentTaskStatus={task.status}
-                      onSuccess={() => {
-                        setReviewingSubmissionId(null);
-                        addToast("success", "Review submitted!", "The submission has been reviewed.");
-                      }}
-                      onCancel={() => setReviewingSubmissionId(null)}
-                    />
-                  )}
-                  <SubmissionList
-                    submissions={submissions}
-                    isLoading={subLoading}
-                    onReview={setReviewingSubmissionId}
-                  />
-                </div>
-              ) : activeTab === "comments" ? (
-                <CommentsSection taskId={task.id} />
-              ) : (
-                /* Activity timeline */
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-sm font-bold mb-5" style={{ color: "var(--cd-text)" }}>
-                    Activity Timeline
-                  </h3>
-
-                  {activity.length === 0 ? (
-                    <p
-                      className="text-sm text-center py-10"
-                      style={{ color: "var(--cd-text-muted)" }}
-                    >
-                      No activity recorded yet.
-                    </p>
-                  ) : (
-                    <ol
-                      className="relative ml-4 border-l-2"
-                      style={{ borderColor: "var(--cd-border)" }}
-                    >
-                      {activity.map((event) => {
-                        const iconCls  = ACTIVITY_COLOR[event.type] ?? "bg-gray-100 text-gray-500";
-                        const iconChar = ACTIVITY_ICON[event.type]  ?? "•";
-                        return (
-                          <li key={event.id} className="mb-5 ml-5">
-                            {/* Icon node */}
-                            <span
-                              className={`absolute -left-3.5 flex w-7 h-7 items-center justify-center rounded-full text-xs font-bold border-2 shadow-sm ${iconCls}`}
-                              style={{ borderColor: "var(--cd-surface)" }}
-                            >
-                              {iconChar}
-                            </span>
-
-                            {/* Card */}
-                            <div
-                              className="ml-1 p-4 rounded-xl border shadow-sm"
-                              style={{
-                                backgroundColor: "var(--cd-surface)",
-                                borderColor: "var(--cd-border)",
-                              }}
-                            >
-                              <p className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>
-                                {event.description}
-                              </p>
-                              <div
-                                className="flex items-center gap-2 mt-1.5 flex-wrap"
-                                style={{ color: "var(--cd-text-muted)" }}
-                              >
-                                <span className="text-xs font-medium">{event.actor}</span>
-                                <span>·</span>
-                                <span className="text-xs">
-                                  {formatDistanceToNow(parseISO(event.timestamp), { addSuffix: true })}
-                                </span>
-                                <span>·</span>
-                                <span className="text-[10px]">
-                                  {format(parseISO(event.timestamp), "MMM d, h:mm a")}
-                                </span>
-                              </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  )}
+                  <p
+                    className="mb-4 text-[11px] font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--cd-text-muted)" }}
+                  >
+                    Technologies
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {task.technologies.map((tech) => (
+                      <TechBadge key={tech.id} tech={tech} />
+                    ))}
+                  </div>
                 </div>
               )}
-            </div>
+            </section>
+
+            <section
+              className="overflow-hidden rounded-xl border"
+              style={{
+                backgroundColor: "var(--cd-surface)",
+                borderColor: "var(--cd-border-subtle)",
+              }}
+            >
+              <div
+                className="flex gap-1 overflow-x-auto border-b px-3"
+                style={{ borderColor: "var(--cd-border-subtle)" }}
+              >
+                {(["submissions", "activity", "comments"] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className="relative flex items-center gap-2 px-3 py-3 text-sm font-medium capitalize whitespace-nowrap transition-colors"
+                    style={{ color: activeTab === tab ? "var(--cd-text)" : "var(--cd-text-2)" }}
+                  >
+                    {tab}
+                    {tab !== "comments" && (
+                      <span
+                        className="rounded-md px-1.5 py-0.5 text-[11px] font-medium"
+                        style={{
+                          backgroundColor: activeTab === tab ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
+                          color: activeTab === tab ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
+                        }}
+                      >
+                        {tab === "submissions" ? submissions.length : activity.length}
+                      </span>
+                    )}
+                    {activeTab === tab && (
+                      <span
+                        className="absolute inset-x-3 bottom-0 h-0.5 rounded-full"
+                        style={{ backgroundColor: "var(--cd-primary)" }}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <div className="p-4 sm:p-5">
+                {activeTab === "submissions" ? (
+                  <div className="flex flex-col gap-5">
+                    {reviewingSubmissionId && (
+                      <ReviewPanel
+                        submissionId={reviewingSubmissionId}
+                        taskId={task.id}
+                        currentTaskStatus={task.status}
+                        onSuccess={() => {
+                          setReviewingSubmissionId(null);
+                          addToast("success", "Review submitted!", "The submission has been reviewed.");
+                        }}
+                        onCancel={() => setReviewingSubmissionId(null)}
+                      />
+                    )}
+                    <SubmissionList
+                      submissions={submissions}
+                      isLoading={subLoading}
+                      onReview={setReviewingSubmissionId}
+                    />
+                  </div>
+                ) : activeTab === "comments" ? (
+                  <CommentsSection taskId={task.id} />
+                ) : (
+                  <ActivityTimeline activity={activity} />
+                )}
+              </div>
+            </section>
           </div>
-        </div>
+        </main>
       ) : null}
 
-      {/* Delete modal */}
       <ConfirmModal
         isOpen={showDeleteModal}
         title="Delete Task"
@@ -612,5 +445,112 @@ export default function TaskDetailPage() {
 
       <ToastContainer toasts={toasts} onDismiss={dismiss} />
     </div>
+  );
+}
+
+function MetaCard({
+  icon,
+  label,
+  value,
+  detail,
+  danger = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  detail: string;
+  danger?: boolean;
+}) {
+  return (
+    <div
+      className="flex min-h-28 flex-col rounded-xl border p-4"
+      style={{
+        backgroundColor: danger ? "var(--cd-danger-subtle)" : "var(--cd-surface)",
+        borderColor: danger ? "var(--cd-danger-subtle)" : "var(--cd-border-subtle)",
+      }}
+    >
+      <div
+        className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider"
+        style={{ color: danger ? "var(--cd-danger)" : "var(--cd-text-muted)" }}
+      >
+        {icon}
+        {label}
+      </div>
+      <p
+        className="mt-2 text-base font-semibold"
+        style={{ color: danger ? "var(--cd-danger)" : "var(--cd-text)" }}
+      >
+        {value}
+      </p>
+      <p className="mt-1 text-xs" style={{ color: "var(--cd-text-muted)" }}>
+        {detail}
+      </p>
+      {danger && (
+        <span
+          className="mt-2 w-fit rounded-md px-1.5 py-0.5 text-[10px] font-semibold"
+          style={{
+            backgroundColor: "var(--cd-danger-subtle)",
+            color: "var(--cd-danger)",
+          }}
+        >
+          OVERDUE
+        </span>
+      )}
+    </div>
+  );
+}
+
+function ActivityTimeline({
+  activity,
+}: {
+  activity: ReturnType<typeof useTaskActivity>["data"];
+}) {
+  if (!activity || activity.length === 0) {
+    return (
+      <p className="py-10 text-center text-sm" style={{ color: "var(--cd-text-muted)" }}>
+        No activity recorded yet.
+      </p>
+    );
+  }
+
+  return (
+    <ol className="relative ml-3 border-l" style={{ borderColor: "var(--cd-border-subtle)" }}>
+      {activity.map((event) => {
+        const iconCls = ACTIVITY_COLOR[event.type] ?? "bg-gray-100 text-gray-500";
+        const iconChar = ACTIVITY_ICON[event.type] ?? "*";
+        return (
+          <li key={event.id} className="mb-4 ml-5">
+            <span
+              className={`absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full border text-xs font-semibold ${iconCls}`}
+              style={{ borderColor: "var(--cd-surface)" }}
+            >
+              {iconChar}
+            </span>
+
+            <div
+              className="rounded-lg border p-3"
+              style={{
+                backgroundColor: "var(--cd-surface-2)",
+                borderColor: "var(--cd-border-subtle)",
+              }}
+            >
+              <p className="text-sm font-medium" style={{ color: "var(--cd-text)" }}>
+                {event.description}
+              </p>
+              <div
+                className="mt-1.5 flex flex-wrap items-center gap-2 text-xs"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
+                <span>{event.actor}</span>
+                <span>·</span>
+                <span>{formatDistanceToNow(parseISO(event.timestamp), { addSuffix: true })}</span>
+                <span>·</span>
+                <span>{format(parseISO(event.timestamp), "MMM d, h:mm a")}</span>
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

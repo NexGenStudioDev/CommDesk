@@ -120,32 +120,38 @@ export default function TaskManagementPage() {
 
       {/* ── Event selector bar ──────────────────────────────────── */}
       <div
-        className="border-b px-6 sm:px-10 py-4 flex items-center gap-4 flex-wrap sticky top-0 z-30"
-        style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)", backdropFilter: "blur(12px)" }}
+        className="sticky top-0 z-30 border-b px-5 py-3 sm:px-8 lg:px-10"
+        style={{
+          backgroundColor: "color-mix(in srgb, var(--cd-surface) 92%, transparent)",
+          borderColor: "var(--cd-border-subtle)",
+          backdropFilter: "blur(16px)",
+        }}
       >
-        <span
-          className="text-[10px] font-black uppercase tracking-widest shrink-0"
-          style={{ color: "var(--cd-text-muted)" }}
-        >
-          Selected Event
-        </span>
-        <EventDropdown selectedEventId={selectedEventId} onSelect={handleEventSelect} />
-        {selectedEventId && (
-          <button
-            onClick={() => void refetch()}
-            title="Refresh tasks"
-            className="p-2 rounded-xl transition-all hover:bg-[var(--cd-hover)] text-[var(--cd-text-muted)] hover:text-[var(--cd-text)] active:scale-95"
+        <div className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center gap-3">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wider shrink-0"
+            style={{ color: "var(--cd-text-muted)" }}
           >
-            <RefreshCw size={15} />
-          </button>
-        )}
+            Event
+          </span>
+          <EventDropdown selectedEventId={selectedEventId} onSelect={handleEventSelect} />
+          {selectedEventId && (
+            <button
+              onClick={() => void refetch()}
+              title="Refresh tasks"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)] active:scale-95"
+            >
+              <RefreshCw size={14} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ── Main content area ───────────────────────────────────── */}
       <div className="flex-1 flex flex-col" style={{ backgroundColor: "var(--cd-bg)" }}>
         {!selectedEventId ? (
           /* No event selected */
-          <div className="min-h-[60vh] flex items-center justify-center p-4">
+          <div className="min-h-[70vh] flex items-center justify-center p-6">
             {events.length === 0 ? (
               <EmptyState
                 variant="no-event"
@@ -154,7 +160,7 @@ export default function TaskManagementPage() {
                 action={
                   <button
                     onClick={() => navigate("/org/create-event")}
-                    className="cd-btn cd-btn-primary"
+                    className="cd-btn cd-btn-primary px-8 py-3 rounded-2xl shadow-xl shadow-[var(--cd-primary-subtle)] hover:scale-105 transition-all"
                   >
                     Create First Event
                   </button>
@@ -170,7 +176,7 @@ export default function TaskManagementPage() {
           </div>
         ) : isError ? (
           /* Error state */
-          <div className="min-h-[60vh] flex items-center justify-center p-4">
+          <div className="min-h-[70vh] flex items-center justify-center p-6">
             <EmptyState
               variant="error"
               title="Failed to load tasks"
@@ -178,7 +184,7 @@ export default function TaskManagementPage() {
               action={
                 <button
                   onClick={() => void refetch()}
-                  className="cd-btn cd-btn-secondary flex items-center gap-2"
+                  className="cd-btn cd-btn-secondary flex items-center gap-2 px-6 py-2.5 rounded-xl border border-[var(--cd-border)] hover:bg-[var(--cd-hover)]"
                 >
                   <RefreshCw size={14} /> Retry
                 </button>
@@ -195,18 +201,29 @@ export default function TaskManagementPage() {
               filteredCount={tasks.length}
               tasks={allTasks}
             />
-            <div className="p-6 sm:p-10" style={{ backgroundColor: "var(--cd-bg)" }}>
+            
+            <main className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-8 sm:py-8 lg:px-10">
               {/* Desktop: table */}
               <div className="hidden md:block">
-                <TaskTable
-                  tasks={tasks}
-                  isLoading={isLoading}
-                  onDelete={setTaskToDelete}
-                  onCreateTask={handleCreate}
-                  hasFilters={hasActiveFilters}
-                  onResetFilters={resetFilters}
-                />
+                <div 
+                  className="overflow-hidden rounded-xl border transition-all duration-300" 
+                  style={{ 
+                    backgroundColor: "var(--cd-surface)", 
+                    borderColor: "var(--cd-border-subtle)",
+                    boxShadow: "0 18px 60px -36px var(--cd-shadow-md)"
+                  }}
+                >
+                  <TaskTable
+                    tasks={tasks}
+                    isLoading={isLoading}
+                    onDelete={setTaskToDelete}
+                    onCreateTask={handleCreate}
+                    hasFilters={hasActiveFilters}
+                    onResetFilters={resetFilters}
+                  />
+                </div>
               </div>
+              
               {/* Mobile: card list */}
               <div className="block md:hidden pb-10">
                 <TaskCardList
@@ -218,10 +235,11 @@ export default function TaskManagementPage() {
                   onResetFilters={resetFilters}
                 />
               </div>
-            </div>
+            </main>
           </div>
         )}
       </div>
+
 
       {/* ── Confirm delete modal ────────────────────────────────── */}
       <ConfirmModal

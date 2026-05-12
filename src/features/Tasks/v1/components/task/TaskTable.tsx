@@ -8,12 +8,12 @@ import type { Task } from "../../Task.types";
 const PAGE_SIZE = 15;
 
 const COLUMNS = [
-  { key: "title",      label: "Task",        width: "min-w-[320px]" },
-  { key: "assigned",   label: "Assigned To", width: "w-32"          },
-  { key: "priority",   label: "Priority",    width: "w-28"          },
-  { key: "deadline",   label: "Deadline",    width: "w-36"          },
-  { key: "submission", label: "Submission",  width: "w-36"          },
-  { key: "actions",    label: "Actions",     width: "w-24 text-right" },
+  { key: "title", label: "Task", width: "min-w-[360px]" },
+  { key: "assigned", label: "Assignees", width: "w-32" },
+  { key: "priority", label: "Priority", width: "w-24" },
+  { key: "deadline", label: "Due", width: "w-36" },
+  { key: "submission", label: "Submission", width: "w-36" },
+  { key: "actions", label: "", width: "w-24 text-right" },
 ];
 
 interface Props {
@@ -35,18 +35,18 @@ export default function TaskTable({
 }: Props) {
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(tasks.length / PAGE_SIZE);
-  const paginated  = tasks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginated = tasks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   if (isLoading) return <SkeletonLoader type="table" />;
 
   if (tasks.length === 0) {
     return (
       <div
-        className="rounded-xl overflow-hidden flex items-center justify-center min-h-[40vh]"
+        className="flex min-h-[320px] items-center justify-center overflow-hidden rounded-xl"
         style={{
           backgroundColor: "var(--cd-surface)",
-          border: "1px solid var(--cd-border)",
-          boxShadow: "0 1px 3px var(--cd-shadow)",
+          border: "0",
+          boxShadow: "none",
         }}
       >
         {hasFilters ? (
@@ -57,7 +57,7 @@ export default function TaskTable({
             action={
               <button
                 onClick={onResetFilters}
-                className="cd-btn cd-btn-secondary flex items-center gap-1.5"
+                className="cd-btn cd-btn-secondary h-9 rounded-lg px-4 text-sm"
               >
                 <SearchX size={14} />
                 Clear Filters
@@ -72,7 +72,7 @@ export default function TaskTable({
             action={
               <button
                 onClick={onCreateTask}
-                className="cd-btn cd-btn-primary flex items-center gap-1.5"
+                className="cd-btn cd-btn-primary h-9 rounded-lg px-4 text-sm"
               >
                 <Plus size={15} />
                 Create First Task
@@ -85,24 +85,22 @@ export default function TaskTable({
   }
 
   return (
-    <div
-      className="rounded-xl overflow-hidden relative"
-      style={{
-        backgroundColor: "var(--cd-surface)",
-        border: "1px solid var(--cd-border)",
-        boxShadow: "0 1px 3px var(--cd-shadow)",
-      }}
-    >
-      <table className="cd-table table-fixed">
+    <div className="overflow-hidden relative">
+      <table className="cd-table table-fixed w-full">
         <thead>
-          <tr>
+          <tr style={{ backgroundColor: "var(--cd-surface)" }}>
             {COLUMNS.map((col) => (
-              <th key={col.key} className={col.width}>
+              <th
+                key={col.key}
+                className={`${col.width} px-5 py-3 text-[11px] font-semibold uppercase tracking-wider transition-colors`}
+                style={{ color: "var(--cd-text-muted)", borderBottom: "1px solid var(--cd-border-subtle)" }}
+              >
                 {col.label}
               </th>
             ))}
           </tr>
         </thead>
+
         <tbody>
           {paginated.map((task) => (
             <TaskRow key={task.id} task={task} onDelete={onDelete} />
@@ -112,10 +110,10 @@ export default function TaskTable({
 
       {/* ── Footer ──────────────────────────────────────────── */}
       <div
-        className="flex justify-between items-center gap-3 px-6 py-3 text-sm border-t"
+        className="flex justify-between items-center gap-3 border-t px-5 py-3 text-sm"
         style={{
           backgroundColor: "var(--cd-surface)",
-          borderColor: "var(--cd-border)",
+          borderColor: "var(--cd-border-subtle)",
           color: "var(--cd-text-2)",
         }}
       >
@@ -132,14 +130,14 @@ export default function TaskTable({
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="cd-btn cd-btn-secondary px-3 py-1 text-xs disabled:opacity-40"
+            className="cd-btn cd-btn-secondary h-8 rounded-lg px-3 text-xs disabled:opacity-40"
           >
             Previous
           </button>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="cd-btn cd-btn-secondary px-3 py-1 text-xs disabled:opacity-40"
+            className="cd-btn cd-btn-secondary h-8 rounded-lg px-3 text-xs disabled:opacity-40"
           >
             Next
           </button>

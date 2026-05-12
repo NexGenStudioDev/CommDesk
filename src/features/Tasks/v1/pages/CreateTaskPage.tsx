@@ -7,30 +7,30 @@ export default function CreateTaskPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-full flex flex-col cd-page">
+    <div className="flex h-full w-full flex-col cd-page">
       {/* Header - Matches Event_Header style */}
       <div
-        className="py-[3vh] border-b flex text-xl font-bold justify-between"
+        className="flex justify-between border-b px-5 py-4 text-xl font-bold sm:px-8 lg:px-10"
         style={{
           backgroundColor: "var(--cd-surface)",
           borderColor: "var(--cd-border)",
         }}
       >
-        <div className="w-1/3 h-full flex items-center">
+        <div className="flex h-full min-w-0 items-center">
           <h1
-            className="text-lg sm:text-[2.5vw] lg:text-2xl font-bold ml-5 mt-2 flex items-center gap-3"
+            className="flex min-w-0 items-center gap-3 text-lg font-semibold lg:text-xl"
             style={{ color: "var(--cd-text)" }}
           >
             <button
               onClick={() => navigate(-1)}
-              className="p-2 rounded-xl transition-colors hover:opacity-80"
+              className="rounded-lg p-2 transition-colors hover:bg-[var(--cd-hover)]"
               style={{ color: "var(--cd-text-muted)" }}
               aria-label="Go back"
             >
               <ArrowLeft size={20} />
             </button>
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center"
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
               style={{ backgroundColor: "var(--cd-primary)" }}
             >
               <Plus size={16} className="text-white" />
@@ -39,7 +39,7 @@ export default function CreateTaskPage() {
           </h1>
         </div>
 
-        <div className="w-1/2 xl:w-fit h-full mr-[3vw] flex justify-end gap-3">
+        <div className="flex h-full justify-end gap-3">
           <Button
             text="Cancel"
             variant="secondary"
@@ -49,7 +49,7 @@ export default function CreateTaskPage() {
       </div>
 
       {/* Form content */}
-      <div className="flex-1 overflow-auto p-[2vw]">
+      <div className="flex-1 overflow-auto">
         <TaskForm mode="create" />
       </div>
     </div>

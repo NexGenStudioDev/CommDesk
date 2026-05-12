@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Plus, Eye, Pencil, Trash2, SearchX,
-  Github, FileUp, Layers, ChevronLeft, ChevronRight,
+  Github, FileUp, Layers, Link, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { formatDistanceToNow, isPast, parseISO } from "date-fns";
 import { AvatarGroup } from "../common/Avatar";
@@ -25,6 +25,8 @@ interface Props {
 const SUB_ICON: Record<string, React.ReactNode> = {
   file:   <FileUp size={11} />,
   github: <Github size={11} />,
+  link:   <Link size={11} />,
+  all:    <Layers size={11} />,
   both:   <Layers size={11} />,
 };
 
@@ -84,7 +86,7 @@ export default function TaskCardList({
   return (
     <div className="flex flex-col">
       {/* ── Card list ────────────────────────────────────── */}
-      <div className="flex flex-col gap-3 p-4">
+      <div className="flex flex-col gap-3">
         {paginated.map((task) => {
           const subCfg     = SUBMISSION_STATUS_CONFIG[task.submissionStatus];
           const priCfg     = PRIORITY_CONFIG[task.priority];
@@ -95,17 +97,17 @@ export default function TaskCardList({
             <div
               key={task.id}
               onClick={() => navigate(`/org/tasks/${task.id}`)}
-              className={`rounded-xl border-l-4 ${priCfg.borderClass} shadow-sm cursor-pointer transition-shadow hover:shadow-md`}
+              className={`cursor-pointer rounded-xl border-l-2 ${priCfg.borderClass} transition-colors hover:bg-[var(--cd-hover)]`}
               style={{
                 backgroundColor: "var(--cd-surface)",
-                border: "1px solid var(--cd-border)",
-                borderLeftWidth: "4px",
+                border: "1px solid var(--cd-border-subtle)",
+                borderLeftWidth: "2px",
                 padding: "1rem",
               }}
             >
               {/* Top row: title + actions */}
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="text-sm font-bold leading-snug flex-1" style={{ color: "var(--cd-text)" }}>
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <h3 className="min-w-0 flex-1 text-sm font-semibold leading-5" style={{ color: "var(--cd-text)" }}>
                   {task.title}
                 </h3>
                 <div
@@ -134,19 +136,19 @@ export default function TaskCardList({
               </div>
 
               {/* Description */}
-              <p className="text-xs mb-3 line-clamp-2" style={{ color: "var(--cd-text-muted)" }}>
+              <p className="mb-3 line-clamp-2 text-xs leading-5" style={{ color: "var(--cd-text-muted)" }}>
                 {task.description}
               </p>
 
               {/* Tech tags */}
               {task.technologies && task.technologies.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-3">
+                <div className="mb-3 flex flex-wrap gap-1.5">
                   {task.technologies.slice(0, 4).map((tech) => (
                     <TechBadge key={tech.id} tech={tech} size="xs" />
                   ))}
                   {task.technologies.length > 4 && (
                     <span
-                      className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
+                      className="rounded-md px-1.5 py-0.5 text-[10px] font-medium"
                       style={{ backgroundColor: "var(--cd-surface-2)", color: "var(--cd-text-muted)" }}
                     >
                       +{task.technologies.length - 4}
@@ -156,27 +158,27 @@ export default function TaskCardList({
               )}
 
               {/* Status badges row */}
-              <div className="flex flex-wrap items-center gap-2 mb-3">
+              <div className="mb-4 flex flex-wrap items-center gap-2">
                 <StatusBadge status={task.status} size="sm" />
                 <PriorityBadge priority={task.priority} size="sm" />
                 <span
-                  className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full ${subCfg.bg} ${subCfg.text}`}
+                  className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-medium ${subCfg.bg} ${subCfg.text}`}
                 >
                   {SUB_ICON[task.submissionType]}{subCfg.label}
                 </span>
                 {task.isMandatory && (
-                  <span className="text-[10px] font-semibold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">
-                    Mandatory
+                  <span className="rounded-md bg-[var(--cd-surface-2)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--cd-text-2)]">
+                    Required
                   </span>
                 )}
               </div>
 
               {/* Bottom: members + deadline + points */}
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-3 border-t pt-3" style={{ borderColor: "var(--cd-border-subtle)" }}>
                 <AvatarGroup members={task.assignedTo} max={4} size="xs" />
                 <div className="flex items-center gap-3">
                   {task.points !== undefined && (
-                    <span className="text-[10px] text-amber-600 font-bold">★ {task.points} pts</span>
+                    <span className="text-[10px] font-medium" style={{ color: "var(--cd-text-muted)" }}>{task.points} pts</span>
                   )}
                   <span
                     className={`text-[10px] font-semibold ${isOverdue ? "text-red-500" : ""}`}
@@ -194,10 +196,10 @@ export default function TaskCardList({
 
       {/* ── Footer ───────────────────────────────────────── */}
       <div
-        className="sticky bottom-0 border-t px-4 py-3 flex items-center justify-between"
+        className="sticky bottom-0 mt-4 flex items-center justify-between border-t px-1 py-3"
         style={{
-          backgroundColor: "var(--cd-surface)",
-          borderColor: "var(--cd-border)",
+          backgroundColor: "var(--cd-bg)",
+          borderColor: "var(--cd-border-subtle)",
         }}
       >
         <span className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
@@ -209,7 +211,7 @@ export default function TaskCardList({
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="cd-btn cd-btn-secondary p-1 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="cd-btn cd-btn-secondary h-8 w-8 rounded-lg p-0 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronLeft size={13} />
             </button>
@@ -219,7 +221,7 @@ export default function TaskCardList({
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="cd-btn cd-btn-secondary p-1 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="cd-btn cd-btn-secondary h-8 w-8 rounded-lg p-0 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronRight size={13} />
             </button>
@@ -228,7 +230,7 @@ export default function TaskCardList({
 
         <button
           onClick={onCreateTask}
-          className="cd-btn cd-btn-primary flex items-center gap-1.5 text-xs"
+          className="cd-btn cd-btn-primary h-8 rounded-lg px-3 text-xs"
         >
           <Plus size={13} /> Add Task
         </button>
@@ -247,9 +249,9 @@ function ActionBtn({
   color: "indigo" | "gray" | "red";
 }) {
   const hover = {
-    indigo: "hover:bg-indigo-100 hover:text-indigo-700",
-    gray:   "hover:bg-gray-100 hover:text-gray-700",
-    red:    "hover:bg-red-100 hover:text-red-600",
+    indigo: "hover:bg-[var(--cd-primary-subtle)] hover:text-[var(--cd-primary-text)]",
+    gray:   "hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]",
+    red:    "hover:bg-[var(--cd-danger-subtle)] hover:text-[var(--cd-danger)]",
   };
   return (
     <button

@@ -11,8 +11,8 @@ export function techBadgeStyle(id: string): CSSProperties {
   const accent = accentFor(id);
 
   return {
-    backgroundColor: `color-mix(in srgb, ${accent} 14%, var(--cd-surface))`,
-    borderColor: `color-mix(in srgb, ${accent} 28%, var(--cd-border))`,
-    color: `color-mix(in srgb, ${accent} 72%, var(--cd-text))`,
+    backgroundColor: `color-mix(in srgb, ${accent} 8%, var(--cd-surface))`,
+    borderColor: `color-mix(in srgb, ${accent} 18%, var(--cd-border-subtle))`,
+    color: `color-mix(in srgb, ${accent} 62%, var(--cd-text))`,
   };
 }

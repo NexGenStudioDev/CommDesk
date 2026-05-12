@@ -12,19 +12,19 @@ interface Props {
 }
 
 function getScoreInfo(score: number) {
-  if (score >= 90) return { text: "Excellent",  color: "text-emerald-600", bar: "bg-emerald-500" };
-  if (score >= 75) return { text: "Good",        color: "text-sky-600",     bar: "bg-sky-500"     };
-  if (score >= 50) return { text: "Average",     color: "text-amber-600",   bar: "bg-amber-400"   };
-  return               { text: "Needs Work",  color: "text-red-500",     bar: "bg-red-400"     };
+  if (score >= 90) return { text: "Excellent", color: "text-emerald-600", bar: "bg-emerald-500" };
+  if (score >= 75) return { text: "Good", color: "text-sky-600", bar: "bg-sky-500" };
+  if (score >= 50) return { text: "Average", color: "text-amber-600", bar: "bg-amber-400" };
+  return { text: "Needs Work", color: "text-red-500", bar: "bg-red-400" };
 }
 
 export default function ReviewPanel({ submissionId, onSuccess, onCancel }: Props) {
   const [decision, setDecision] = useState<ReviewDecision>("approved");
-  const [score,    setScore]    = useState<number>(80);
+  const [score, setScore] = useState<number>(80);
   const [scoreInput, setScoreInput] = useState<string>("80"); // separate string for manual input
   const [useScore, setUseScore] = useState(true);
   const [feedback, setFeedback] = useState("");
-  const [error,    setError]    = useState("");
+  const [error, setError] = useState("");
 
   const { mutateAsync, isPending } = useReviewSubmission();
   const info = getScoreInfo(score);
@@ -67,37 +67,37 @@ export default function ReviewPanel({ submissionId, onSuccess, onCancel }: Props
   };
 
   return (
-    <div className="rounded-2xl border-2 overflow-hidden transition-all duration-300"
-      style={{ 
-        backgroundColor: "var(--cd-surface)", 
-        borderColor: "var(--cd-primary-subtle)",
-        boxShadow: "0 10px 30px -10px var(--cd-primary-subtle)" 
+    <div className="overflow-hidden rounded-xl border transition-colors duration-200"
+      style={{
+        backgroundColor: "var(--cd-surface)",
+        borderColor: "var(--cd-border-subtle)",
+        boxShadow: "none"
       }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b"
-        style={{ backgroundColor: "var(--cd-primary-subtle)", borderColor: "var(--cd-border)" }}>
+      <div className="flex items-center justify-between border-b px-4 py-3"
+        style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border-subtle)" }}>
         <div className="flex items-center gap-2">
           <MessageSquare size={15} style={{ color: "var(--cd-primary)" }} />
-          <span className="text-sm font-bold" style={{ color: "var(--cd-primary-text)" }}>Submit Review</span>
+          <span className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>Submit Review</span>
         </div>
-        <button onClick={onCancel} className="p-1 rounded-lg transition-all hover:bg-[var(--cd-primary)] hover:text-white active:scale-95" style={{ color: "var(--cd-primary-text)" }}>
+        <button onClick={onCancel} className="rounded-lg p-1 transition-colors hover:bg-[var(--cd-hover)]" style={{ color: "var(--cd-text-muted)" }}>
           <X size={15} />
         </button>
       </div>
 
-      <div className="p-5 flex flex-col gap-5">
+      <div className="flex flex-col gap-5 p-5">
         {/* Decision */}
         <div className="flex flex-col gap-2">
-          <label className="text-[10px] font-black uppercase tracking-widest" style={{ color: "var(--cd-text-muted)" }}>Decision</label>
-          <div className="flex rounded-xl overflow-hidden border p-1 gap-1" style={{ backgroundColor: "var(--cd-surface-2)", borderColor: "var(--cd-border)" }}>
+          <label className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>Decision</label>
+          <div className="flex overflow-hidden rounded-lg border p-1 gap-1" style={{ backgroundColor: "var(--cd-surface-2)", borderColor: "var(--cd-border-subtle)" }}>
             <button onClick={() => setDecision("approved")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all active:scale-95
-                ${decision === "approved" ? "bg-[var(--cd-success)] text-white shadow-md" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)]"}`}>
+              className={`flex-1 flex items-center justify-center gap-2 rounded-md py-2.5 text-sm font-medium transition-colors
+                ${decision === "approved" ? "bg-[var(--cd-success)] text-white" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)]"}`}>
               <CheckCircle2 size={14} /> Approve
             </button>
             <button onClick={() => setDecision("rejected")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all active:scale-95
-                ${decision === "rejected" ? "bg-[var(--cd-danger)] text-white shadow-md" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)]"}`}>
+              className={`flex-1 flex items-center justify-center gap-2 rounded-md py-2.5 text-sm font-medium transition-colors
+                ${decision === "rejected" ? "bg-[var(--cd-danger)] text-white" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)]"}`}>
               <XCircle size={14} /> Reject
             </button>
           </div>
@@ -106,10 +106,10 @@ export default function ReviewPanel({ submissionId, onSuccess, onCancel }: Props
         {/* Score */}
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5" style={{ color: "var(--cd-text-muted)" }}>
+            <label className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>
               <Star size={11} style={{ color: "var(--cd-warning)" }} /> Score (optional)
             </label>
-            <label className="flex items-center gap-1.5 text-xs font-bold cursor-pointer select-none" style={{ color: "var(--cd-text-muted)" }}>
+            <label className="flex cursor-pointer select-none items-center gap-1.5 text-xs font-medium" style={{ color: "var(--cd-text-muted)" }}>
               <div onClick={() => setUseScore((v) => !v)}
                 className="relative w-8 h-4 rounded-full cursor-pointer transition-colors"
                 style={{ backgroundColor: useScore ? "var(--cd-primary)" : "var(--cd-surface-3)" }}>
@@ -144,9 +144,9 @@ export default function ReviewPanel({ submissionId, onSuccess, onCancel }: Props
                       value={scoreInput}
                       onChange={handleManualInput}
                       onBlur={handleManualBlur}
-                      className="w-16 h-12 text-center text-2xl font-black rounded-xl border-2 outline-none transition-all [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                      style={{ 
-                        backgroundColor: "var(--cd-warning-subtle)", 
+                      className="h-11 w-16 rounded-lg border text-center text-xl font-semibold outline-none transition-colors [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                      style={{
+                        backgroundColor: "var(--cd-warning-subtle)",
                         color: "var(--cd-warning)",
                         borderColor: "var(--cd-warning-subtle)"
                       }}
@@ -168,16 +168,16 @@ export default function ReviewPanel({ submissionId, onSuccess, onCancel }: Props
 
         {/* Feedback */}
         <div className="flex flex-col gap-2">
-          <label className="text-[10px] font-black uppercase tracking-widest" style={{ color: "var(--cd-text-muted)" }}>
+          <label className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>
             Feedback <span style={{ color: "var(--cd-danger)" }}>*</span>
           </label>
           <textarea
             value={feedback}
             onChange={(e) => { setFeedback(e.target.value); if (error) setError(""); }}
             rows={4} placeholder={decision === "approved" ? "Great work! Explain what they did well…" : "Explain what needs to be improved…"}
-            className="w-full text-sm rounded-xl border px-4 py-3 outline-none resize-none transition-all shadow-inner"
-            style={{ 
-              backgroundColor: "var(--cd-surface-2)", 
+            className="w-full resize-none rounded-lg border px-4 py-3 text-sm outline-none transition-colors"
+            style={{
+              backgroundColor: "var(--cd-surface-2)",
               color: "var(--cd-text)",
               borderColor: error ? "var(--cd-danger)" : "var(--cd-border)",
               boxShadow: error ? "0 0 0 2px var(--cd-danger-subtle)" : "none"
@@ -190,15 +190,15 @@ export default function ReviewPanel({ submissionId, onSuccess, onCancel }: Props
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-end gap-3 pt-3 border-t" style={{ borderColor: "var(--cd-border)" }}>
+        <div className="flex items-center justify-end gap-3 border-t pt-3" style={{ borderColor: "var(--cd-border-subtle)" }}>
           <button onClick={onCancel} disabled={isPending}
-            className="px-5 py-2.5 rounded-xl border text-sm font-bold transition-all hover:bg-[var(--cd-hover)] disabled:opacity-40"
+            className="h-9 rounded-lg border px-4 text-sm font-medium transition-colors hover:bg-[var(--cd-hover)] disabled:opacity-40"
             style={{ color: "var(--cd-text-2)", borderColor: "var(--cd-border)" }}>
             Cancel
           </button>
           <button onClick={handleSubmit} disabled={isPending}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-black text-white transition-all disabled:opacity-60 active:scale-95 shadow-lg
-              ${decision === "approved" ? "bg-[var(--cd-success)] shadow-[var(--cd-success-subtle)]" : "bg-[var(--cd-danger)] shadow-[var(--cd-danger-subtle)]"}`}>
+            className={`flex h-9 items-center gap-2 rounded-lg px-5 text-sm font-semibold text-white transition-colors disabled:opacity-60
+              ${decision === "approved" ? "bg-[var(--cd-success)]" : "bg-[var(--cd-danger)]"}`}>
             {isPending && <Loader2 size={14} className="animate-spin" />}
             {decision === "approved" ? "Approve" : "Reject"} Submission
           </button>

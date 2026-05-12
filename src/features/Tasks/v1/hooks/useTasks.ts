@@ -33,12 +33,12 @@ function matchesSearch(task: Task, q: string): boolean {
   ];
   const haystack = fields.join(" ").toLowerCase();
   const normalized = query
-    .replaceAll("in progress", "in-progress")
-    .replaceAll("not submitted", "not-submitted")
-    .replaceAll("to do", "todo");
+    .replace(/in progress/g, "in-progress")
+    .replace(/not submitted/g, "not-submitted")
+    .replace(/to do/g, "todo");
   const terms = normalized.split(/\s+/).filter(Boolean);
 
-  return terms.every((term) => haystack.includes(term));
+  return terms.every((term: string) => haystack.includes(term));
 }
 
 function applyFilters(tasks: Task[], filters: TaskFilters): Task[] {
