@@ -1,0 +1,57 @@
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Plus } from "lucide-react";
+import Button from "../../../../Component/ui/Button";
+import TaskForm from "../components/task/TaskForm";
+
+export default function CreateTaskPage() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex h-full w-full flex-col cd-page">
+      {/* Header - Matches Event_Header style */}
+      <div
+        className="flex justify-between border-b px-5 py-4 text-xl font-bold sm:px-8 lg:px-10"
+        style={{
+          backgroundColor: "var(--cd-surface)",
+          borderColor: "var(--cd-border)",
+        }}
+      >
+        <div className="flex h-full min-w-0 items-center">
+          <h1
+            className="flex min-w-0 items-center gap-3 text-lg font-semibold lg:text-xl"
+            style={{ color: "var(--cd-text)" }}
+          >
+            <button
+              onClick={() => navigate(-1)}
+              className="rounded-lg p-2 transition-colors hover:bg-[var(--cd-hover)]"
+              style={{ color: "var(--cd-text-muted)" }}
+              aria-label="Go back"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
+              style={{ backgroundColor: "var(--cd-primary)" }}
+            >
+              <Plus size={16} className="text-white" />
+            </div>
+            Create Task
+          </h1>
+        </div>
+
+        <div className="flex h-full justify-end gap-3">
+          <Button
+            text="Cancel"
+            variant="secondary"
+            onClick={() => navigate(-1)}
+          />
+        </div>
+      </div>
+
+      {/* Form content */}
+      <div className="flex-1 overflow-auto">
+        <TaskForm mode="create" />
+      </div>
+    </div>
+  );
+}

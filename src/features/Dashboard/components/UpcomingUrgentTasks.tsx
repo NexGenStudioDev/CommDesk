@@ -1,4 +1,4 @@
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 import { categorizeTasks } from "@/utils/task.utils";
 import TaskRow from "@/features/Dashboard/components/TaskRow";
 
