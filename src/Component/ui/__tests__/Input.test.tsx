@@ -20,8 +20,8 @@ describe("Input", () => {
   });
 
   it("does not render label element when label is omitted", () => {
-    renderInput();
-    expect(screen.queryByRole("label")).not.toBeInTheDocument();
+    const { container } = renderInput();
+    expect(container.querySelector("label")).not.toBeInTheDocument();
   });
 
   it("label htmlFor links to input id", () => {
