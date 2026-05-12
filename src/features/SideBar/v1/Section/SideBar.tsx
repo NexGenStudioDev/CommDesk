@@ -9,6 +9,7 @@ const SideBar = () => {
   let theme = getTheme("light");
   const { hasPermission } = usePermissions();
 import { MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
+import { MdAssignment, MdDashboard, MdEvent, MdGroup, MdSettings, MdWork } from "react-icons/md";
 import { useTheme } from "@/theme";
 import { ThemeToggle } from "@/Component/ui/ThemeToggle";
 

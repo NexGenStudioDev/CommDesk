@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { Task } from "../types/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 
 interface Props {
   tasks: Task[];

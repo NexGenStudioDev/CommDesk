@@ -7,6 +7,10 @@ import ViewEvent from "@/features/Events/v1/Pages/ViewEvent";
 import MemberPage from "@/features/Member/v1/Pages/MemberPage";
 import ProjectsPage from "@/features/Projects/Pages/ProjectsPage";
 import Organisation_Template from "@/features/template/LoginUserTemplate";
+import CreateTaskPage from "@/features/Tasks/v1/pages/CreateTaskPage";
+import EditTaskPage from "@/features/Tasks/v1/pages/EditTaskPage";
+import TaskDetailPage from "@/features/Tasks/v1/pages/TaskDetailPage";
+import TaskManagementPage from "@/features/Tasks/v1/pages/TaskManagementPage";
 
 const OrgRoute = () => {
   return (
@@ -26,6 +30,11 @@ const OrgRoute = () => {
       <Route path="projects" element={<ProjectsPage />} />
 
       <Route path="create-event" element={<CreateNewEvent />} />
+
+      <Route path="tasks" element={<TaskManagementPage />} />
+      <Route path="tasks/create" element={<CreateTaskPage />} />
+      <Route path="tasks/:taskId" element={<TaskDetailPage />} />
+      <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
 
       {/* Contact */}
       <Route path="contact" element={<Contact />} />

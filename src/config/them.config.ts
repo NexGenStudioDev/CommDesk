@@ -3,8 +3,9 @@
 import { theme, type ThemeMode, type ThemeTokens } from "../theme/theme.config";
 
 export type { ThemeMode };
-export type Theme = ThemeTokens[ThemeMode];
+export type Theme = ThemeTokens;
 
-export function getTheme(mode: ThemeMode): Theme {
-  return theme[mode];
+/** Returns the single flat token object — CSS variables resolve per mode automatically. */
+export function getTheme(_mode?: ThemeMode): Theme {
+  return theme;
 }

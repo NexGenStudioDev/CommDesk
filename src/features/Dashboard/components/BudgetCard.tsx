@@ -1,4 +1,4 @@
-import { Rewards } from "@/features/Dashboard/types/dashboard";
+import { Rewards } from "@/features/Dashboard/Member/v1/Type/dashboard";
 import { Gift, Star, Wallet } from "lucide-react";
 import { useTheme } from "@/theme";
 
