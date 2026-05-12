@@ -35,16 +35,24 @@ export function SearchableDropdown({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Reset search when closing
+  // Reset search and active index when closing
   useEffect(() => {
     if (!isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearch("");
-      setActiveIndex(-1);
     }
   }, [isOpen]);
 
   // Keyboard navigation
   const [activeIndex, setActiveIndex] = useState(-1);
+
+  // Reset active index when closing
+  useEffect(() => {
+    if (!isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveIndex(-1);
+    }
+  }, [isOpen]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) {

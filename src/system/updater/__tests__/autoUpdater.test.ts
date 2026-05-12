@@ -8,9 +8,6 @@ const mockDownloadAndInstall = vi.hoisted(() => vi.fn());
 vi.mock("@tauri-apps/plugin-updater", () => ({ check: mockCheck }));
 vi.mock("@tauri-apps/plugin-process", () => ({ relaunch: mockRelaunch }));
 
-// Import AFTER mocks are registered
-import { startAutoUpdater } from "@/system/updater/autoUpdater";
-
 function setTauriRuntime(present: boolean) {
   if (present) {
     Object.defineProperty(window, "__TAURI_INTERNALS__", {

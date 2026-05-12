@@ -7,7 +7,7 @@ interface FormProps<T> {
   onSubmit: (values: T) => void;
   children: (
     values: T,
-    handleChange: (name: keyof T, value: any) => void,
+    handleChange: (name: keyof T, value: unknown) => void,
     errors: Partial<Record<keyof T, string>>,
   ) => ReactNode;
   submitButton?: ReactNode;
@@ -25,7 +25,7 @@ export function Form<T>({
   const [values, setValues] = React.useState<T>(initialValues);
   const [errors, setErrors] = React.useState<Partial<Record<keyof T, string>>>({});
 
-  const handleChange = (name: keyof T, value: any) => {
+  const handleChange = (name: keyof T, value: unknown) => {
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };

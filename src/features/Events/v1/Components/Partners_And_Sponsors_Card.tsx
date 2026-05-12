@@ -31,11 +31,8 @@ const Partners_And_Sponsors_Card = ({
   category = "Official Partner",
 }: PartnersAndSponsorsCardProps) => {
   const theme = getTheme("light");
+  // key={image} on the parent resets this state when image changes
   const [hasImageError, setHasImageError] = React.useState(false);
-
-  React.useEffect(() => {
-    setHasImageError(false);
-  }, [image]);
 
   const initials = name
     .split(" ")

@@ -7,11 +7,8 @@ type JudgeCardProps = {
 };
 
 const JudgeCard = ({ image, name, role }: JudgeCardProps) => {
+  // key={image} on the parent resets this state when image changes
   const [hasImageError, setHasImageError] = React.useState(false);
-
-  React.useEffect(() => {
-    setHasImageError(false);
-  }, [image]);
 
   const initials = name
     .split(" ")

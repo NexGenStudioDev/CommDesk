@@ -8,7 +8,7 @@ import { theme } from "@/theme";
 const Capacity_And_Registration = () => {
 
 
-  let [eventData, setEventData] = React.useState({
+  const [eventData, setEventData] = React.useState({
     MaxAttendees: "",
     TicketType: "Free",
     TicketPrice: "",

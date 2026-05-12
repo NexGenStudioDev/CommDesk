@@ -26,7 +26,7 @@ declare module "markdown-to-jsx" {
   import type { ComponentType, ReactElement } from "react";
 
   export type MarkdownToJsxOverride = {
-    component?: ComponentType<any>;
+    component?: ComponentType<Record<string, unknown>>;
     props?: Record<string, unknown>;
   };
 

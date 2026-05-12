@@ -393,7 +393,7 @@ export default function OwnerStep() {
             <label
               key={perm.id}
               className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all hover:shadow-sm ${
-                watch(`permissions.${perm.id}` as any)
+                watch(`permissions.${perm.id}` as `permissions.${string}`)
                   ? "border-indigo-200 bg-indigo-50/30"
                   : "border-slate-100 bg-white"
               }`}
@@ -401,7 +401,7 @@ export default function OwnerStep() {
               <div className="relative flex items-center mt-1">
                 <input
                   type="checkbox"
-                  {...register(`permissions.${perm.id}` as any)}
+                  {...register(`permissions.${perm.id}` as `permissions.${string}`)}
                   className="sr-only peer"
                 />
                 <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>

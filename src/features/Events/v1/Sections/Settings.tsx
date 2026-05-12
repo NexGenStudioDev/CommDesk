@@ -1,4 +1,3 @@
-import { getTheme } from "@/config/them.config";
 import { IoSettingsSharp } from "react-icons/io5";
 import EventSetting from "../Components/EventSetting";
 import { theme } from "@/theme";

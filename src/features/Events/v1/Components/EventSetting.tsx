@@ -11,12 +11,9 @@ type EventSettingProps = {
 };
 
 const EventSetting = ({ onToggleChange, isToggled, title, description }: EventSettingProps) => {
-  let [toggled, setToggled] = React.useState(isToggled || false);
+  // Derive toggled state directly from prop — no effect needed
+  const [toggled, setToggled] = React.useState(isToggled ?? false);
   const [isAnimating, setIsAnimating] = React.useState(false);
-
-  React.useEffect(() => {
-    setToggled(isToggled || false);
-  }, [isToggled]);
 
   React.useEffect(() => {
     if (!isAnimating) {
