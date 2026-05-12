@@ -4,29 +4,29 @@
 
 CommDesk is designed as a modern large-scale desktop platform built using:
 
-* Tauri
-* Rust
-* React
-* TypeScript
-* Vite
+- Tauri
+- Rust
+- React
+- TypeScript
+- Vite
 
 This guide explains how to package, test, optimize, and distribute CommDesk for Linux using:
 
-* Flatpak
-* Snap
-* AppImage
-* Native Linux bundles
-* Enterprise-grade release workflows
+- Flatpak
+- Snap
+- AppImage
+- Native Linux bundles
+- Enterprise-grade release workflows
 
 ---
 
 # 📦 Supported Linux Distribution Formats
 
-| Format   | Best For                     | Sandbox  | Auto Update | Store Support   |
-| -------- | ---------------------------- | -------- | ----------- | --------------- |
-| Flatpak  | Universal Linux Distribution | ✅ Strong | ✅           | Flathub         |
-| Snap     | Ubuntu Ecosystem             | ✅ Strong | ✅           | Snap Store      |
-| AppImage | Portable Distribution        | ❌        | ❌ Manual    | Direct Download |
+| Format   | Best For                     | Sandbox   | Auto Update | Store Support   |
+| -------- | ---------------------------- | --------- | ----------- | --------------- |
+| Flatpak  | Universal Linux Distribution | ✅ Strong | ✅          | Flathub         |
+| Snap     | Ubuntu Ecosystem             | ✅ Strong | ✅          | Snap Store      |
+| AppImage | Portable Distribution        | ❌        | ❌ Manual   | Direct Download |
 | DEB      | Debian/Ubuntu                | ❌        | Manual/APT  | Native          |
 | RPM      | Fedora/RHEL                  | ❌        | Manual/DNF  | Native          |
 
@@ -40,11 +40,11 @@ This guide explains how to package, test, optimize, and distribute CommDesk for 
 
 Best for:
 
-* Security
-* Sandboxing
-* Enterprise deployment
-* Cross-distro support
-* Flathub visibility
+- Security
+- Sandboxing
+- Enterprise deployment
+- Cross-distro support
+- Flathub visibility
 
 ---
 
@@ -54,10 +54,10 @@ Best for:
 
 Best for:
 
-* Portable usage
-* No installation required
-* Quick testing
-* Offline environments
+- Portable usage
+- No installation required
+- Quick testing
+- Offline environments
 
 ---
 
@@ -67,9 +67,9 @@ Best for:
 
 Best for:
 
-* Ubuntu ecosystem
-* Auto updates
-* Canonical Store distribution
+- Ubuntu ecosystem
+- Auto updates
+- Canonical Store distribution
 
 ---
 
@@ -175,8 +175,8 @@ cargo --version
 
 Recommended:
 
-* Node.js 20+
-* pnpm latest
+- Node.js 20+
+- pnpm latest
 
 Install:
 
@@ -210,11 +210,11 @@ commdesk/
 
 Flatpak provides:
 
-* Sandboxed execution
-* Cross-distribution support
-* Secure permissions
-* Runtime dependency isolation
-* Enterprise deployment compatibility
+- Sandboxed execution
+- Cross-distribution support
+- Secure permissions
+- Runtime dependency isolation
+- Enterprise deployment compatibility
 
 ---
 
@@ -271,11 +271,7 @@ org.commdesk.CommDesk.json
     {
       "name": "commdesk",
       "buildsystem": "simple",
-      "build-commands": [
-        "pnpm install",
-        "pnpm build",
-        "cargo build --release"
-      ],
+      "build-commands": ["pnpm install", "pnpm build", "cargo build --release"],
       "sources": [
         {
           "type": "dir",
@@ -390,11 +386,11 @@ flatpak run org.commdesk.CommDesk
 
 Snap provides:
 
-* Automatic updates
-* Ubuntu ecosystem integration
-* Canonical Store support
-* Sandboxing
-* Rollback support
+- Automatic updates
+- Ubuntu ecosystem integration
+- Canonical Store support
+- Sandboxing
+- Rollback support
 
 ---
 
@@ -421,7 +417,7 @@ mkdir snap
 ```yaml
 name: commdesk
 base: core24
-version: '1.0.0'
+version: "1.0.0"
 summary: CommDesk Community Management Platform
 description: |
   CommDesk is a modern community and event management platform.
@@ -484,10 +480,10 @@ snap run commdesk
 
 Best for:
 
-* Portable distribution
-* No installation
-* Easy testing
-* Direct downloads
+- Portable distribution
+- No installation
+- Easy testing
+- Direct downloads
 
 ---
 
@@ -591,32 +587,32 @@ build: {
 
 # Build Validation
 
-* [ ] TypeScript passes
-* [ ] Rust build passes
-* [ ] Flatpak launches
-* [ ] Snap launches
-* [ ] AppImage launches
-* [ ] GPU acceleration works
-* [ ] Network APIs work
-* [ ] File system permissions work
+- [ ] TypeScript passes
+- [ ] Rust build passes
+- [ ] Flatpak launches
+- [ ] Snap launches
+- [ ] AppImage launches
+- [ ] GPU acceleration works
+- [ ] Network APIs work
+- [ ] File system permissions work
 
 ---
 
 # Security Validation
 
-* [ ] Sandbox tested
-* [ ] No unnecessary permissions
-* [ ] Production env variables secured
-* [ ] Secrets removed from frontend
+- [ ] Sandbox tested
+- [ ] No unnecessary permissions
+- [ ] Production env variables secured
+- [ ] Secrets removed from frontend
 
 ---
 
 # Performance Validation
 
-* [ ] Cold start benchmark
-* [ ] Memory profiling
-* [ ] CPU usage profiling
-* [ ] Large dataset rendering test
+- [ ] Cold start benchmark
+- [ ] Memory profiling
+- [ ] CPU usage profiling
+- [ ] Large dataset rendering test
 
 ---
 
@@ -669,12 +665,12 @@ jobs:
 
 Ensure:
 
-* App icons added
-* Metadata complete
-* Screenshots prepared
-* License included
-* Permissions minimized
-* Stable builds verified
+- App icons added
+- Metadata complete
+- Screenshots prepared
+- License included
+- Permissions minimized
+- Stable builds verified
 
 ---
 
@@ -682,11 +678,11 @@ Ensure:
 
 | Asset        | Required |
 | ------------ | -------- |
-| App Icon     | ✅        |
-| Screenshots  | ✅        |
-| AppData XML  | ✅        |
-| LICENSE      | ✅        |
-| Desktop File | ✅        |
+| App Icon     | ✅       |
+| Screenshots  | ✅       |
+| AppData XML  | ✅       |
+| LICENSE      | ✅       |
+| Desktop File | ✅       |
 
 ---
 
@@ -698,11 +694,11 @@ Ensure:
 
 # 📚 Useful Resources
 
-* [Flatpak Documentation](https://docs.flatpak.org/?utm_source=chatgpt.com)
-* [Snapcraft Docs](https://snapcraft.io/docs?utm_source=chatgpt.com)
-* [Tauri Distribution Guide](https://tauri.app/distribute/?utm_source=chatgpt.com)
-* [AppImage Docs](https://docs.appimage.org/?utm_source=chatgpt.com)
-* [Flathub](https://flathub.org/?utm_source=chatgpt.com)
+- [Flatpak Documentation](https://docs.flatpak.org/?utm_source=chatgpt.com)
+- [Snapcraft Docs](https://snapcraft.io/docs?utm_source=chatgpt.com)
+- [Tauri Distribution Guide](https://tauri.app/distribute/?utm_source=chatgpt.com)
+- [AppImage Docs](https://docs.appimage.org/?utm_source=chatgpt.com)
+- [Flathub](https://flathub.org/?utm_source=chatgpt.com)
 
 ---
 
@@ -718,4 +714,3 @@ Ensure:
 | DEB/RPM      | Enterprise |
 
 ---
-

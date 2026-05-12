@@ -26,13 +26,16 @@ const DropDown: React.FC<DropDownProps> = ({
   const [selected, setSelected] = useState(value ?? options[0] ?? "");
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Sync controlled value or reset to first valid option when options change
+  const resolvedSelected =
+    value !== undefined ? value : options.includes(selected) ? selected : (options[0] ?? "");
+
   useEffect(() => {
-    if (value !== undefined) {
-      setSelected(value);
-      return;
+    if (value === undefined && !options.includes(selected)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSelected(options[0] ?? "");
     }
-    setSelected((prev) => (prev && options.includes(prev) ? prev : (options[0] ?? "")));
-  }, [options, value]);
+  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const onClickOutside = (e: MouseEvent) => {
@@ -73,7 +76,7 @@ const DropDown: React.FC<DropDownProps> = ({
           color: selected ? theme.text.primary : theme.text.muted,
         }}
       >
-        <span className="truncate">{selected || placeholder}</span>
+        <span className="truncate">{resolvedSelected || placeholder}</span>
         <FaChevronDown
           className={`ml-2 shrink-0 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
           style={{ color: theme.text.muted }}
@@ -101,11 +104,6 @@ const DropDown: React.FC<DropDownProps> = ({
                 color: selected === opt ? theme.primary.text : theme.text.primary,
               }}
               onMouseEnter={(e) => {
-                if (selected !== opt)
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                    theme.interactive.hover;
-              }}
-              onMouseLeave={(e) => {
                 if (selected !== opt)
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
               }}

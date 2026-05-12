@@ -5,7 +5,7 @@ export const calculateProductivityScore = (data: {
 }) => {
   const { completionRate, streak, weeklyCompleted } = data;
 
-  let score =
+  const score =
     completionRate * 0.5 +
     Math.min(streak * 5, 100) * 0.2 +
     Math.min(weeklyCompleted * 10, 100) * 0.3;

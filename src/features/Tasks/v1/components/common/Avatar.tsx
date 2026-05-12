@@ -13,9 +13,15 @@ interface AvatarProps {
 
 // Color map for initials fallback — derived from name char code
 const BG_COLORS = [
-  "bg-indigo-500", "bg-pink-500", "bg-orange-500",
-  "bg-emerald-500", "bg-sky-500", "bg-violet-500",
-  "bg-rose-500",   "bg-amber-500","bg-teal-500",
+  "bg-indigo-500",
+  "bg-pink-500",
+  "bg-orange-500",
+  "bg-emerald-500",
+  "bg-sky-500",
+  "bg-violet-500",
+  "bg-rose-500",
+  "bg-amber-500",
+  "bg-teal-500",
 ];
 
 function getColor(name: string): string {
@@ -24,31 +30,47 @@ function getColor(name: string): string {
 }
 
 function getInitials(name: string): string {
-  return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 const SIZE_MAP = {
-  xs: { outer: "w-6 h-6",   text: "text-[9px]",  dot: "w-1.5 h-1.5 -right-0 -bottom-0",   ring: "ring-1" },
-  sm: { outer: "w-7 h-7",   text: "text-[10px]", dot: "w-2 h-2 -right-0 -bottom-0",        ring: "ring-2" },
-  md: { outer: "w-9 h-9",   text: "text-xs",     dot: "w-2.5 h-2.5 right-0 bottom-0",      ring: "ring-2" },
-  lg: { outer: "w-12 h-12", text: "text-sm",     dot: "w-3 h-3 right-0.5 bottom-0.5",      ring: "ring-2" },
+  xs: {
+    outer: "w-6 h-6",
+    text: "text-[9px]",
+    dot: "w-1.5 h-1.5 -right-0 -bottom-0",
+    ring: "ring-1",
+  },
+  sm: { outer: "w-7 h-7", text: "text-[10px]", dot: "w-2 h-2 -right-0 -bottom-0", ring: "ring-2" },
+  md: { outer: "w-9 h-9", text: "text-xs", dot: "w-2.5 h-2.5 right-0 bottom-0", ring: "ring-2" },
+  lg: { outer: "w-12 h-12", text: "text-sm", dot: "w-3 h-3 right-0.5 bottom-0.5", ring: "ring-2" },
 };
 
 const STATUS_COLOR = {
-  online:  "bg-emerald-400",
+  online: "bg-emerald-400",
   offline: "bg-gray-300",
-  busy:    "bg-red-400",
+  busy: "bg-red-400",
 };
 
 export default function Avatar({
-  name, src, role, size = "sm",
-  showTooltip = true, status = null, ring = false, ringColor = "ring-[var(--cd-surface)]",
+  name,
+  src,
+  role,
+  size = "sm",
+  showTooltip = true,
+  status = null,
+  ring = false,
+  ringColor = "ring-[var(--cd-surface)]",
 }: AvatarProps) {
   const [imgError, setImgError] = useState(false);
-  const [hovered, setHovered]   = useState(false);
+  const [hovered, setHovered] = useState(false);
   const sz = SIZE_MAP[size];
   const initials = getInitials(name);
-  const bgColor  = getColor(name);
+  const bgColor = getColor(name);
 
   return (
     <div
@@ -57,12 +79,14 @@ export default function Avatar({
       onMouseLeave={() => setHovered(false)}
     >
       {/* Avatar circle */}
-      <div className={`
+      <div
+        className={`
         ${sz.outer} rounded-full overflow-hidden
         ${ring ? `${sz.ring} ${ringColor}` : ""}
         shadow-sm transition-transform duration-150
         ${showTooltip ? "group-hover:scale-110 group-hover:shadow-md cursor-pointer" : ""}
-      `}>
+      `}
+      >
         {!imgError ? (
           <img
             src={src}
@@ -72,7 +96,9 @@ export default function Avatar({
           />
         ) : (
           /* Initials fallback */
-          <div className={`w-full h-full flex items-center justify-center font-bold ${sz.text} text-white ${bgColor}`}>
+          <div
+            className={`w-full h-full flex items-center justify-center font-bold ${sz.text} text-white ${bgColor}`}
+          >
             {initials}
           </div>
         )}
@@ -111,7 +137,7 @@ interface AvatarGroupProps {
 }
 
 export function AvatarGroup({ members, max = 3, size = "sm" }: AvatarGroupProps) {
-  const visible  = members.slice(0, max);
+  const visible = members.slice(0, max);
   const overflow = members.length - max;
   const sz = SIZE_MAP[size];
 
@@ -137,7 +163,9 @@ export function AvatarGroup({ members, max = 3, size = "sm" }: AvatarGroupProps)
             borderColor: "var(--cd-surface)",
           }}
         >
-          <span className={`${sz.text} font-bold`} style={{ color: "var(--cd-text-2)" }}>+{overflow}</span>
+          <span className={`${sz.text} font-bold`} style={{ color: "var(--cd-text-2)" }}>
+            +{overflow}
+          </span>
         </div>
       )}
     </div>

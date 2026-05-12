@@ -11,7 +11,6 @@ import {
   Facebook,
   User,
   Lock,
-  Image,
 } from "lucide-react";
 import { SignupFormData } from "../../hooks/useSignupForm";
 

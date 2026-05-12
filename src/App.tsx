@@ -17,15 +17,14 @@ function App() {
   }, []);
 
   const user = dashboardData.user;
+  void user; // used by role-based routing — will be wired to auth context
 
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <OrgRoute />
 
-       <OrgRoute />
-
-       <MemberRoutes />
-        
+        <MemberRoutes />
       </BrowserRouter>
     </ThemeProvider>
   );

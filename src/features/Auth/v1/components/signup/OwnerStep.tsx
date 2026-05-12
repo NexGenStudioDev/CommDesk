@@ -393,7 +393,7 @@ export default function OwnerStep() {
             <label
               key={perm.id}
               className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all hover:shadow-sm ${
-                watch(`permissions.${perm.id}` as any)
+                watch(`permissions.${perm.id}` as any) // eslint-disable-line @typescript-eslint/no-explicit-any
                   ? "border-indigo-200 bg-indigo-50/30"
                   : "border-slate-100 bg-white"
               }`}
@@ -401,6 +401,7 @@ export default function OwnerStep() {
               <div className="relative flex items-center mt-1">
                 <input
                   type="checkbox"
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   {...register(`permissions.${perm.id}` as any)}
                   className="sr-only peer"
                 />

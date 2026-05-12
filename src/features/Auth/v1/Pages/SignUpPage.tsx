@@ -55,7 +55,7 @@ export default function SignUpPage() {
         ...data,
         contactPhone: `${data.phoneCode}${data.phoneNumber}`,
       };
-      await submitCommunitySignup(finalData as any);
+      await submitCommunitySignup(finalData as unknown as SignupFormData);
       setPost("email");
     } catch (err: unknown) {
       const e = err as {

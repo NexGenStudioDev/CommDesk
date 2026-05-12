@@ -1,10 +1,8 @@
-import { getTheme } from "@/config/them.config";
 import { IoSettingsSharp } from "react-icons/io5";
 import EventSetting from "../Components/EventSetting";
 import { theme } from "@/theme";
 
 const Settings = () => {
-
   return (
     <div
       className="flex flex-col w-full  p-4 border-2 rounded-lg  "

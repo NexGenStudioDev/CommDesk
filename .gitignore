@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Test output
+coverage
+playwright-report
+test-results
+
 
 release.key
 *.key

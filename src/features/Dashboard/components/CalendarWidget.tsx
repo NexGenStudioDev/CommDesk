@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
-import { CalendarData } from "@/features/Dashboard/Member/v1/Type/dashboard";
+import { CalendarData, CalendarEvent } from "@/features/Dashboard/Member/v1/Type/dashboard";
 
 interface Props {
   data: CalendarData;
@@ -8,16 +8,12 @@ interface Props {
 
 export default function CalendarWidget({ data }: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
-
-  useEffect(() => {
-    setSelectedDay(new Date().getDate());
-  }, [month, year]);
 
   const today = new Date();
   const isToday = (day: number) =>
@@ -28,7 +24,7 @@ export default function CalendarWidget({ data }: Props) {
     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
   ];
 
-  const eventMap: Record<number, any[]> = {};
+  const eventMap: Record<number, CalendarEvent[]> = {};
   data.events.forEach((e) => {
     const d = new Date(e.date);
     if (d.getMonth() === month && d.getFullYear() === year) {

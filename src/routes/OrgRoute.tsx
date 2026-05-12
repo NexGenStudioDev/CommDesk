@@ -15,36 +15,33 @@ import TaskManagementPage from "@/features/Tasks/v1/pages/TaskManagementPage";
 const OrgRoute = () => {
   return (
     <Routes>
+      <Route path="/org" element={<Organisation_Template />}>
+        {/* Dashboard */}
+        <Route index element={<DashBoardPage />} />
 
-         <Route path="/org" element={<Organisation_Template />}>
-      {/* Dashboard */}
-      <Route index element={<DashBoardPage />} />
+        <Route path="dashboard" element={<DashBoardPage />} />
 
-      <Route path="dashboard" element={<DashBoardPage />} />
+        <Route path="member" element={<MemberPage />} />
 
-      <Route path="member" element={<MemberPage />} />
+        {/* Events */}
+        <Route path="events" element={<ViewEvent />} />
 
-      {/* Events */}
-      <Route path="events" element={<ViewEvent />} />
+        <Route path="projects" element={<ProjectsPage />} />
 
-      <Route path="projects" element={<ProjectsPage />} />
+        <Route path="create-event" element={<CreateNewEvent />} />
 
-      <Route path="create-event" element={<CreateNewEvent />} />
+        <Route path="tasks" element={<TaskManagementPage />} />
+        <Route path="tasks/create" element={<CreateTaskPage />} />
+        <Route path="tasks/:taskId" element={<TaskDetailPage />} />
+        <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
 
-      <Route path="tasks" element={<TaskManagementPage />} />
-      <Route path="tasks/create" element={<CreateTaskPage />} />
-      <Route path="tasks/:taskId" element={<TaskDetailPage />} />
-      <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
+        {/* Contact */}
+        <Route path="contact" element={<Contact />} />
 
-      {/* Contact */}
-      <Route path="contact" element={<Contact />} />
-
-      {/* Add Member */}
-      <Route path="add-member" element={<AddMemberPage />} />
-    </Route>
-
+        {/* Add Member */}
+        <Route path="add-member" element={<AddMemberPage />} />
+      </Route>
     </Routes>
- 
   );
 };
 

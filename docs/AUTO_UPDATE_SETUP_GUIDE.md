@@ -1,4 +1,4 @@
-# 🚀 CommDesk Auto-Update System 
+# 🚀 CommDesk Auto-Update System
 
 # Enterprise-Grade Auto-Update Infrastructure for Tauri, Snap, Flathub, AppImage, Windows & macOS
 
@@ -6,20 +6,19 @@ This document is the complete source of truth for implementing, deploying, secur
 
 It covers:
 
-* Tauri auto-updater
-* GitHub Releases integration
-* Snap auto-updates
-* Flathub auto-updates
-* Release signing
-* CI/CD automation
-* Rollback systems
-* Security verification
-* Production deployment
-* Monitoring & analytics
-* Enterprise release workflows
+- Tauri auto-updater
+- GitHub Releases integration
+- Snap auto-updates
+- Flathub auto-updates
+- Release signing
+- CI/CD automation
+- Rollback systems
+- Security verification
+- Production deployment
+- Monitoring & analytics
+- Enterprise release workflows
 
 Reference architecture and implementation details:
-
 
 ---
 
@@ -27,11 +26,11 @@ Reference architecture and implementation details:
 
 Auto-update allows CommDesk to:
 
-* Detect new releases automatically
-* Download updates securely
-* Verify signatures
-* Install updates safely
-* Restart into the latest version
+- Detect new releases automatically
+- Download updates securely
+- Verify signatures
+- Install updates safely
+- Restart into the latest version
 
 without requiring users to manually reinstall the app.
 
@@ -93,11 +92,11 @@ Users
 
 Every update must be:
 
-* Signed
-* Verified
-* Version validated
-* Integrity checked
-* Securely downloaded
+- Signed
+- Verified
+- Version validated
+- Integrity checked
+- Securely downloaded
 
 ---
 
@@ -262,11 +261,11 @@ latest.json
 
 This latest.json is responsible for telling the Tauri updater:
 
-* what version is available
-* what notes to show the user
-* when the release was published
-* which download URL to use for each platform
-* which signature file to verify before installation
+- what version is available
+- what notes to show the user
+- when the release was published
+- which download URL to use for each platform
+- which signature file to verify before installation
 
 Before publishing latest.json, also create the matching signature file for each build artifact:
 
@@ -278,8 +277,6 @@ minisign -S \
 ```
 
 The resulting .sig file must be uploaded with the release and its signature content must be referenced inside latest.json.
-
-
 
 ---
 
@@ -348,8 +345,7 @@ Restart app
 # React Example
 
 ```tsx id="jlwm8g"
-const { shouldUpdate, manifest } =
-await checkForUpdates();
+const { shouldUpdate, manifest } = await checkForUpdates();
 
 if (shouldUpdate) {
   await installUpdate();
@@ -361,11 +357,11 @@ if (shouldUpdate) {
 
 # Recommended Features
 
-* Update notification dialog
-* Release notes
-* Progress bar
-* Retry support
-* Restart button
+- Update notification dialog
+- Release notes
+- Progress bar
+- Retry support
+- Restart button
 
 ---
 
@@ -375,10 +371,10 @@ if (shouldUpdate) {
 
 Snapd automatically:
 
-* Checks every few hours
-* Downloads updates
-* Installs safely
-* Allows rollback
+- Checks every few hours
+- Downloads updates
+- Installs safely
+- Allows rollback
 
 ---
 
@@ -394,7 +390,7 @@ sudo apt install snapcraft
 
 ```yaml id="jlwm5c"
 name: commdesk
-version: '1.0.0'
+version: "1.0.0"
 
 grade: stable
 confinement: strict
@@ -547,12 +543,12 @@ User receives update
 
 GitHub Actions should:
 
-* Build app
-* Sign binaries
-* Generate latest.json
-* Upload GitHub release
-* Upload Snap
-* Build Flatpak
+- Build app
+- Sign binaries
+- Generate latest.json
+- Upload GitHub release
+- Upload Snap
+- Build Flatpak
 
 ---
 
@@ -679,11 +675,11 @@ CommDesk.old.AppImage
 
 Track:
 
-* Update success rate
-* Failed installs
-* Download stats
-* Adoption rate
-* Crash reports
+- Update success rate
+- Failed installs
+- Download stats
+- Adoption rate
+- Crash reports
 
 ---
 
@@ -691,7 +687,7 @@ Track:
 
 ```ts id="jlwm4y"
 trackUpdate("installed", {
-  version: "1.0.0"
+  version: "1.0.0",
 });
 ```
 
@@ -739,22 +735,22 @@ trackUpdate("installed", {
 
 ## Before Release
 
-* [ ] Version updated
-* [ ] CHANGELOG updated
-* [ ] Tests passing
-* [ ] Binaries signed
-* [ ] latest.json generated
-* [ ] GitHub release ready
+- [ ] Version updated
+- [ ] CHANGELOG updated
+- [ ] Tests passing
+- [ ] Binaries signed
+- [ ] latest.json generated
+- [ ] GitHub release ready
 
 ---
 
 ## After Release
 
-* [ ] GitHub release verified
-* [ ] Snap uploaded
-* [ ] Flathub updated
-* [ ] Update notification tested
-* [ ] Metrics monitored
+- [ ] GitHub release verified
+- [ ] Snap uploaded
+- [ ] Flathub updated
+- [ ] Update notification tested
+- [ ] Metrics monitored
 
 ---
 
@@ -764,10 +760,10 @@ trackUpdate("installed", {
 
 ## Causes
 
-* Invalid latest.json
-* Wrong signature
-* Incorrect version format
-* Broken URLs
+- Invalid latest.json
+- Wrong signature
+- Incorrect version format
+- Broken URLs
 
 ---
 
@@ -818,4 +814,3 @@ Users Receive Secure Updates
 ```
 
 ---
-

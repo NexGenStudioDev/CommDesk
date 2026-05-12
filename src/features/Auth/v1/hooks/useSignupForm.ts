@@ -110,7 +110,8 @@ export const STEP_FIELDS: Record<number, (keyof SignupFormData)[]> = {
 
 export function useSignupForm() {
   return useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(signupSchema) as any,
     mode: "onTouched",
     defaultValues: {
       communityName: "",

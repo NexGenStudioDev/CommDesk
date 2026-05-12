@@ -7,11 +7,8 @@ type MentorCardProps = {
 };
 
 const MentorCard = ({ image, name, role }: MentorCardProps) => {
+  // key={image} on the parent resets this state when image changes
   const [hasImageError, setHasImageError] = React.useState(false);
-
-  React.useEffect(() => {
-    setHasImageError(false);
-  }, [image]);
 
   const initials = name
     .split(" ")

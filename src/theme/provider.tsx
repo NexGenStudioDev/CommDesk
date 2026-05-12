@@ -26,7 +26,9 @@ function resolveInitialMode(): ThemeMode {
   try {
     const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
     if (stored === "light" || stored === "dark") return stored;
-  } catch {}
+  } catch {
+    // ignore localStorage errors
+  }
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
@@ -51,7 +53,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setModeState(m);
       try {
         localStorage.setItem(STORAGE_KEY, m);
-      } catch {}
+      } catch {
+        // ignore localStorage errors
+      }
       applyMode(m);
     },
     [applyMode],

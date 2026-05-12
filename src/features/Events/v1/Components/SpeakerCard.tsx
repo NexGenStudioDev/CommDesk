@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo, useState } from "react";
 
 type SpeakerCardProps = {
   image: string;
@@ -7,11 +7,7 @@ type SpeakerCardProps = {
 };
 
 const SpeakerCard = ({ image, name, role }: SpeakerCardProps) => {
-  const [hasImageError, setHasImageError] = React.useState(false);
-
-  React.useEffect(() => {
-    setHasImageError(false);
-  }, [image]);
+  const [hasImageError, setHasImageError] = useState(false);
 
   const initials = name
     .split(" ")
