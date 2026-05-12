@@ -52,7 +52,7 @@ export default function ConfirmModal({
       />
 
       {/* Dialog */}
-      <div 
+      <div
         className="relative z-10 w-full max-w-md mx-4 rounded-2xl shadow-2xl border overflow-hidden animate-in fade-in zoom-in-95 duration-150"
         style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
       >
@@ -110,7 +110,6 @@ export default function ConfirmModal({
           </div>
         </div>
       </div>
-
     </div>
   );
 }

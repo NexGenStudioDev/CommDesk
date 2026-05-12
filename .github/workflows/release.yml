@@ -3,7 +3,7 @@ name: Release - Build & Sign
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 permissions:
   contents: write
@@ -47,8 +47,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -104,7 +104,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -120,16 +120,16 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir -p release
-          
+
           # Copy Linux artifacts
           cp artifacts/tauri-linux/AppImage/CommDesk-*.AppImage.tar.gz* release/ 2>/dev/null || true
           cp artifacts/tauri-linux/Rpm/commdesk-*.rpm* release/ 2>/dev/null || true
           cp artifacts/tauri-linux/Deb/commdesk-*.deb* release/ 2>/dev/null || true
-          
+
           # Copy macOS artifacts
           cp artifacts/tauri-macos/Dmg/CommDesk-*.dmg* release/ 2>/dev/null || true
           cp artifacts/tauri-macos/Macos/CommDesk-*.app.tar.gz* release/ 2>/dev/null || true
-          
+
           # Copy Windows artifacts
           cp artifacts/tauri-windows/Msi/CommDesk-*.msi.zip* release/ 2>/dev/null || true
           cp artifacts/tauri-windows/Nsis/CommDesk-*-setup.exe* release/ 2>/dev/null || true
@@ -145,7 +145,7 @@ jobs:
       - name: Sign binaries
         run: |
           cd release
-          
+
           # Sign all binary files
           for file in CommDesk-* commdesk-* *.exe *.dmg; do
             if [ -f "$file" ] && [[ ! "$file" =~ \.sig$ ]]; then
@@ -156,14 +156,14 @@ jobs:
                 -m "$file"
             fi
           done
-          
+
           ls -lah
 
       - name: Generate latest.json
         run: |
           VERSION="${{ github.ref_name }}"
           VERSION="${VERSION#v}"  # Remove 'v' prefix
-          
+
           cat > latest.json << EOF
           {
             "version": "${VERSION}",
@@ -189,58 +189,53 @@ jobs:
             }
           }
           EOF
-          
+
           cp latest.json release/latest.json
           cat release/latest.json
 
       - name: Create Release Notes
         run: |
-          cat > release/RELEASE_NOTES.md << 'EOF'
+          cat > release/RELEASE_NOTES.md << EOF
           # CommDesk ${{ github.ref_name }}
-          
+
           ## Changelog
-          
-          $(git log $(git describe --tags --abbrev=0)..HEAD --oneline | sed 's/^/- /')
-          
+
+          \$(git log \$(git describe --tags --abbrev=0)..HEAD --oneline | sed 's/^/- /')
+
           ## Platform Support
-          
+
           - **Linux**: AppImage, Snap, Flathub
           - **macOS**: Universal (Intel + Apple Silicon)
           - **Windows**: NSIS Installer, MSI
-          
+
           ## Installation
-          
+
           ### Linux (Snap)
-          ```bash
+          \`\`\`bash
           snap install commdesk
-          ```
-          
+          \`\`\`
+
           ### Linux (Flathub)
-          ```bash
+          \`\`\`bash
           flatpak install flathub org.commdesk.CommDesk
-          ```
-          
+          \`\`\`
+
           ### macOS
           Download DMG and drag to Applications
-          
+
           ### Windows
           Run MSI installer
-          
+
           ## Auto-Update
-          
-          All versions have automatic updates enabled. The app will check for updates on startup and periodically.
-          
-          For Snap: `snap refresh`
-          For Flathub: `flatpak update`
-          For other platforms: Auto-update from within app
-          
+
+          All versions have automatic updates enabled.
+
           ## Signatures
-          
+
           Binaries are signed with minisign. Verify with:
-          ```bash
+          \`\`\`bash
           minisign -Vm binary.tar.gz.sig -p release.pub
-          ```
-          
+          \`\`\`
           EOF
 
       - name: Upload to GitHub Release
@@ -281,7 +276,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -360,13 +355,13 @@ jobs:
           else
             echo "⚠️ Tauri release failed"
           fi
-          
+
           if [ "${{ needs.build-snap.result }}" == "success" ]; then
             echo "✅ Snap build successful (uploaded to candidate)"
           else
             echo "⚠️ Snap build failed"
           fi
-          
+
           if [ "${{ needs.build-flatpak.result }}" == "success" ]; then
             echo "✅ Flatpak build successful"
           else
@@ -376,32 +371,27 @@ jobs:
       - name: Print next steps
         run: |
           cat << 'EOF'
-          
+
           📋 NEXT STEPS FOR RELEASE ${{ github.ref_name }}:
-          
+
           1️⃣ TAURI (GitHub Releases)
           ✅ Build complete and signed
           ✅ Uploaded to https://github.com/${{ github.repository }}/releases
           ✅ Latest.json created for auto-update
-          
+
           2️⃣ SNAP
           ⏭️  Build uploaded to candidate channel
           📝 After testing (usually 24h):
              snapcraft release commdesk <REVISION> stable
-          
+
           3️⃣ FLATHUB
           📝 Create PR to https://github.com/flathub/flathub
              Update: org.commdesk.CommDesk/org.commdesk.CommDesk.json
              Set source commit to: ${{ github.sha }}
-          
+
           ✨ Once all channels publish:
              - Linux users on Snap get update in ~24h
              - Linux users on Flathub get update within hours
              - macOS/Windows users get update notification in app
-          
-          EOF
 
-permissions:
-  contents: write
-  actions: read
-  packages: read
+          EOF

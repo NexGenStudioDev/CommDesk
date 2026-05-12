@@ -93,7 +93,10 @@ export default function TaskTable({
               <th
                 key={col.key}
                 className={`${col.width} px-5 py-3 text-[11px] font-semibold uppercase tracking-wider transition-colors`}
-                style={{ color: "var(--cd-text-muted)", borderBottom: "1px solid var(--cd-border-subtle)" }}
+                style={{
+                  color: "var(--cd-text-muted)",
+                  borderBottom: "1px solid var(--cd-border-subtle)",
+                }}
               >
                 {col.label}
               </th>
@@ -122,8 +125,7 @@ export default function TaskTable({
           <span style={{ color: "var(--cd-text)", fontWeight: 600 }}>
             {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, tasks.length)}
           </span>{" "}
-          of{" "}
-          <span style={{ color: "var(--cd-text)", fontWeight: 600 }}>{tasks.length}</span>
+          of <span style={{ color: "var(--cd-text)", fontWeight: 600 }}>{tasks.length}</span>
         </p>
 
         <div className="flex gap-2">

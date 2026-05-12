@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Plus, Eye, Pencil, Trash2, SearchX,
-  Github, FileUp, Layers, Link, ChevronLeft, ChevronRight,
+  Plus,
+  Eye,
+  Pencil,
+  Trash2,
+  SearchX,
+  Github,
+  FileUp,
+  Layers,
+  Link,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { formatDistanceToNow, isPast, parseISO } from "date-fns";
 import { AvatarGroup } from "../common/Avatar";
@@ -23,33 +32,39 @@ interface Props {
 }
 
 const SUB_ICON: Record<string, React.ReactNode> = {
-  file:   <FileUp size={11} />,
+  file: <FileUp size={11} />,
   github: <Github size={11} />,
-  link:   <Link size={11} />,
-  all:    <Layers size={11} />,
-  both:   <Layers size={11} />,
+  link: <Link size={11} />,
+  all: <Layers size={11} />,
+  both: <Layers size={11} />,
 };
 
 export default function TaskCardList({
-  tasks, isLoading, onDelete, onCreateTask, hasFilters, onResetFilters,
+  tasks,
+  isLoading,
+  onDelete,
+  onCreateTask,
+  hasFilters,
+  onResetFilters,
 }: Props) {
-  const navigate   = useNavigate();
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const PAGE_SIZE  = 10;
+  const PAGE_SIZE = 10;
   const totalPages = Math.ceil(tasks.length / PAGE_SIZE);
-  const paginated  = tasks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginated = tasks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  if (isLoading) return (
-    <div className="flex flex-col gap-3 p-4">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className="h-40 rounded-xl animate-pulse"
-          style={{ backgroundColor: "var(--cd-surface-2)" }}
-        />
-      ))}
-    </div>
-  );
+  if (isLoading)
+    return (
+      <div className="flex flex-col gap-3 p-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-40 rounded-xl animate-pulse"
+            style={{ backgroundColor: "var(--cd-surface-2)" }}
+          />
+        ))}
+      </div>
+    );
 
   if (tasks.length === 0) {
     return hasFilters ? (
@@ -88,10 +103,10 @@ export default function TaskCardList({
       {/* ── Card list ────────────────────────────────────── */}
       <div className="flex flex-col gap-3">
         {paginated.map((task) => {
-          const subCfg     = SUBMISSION_STATUS_CONFIG[task.submissionStatus];
-          const priCfg     = PRIORITY_CONFIG[task.priority];
+          const subCfg = SUBMISSION_STATUS_CONFIG[task.submissionStatus];
+          const priCfg = PRIORITY_CONFIG[task.priority];
           const deadlineDt = parseISO(task.deadline);
-          const isOverdue  = isPast(deadlineDt) && task.status !== "completed";
+          const isOverdue = isPast(deadlineDt) && task.status !== "completed";
 
           return (
             <div
@@ -107,7 +122,10 @@ export default function TaskCardList({
             >
               {/* Top row: title + actions */}
               <div className="mb-3 flex items-start justify-between gap-3">
-                <h3 className="min-w-0 flex-1 text-sm font-semibold leading-5" style={{ color: "var(--cd-text)" }}>
+                <h3
+                  className="min-w-0 flex-1 text-sm font-semibold leading-5"
+                  style={{ color: "var(--cd-text)" }}
+                >
                   {task.title}
                 </h3>
                 <div
@@ -136,7 +154,10 @@ export default function TaskCardList({
               </div>
 
               {/* Description */}
-              <p className="mb-3 line-clamp-2 text-xs leading-5" style={{ color: "var(--cd-text-muted)" }}>
+              <p
+                className="mb-3 line-clamp-2 text-xs leading-5"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
                 {task.description}
               </p>
 
@@ -149,7 +170,10 @@ export default function TaskCardList({
                   {task.technologies.length > 4 && (
                     <span
                       className="rounded-md px-1.5 py-0.5 text-[10px] font-medium"
-                      style={{ backgroundColor: "var(--cd-surface-2)", color: "var(--cd-text-muted)" }}
+                      style={{
+                        backgroundColor: "var(--cd-surface-2)",
+                        color: "var(--cd-text-muted)",
+                      }}
                     >
                       +{task.technologies.length - 4}
                     </span>
@@ -164,7 +188,8 @@ export default function TaskCardList({
                 <span
                   className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-medium ${subCfg.bg} ${subCfg.text}`}
                 >
-                  {SUB_ICON[task.submissionType]}{subCfg.label}
+                  {SUB_ICON[task.submissionType]}
+                  {subCfg.label}
                 </span>
                 {task.isMandatory && (
                   <span className="rounded-md bg-[var(--cd-surface-2)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--cd-text-2)]">
@@ -174,11 +199,19 @@ export default function TaskCardList({
               </div>
 
               {/* Bottom: members + deadline + points */}
-              <div className="flex items-center justify-between gap-3 border-t pt-3" style={{ borderColor: "var(--cd-border-subtle)" }}>
+              <div
+                className="flex items-center justify-between gap-3 border-t pt-3"
+                style={{ borderColor: "var(--cd-border-subtle)" }}
+              >
                 <AvatarGroup members={task.assignedTo} max={4} size="xs" />
                 <div className="flex items-center gap-3">
                   {task.points !== undefined && (
-                    <span className="text-[10px] font-medium" style={{ color: "var(--cd-text-muted)" }}>{task.points} pts</span>
+                    <span
+                      className="text-[10px] font-medium"
+                      style={{ color: "var(--cd-text-muted)" }}
+                    >
+                      {task.points} pts
+                    </span>
                   )}
                   <span
                     className={`text-[10px] font-semibold ${isOverdue ? "text-red-500" : ""}`}
@@ -241,7 +274,10 @@ export default function TaskCardList({
 
 // ── Small action button ───────────────────────────────────────────────────────
 function ActionBtn({
-  icon, label, onClick, color,
+  icon,
+  label,
+  onClick,
+  color,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -250,8 +286,8 @@ function ActionBtn({
 }) {
   const hover = {
     indigo: "hover:bg-[var(--cd-primary-subtle)] hover:text-[var(--cd-primary-text)]",
-    gray:   "hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]",
-    red:    "hover:bg-[var(--cd-danger-subtle)] hover:text-[var(--cd-danger)]",
+    gray: "hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]",
+    red: "hover:bg-[var(--cd-danger-subtle)] hover:text-[var(--cd-danger)]",
   };
   return (
     <button

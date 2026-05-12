@@ -14,15 +14,15 @@ interface Props {
 type SortKey = "newest" | "oldest" | "pending";
 
 const SORT_OPTIONS: { value: SortKey; label: string; dot: string }[] = [
-  { value: "newest",  label: "Newest first",  dot: "bg-indigo-500"  },
-  { value: "oldest",  label: "Oldest first",  dot: "bg-gray-400"    },
-  { value: "pending", label: "Pending first", dot: "bg-amber-400"   },
+  { value: "newest", label: "Newest first", dot: "bg-indigo-500" },
+  { value: "oldest", label: "Oldest first", dot: "bg-gray-400" },
+  { value: "pending", label: "Pending first", dot: "bg-amber-400" },
 ];
 
 // ─── Reusable portal dropdown (same pattern as TaskFilters) ───────────────────
 function SortDropdown({ sort, onChange }: { sort: SortKey; onChange: (v: SortKey) => void }) {
   const [open, setOpen] = useState(false);
-  const btnRef   = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [style, setStyle] = useState<React.CSSProperties>({});
 
@@ -44,19 +44,24 @@ function SortDropdown({ sort, onChange }: { sort: SortKey; onChange: (v: SortKey
     const PANEL_H = 160;
     const below = window.innerHeight - rect.bottom;
     if (below < PANEL_H && rect.top > below) {
-      setStyle({ position: "fixed", left: rect.left, bottom: window.innerHeight - rect.top + 6, zIndex: 9999 });
+      setStyle({
+        position: "fixed",
+        left: rect.left,
+        bottom: window.innerHeight - rect.top + 6,
+        zIndex: 9999,
+      });
     } else {
       setStyle({ position: "fixed", left: rect.left, top: rect.bottom + 6, zIndex: 9999 });
     }
   }, [open]);
 
-  const current = SORT_OPTIONS.find(o => o.value === sort)!;
+  const current = SORT_OPTIONS.find((o) => o.value === sort)!;
 
   return (
     <div className="relative shrink-0">
       <button
         ref={btnRef}
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen((o) => !o)}
         className="flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-colors select-none hover:bg-[var(--cd-hover)]"
         style={{
           backgroundColor: "var(--cd-surface-2)",
@@ -66,41 +71,59 @@ function SortDropdown({ sort, onChange }: { sort: SortKey; onChange: (v: SortKey
       >
         <ArrowUpDown size={11} className="opacity-80" />
         {current.label}
-        <ChevronDown size={11} className={`transition-transform duration-200 ${open ? "rotate-180" : ""} opacity-80`} />
+        <ChevronDown
+          size={11}
+          className={`transition-transform duration-200 ${open ? "rotate-180" : ""} opacity-80`}
+        />
       </button>
 
-      {open && createPortal(
-        <div
-          ref={panelRef}
-          style={{
-            ...style,
-            backgroundColor: "var(--cd-surface)",
-            borderColor: "var(--cd-border)",
-            boxShadow: "0 18px 48px -24px var(--cd-shadow-md)",
-          }}
-          className="min-w-[160px] overflow-hidden rounded-lg border py-1"
-        >
-          {SORT_OPTIONS.map(opt => (
-            <button
-              key={opt.value}
-              onMouseDown={(e) => { e.preventDefault(); onChange(opt.value); setOpen(false); }}
-              className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-left transition-colors
+      {open &&
+        createPortal(
+          <div
+            ref={panelRef}
+            style={{
+              ...style,
+              backgroundColor: "var(--cd-surface)",
+              borderColor: "var(--cd-border)",
+              boxShadow: "0 18px 48px -24px var(--cd-shadow-md)",
+            }}
+            className="min-w-[160px] overflow-hidden rounded-lg border py-1"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
+                className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-left transition-colors
                 ${opt.value === sort ? "bg-[var(--cd-hover)] text-[var(--cd-primary-text)]" : "text-[var(--cd-text-muted)] hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)]"}`}
-            >
-              <span className={`w-2 h-2 rounded-full shrink-0 ${opt.dot}`} />
-              <span className="flex-1">{opt.label}</span>
-              {opt.value === sort && <Check size={12} className="text-[var(--cd-primary)] shrink-0" />}
-            </button>
-          ))}
-        </div>,
-        document.body
-      )}
+              >
+                <span className={`w-2 h-2 rounded-full shrink-0 ${opt.dot}`} />
+                <span className="flex-1">{opt.label}</span>
+                {opt.value === sort && (
+                  <Check size={12} className="text-[var(--cd-primary)] shrink-0" />
+                )}
+              </button>
+            ))}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
 
 // ─── Toggle switch ────────────────────────────────────────────────────────────
-function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
+function Toggle({
+  value,
+  onChange,
+  label,
+}: {
+  value: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}) {
   return (
     <label className="flex items-center gap-2 cursor-pointer select-none group">
       <div
@@ -108,9 +131,15 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: bool
         className="relative h-5 w-9 rounded-full transition-colors duration-200"
         style={{ backgroundColor: value ? "var(--cd-primary)" : "var(--cd-surface-3)" }}
       >
-        <span className="absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform duration-200" style={{ transform: value ? "translateX(16px)" : "translateX(2px)" }} />
+        <span
+          className="absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform duration-200"
+          style={{ transform: value ? "translateX(16px)" : "translateX(2px)" }}
+        />
       </div>
-      <span className="text-xs font-semibold transition-colors" style={{ color: value ? "var(--cd-primary-text)" : "var(--cd-text-muted)" }}>
+      <span
+        className="text-xs font-semibold transition-colors"
+        style={{ color: value ? "var(--cd-primary-text)" : "var(--cd-text-muted)" }}
+      >
         {label}
       </span>
     </label>
@@ -119,16 +148,18 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: bool
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function SubmissionList({ submissions, isLoading, onReview }: Props) {
-  const [sort,         setSort]         = useState<SortKey>("newest");
+  const [sort, setSort] = useState<SortKey>("newest");
   const [showReviewed, setShowReviewed] = useState(true);
 
   if (isLoading) return <SkeletonLoader type="form" />;
 
   const sorted = [...submissions]
-    .filter(s => showReviewed || !s.review)
+    .filter((s) => showReviewed || !s.review)
     .sort((a, b) => {
-      if (sort === "newest") return new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime();
-      if (sort === "oldest") return new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime();
+      if (sort === "newest")
+        return new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime();
+      if (sort === "oldest")
+        return new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime();
       return (a.review ? 1 : 0) - (b.review ? 1 : 0); // pending first
     });
 
@@ -138,22 +169,29 @@ export default function SubmissionList({ submissions, isLoading, onReview }: Pro
       <div className="flex flex-wrap items-center justify-between gap-3">
         {/* Title + count */}
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>Submissions</h3>
-          <span className="rounded-md px-1.5 py-0.5 text-[11px] font-medium"
-            style={{ 
-              backgroundColor: submissions.length > 0 ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
-              color: submissions.length > 0 ? "var(--cd-primary-text)" : "var(--cd-text-muted)"
-            }}>
+          <h3 className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>
+            Submissions
+          </h3>
+          <span
+            className="rounded-md px-1.5 py-0.5 text-[11px] font-medium"
+            style={{
+              backgroundColor:
+                submissions.length > 0 ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
+              color: submissions.length > 0 ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
+            }}
+          >
             {submissions.length}
           </span>
-          {submissions.filter(s => !s.review).length > 0 && (
-            <span className="rounded-md border px-1.5 py-0.5 text-[11px] font-medium"
+          {submissions.filter((s) => !s.review).length > 0 && (
+            <span
+              className="rounded-md border px-1.5 py-0.5 text-[11px] font-medium"
               style={{
                 backgroundColor: "var(--cd-warning-subtle)",
                 color: "var(--cd-warning)",
-                borderColor: "var(--cd-warning-subtle)"
-              }}>
-              {submissions.filter(s => !s.review).length} pending
+                borderColor: "var(--cd-warning-subtle)",
+              }}
+            >
+              {submissions.filter((s) => !s.review).length} pending
             </span>
           )}
         </div>
@@ -168,10 +206,15 @@ export default function SubmissionList({ submissions, isLoading, onReview }: Pro
       {/* ── List ────────────────────────────────────────────────────────────── */}
       {sorted.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-14 text-center">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ backgroundColor: "var(--cd-surface-2)" }}>
+          <div
+            className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3"
+            style={{ backgroundColor: "var(--cd-surface-2)" }}
+          >
             <Inbox size={20} style={{ color: "var(--cd-text-muted)" }} />
           </div>
-          <p className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>No submissions yet</p>
+          <p className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>
+            No submissions yet
+          </p>
           <p className="text-xs mt-1 max-w-[200px]" style={{ color: "var(--cd-text-muted)" }}>
             {showReviewed
               ? "Assignees haven't submitted anything for this task."
@@ -180,7 +223,7 @@ export default function SubmissionList({ submissions, isLoading, onReview }: Pro
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {sorted.map(sub => (
+          {sorted.map((sub) => (
             <SubmissionCard key={sub.id} submission={sub} onReview={onReview} />
           ))}
         </div>

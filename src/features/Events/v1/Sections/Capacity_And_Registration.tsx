@@ -6,8 +6,6 @@ import DropDown from "@/Component/ui/DropDown";
 import { theme } from "@/theme";
 
 const Capacity_And_Registration = () => {
-
-
   const [eventData, setEventData] = React.useState({
     MaxAttendees: "",
     TicketType: "Free",

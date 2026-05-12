@@ -22,11 +22,9 @@ function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <OrgRoute />
 
-       <OrgRoute />
-
-       <MemberRoutes />
-        
+        <MemberRoutes />
       </BrowserRouter>
     </ThemeProvider>
   );

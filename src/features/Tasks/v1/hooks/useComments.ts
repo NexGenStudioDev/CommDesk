@@ -18,7 +18,13 @@ export function useComments(taskId: string | undefined) {
 export function useAddComment() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ taskId, text }: { taskId: string; text: string }): Promise<TaskComment> => {
+    mutationFn: async ({
+      taskId,
+      text,
+    }: {
+      taskId: string;
+      text: string;
+    }): Promise<TaskComment> => {
       await new Promise((r) => setTimeout(r, 300));
       const comment: TaskComment = {
         id: `cmt-${Date.now()}`,

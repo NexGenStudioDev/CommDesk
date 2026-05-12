@@ -18,10 +18,10 @@ function matchesSearch(task: Task, q: string): boolean {
     task.status,
     task.submissionType,
     task.submissionStatus,
-    ...(task.technologies ?? []).map(t => t.label),
-    ...(task.technologies ?? []).map(t => t.id),
-    ...task.assignedTo.map(m => m.name),
-    ...task.assignedTo.map(m => m.role),
+    ...(task.technologies ?? []).map((t) => t.label),
+    ...(task.technologies ?? []).map((t) => t.id),
+    ...task.assignedTo.map((m) => m.name),
+    ...task.assignedTo.map((m) => m.role),
     task.isMandatory ? "mandatory" : "",
     task.points !== undefined ? `${task.points} pts` : "",
     isOverdue ? "overdue past late" : "",
@@ -45,9 +45,9 @@ function applyFilters(tasks: Task[], filters: TaskFilters): Task[] {
   return tasks.filter((t) => {
     if (filters.status !== "all" && t.status !== filters.status) return false;
     if (filters.priority !== "all" && t.priority !== filters.priority) return false;
-    if (filters.time === "upcoming"  && !isFuture(parseISO(t.deadline))) return false;
-    if (filters.time === "past"      && !isPast(parseISO(t.deadline)))   return false;
-    if (filters.time === "completed" && t.status !== "completed")        return false;
+    if (filters.time === "upcoming" && !isFuture(parseISO(t.deadline))) return false;
+    if (filters.time === "past" && !isPast(parseISO(t.deadline))) return false;
+    if (filters.time === "completed" && t.status !== "completed") return false;
     if (filters.members.length > 0) {
       const ids = new Set(t.assignedTo.map((m) => m.id));
       if (!filters.members.some((id) => ids.has(id))) return false;
@@ -63,7 +63,10 @@ export function useTasks(eventId: string | null, filters: TaskFilters) {
     queryFn: async () => {
       await new Promise((r) => setTimeout(r, 600));
       if (!eventId) return [];
-      return applyFilters(taskStore.getAll().filter((t) => t.eventId === eventId), filters);
+      return applyFilters(
+        taskStore.getAll().filter((t) => t.eventId === eventId),
+        filters,
+      );
     },
     enabled: !!eventId,
   });
@@ -108,7 +111,13 @@ export function useCreateTask() {
 export function useUpdateTask() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, payload }: { id: string; payload: UpdateTaskPayload }): Promise<Task> => {
+    mutationFn: async ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: UpdateTaskPayload;
+    }): Promise<Task> => {
       await new Promise((r) => setTimeout(r, 400));
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { assignedTo: _ids, ...rest } = payload;

@@ -49,7 +49,9 @@ export default function TaskDetailPage() {
   const deleteTask = useDeleteTask();
   const updateTask = useUpdateTask();
 
-  const [activeTab, setActiveTab] = useState<"submissions" | "activity" | "comments">("submissions");
+  const [activeTab, setActiveTab] = useState<"submissions" | "activity" | "comments">(
+    "submissions",
+  );
   const [reviewingSubmissionId, setReviewingSubmissionId] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -100,10 +102,7 @@ export default function TaskDetailPage() {
   }
 
   return (
-    <div
-      className="flex min-h-screen w-full flex-col"
-      style={{ backgroundColor: "var(--cd-bg)" }}
-    >
+    <div className="flex min-h-screen w-full flex-col" style={{ backgroundColor: "var(--cd-bg)" }}>
       <header
         className="border-b px-5 py-4 sm:px-8 lg:px-10"
         style={{
@@ -127,7 +126,10 @@ export default function TaskDetailPage() {
                 style={{ color: "var(--cd-text-muted)" }}
                 aria-label="Breadcrumb"
               >
-                <Link to="/org/tasks" className="font-medium transition-colors hover:text-[var(--cd-primary)]">
+                <Link
+                  to="/org/tasks"
+                  className="font-medium transition-colors hover:text-[var(--cd-primary)]"
+                >
                   Tasks
                 </Link>
                 <ChevronRight size={12} className="opacity-50" />
@@ -230,11 +232,18 @@ export default function TaskDetailPage() {
               >
                 Change Status
               </p>
-              <div className="grid gap-2 rounded-2xl border p-1.5 sm:grid-cols-3" style={{ backgroundColor: "var(--cd-surface-2)", borderColor: "rgba(255,255,255,0.05)" }}>
+              <div
+                className="grid gap-2 rounded-2xl border p-1.5 sm:grid-cols-3"
+                style={{
+                  backgroundColor: "var(--cd-surface-2)",
+                  borderColor: "rgba(255,255,255,0.05)",
+                }}
+              >
                 {(["todo", "in-progress", "completed"] as const).map((status) => {
                   const isActive = task.status === status;
-                  const iconClass = isActive ? "!text-[#3B82F6] drop-shadow-[0_0_6px_rgba(59,130,246,0.45)]"
-                  : "text-current";
+                  const iconClass = isActive
+                    ? "!text-[#3B82F6] drop-shadow-[0_0_6px_rgba(59,130,246,0.45)]"
+                    : "text-current";
                   const icons = {
                     todo: <Circle size={14} className={iconClass} />,
                     "in-progress": <Zap size={14} className={iconClass} />,
@@ -325,7 +334,10 @@ export default function TaskDetailPage() {
                         showTooltip={false}
                       />
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium" style={{ color: "var(--cd-text)" }}>
+                        <p
+                          className="truncate text-sm font-medium"
+                          style={{ color: "var(--cd-text)" }}
+                        >
                           {member.name}
                         </p>
                         <p className="truncate text-xs" style={{ color: "var(--cd-text-muted)" }}>
@@ -383,8 +395,10 @@ export default function TaskDetailPage() {
                       <span
                         className="rounded-md px-1.5 py-0.5 text-[11px] font-medium"
                         style={{
-                          backgroundColor: activeTab === tab ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
-                          color: activeTab === tab ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
+                          backgroundColor:
+                            activeTab === tab ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
+                          color:
+                            activeTab === tab ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
                         }}
                       >
                         {tab === "submissions" ? submissions.length : activity.length}
@@ -410,7 +424,11 @@ export default function TaskDetailPage() {
                         currentTaskStatus={task.status}
                         onSuccess={() => {
                           setReviewingSubmissionId(null);
-                          addToast("success", "Review submitted!", "The submission has been reviewed.");
+                          addToast(
+                            "success",
+                            "Review submitted!",
+                            "The submission has been reviewed.",
+                          );
                         }}
                         onCancel={() => setReviewingSubmissionId(null)}
                       />
@@ -500,11 +518,7 @@ function MetaCard({
   );
 }
 
-function ActivityTimeline({
-  activity,
-}: {
-  activity: ReturnType<typeof useTaskActivity>["data"];
-}) {
+function ActivityTimeline({ activity }: { activity: ReturnType<typeof useTaskActivity>["data"] }) {
   if (!activity || activity.length === 0) {
     return (
       <p className="py-10 text-center text-sm" style={{ color: "var(--cd-text-muted)" }}>

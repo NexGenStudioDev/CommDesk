@@ -28,7 +28,7 @@ const DropDown: React.FC<DropDownProps> = ({
 
   // Sync controlled value or reset to first valid option when options change
   const resolvedSelected =
-    value !== undefined ? value : (options.includes(selected) ? selected : (options[0] ?? ""));
+    value !== undefined ? value : options.includes(selected) ? selected : (options[0] ?? "");
 
   useEffect(() => {
     if (value === undefined && !options.includes(selected)) {

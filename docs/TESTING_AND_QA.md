@@ -4,7 +4,7 @@
 
 This document defines the complete testing architecture, QA workflows, automation strategy, performance validation, security testing, and release validation system for CommDesk.
 
-Reference guide: 
+Reference guide:
 
 ---
 
@@ -12,20 +12,20 @@ Reference guide:
 
 CommDesk is a large-scale desktop application built using:
 
-* React
-* TypeScript
-* Tauri
-* Rust
-* Vite
+- React
+- TypeScript
+- Tauri
+- Rust
+- Vite
 
 The testing system must guarantee:
 
-* Stability
-* Scalability
-* Security
-* Performance
-* Cross-platform reliability
-* Release confidence
+- Stability
+- Scalability
+- Security
+- Performance
+- Cross-platform reliability
+- Release confidence
 
 ---
 
@@ -113,9 +113,7 @@ describe("EventCard", () => {
   it("should render title", () => {
     render(<EventCard event={mockEvent} />);
 
-    expect(
-      screen.getByText("Hackathon 2026")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Hackathon 2026")).toBeInTheDocument();
   });
 });
 ```
@@ -152,11 +150,11 @@ pnpm test --coverage
 
 Validate:
 
-* API interaction
-* State management
-* React Query behavior
-* IPC communication
-* Feature coordination
+- API interaction
+- State management
+- React Query behavior
+- IPC communication
+- Feature coordination
 
 ---
 
@@ -168,9 +166,7 @@ describe("Dashboard Integration", () => {
     render(<Dashboard />);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("Event 1")
-      ).toBeInTheDocument();
+      expect(screen.getByText("Event 1")).toBeInTheDocument();
     });
   });
 });
@@ -218,9 +214,9 @@ playwright.config.ts
 
 # Required Browser Targets
 
-* Chromium
-* Firefox
-* WebKit
+- Chromium
+- Firefox
+- WebKit
 
 ---
 
@@ -228,13 +224,13 @@ playwright.config.ts
 
 Validate:
 
-* Authentication
-* Navigation
-* Event creation
-* Community workflows
-* Dashboard interaction
-* Permissions
-* Error handling
+- Authentication
+- Navigation
+- Event creation
+- Community workflows
+- Dashboard interaction
+- Permissions
+- Error handling
 
 ---
 
@@ -246,16 +242,11 @@ test("should create event", async ({ page }) => {
 
   await page.click("[data-testid='btn-create-event']");
 
-  await page.fill(
-    "[data-testid='input-title']",
-    "Hackathon"
-  );
+  await page.fill("[data-testid='input-title']", "Hackathon");
 
   await page.click("[data-testid='btn-submit']");
 
-  await expect(
-    page.locator("text=Hackathon")
-  ).toBeVisible();
+  await expect(page.locator("text=Hackathon")).toBeVisible();
 });
 ```
 
@@ -353,12 +344,12 @@ journalctl --user \
 
 # Required Validation
 
-* Installer works
-* Desktop shortcut created
-* Start menu integration works
-* Taskbar icon renders
-* Auto-update works
-* Uninstall works cleanly
+- Installer works
+- Desktop shortcut created
+- Start menu integration works
+- Taskbar icon renders
+- Auto-update works
+- Uninstall works cleanly
 
 ---
 
@@ -374,11 +365,11 @@ pnpm tauri build --target x86_64-pc-windows-gnu
 
 # Required Validation
 
-* DMG mounts correctly
-* App bundle launches
-* Dock icon renders
-* Code signing valid
-* Notarization ready
+- DMG mounts correctly
+- App bundle launches
+- Dock icon renders
+- Code signing valid
+- Notarization ready
 
 ---
 
@@ -447,12 +438,12 @@ watch -n 1 'ps aux | grep commdesk'
 
 # Validate
 
-* 10,000+ tasks
-* 5,000+ events
-* Massive dashboards
-* Large activity feeds
-* Infinite scrolling
-* Search performance
+- 10,000+ tasks
+- 5,000+ events
+- Massive dashboards
+- Large activity feeds
+- Infinite scrolling
+- Search performance
 
 ---
 
@@ -486,13 +477,13 @@ npm audit --audit-level=moderate
 
 # Required Security Checks
 
-* Sandbox validation
-* Permission minimization
-* IPC validation
-* Unsafe eval prevention
-* CSP verification
-* Dependency vulnerabilities
-* Rust unsafe block review
+- Sandbox validation
+- Permission minimization
+- IPC validation
+- Unsafe eval prevention
+- CSP verification
+- Dependency vulnerabilities
+- Rust unsafe block review
 
 ---
 
@@ -500,11 +491,11 @@ npm audit --audit-level=moderate
 
 Before every release validate:
 
-* Existing workflows still work
-* No UI regressions
-* No performance regressions
-* Database compatibility maintained
-* Auto-update compatibility maintained
+- Existing workflows still work
+- No UI regressions
+- No performance regressions
+- Database compatibility maintained
+- Auto-update compatibility maintained
 
 ---
 
@@ -547,13 +538,13 @@ Create:
 
 | Validation        | Required |
 | ----------------- | -------- |
-| TypeScript        | ✅        |
-| ESLint            | ✅        |
-| Unit Tests        | ✅        |
-| Integration Tests | ✅        |
-| E2E Tests         | ✅        |
-| Production Build  | ✅        |
-| Linux Packaging   | ✅        |
+| TypeScript        | ✅       |
+| ESLint            | ✅       |
+| Unit Tests        | ✅       |
+| Integration Tests | ✅       |
+| E2E Tests         | ✅       |
+| Production Build  | ✅       |
+| Linux Packaging   | ✅       |
 
 ---
 
@@ -587,12 +578,12 @@ Create:
 
 Validate:
 
-* Keyboard navigation
-* Screen reader support
-* Focus management
-* ARIA labels
-* Contrast ratios
-* Reduced motion support
+- Keyboard navigation
+- Screen reader support
+- Focus management
+- ARIA labels
+- Contrast ratios
+- Reduced motion support
 
 ---
 
@@ -602,39 +593,39 @@ Validate:
 
 ## Core Validation
 
-* [ ] Unit tests pass
-* [ ] Integration tests pass
-* [ ] E2E tests pass
-* [ ] TypeScript passes
-* [ ] ESLint passes
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] E2E tests pass
+- [ ] TypeScript passes
+- [ ] ESLint passes
 
 ---
 
 ## Platform Validation
 
-* [ ] Flatpak works
-* [ ] Snap works
-* [ ] AppImage works
-* [ ] Windows installer works
-* [ ] macOS DMG works
+- [ ] Flatpak works
+- [ ] Snap works
+- [ ] AppImage works
+- [ ] Windows installer works
+- [ ] macOS DMG works
 
 ---
 
 ## Performance Validation
 
-* [ ] Startup < 3 sec
-* [ ] No memory leaks
-* [ ] No major CPU spikes
-* [ ] Large datasets render smoothly
+- [ ] Startup < 3 sec
+- [ ] No memory leaks
+- [ ] No major CPU spikes
+- [ ] Large datasets render smoothly
 
 ---
 
 ## Security Validation
 
-* [ ] No high vulnerabilities
-* [ ] Sandboxing works
-* [ ] Auto-update signatures valid
-* [ ] No unsafe permissions
+- [ ] No high vulnerabilities
+- [ ] Sandboxing works
+- [ ] Auto-update signatures valid
+- [ ] No unsafe permissions
 
 ---
 
@@ -649,4 +640,3 @@ Validate:
 | Perf            | Linux profiling           |
 | Valgrind        | Memory validation         |
 | Codecov         | Coverage reporting        |
-

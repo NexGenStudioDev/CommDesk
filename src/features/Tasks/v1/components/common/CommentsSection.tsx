@@ -3,7 +3,9 @@ import { formatDistanceToNow, parseISO } from "date-fns";
 import { Loader2, MessageCircle, Send } from "lucide-react";
 import { useComments, useAddComment } from "../../hooks/useComments";
 
-interface Props { taskId: string; }
+interface Props {
+  taskId: string;
+}
 
 export default function CommentsSection({ taskId }: Props) {
   const { data: comments = [], isLoading } = useComments(taskId);
@@ -12,7 +14,10 @@ export default function CommentsSection({ taskId }: Props) {
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
-    if (!text.trim()) { setError("Comment cannot be empty."); return; }
+    if (!text.trim()) {
+      setError("Comment cannot be empty.");
+      return;
+    }
     setError("");
     await addComment.mutateAsync({ taskId, text: text.trim() });
     setText("");
@@ -34,13 +39,19 @@ export default function CommentsSection({ taskId }: Props) {
         <p className="text-xs text-[var(--cd-text-muted)]">Loading comments…</p>
       ) : comments.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-[var(--cd-border-subtle)] bg-[var(--cd-surface-2)] px-4 py-10">
-          <p className="text-xs text-[var(--cd-text-muted)] text-center font-medium">No comments yet. Be the first to start the conversation!</p>
+          <p className="text-xs text-[var(--cd-text-muted)] text-center font-medium">
+            No comments yet. Be the first to start the conversation!
+          </p>
         </div>
       ) : (
         <div className="flex flex-col gap-4">
           {comments.map((c) => (
             <div key={c.id} className="flex gap-3 items-start">
-              <img src={c.avatar} alt={c.author} className="h-9 w-9 shrink-0 rounded-full border border-[var(--cd-border-subtle)] object-cover" />
+              <img
+                src={c.avatar}
+                alt={c.author}
+                className="h-9 w-9 shrink-0 rounded-full border border-[var(--cd-border-subtle)] object-cover"
+              />
               <div className="flex-1 rounded-xl border border-[var(--cd-border-subtle)] bg-[var(--cd-surface)] px-4 py-3">
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <span className="text-xs font-semibold text-[var(--cd-text)]">{c.author}</span>
@@ -60,9 +71,15 @@ export default function CommentsSection({ taskId }: Props) {
         <div className="flex gap-3">
           <textarea
             value={text}
-            onChange={(e) => { setText(e.target.value); if (error) setError(""); }}
+            onChange={(e) => {
+              setText(e.target.value);
+              if (error) setError("");
+            }}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void handleSubmit(); }
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                void handleSubmit();
+              }
             }}
             rows={2}
             placeholder="Write a comment… (Enter to send)"
@@ -74,7 +91,11 @@ export default function CommentsSection({ taskId }: Props) {
             disabled={addComment.isPending || !text.trim()}
             className="flex h-11 w-11 items-center justify-center self-end rounded-lg bg-[var(--cd-primary)] text-white transition-colors hover:opacity-90 disabled:opacity-40"
           >
-            {addComment.isPending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+            {addComment.isPending ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <Send size={16} />
+            )}
           </button>
         </div>
         {error && <p className="text-[11px] font-medium text-[var(--cd-danger)]">{error}</p>}
@@ -82,5 +103,3 @@ export default function CommentsSection({ taskId }: Props) {
     </div>
   );
 }
-
-
