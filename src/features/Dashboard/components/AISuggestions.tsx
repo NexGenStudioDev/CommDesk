@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import { Task } from "@/features/Dashboard/types/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 import { getAISuggestions } from "@/utils/aisuggestions";
 
 interface Props {

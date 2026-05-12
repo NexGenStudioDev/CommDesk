@@ -7,7 +7,7 @@ import "./App.css";
 import { dashboardData } from "./features/Member/v1/mock/dashboardData";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "./theme";
 import OrgRoute from "./routes/OrgRoute";
 import MemberRoutes from "./routes/MemberRoutes";
 
@@ -19,7 +19,7 @@ function App() {
   const user = dashboardData.user;
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
+    <ThemeProvider>
       <BrowserRouter>
 
        <OrgRoute />
