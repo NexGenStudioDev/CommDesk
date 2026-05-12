@@ -19,7 +19,7 @@ export type UniversalDatePickerProps = {
   min?: string;
   max?: string;
   step?: number;
-      themeMode: string;
+  themeMode: string;
 };
 
 export const UniversalDatePicker = forwardRef<HTMLInputElement, UniversalDatePickerProps>(
