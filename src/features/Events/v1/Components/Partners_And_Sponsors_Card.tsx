@@ -1,4 +1,3 @@
-import { getTheme } from "@/config/them.config";
 import React, { memo } from "react";
 import { CATEGORY_ACCENT_RULES, CategoryAccent, DEFAULT_ACCENT } from "../Constants/Event.constant";
 
@@ -30,7 +29,6 @@ const Partners_And_Sponsors_Card = ({
   name = "Partner/Sponsor Name",
   category = "Official Partner",
 }: PartnersAndSponsorsCardProps) => {
-  const theme = getTheme("light");
   // key={image} on the parent resets this state when image changes
   const [hasImageError, setHasImageError] = React.useState(false);
 
@@ -47,8 +45,8 @@ const Partners_And_Sponsors_Card = ({
     <article
       className="group relative flex min-h-52.5 w-full flex-col overflow-hidden rounded-xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
       style={{
-        background: theme.background.secondary,
-        borderColor: theme.borderColor.primary,
+        background: "var(--cd-surface)",
+        borderColor: "var(--cd-border)",
       }}
     >
       <div className={`absolute inset-x-0 top-0 h-1 bg-linear-to-r ${accent.stripe}`} />

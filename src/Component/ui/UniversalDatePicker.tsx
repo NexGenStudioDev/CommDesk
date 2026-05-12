@@ -1,5 +1,4 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { getTheme, ThemeMode } from "../../config/them.config";
 
 type PickerMode = "date" | "time" | "datetime-local";
 
@@ -20,7 +19,7 @@ export type UniversalDatePickerProps = {
   min?: string;
   max?: string;
   step?: number;
-  themeMode?: ThemeMode;
+  themeMode?: string;
 };
 
 export const UniversalDatePicker = forwardRef<HTMLInputElement, UniversalDatePickerProps>(
@@ -42,12 +41,10 @@ export const UniversalDatePicker = forwardRef<HTMLInputElement, UniversalDatePic
       min,
       max,
       step,
-      themeMode = "light",
+      themeMode: _themeMode = "light",
     },
     ref,
   ) => {
-    const theme = getTheme(themeMode);
-
     const isControlled = value !== undefined;
     const [internalValue, setInternalValue] = useState(defaultValue);
 
@@ -98,9 +95,9 @@ export const UniversalDatePicker = forwardRef<HTMLInputElement, UniversalDatePic
           onChange={handleChange}
           className={`w-full border-2 rounded-lg px-3 py-2 bg-transparent outline-none text-lg ${inputClassName}`}
           style={{
-            borderColor: error ? theme.textColor.error : theme.borderColor.primary,
-            color: theme.textColor.primary,
-            fontFamily: theme.fontFamily.primary,
+            borderColor: error ? "var(--cd-danger)" : "var(--cd-border)",
+            color: "var(--cd-text)",
+            fontFamily: "inherit",
           }}
         />
 

@@ -8,8 +8,12 @@ interface Props {
 
 export default function CalendarWidget({ data }: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  // Reset selectedDay to today when navigating months
   const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay = new Date(year, month, 1).getDay();
 
   const today = new Date();
   const isToday = (day: number) =>
