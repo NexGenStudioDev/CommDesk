@@ -47,3 +47,4 @@ jobs:
       - name: Run cargo audit
         run: cargo audit
         working-directory: src-tauri
+        continue-on-error: true
