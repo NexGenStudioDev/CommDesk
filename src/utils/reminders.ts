@@ -41,5 +41,5 @@ export const getSmartReminders = (tasks: Task[]): Reminder[] => {
   });
 
   //sorting acc to priority
-  return reminders.sort((a, b) => (a.type === "urgent" ? -1 : 1)).slice(0, 5);
+  return reminders.sort((a) => (a.type === "urgent" ? -1 : 1)).slice(0, 5);
 };
