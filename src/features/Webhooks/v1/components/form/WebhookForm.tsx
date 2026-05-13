@@ -57,7 +57,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
       name: initialData?.name || "",
       url: initialData?.url || "",
       events: initialData?.events || [],
-      secret: mode === "edit" ? "" : "", // Masked initially in edit mode, empty string means unchanged
+      secret: "", // Masked initially in edit mode, empty string means unchanged
       permissions: initialData?.permissions?.join(", ") || "",
     },
 
