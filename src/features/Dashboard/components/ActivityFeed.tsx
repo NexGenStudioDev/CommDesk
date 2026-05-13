@@ -1,5 +1,5 @@
 import { CheckCircle, MessageSquare, Bell } from "lucide-react";
-import { ActivityItem } from "@/features/Dashboard/types/dashboard";
+import { ActivityItem } from "@/features/Dashboard/Member/v1/Type/dashboard";
 import { useTheme } from "@/theme";
 
 interface Props {

@@ -3,6 +3,8 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 import { ThemeProvider } from "next-themes";
+
+import { ThemeProvider } from "./theme";
 import OrgRoute from "./routes/OrgRoute";
 import MemberRoutes from "./routes/MemberRoutes";
 
@@ -12,7 +14,7 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
+    <ThemeProvider>
       <BrowserRouter>
         <OrgRoute />
         <MemberRoutes />

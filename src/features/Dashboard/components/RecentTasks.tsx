@@ -1,4 +1,4 @@
-import { Task } from "../types/dashboard";
+import { Task } from "@/features/Dashboard/Member/v1/Type/dashboard";
 import { Check, Eye } from "lucide-react";
 
 interface Props {

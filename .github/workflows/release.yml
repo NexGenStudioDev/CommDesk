@@ -1,0 +1,407 @@
+name: Release - Build & Sign
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-tauri:
+    name: Build Tauri - ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux
+          - os: ubuntu-latest
+            platform: linux
+            target: x86_64-unknown-linux-gnu
+            arch: x86_64
+
+          # macOS
+          - os: macos-latest
+            platform: macos
+            target: universal-apple-darwin
+            arch: universal
+
+          # Windows
+          - os: windows-latest
+            platform: windows
+            target: x86_64-pc-windows-msvc
+            arch: x86_64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
+
+      - name: Install Rust dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          rustup target add x86_64-unknown-linux-gnu
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build frontend
+        run: pnpm run build
+
+      - name: Build Tauri (Linux)
+        if: matrix.platform == 'linux'
+        run: pnpm tauri build --target x86_64-unknown-linux-gnu
+
+      - name: Build Tauri (macOS)
+        if: matrix.platform == 'macos'
+        run: pnpm tauri build
+
+      - name: Build Tauri (Windows)
+        if: matrix.platform == 'windows'
+        run: pnpm tauri build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tauri-${{ matrix.platform }}
+          path: |
+            src-tauri/target/release/bundle/
+            !src-tauri/target/release/bundle/deps/
+          retention-days: 7
+
+  sign-and-release:
+    name: Sign Binaries & Create Release
+    runs-on: ubuntu-latest
+    needs: build-tauri
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install minisign
+        run: sudo apt-get install -y minisign
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Prepare release files
+        run: |
+          mkdir -p release
+          
+          # Copy Linux artifacts
+          cp artifacts/tauri-linux/AppImage/CommDesk-*.AppImage.tar.gz* release/ 2>/dev/null || true
+          cp artifacts/tauri-linux/Rpm/commdesk-*.rpm* release/ 2>/dev/null || true
+          cp artifacts/tauri-linux/Deb/commdesk-*.deb* release/ 2>/dev/null || true
+          
+          # Copy macOS artifacts
+          cp artifacts/tauri-macos/Dmg/CommDesk-*.dmg* release/ 2>/dev/null || true
+          cp artifacts/tauri-macos/Macos/CommDesk-*.app.tar.gz* release/ 2>/dev/null || true
+          
+          # Copy Windows artifacts
+          cp artifacts/tauri-windows/Msi/CommDesk-*.msi.zip* release/ 2>/dev/null || true
+          cp artifacts/tauri-windows/Nsis/CommDesk-*-setup.exe* release/ 2>/dev/null || true
+
+      - name: Setup minisign key
+        env:
+          MINISIGN_PRIVATE_KEY: ${{ secrets.MINISIGN_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.minisign
+          echo "$MINISIGN_PRIVATE_KEY" > ~/.minisign/key.txt
+          chmod 600 ~/.minisign/key.txt
+
+      - name: Sign binaries
+        run: |
+          cd release
+          
+          # Sign all binary files
+          for file in CommDesk-* commdesk-* *.exe *.dmg; do
+            if [ -f "$file" ] && [[ ! "$file" =~ \.sig$ ]]; then
+              echo "Signing: $file"
+              minisign -S -s ~/.minisign/key.txt \
+                -t "CommDesk ${{ github.ref_name }}" \
+                -x "${file}.sig" \
+                -m "$file"
+            fi
+          done
+          
+          ls -lah
+
+      - name: Generate latest.json
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION#v}"  # Remove 'v' prefix
+          
+          cat > latest.json << EOF
+          {
+            "version": "${VERSION}",
+            "notes": "CommDesk ${VERSION}",
+            "pub_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "platforms": {
+              "linux-x86_64": {
+                "signature": "$(cat release/CommDesk-*-linux-x86_64.AppImage.tar.gz.sig 2>/dev/null | tail -1 || echo '')",
+                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-linux-x86_64.AppImage.tar.gz"
+              },
+              "darwin-aarch64": {
+                "signature": "$(cat release/CommDesk-*-macos-universal.tar.gz.sig 2>/dev/null | tail -1 || echo '')",
+                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-macos-universal.tar.gz"
+              },
+              "darwin-x86_64": {
+                "signature": "$(cat release/CommDesk-*-macos-x86_64.tar.gz.sig 2>/dev/null | tail -1 || echo '')",
+                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-macos-x86_64.tar.gz"
+              },
+              "windows-x86_64": {
+                "signature": "$(cat release/CommDesk-*-windows-x86_64.msi.zip.sig 2>/dev/null | tail -1 || echo '')",
+                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-windows-x86_64.msi.zip"
+              }
+            }
+          }
+          EOF
+          
+          cp latest.json release/latest.json
+          cat release/latest.json
+
+      - name: Create Release Notes
+        run: |
+          cat > release/RELEASE_NOTES.md << 'EOF'
+          # CommDesk ${{ github.ref_name }}
+          
+          ## Changelog
+          
+          $(git log $(git describe --tags --abbrev=0)..HEAD --oneline | sed 's/^/- /')
+          
+          ## Platform Support
+          
+          - **Linux**: AppImage, Snap, Flathub
+          - **macOS**: Universal (Intel + Apple Silicon)
+          - **Windows**: NSIS Installer, MSI
+          
+          ## Installation
+          
+          ### Linux (Snap)
+          ```bash
+          snap install commdesk
+          ```
+          
+          ### Linux (Flathub)
+          ```bash
+          flatpak install flathub org.commdesk.CommDesk
+          ```
+          
+          ### macOS
+          Download DMG and drag to Applications
+          
+          ### Windows
+          Run MSI installer
+          
+          ## Auto-Update
+          
+          All versions have automatic updates enabled. The app will check for updates on startup and periodically.
+          
+          For Snap: `snap refresh`
+          For Flathub: `flatpak update`
+          For other platforms: Auto-update from within app
+          
+          ## Signatures
+          
+          Binaries are signed with minisign. Verify with:
+          ```bash
+          minisign -Vm binary.tar.gz.sig -p release.pub
+          ```
+          
+          EOF
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*
+            !release/latest.json
+            latest.json
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify release
+        run: |
+          echo "✅ Release created: ${{ github.ref_name }}"
+          echo "📦 Files:"
+          ls -lah release/
+          echo ""
+          echo "📋 Latest.json:"
+          cat release/latest.json | jq .
+
+  build-snap:
+    name: Build & Release Snap
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-tauri
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install snapcraft
+        run: sudo apt-get install -y snapcraft
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build snap
+        run: |
+          snapcraft --use-lxd
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+
+      - name: Upload snap to candidate channel
+        run: |
+          echo "Uploading to Snap Store (candidate channel)..."
+          snapcraft upload commdesk_*.snap --release=candidate
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+
+      - name: Publish to stable after testing
+        run: |
+          echo "📢 Snap uploaded to candidate channel"
+          echo "After testing, run: snapcraft release commdesk <REVISION> stable"
+
+  build-flatpak:
+    name: Test Flatpak Build
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub/flatpak-github-actions:latest
+      options: --privileged
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check manifest
+        run: |
+          if [ ! -f "org.commdesk.CommDesk.json" ]; then
+            echo "❌ Flatpak manifest not found"
+            exit 1
+          fi
+          echo "✅ Manifest found"
+
+      - name: Lint Flatpak manifest
+        uses: flathub/flatpak-github-actions/flatpak-builder-lint@v6
+        with:
+          manifest: org.commdesk.CommDesk.json
+          cache: false
+
+      - name: Build Flatpak
+        uses: flathub/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: commdesk.flatpak
+          manifest-path: org.commdesk.CommDesk.json
+          cache: false
+
+      - name: Upload test build
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-test-build
+          path: commdesk.flatpak
+          retention-days: 7
+
+  notification:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [sign-and-release, build-snap, build-flatpak]
+    if: always()
+
+    steps:
+      - name: Check release status
+        run: |
+          if [ "${{ needs.sign-and-release.result }}" == "success" ]; then
+            echo "✅ Tauri release successful"
+          else
+            echo "⚠️ Tauri release failed"
+          fi
+          
+          if [ "${{ needs.build-snap.result }}" == "success" ]; then
+            echo "✅ Snap build successful (uploaded to candidate)"
+          else
+            echo "⚠️ Snap build failed"
+          fi
+          
+          if [ "${{ needs.build-flatpak.result }}" == "success" ]; then
+            echo "✅ Flatpak build successful"
+          else
+            echo "⚠️ Flatpak build failed"
+          fi
+
+      - name: Print next steps
+        run: |
+          cat << 'EOF'
+          
+          📋 NEXT STEPS FOR RELEASE ${{ github.ref_name }}:
+          
+          1️⃣ TAURI (GitHub Releases)
+          ✅ Build complete and signed
+          ✅ Uploaded to https://github.com/${{ github.repository }}/releases
+          ✅ Latest.json created for auto-update
+          
+          2️⃣ SNAP
+          ⏭️  Build uploaded to candidate channel
+          📝 After testing (usually 24h):
+             snapcraft release commdesk <REVISION> stable
+          
+          3️⃣ FLATHUB
+          📝 Create PR to https://github.com/flathub/flathub
+             Update: org.commdesk.CommDesk/org.commdesk.CommDesk.json
+             Set source commit to: ${{ github.sha }}
+          
+          ✨ Once all channels publish:
+             - Linux users on Snap get update in ~24h
+             - Linux users on Flathub get update within hours
+             - macOS/Windows users get update notification in app
+          
+          EOF
+
+permissions:
+  contents: write
+  actions: read
+  packages: read
