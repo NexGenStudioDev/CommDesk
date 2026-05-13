@@ -62,7 +62,7 @@ export function useCreateWebhook() {
         url: payload.url,
         events: payload.events,
         status: "active",
-        secret: payload.secret || `********${Math.random().toString(36).substring(2, 6)}`,
+        secret: payload.secret || Array.from(crypto.getRandomValues(new Uint8Array(24))).map(b => b.toString(16).padStart(2, '0')).join(''),
         permissions: payload.permissions,
         lastDeliveryStatus: "pending",
         createdAt: new Date().toISOString(),
