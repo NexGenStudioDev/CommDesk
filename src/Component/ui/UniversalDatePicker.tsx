@@ -98,9 +98,9 @@ export const UniversalDatePicker = forwardRef<HTMLInputElement, UniversalDatePic
           onChange={handleChange}
           className={`w-full border-2 rounded-lg px-3 py-2 bg-transparent outline-none text-lg ${inputClassName}`}
           style={{
-            borderColor: error ? theme.textColor.error : theme.borderColor.primary,
-            color: theme.textColor.primary,
-            fontFamily: theme.fontFamily.primary,
+            borderColor: error ? theme.danger.default : theme.bg.surfaceSecondary,
+            color: theme.text.inverse
+    
           }}
         />
 

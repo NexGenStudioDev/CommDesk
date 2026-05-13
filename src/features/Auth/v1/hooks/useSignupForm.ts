@@ -86,7 +86,8 @@ export const signupSchema = z
     path: ["confirmPassword"],
   });
 
-export type SignupFormData = z.infer<typeof signupSchema>;
+export type SignupFormInput = z.input<typeof signupSchema>;
+export type SignupFormData = z.output<typeof signupSchema>;
 
 export const STEP_FIELDS: Record<number, (keyof SignupFormData)[]> = {
   1: ["communityName", "communityBio", "communityWebsite"],
@@ -109,7 +110,7 @@ export const STEP_FIELDS: Record<number, (keyof SignupFormData)[]> = {
 };
 
 export function useSignupForm() {
-  return useForm<SignupFormData>({
+  return useForm<SignupFormInput, any, SignupFormData>({
     resolver: zodResolver(signupSchema),
     mode: "onTouched",
     defaultValues: {

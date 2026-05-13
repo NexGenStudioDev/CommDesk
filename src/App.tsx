@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./App.css";
 
-import { dashboardData } from "./features/Member/v1/mock/dashboardData";
+
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 
 import { ThemeProvider } from "./theme";
@@ -16,7 +16,6 @@ function App() {
     void startAutoUpdater();
   }, []);
 
-  const user = dashboardData.user;
 
   return (
     <ThemeProvider>
