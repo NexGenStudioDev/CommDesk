@@ -48,13 +48,13 @@ importers:
         specifier: ^1.4.3
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react:
-        specifier: ^19.2.6
+        specifier: 19.2.6
         version: 19.2.6
       react-day-picker:
         specifier: ^9.14.0
         version: 9.14.0(react@19.2.6)
       react-dom:
-        specifier: ^19.2.6
+        specifier: 19.2.6
         version: 19.2.6(react@19.2.6)
       react-hook-form:
         specifier: ^7.75.0
