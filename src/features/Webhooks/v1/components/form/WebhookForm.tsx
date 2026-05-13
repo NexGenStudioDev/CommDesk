@@ -100,7 +100,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
         addToast("success", "Webhook created", "Your new webhook has been set up successfully.");
         navigate("/org/dashboard/webhooks");
       } else {
-        const payload: any = { name: data.name, url: data.url, events: data.events };
+        const payload: UpdateWebhookPayload = { name: data.name, url: data.url, events: data.events as WebhookEvent[] };
         if (data.secret) payload.secret = data.secret; // only update if provided
         if (parsedPermissions) payload.permissions = parsedPermissions;
         await updateWebhook.mutateAsync({ id: initialData.id, payload });
