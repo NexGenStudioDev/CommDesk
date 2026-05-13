@@ -29,18 +29,18 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
 
   return (
     <>
-      <div className="w-full overflow-x-auto">
-        <table className="w-full text-left text-sm border-collapse">
+      <div className="w-full">
+        <table className="w-full text-left text-[11px] border-collapse">
           <thead>
             <tr 
               className="border-b"
               style={{ borderColor: "var(--cd-border-subtle)", backgroundColor: "var(--cd-surface-2)" }}
             >
-              <th className="px-5 py-4 font-semibold w-[20%]" style={{ color: "var(--cd-text-muted)" }}>Status</th>
-              <th className="px-5 py-4 font-semibold w-[20%]" style={{ color: "var(--cd-text-muted)" }}>Date & Time</th>
-              <th className="px-5 py-4 font-semibold w-[20%]" style={{ color: "var(--cd-text-muted)" }}>Event</th>
-              <th className="px-5 py-4 font-semibold w-[15%]" style={{ color: "var(--cd-text-muted)" }}>Response Code</th>
-              <th className="px-5 py-4 font-semibold w-[25%] text-right" style={{ color: "var(--cd-text-muted)" }}>Actions</th>
+              <th className="px-4 py-3 font-bold uppercase tracking-wider w-32" style={{ color: "var(--cd-text-muted)" }}>Status</th>
+              <th className="px-4 py-3 font-bold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>Timestamp</th>
+              <th className="px-4 py-3 font-bold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>Event</th>
+              <th className="px-4 py-3 font-bold uppercase tracking-wider w-16" style={{ color: "var(--cd-text-muted)" }}>Code</th>
+              <th className="px-4 py-3 font-bold uppercase tracking-wider text-right" style={{ color: "var(--cd-text-muted)" }}>Payloads</th>
             </tr>
           </thead>
           <tbody>
@@ -52,55 +52,51 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                   className="group border-b transition-colors hover:bg-[var(--cd-hover)]"
                   style={{ borderColor: "var(--cd-border-subtle)" }}
                 >
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-2">
-                      {isSuccess ? (
-                        <CheckCircle2 size={16} style={{ color: "var(--cd-success)" }} />
-                      ) : (
-                        <XCircle size={16} style={{ color: "var(--cd-danger)" }} />
-                      )}
-                      <span className="font-medium capitalize" style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-1.5">
+                      <div className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-[var(--cd-success)]" : "bg-[var(--cd-danger)]"}`} />
+                      <span className="font-bold uppercase tracking-tight" style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}>
                         {log.status}
                       </span>
                     </div>
                   </td>
-                  <td className="px-5 py-4" style={{ color: "var(--cd-text)" }}>
-                    {format(new Date(log.timestamp), "MMM d, yyyy HH:mm:ss")}
+                  <td className="px-4 py-3 font-medium whitespace-nowrap" style={{ color: "var(--cd-text)" }}>
+                    {format(new Date(log.timestamp), "MMM d, HH:mm:ss")}
                   </td>
-                  <td className="px-5 py-4">
-                    <span className="px-2 py-1 rounded-md text-xs font-mono" style={{ backgroundColor: "var(--cd-surface-2)", color: "var(--cd-text-2)" }}>
+                  <td className="px-4 py-3">
+                    <span className="px-1.5 py-0.5 rounded bg-[var(--cd-surface-3)] text-[var(--cd-text-2)] font-mono border border-[var(--cd-border)]">
                       {log.event}
                     </span>
                   </td>
-                  <td className="px-5 py-4">
-                    <span className="font-mono text-xs" style={{ color: log.responseCode >= 200 && log.responseCode < 300 ? "var(--cd-success)" : "var(--cd-danger)" }}>
+                  <td className="px-4 py-3">
+                    <span className="font-mono font-bold" style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}>
                       {log.responseCode}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1.5">
                       <button
                         onClick={() => setSelectedPayload({ title: "Request Payload", data: log.requestPayload })}
-                        className="p-1.5 rounded-md hover:bg-[var(--cd-surface-3)] transition-colors text-xs font-medium flex items-center gap-1.5"
-                        style={{ color: "var(--cd-text-2)" }}
+                        className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
+                        title="View Request"
                       >
-                        <FileJson size={14} /> Request
+                        <FileJson size={14} />
                       </button>
                       <button
                         onClick={() => setSelectedPayload({ title: "Response Payload", data: log.responsePayload })}
-                        className="p-1.5 rounded-md hover:bg-[var(--cd-surface-3)] transition-colors text-xs font-medium flex items-center gap-1.5"
-                        style={{ color: "var(--cd-text-2)" }}
+                        className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
+                        title="View Response"
                       >
-                        <FileJson size={14} /> Response
+                        <RotateCcw size={14} className="rotate-180" />
                       </button>
                       {!isSuccess && (
                         <button
                           onClick={() => onRetry(log.id)}
                           disabled={isRetrying}
-                          className="p-1.5 rounded-md hover:bg-[var(--cd-warning-subtle)] transition-colors text-xs font-medium flex items-center gap-1.5 ml-2"
-                          style={{ color: "var(--cd-warning)" }}
+                          className="p-1.5 rounded hover:bg-[var(--cd-warning-subtle)] transition-colors text-[var(--cd-warning)] ml-1"
+                          title="Retry Delivery"
                         >
-                          <RotateCcw size={14} className={isRetrying ? "animate-spin" : ""} /> Retry
+                          <RotateCcw size={14} className={isRetrying ? "animate-spin" : ""} />
                         </button>
                       )}
                     </div>
