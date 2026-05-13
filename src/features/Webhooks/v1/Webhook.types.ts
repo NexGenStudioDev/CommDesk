@@ -30,8 +30,8 @@ export interface WebhookLog {
   status: "success" | "failed";
   timestamp: string;
   responseCode: number;
-  requestPayload: any;
-  responsePayload: any;
+  requestPayload: unknown;
+  responsePayload: unknown;
 }
 
 export interface CreateWebhookPayload {

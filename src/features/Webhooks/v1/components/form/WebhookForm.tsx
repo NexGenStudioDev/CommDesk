@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useNavigate } from "react-router-dom";
 import { Check, Loader2, Link2, Shield, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { WEBHOOK_EVENTS } from "../../constants/webhook.constants";
-import type { WebhookEvent, CreateWebhookPayload } from "../../Webhook.types";
+import type { WebhookEvent, CreateWebhookPayload, UpdateWebhookPayload } from "../../Webhook.types";
 import { useCreateWebhook, useUpdateWebhook } from "../../hooks/useWebhooks";
 import { useToast } from "@/features/Tasks/v1/components/common/ToastNotification";
 import { Telemetry } from "@/utils/telemetry";
@@ -57,7 +57,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
       name: initialData?.name || "",
       url: initialData?.url || "",
       events: initialData?.events || [],
-      secret: mode === "edit" ? "" : "", // Masked initially in edit mode, empty string means unchanged
+      secret: "", // Masked initially in edit mode, empty string means unchanged
       permissions: initialData?.permissions?.join(", ") || "",
     },
 
@@ -100,7 +100,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
         addToast("success", "Webhook created", "Your new webhook has been set up successfully.");
         navigate("/org/dashboard/webhooks");
       } else {
-        const payload: any = { name: data.name, url: data.url, events: data.events };
+        const payload: UpdateWebhookPayload = { name: data.name, url: data.url, events: data.events as WebhookEvent[] };
         if (data.secret) payload.secret = data.secret; // only update if provided
         if (parsedPermissions) payload.permissions = parsedPermissions;
         await updateWebhook.mutateAsync({ id: initialData.id, payload });
