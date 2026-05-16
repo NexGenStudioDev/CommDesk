@@ -15,12 +15,15 @@ import SideBarLink from "../Components/SideBarLink";
 import { dashboardData } from "@/features/Member/v1/mock/dashboardData";
 import useAuthStore from "@/features/Auth/v1/Store/Auth.Store";
 import { useEffect } from "react";
+import useOrganizationStore from "@/features/Auth/v1/Store/Organization.Store";
 
 const SideBar = () => {
   const user = useAuthStore((state) => state.user);
+  const organization = useOrganizationStore((state) => state.organization);
+
+  console.log("User in SideBar:", user);
+  console.log("Organization in SideBar:", organization);
   const { theme } = useTheme();
-
-
 
   return (
     <div
@@ -80,13 +83,13 @@ const SideBar = () => {
             style={{ backgroundColor: theme.bg.surfaceSecondary }}
           >
             <img
-              src="https://randomuser.me/api/portraits/men/1.jpg"
+              src={organization?.LogoUrl || "/defaultProfile.png"}
               alt="Profile"
               className="w-9 h-9 rounded-full object-cover shrink-0"
             />
             <div className="min-w-0 flex-1 flex flex-col justify-center gap-0.5">
               <p className="text-sm font-semibold truncate" style={{ color: theme.text.primary }}>
-                {/* {data?.user?.name} */}
+                {organization?.CommunityName}
               </p>
               <p className="text-xs truncate font-medium" style={{ color: theme.primary.default }}>
                 {user?.role}
