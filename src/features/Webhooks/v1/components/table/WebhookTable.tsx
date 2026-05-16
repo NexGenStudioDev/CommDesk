@@ -14,14 +14,14 @@ interface Props {
   onSelectAll: (ids: string[]) => void;
 }
 
-export default function WebhookTable({ 
-  webhooks, 
-  isLoading, 
-  onDelete, 
+export default function WebhookTable({
+  webhooks,
+  isLoading,
+  onDelete,
   onToggleStatus,
   selectedIds,
   onToggleSelect,
-  onSelectAll
+  onSelectAll,
 }: Props) {
   const navigate = useNavigate();
 
@@ -43,103 +43,142 @@ export default function WebhookTable({
     <div className="w-full overflow-hidden">
       <table className="w-full text-left text-sm border-collapse table-fixed">
         <thead>
-          <tr 
+          <tr
             className="border-b"
-            style={{ 
-              borderColor: "var(--cd-border-subtle)", 
-              backgroundColor: "var(--cd-surface-2)" 
+            style={{
+              borderColor: "var(--cd-border-subtle)",
+              backgroundColor: "var(--cd-surface-2)",
             }}
           >
             <th className="px-5 py-4 w-[48px]">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 checked={allSelected}
-                onChange={() => onSelectAll(allSelected ? [] : webhooks.map(w => w.id))}
+                onChange={() => onSelectAll(allSelected ? [] : webhooks.map((w) => w.id))}
                 className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer accent-indigo-600"
               />
             </th>
-            <th className="px-5 py-4 font-semibold w-[22%]" style={{ color: "var(--cd-text-muted)" }}>Name</th>
-            <th className="px-5 py-4 font-semibold w-[30%]" style={{ color: "var(--cd-text-muted)" }}>URL</th>
-            <th className="px-5 py-4 font-semibold w-[12%]" style={{ color: "var(--cd-text-muted)" }}>Status</th>
-            <th className="px-5 py-4 font-semibold w-[18%] whitespace-nowrap" style={{ color: "var(--cd-text-muted)" }}>Last Delivery</th>
-            <th className="px-5 py-4 font-semibold w-[13%] text-center" style={{ color: "var(--cd-text-muted)" }}>Actions</th>
+            <th
+              className="px-5 py-4 font-semibold w-[22%]"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
+              Name
+            </th>
+            <th
+              className="px-5 py-4 font-semibold w-[30%]"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
+              URL
+            </th>
+            <th
+              className="px-5 py-4 font-semibold w-[12%]"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
+              Status
+            </th>
+            <th
+              className="px-5 py-4 font-semibold w-[18%] whitespace-nowrap"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
+              Last Delivery
+            </th>
+            <th
+              className="px-5 py-4 font-semibold w-[13%] text-center"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {webhooks.map((w) => {
             const isSuccess = w.lastDeliveryStatus === "success";
             const isFailed = w.lastDeliveryStatus === "failed";
-            
+
             return (
               <tr
                 key={w.id}
-                className={`group border-b transition-colors hover:bg-[var(--cd-hover)] ${selectedIds.includes(w.id) ? 'bg-[var(--cd-hover)] shadow-[inset_4px_0_0_0_var(--cd-primary)]' : ''}`}
+                className={`group border-b transition-colors hover:bg-[var(--cd-hover)] ${selectedIds.includes(w.id) ? "bg-[var(--cd-hover)] shadow-[inset_4px_0_0_0_var(--cd-primary)]" : ""}`}
                 style={{ borderColor: "var(--cd-border-subtle)" }}
               >
                 <td className="px-5 py-4">
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     checked={selectedIds.includes(w.id)}
                     onChange={() => onToggleSelect(w.id)}
                     className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer accent-indigo-600"
                   />
                 </td>
                 <td className="px-5 py-4">
-                  <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate(`/org/dashboard/webhooks/${w.id}`)}>
-                    <div 
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={() => navigate(`/org/dashboard/webhooks/${w.id}`)}
+                  >
+                    <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}
+                      style={{
+                        backgroundColor: "var(--cd-primary-subtle)",
+                        color: "var(--cd-primary)",
+                      }}
                     >
                       <WebhookIcon size={14} />
                     </div>
                     <div className="min-w-0 overflow-hidden">
-                      <p className="font-semibold truncate" style={{ color: "var(--cd-text)" }}>{w.name}</p>
+                      <p className="font-semibold truncate" style={{ color: "var(--cd-text)" }}>
+                        {w.name}
+                      </p>
                       <p className="text-[11px] truncate" style={{ color: "var(--cd-text-muted)" }}>
                         {w.events.length} event{w.events.length !== 1 ? "s" : ""}
                       </p>
                     </div>
                   </div>
                 </td>
-                
+
                 <td className="px-5 py-4">
                   <div className="flex items-center">
-                    <p 
+                    <p
                       className="text-xs truncate max-w-[250px] font-mono px-2 py-1 rounded-md"
-                      style={{ 
+                      style={{
                         color: "var(--cd-text-2)",
-                        backgroundColor: "var(--cd-surface-2)"
+                        backgroundColor: "var(--cd-surface-2)",
                       }}
                       title={w.url}
                     >
-                      {w.url.replace(/^https?:\/\//, '')}
+                      {w.url.replace(/^https?:\/\//, "")}
                     </p>
                   </div>
                 </td>
-                
+
                 <td className="px-5 py-4">
                   <StatusBadge status={w.status} />
                 </td>
-                
+
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-2">
                     {w.lastDeliveryStatus ? (
                       <>
-                        <div 
-                          className="w-2 h-2 rounded-full" 
-                          style={{ 
-                            backgroundColor: isSuccess ? "var(--cd-success)" : isFailed ? "var(--cd-danger)" : "var(--cd-warning)" 
-                          }} 
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{
+                            backgroundColor: isSuccess
+                              ? "var(--cd-success)"
+                              : isFailed
+                                ? "var(--cd-danger)"
+                                : "var(--cd-warning)",
+                          }}
                         />
                         <span className="text-xs capitalize" style={{ color: "var(--cd-text-2)" }}>
                           {w.lastDeliveryStatus}
                         </span>
                       </>
                     ) : (
-                      <span className="text-xs" style={{ color: "var(--cd-text-muted)" }}>Never</span>
+                      <span className="text-xs" style={{ color: "var(--cd-text-muted)" }}>
+                        Never
+                      </span>
                     )}
                   </div>
                 </td>
-                
+
                 <td className="px-5 py-4">
                   <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button

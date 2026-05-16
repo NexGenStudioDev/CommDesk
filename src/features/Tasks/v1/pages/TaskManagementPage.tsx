@@ -15,20 +15,20 @@ import { SELECTED_EVENT_KEY, DEFAULT_FILTERS } from "../constants/task.constants
 import type { Task, TaskFilters } from "../Task.types";
 
 const TAB_STATUS_MAP: Record<string, string> = {
-  all:          "all",
-  todo:         "todo",
+  all: "all",
+  todo: "todo",
   "in-progress": "in-progress",
-  completed:    "completed",
+  completed: "completed",
 };
 
 export default function TaskManagementPage() {
-  const navigate                = useNavigate();
-  const [params, setParams]     = useSearchParams();
+  const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
   const { toasts, addToast, dismiss } = useToast();
 
   const { data: events = [] } = useEvents();
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(
-    () => localStorage.getItem(SELECTED_EVENT_KEY)
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(() =>
+    localStorage.getItem(SELECTED_EVENT_KEY),
   );
 
   // Active header tab (all / todo / in-progress / completed)
@@ -50,10 +50,10 @@ export default function TaskManagementPage() {
   const handleFiltersChange = (f: TaskFilters) => {
     setFilters(f);
     const reverseMap: Record<string, string> = {
-      all:          "all",
-      todo:         "todo",
+      all: "all",
+      todo: "todo",
       "in-progress": "in-progress",
-      completed:    "completed",
+      completed: "completed",
     };
     setActiveTab(reverseMap[f.status] ?? "all");
   };
@@ -68,11 +68,23 @@ export default function TaskManagementPage() {
   useEffect(() => {
     if (params.get("created") === "1") {
       addToast("success", "Task created!", "Your new task is now live in the list.");
-      setParams((p) => { p.delete("created"); return p; }, { replace: true });
+      setParams(
+        (p) => {
+          p.delete("created");
+          return p;
+        },
+        { replace: true },
+      );
     }
     if (params.get("updated") === "1") {
       addToast("success", "Task updated!", "Your changes have been saved.");
-      setParams((p) => { p.delete("updated"); return p; }, { replace: true });
+      setParams(
+        (p) => {
+          p.delete("updated");
+          return p;
+        },
+        { replace: true },
+      );
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -95,8 +107,11 @@ export default function TaskManagementPage() {
   };
 
   const hasActiveFilters =
-    filters.status !== "all" || filters.priority !== "all" ||
-    filters.time !== "all" || filters.members.length > 0 || filters.search !== "";
+    filters.status !== "all" ||
+    filters.priority !== "all" ||
+    filters.time !== "all" ||
+    filters.members.length > 0 ||
+    filters.search !== "";
 
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
@@ -106,10 +121,7 @@ export default function TaskManagementPage() {
   const handleCreate = () => navigate(`/org/tasks/create?eventId=${selectedEventId}`);
 
   return (
-    <div
-      className="w-full min-h-screen flex flex-col"
-      style={{ backgroundColor: "var(--cd-bg)" }}
-    >
+    <div className="w-full min-h-screen flex flex-col" style={{ backgroundColor: "var(--cd-bg)" }}>
       {/* ── Page header (Events-style) ──────────────────────────── */}
       <TaskHeader
         selectedEventId={selectedEventId}
@@ -201,16 +213,16 @@ export default function TaskManagementPage() {
               filteredCount={tasks.length}
               tasks={allTasks}
             />
-            
+
             <main className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-8 sm:py-8 lg:px-10">
               {/* Desktop: table */}
               <div className="hidden md:block">
-                <div 
-                  className="overflow-hidden rounded-xl border transition-all duration-300" 
-                  style={{ 
-                    backgroundColor: "var(--cd-surface)", 
+                <div
+                  className="overflow-hidden rounded-xl border transition-all duration-300"
+                  style={{
+                    backgroundColor: "var(--cd-surface)",
                     borderColor: "var(--cd-border-subtle)",
-                    boxShadow: "0 18px 60px -36px var(--cd-shadow-md)"
+                    boxShadow: "0 18px 60px -36px var(--cd-shadow-md)",
                   }}
                 >
                   <TaskTable
@@ -223,7 +235,7 @@ export default function TaskManagementPage() {
                   />
                 </div>
               </div>
-              
+
               {/* Mobile: card list */}
               <div className="block md:hidden pb-10">
                 <TaskCardList
@@ -239,7 +251,6 @@ export default function TaskManagementPage() {
           </div>
         )}
       </div>
-
 
       {/* ── Confirm delete modal ────────────────────────────────── */}
       <ConfirmModal

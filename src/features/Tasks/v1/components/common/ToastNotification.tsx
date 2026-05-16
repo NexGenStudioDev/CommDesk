@@ -128,13 +128,10 @@ export function ToastContainer({
 export function useToast() {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback(
-    (variant: ToastVariant, title: string, message?: string) => {
-      const id = `toast-${Date.now()}-${Math.random()}`;
-      setToasts((prev) => [...prev, { id, variant, title, message }]);
-    },
-    []
-  );
+  const addToast = useCallback((variant: ToastVariant, title: string, message?: string) => {
+    const id = `toast-${Date.now()}-${Math.random()}`;
+    setToasts((prev) => [...prev, { id, variant, title, message }]);
+  }, []);
 
   const dismiss = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));

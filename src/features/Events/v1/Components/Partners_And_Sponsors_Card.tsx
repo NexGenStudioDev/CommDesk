@@ -1,4 +1,3 @@
-
 import React, { memo } from "react";
 import { CATEGORY_ACCENT_RULES, CategoryAccent, DEFAULT_ACCENT } from "../Constants/Event.constant";
 import { theme } from "@/theme";
@@ -31,7 +30,6 @@ const Partners_And_Sponsors_Card = ({
   name = "Partner/Sponsor Name",
   category = "Official Partner",
 }: PartnersAndSponsorsCardProps) => {
-
   const [hasImageError, setHasImageError] = React.useState(false);
 
   React.useEffect(() => {

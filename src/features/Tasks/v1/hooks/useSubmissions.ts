@@ -38,7 +38,7 @@ export function useReviewSubmission() {
                 reviewedAt: new Date().toISOString(),
               },
             }
-          : s
+          : s,
       );
       const updated = store.find((s) => s.id === submissionId);
       if (!updated) throw new Error("Submission not found");

@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { useWebhooks, useUpdateWebhook, useDeleteWebhook, useBulkWebhookAction } from "../hooks/useWebhooks";
+import {
+  useWebhooks,
+  useUpdateWebhook,
+  useDeleteWebhook,
+  useBulkWebhookAction,
+} from "../hooks/useWebhooks";
 import { DEFAULT_WEBHOOK_FILTERS } from "../constants/webhook.constants";
 import type { Webhook, WebhookFilters } from "../Webhook.types";
 import WebhookHeader from "../components/layout/WebhookHeader";
@@ -16,35 +21,38 @@ import { Plus } from "lucide-react";
 export default function WebhookListPage() {
   const navigate = useNavigate();
   const { toasts, addToast, dismiss } = useToast();
-  
+
   const [filters, setFilters] = useState<WebhookFilters>(DEFAULT_WEBHOOK_FILTERS);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  
+
   // Total count for header (no filters applied)
-  const { data: allPaginated = { data: [], total: 0, totalPages: 0 } } = useWebhooks(DEFAULT_WEBHOOK_FILTERS);
+  const { data: allPaginated = { data: [], total: 0, totalPages: 0 } } =
+    useWebhooks(DEFAULT_WEBHOOK_FILTERS);
   const allWebhooks = allPaginated.data;
   const totalCount = allPaginated.total;
-  
+
   // Filtered data
   const { data: paginatedData, isLoading, isError, refetch } = useWebhooks(filters);
   const webhooks = paginatedData?.data || [];
   const totalPages = paginatedData?.totalPages || 0;
-  
+
   const updateWebhook = useUpdateWebhook();
   const deleteWebhook = useDeleteWebhook();
   const bulkAction = useBulkWebhookAction();
-  
-  const [webhookToDelete, setWebhookToDelete] = useState<Webhook | null>(null);
-  const [bulkActionToConfirm, setBulkActionToConfirm] = useState<"delete" | "enable" | "disable" | null>(null);
 
-  const activeCount = allWebhooks.filter(w => w.status === "active").length;
+  const [webhookToDelete, setWebhookToDelete] = useState<Webhook | null>(null);
+  const [bulkActionToConfirm, setBulkActionToConfirm] = useState<
+    "delete" | "enable" | "disable" | null
+  >(null);
+
+  const activeCount = allWebhooks.filter((w) => w.status === "active").length;
 
   const handleToggleStatus = async (webhook: Webhook) => {
     const newStatus = webhook.status === "active" ? "inactive" : "active";
     try {
-      await updateWebhook.mutateAsync({ 
-        id: webhook.id, 
-        payload: { status: newStatus } 
+      await updateWebhook.mutateAsync({
+        id: webhook.id,
+        payload: { status: newStatus },
       });
       addToast("success", "Status updated", `Webhook is now ${newStatus}`);
     } catch {
@@ -53,9 +61,7 @@ export default function WebhookListPage() {
   };
 
   const handleToggleSelect = (id: string) => {
-    setSelectedIds(prev => 
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
   };
 
   const handleSelectAll = (ids: string[]) => {
@@ -66,14 +72,14 @@ export default function WebhookListPage() {
     const action = actionOverride || bulkActionToConfirm;
     if (!action) return;
     try {
-      await bulkAction.mutateAsync({ 
-        ids: selectedIds, 
-        action 
+      await bulkAction.mutateAsync({
+        ids: selectedIds,
+        action,
       });
       addToast(
-        "success", 
-        "Bulk Action Successful", 
-        `Successfully ${action}d ${selectedIds.length} webhooks.`
+        "success",
+        "Bulk Action Successful",
+        `Successfully ${action}d ${selectedIds.length} webhooks.`,
       );
       setSelectedIds([]);
     } catch {
@@ -85,7 +91,7 @@ export default function WebhookListPage() {
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      setFilters(f => ({ ...f, page: newPage }));
+      setFilters((f) => ({ ...f, page: newPage }));
     }
   };
 
@@ -102,14 +108,8 @@ export default function WebhookListPage() {
   };
 
   return (
-    <div
-      className="w-full min-h-screen flex flex-col"
-      style={{ backgroundColor: "var(--cd-bg)" }}
-    >
-      <WebhookHeader 
-        totalCount={totalCount} 
-        activeCount={activeCount} 
-      />
+    <div className="w-full min-h-screen flex flex-col" style={{ backgroundColor: "var(--cd-bg)" }}>
+      <WebhookHeader totalCount={totalCount} activeCount={activeCount} />
 
       <div className="flex-1 flex flex-col">
         {isError ? (
@@ -119,7 +119,10 @@ export default function WebhookListPage() {
               title="Failed to load webhooks"
               description="Something went wrong while fetching webhooks."
               action={
-                <button onClick={() => void refetch()} className="cd-btn cd-btn-secondary px-6 py-2.5 rounded-xl border">
+                <button
+                  onClick={() => void refetch()}
+                  className="cd-btn cd-btn-secondary px-6 py-2.5 rounded-xl border"
+                >
                   Retry
                 </button>
               }
@@ -149,16 +152,16 @@ export default function WebhookListPage() {
               totalCount={totalCount}
               filteredCount={paginatedData?.total || 0}
             />
-            
+
             <main className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-8 sm:py-8 lg:px-10 flex flex-col gap-6">
               {/* Desktop View */}
               <div className="hidden md:block">
-                <div 
-                  className="overflow-hidden rounded-xl border transition-all duration-300" 
-                  style={{ 
-                    backgroundColor: "var(--cd-surface)", 
+                <div
+                  className="overflow-hidden rounded-xl border transition-all duration-300"
+                  style={{
+                    backgroundColor: "var(--cd-surface)",
                     borderColor: "var(--cd-border-subtle)",
-                    boxShadow: "0 18px 60px -36px var(--cd-shadow-md)"
+                    boxShadow: "0 18px 60px -36px var(--cd-shadow-md)",
                   }}
                 >
                   <WebhookTable
@@ -177,8 +180,8 @@ export default function WebhookListPage() {
                         title="No Matches Found"
                         description="We couldn't find any webhooks matching your current filters or search term."
                         action={
-                          <button 
-                            onClick={() => setFilters(DEFAULT_WEBHOOK_FILTERS)} 
+                          <button
+                            onClick={() => setFilters(DEFAULT_WEBHOOK_FILTERS)}
                             className="cd-btn cd-btn-secondary px-6 py-2 rounded-xl border text-sm font-medium"
                           >
                             Clear All Filters
@@ -189,7 +192,7 @@ export default function WebhookListPage() {
                   )}
                 </div>
               </div>
-              
+
               {/* Mobile View */}
               <div className="block md:hidden">
                 <WebhookCardList
@@ -204,7 +207,10 @@ export default function WebhookListPage() {
 
               {/* Pagination UI */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-between px-2 py-4" style={{ color: "var(--cd-text)" }}>
+                <div
+                  className="flex items-center justify-between px-2 py-4"
+                  style={{ color: "var(--cd-text)" }}
+                >
                   <div className="text-sm text-[var(--cd-text-muted)]">
                     Showing page {filters.page} of {totalPages}
                   </div>
@@ -213,7 +219,11 @@ export default function WebhookListPage() {
                       onClick={() => handlePageChange(filters.page - 1)}
                       disabled={filters.page === 1}
                       className="px-4 py-2 text-sm border rounded-lg transition-colors disabled:opacity-50"
-                      style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border-subtle)", color: "var(--cd-text)" }}
+                      style={{
+                        backgroundColor: "var(--cd-surface)",
+                        borderColor: "var(--cd-border-subtle)",
+                        color: "var(--cd-text)",
+                      }}
                     >
                       Previous
                     </button>
@@ -221,7 +231,11 @@ export default function WebhookListPage() {
                       onClick={() => handlePageChange(filters.page + 1)}
                       disabled={filters.page === totalPages}
                       className="px-4 py-2 text-sm border rounded-lg transition-colors disabled:opacity-50"
-                      style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border-subtle)", color: "var(--cd-text)" }}
+                      style={{
+                        backgroundColor: "var(--cd-surface)",
+                        borderColor: "var(--cd-border-subtle)",
+                        color: "var(--cd-text)",
+                      }}
                     >
                       Next
                     </button>
@@ -255,8 +269,8 @@ export default function WebhookListPage() {
         danger
       />
 
-      <BulkActionBar 
-        selectedCount={selectedIds.length} 
+      <BulkActionBar
+        selectedCount={selectedIds.length}
         onClear={() => setSelectedIds([])}
         onAction={(action) => {
           if (action === "delete") {

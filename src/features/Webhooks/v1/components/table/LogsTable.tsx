@@ -15,14 +15,20 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
   const [selectedPayload, setSelectedPayload] = useState<{ title: string; data: any } | null>(null);
 
   if (isLoading) {
-    return <div className="p-8 text-center text-sm" style={{ color: "var(--cd-text-muted)" }}>Loading delivery logs...</div>;
+    return (
+      <div className="p-8 text-center text-sm" style={{ color: "var(--cd-text-muted)" }}>
+        Loading delivery logs...
+      </div>
+    );
   }
 
   if (logs.length === 0) {
     return (
       <div className="p-12 text-center" style={{ color: "var(--cd-text-muted)" }}>
         <p className="text-sm font-medium">No deliveries found.</p>
-        <p className="text-xs mt-1">Deliveries will appear here when an event triggers this webhook.</p>
+        <p className="text-xs mt-1">
+          Deliveries will appear here when an event triggers this webhook.
+        </p>
       </div>
     );
   }
@@ -32,15 +38,43 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
       <div className="w-full">
         <table className="w-full text-left text-[11px] border-collapse">
           <thead>
-            <tr 
+            <tr
               className="border-b"
-              style={{ borderColor: "var(--cd-border-subtle)", backgroundColor: "var(--cd-surface-2)" }}
+              style={{
+                borderColor: "var(--cd-border-subtle)",
+                backgroundColor: "var(--cd-surface-2)",
+              }}
             >
-              <th className="px-4 py-3 font-bold uppercase tracking-wider w-32" style={{ color: "var(--cd-text-muted)" }}>Status</th>
-              <th className="px-4 py-3 font-bold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>Timestamp</th>
-              <th className="px-4 py-3 font-bold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>Event</th>
-              <th className="px-4 py-3 font-bold uppercase tracking-wider w-16" style={{ color: "var(--cd-text-muted)" }}>Code</th>
-              <th className="px-4 py-3 font-bold uppercase tracking-wider text-right" style={{ color: "var(--cd-text-muted)" }}>Payloads</th>
+              <th
+                className="px-4 py-3 font-bold uppercase tracking-wider w-32"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
+                Status
+              </th>
+              <th
+                className="px-4 py-3 font-bold uppercase tracking-wider"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
+                Timestamp
+              </th>
+              <th
+                className="px-4 py-3 font-bold uppercase tracking-wider"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
+                Event
+              </th>
+              <th
+                className="px-4 py-3 font-bold uppercase tracking-wider w-16"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
+                Code
+              </th>
+              <th
+                className="px-4 py-3 font-bold uppercase tracking-wider text-right"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
+                Payloads
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -54,13 +88,21 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5">
-                      <div className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-[var(--cd-success)]" : "bg-[var(--cd-danger)]"}`} />
-                      <span className="font-bold uppercase tracking-tight" style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}>
+                      <div
+                        className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-[var(--cd-success)]" : "bg-[var(--cd-danger)]"}`}
+                      />
+                      <span
+                        className="font-bold uppercase tracking-tight"
+                        style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}
+                      >
                         {log.status}
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 font-medium whitespace-nowrap" style={{ color: "var(--cd-text)" }}>
+                  <td
+                    className="px-4 py-3 font-medium whitespace-nowrap"
+                    style={{ color: "var(--cd-text)" }}
+                  >
                     {format(new Date(log.timestamp), "MMM d, HH:mm:ss")}
                   </td>
                   <td className="px-4 py-3">
@@ -69,21 +111,31 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="font-mono font-bold" style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}>
+                    <span
+                      className="font-mono font-bold"
+                      style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}
+                    >
                       {log.responseCode}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1.5">
                       <button
-                        onClick={() => setSelectedPayload({ title: "Request Payload", data: log.requestPayload })}
+                        onClick={() =>
+                          setSelectedPayload({ title: "Request Payload", data: log.requestPayload })
+                        }
                         className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
                         title="View Request"
                       >
                         <FileJson size={14} />
                       </button>
                       <button
-                        onClick={() => setSelectedPayload({ title: "Response Payload", data: log.responsePayload })}
+                        onClick={() =>
+                          setSelectedPayload({
+                            title: "Response Payload",
+                            data: log.responsePayload,
+                          })
+                        }
                         className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
                         title="View Response"
                       >

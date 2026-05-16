@@ -1,8 +1,49 @@
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+
+import { useAuth } from "../hooks/useAuth";
+import Input from "@/Component/ui/Input";
+import { useCallback } from "react";
 
 const LoginPage = () => {
+  const { loginMutation } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleLogin = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.currentTarget);
+
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
+      try {
+        const response = await loginMutation.mutateAsync({
+          email,
+          password,
+        });
+
+        let Role = response.data.role;
+        console.log("User role:", Role);
+
+        if (Role === "organization") {
+          navigate("/org/dashboard");
+          return;
+        }
+
+        console.log("Login successful:", response);
+
+        // redirect / save token / navigate
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
+    },
+    [loginMutation],
+  );
+
   return (
     <div className="w-screen h-screen  flex ">
       <div className="left w-1/2 bg-cover bg-center relative">
@@ -21,7 +62,7 @@ const LoginPage = () => {
         <div className="w-[80%]">
           <h2 className="text-3xl  mb-2 inter text-gray-700">Sign in</h2>
           <p className="text-gray-500 mb-6 inter">Please login to your account to continue.</p>
-          <form className="space-y-4 mt-[7vh]">
+          <form className="space-y-4 mt-[7vh]" onSubmit={handleLogin}>
             <div className="flex flex-col gap-2 text-md">
               <label
                 htmlFor="email"
@@ -29,11 +70,11 @@ const LoginPage = () => {
               >
                 <MdEmail className="inline mr-2" /> Work Email
               </label>
-              <input
-                type="email"
-                id="email"
+              <Input
+                name="email"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your email"
+                type="email"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -49,20 +90,19 @@ const LoginPage = () => {
                   Reset Password?
                 </Link>
               </label>
-              <input
-                type="password"
-                id="password"
+
+              <Input
+                name="password"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your password"
+                type="password"
               />
             </div>
             <button
               type="submit"
               className="w-full bg-[#4f46e5] text-white py-2  hover:bg-blue-600 transition duration-200 inter py-[1.5vh] text-lg"
             >
-              <Link to="/org/dashboard" className="w-full h-full block">
-                Sign In
-              </Link>
+              Sign In
             </button>
 
             <div className="flex justify-end">

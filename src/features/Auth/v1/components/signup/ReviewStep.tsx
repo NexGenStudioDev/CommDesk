@@ -10,7 +10,7 @@ import {
   Github,
   Facebook,
   User,
-  Lock
+  Lock,
 } from "lucide-react";
 import { SignupFormData } from "../../hooks/useSignupForm";
 

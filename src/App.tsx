@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./App.css";
 
-
 import { startAutoUpdater } from "./system/updater/autoUpdater";
 
 import { ThemeProvider } from "./theme";
@@ -16,15 +15,12 @@ function App() {
     void startAutoUpdater();
   }, []);
 
-
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <OrgRoute />
 
-       <OrgRoute />
-
-       <MemberRoutes />
-        
+        <MemberRoutes />
       </BrowserRouter>
     </ThemeProvider>
   );

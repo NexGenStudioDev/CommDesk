@@ -3,7 +3,11 @@ import { ChevronDown, Search, CalendarDays, Loader2, X } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { FaRocket, FaCode, FaGlobe, FaBolt, FaPalette, FaUsers } from "react-icons/fa";
 import { useEvents } from "../../hooks/useEvents";
-import { EVENT_TYPE_CONFIG, EVENT_STATUS_CONFIG, SELECTED_EVENT_KEY } from "../../constants/task.constants";
+import {
+  EVENT_TYPE_CONFIG,
+  EVENT_STATUS_CONFIG,
+  SELECTED_EVENT_KEY,
+} from "../../constants/task.constants";
 import type { EventOption } from "../../Task.types";
 
 interface Props {
@@ -26,7 +30,7 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
     (event) =>
       query.trim() === "" ||
       event.name.toLowerCase().includes(query.toLowerCase()) ||
-      event.subtitle.toLowerCase().includes(query.toLowerCase())
+      event.subtitle.toLowerCase().includes(query.toLowerCase()),
   );
 
   const handleSelect = useCallback(
@@ -37,7 +41,7 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
       setQuery("");
       setHighlighted(0);
     },
-    [onSelect]
+    [onSelect],
   );
 
   const handleClear = (event: React.MouseEvent) => {
@@ -87,7 +91,11 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
   }, [highlighted]);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-[432px] sm:w-[432px] shrink-0" onKeyDown={handleKeyDown}>
+    <div
+      ref={containerRef}
+      className="relative w-full max-w-[432px] sm:w-[432px] shrink-0"
+      onKeyDown={handleKeyDown}
+    >
       <button
         onClick={() => {
           setHighlighted(0);
@@ -103,7 +111,11 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
         aria-expanded={open}
       >
         {isLoading ? (
-          <Loader2 size={15} className="animate-spin shrink-0" style={{ color: "var(--cd-text-muted)" }} />
+          <Loader2
+            size={15}
+            className="animate-spin shrink-0"
+            style={{ color: "var(--cd-text-muted)" }}
+          />
         ) : (
           <CalendarDays size={15} className="shrink-0" style={{ color: "var(--cd-primary)" }} />
         )}
@@ -119,7 +131,9 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
               {(() => {
                 const cfg = EVENT_TYPE_CONFIG[selectedEvent.type];
                 return (
-                  <span className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${cfg.bg} ${cfg.text}`}>
+                  <span
+                    className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${cfg.bg} ${cfg.text}`}
+                  >
                     {cfg.label}
                   </span>
                 );
@@ -136,7 +150,9 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
               role="button"
               tabIndex={0}
               onClick={handleClear}
-              onKeyDown={(event) => event.key === "Enter" && handleClear(event as unknown as React.MouseEvent)}
+              onKeyDown={(event) =>
+                event.key === "Enter" && handleClear(event as unknown as React.MouseEvent)
+              }
               className="p-0.5 rounded transition"
               style={{ color: "var(--cd-text-muted)" }}
               aria-label="Clear selection"
@@ -161,7 +177,10 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
             boxShadow: "0 8px 24px var(--cd-shadow-md)",
           }}
         >
-          <div className="flex items-center gap-2 px-3 py-2.5 border-b" style={{ borderColor: "var(--cd-border)" }}>
+          <div
+            className="flex items-center gap-2 px-3 py-2.5 border-b"
+            style={{ borderColor: "var(--cd-border)" }}
+          >
             <Search size={14} className="shrink-0" style={{ color: "var(--cd-text-muted)" }} />
             <input
               ref={searchRef}
@@ -203,7 +222,8 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
                     onClick={() => handleSelect(event)}
                     onMouseEnter={(mouseEvent) => {
                       setHighlighted(index);
-                      (mouseEvent.currentTarget as HTMLLIElement).style.backgroundColor = "var(--cd-primary-subtle)";
+                      (mouseEvent.currentTarget as HTMLLIElement).style.backgroundColor =
+                        "var(--cd-primary-subtle)";
                     }}
                     onMouseLeave={(mouseEvent) => {
                       (mouseEvent.currentTarget as HTMLLIElement).style.backgroundColor = isActive
@@ -212,7 +232,8 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
                     }}
                     className="flex items-start gap-3 px-3 py-3 cursor-pointer transition-colors"
                     style={{
-                      backgroundColor: isActive || isHighlighted ? "var(--cd-primary-subtle)" : "transparent",
+                      backgroundColor:
+                        isActive || isHighlighted ? "var(--cd-primary-subtle)" : "transparent",
                     }}
                   >
                     {/* Event Icon */}
@@ -221,7 +242,8 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
                     >
                       {(() => {
                         const name = event.name.toLowerCase();
-                        if (name.includes("ai hackathon") || name.includes("ai challenge")) return <FaRocket size={16} />;
+                        if (name.includes("ai hackathon") || name.includes("ai challenge"))
+                          return <FaRocket size={16} />;
                         if (name.includes("web3")) return <FaCode size={16} />;
                         if (name.includes("open source")) return <FaGlobe size={18} />;
                         if (name.includes("speed code")) return <FaBolt size={16} />;
@@ -239,27 +261,42 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
                         >
                           {event.name}
                         </span>
-                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${typeCfg.bg} ${typeCfg.text}`}>
+                        <span
+                          className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${typeCfg.bg} ${typeCfg.text}`}
+                        >
                           {typeCfg.label}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                        <span className="text-xs truncate" style={{ color: "var(--cd-text-muted)" }}>
+                        <span
+                          className="text-xs truncate"
+                          style={{ color: "var(--cd-text-muted)" }}
+                        >
                           {event.subtitle}
                         </span>
                         <span style={{ color: "var(--cd-border)" }}>·</span>
-                        <span className="text-[10px] shrink-0" style={{ color: "var(--cd-text-muted)" }}>
-                          {format(parseISO(event.startDate), "MMM d")} - {format(parseISO(event.endDate), "MMM d, yyyy")}
+                        <span
+                          className="text-[10px] shrink-0"
+                          style={{ color: "var(--cd-text-muted)" }}
+                        >
+                          {format(parseISO(event.startDate), "MMM d")} -{" "}
+                          {format(parseISO(event.endDate), "MMM d, yyyy")}
                         </span>
                       </div>
                     </div>
 
-                    <span className={`shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-full ${statusCfg.bg} ${statusCfg.text}`}>
+                    <span
+                      className={`shrink-0 flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-full ${statusCfg.bg} ${statusCfg.text}`}
+                    >
                       {statusCfg.pulse ? (
                         <span className="relative flex h-1.5 w-1.5">
-                          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statusCfg.dot}`} />
-                          <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${statusCfg.dot}`} />
+                          <span
+                            className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statusCfg.dot}`}
+                          />
+                          <span
+                            className={`relative inline-flex rounded-full h-1.5 w-1.5 ${statusCfg.dot}`}
+                          />
                         </span>
                       ) : (
                         <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.dot}`} />
@@ -272,11 +309,17 @@ export default function EventDropdown({ selectedEventId, onSelect }: Props) {
             </ul>
           )}
 
-          <div className="border-t px-3 py-2 flex items-center justify-between gap-3" style={{ borderColor: "var(--cd-border)" }}>
+          <div
+            className="border-t px-3 py-2 flex items-center justify-between gap-3"
+            style={{ borderColor: "var(--cd-border)" }}
+          >
             <span className="text-[10px]" style={{ color: "var(--cd-text-muted)" }}>
               {filtered.length} event{filtered.length !== 1 ? "s" : ""}
             </span>
-            <span className="text-[10px] hidden sm:inline" style={{ color: "var(--cd-text-muted)" }}>
+            <span
+              className="text-[10px] hidden sm:inline"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
               Use arrows, Enter, Esc
             </span>
           </div>

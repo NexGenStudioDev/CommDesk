@@ -1,6 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { webhookStore } from "../mock/webhookStore";
-import type { Webhook, WebhookFilters, CreateWebhookPayload, UpdateWebhookPayload, PaginatedWebhooks } from "../Webhook.types";
+import type {
+  Webhook,
+  WebhookFilters,
+  CreateWebhookPayload,
+  UpdateWebhookPayload,
+  PaginatedWebhooks,
+} from "../Webhook.types";
 import { Telemetry } from "@/utils/telemetry";
 
 function applyFilters(webhooks: Webhook[], filters: WebhookFilters): Webhook[] {
@@ -62,7 +68,11 @@ export function useCreateWebhook() {
         url: payload.url,
         events: payload.events,
         status: "active",
-        secret: payload.secret || Array.from(crypto.getRandomValues(new Uint8Array(24))).map(b => b.toString(16).padStart(2, '0')).join(''),
+        secret:
+          payload.secret ||
+          Array.from(crypto.getRandomValues(new Uint8Array(24)))
+            .map((b) => b.toString(16).padStart(2, "0"))
+            .join(""),
         permissions: payload.permissions,
         lastDeliveryStatus: "pending",
         createdAt: new Date().toISOString(),
@@ -78,7 +88,13 @@ export function useCreateWebhook() {
 export function useUpdateWebhook() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, payload }: { id: string; payload: UpdateWebhookPayload }): Promise<Webhook> => {
+    mutationFn: async ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: UpdateWebhookPayload;
+    }): Promise<Webhook> => {
       await new Promise((r) => setTimeout(r, 400));
       webhookStore.update(id, payload);
       const updated = webhookStore.getById(id);
@@ -119,16 +135,16 @@ export function useTestWebhook() {
 
       // 80% chance of success for mock
       const isSuccess = Math.random() > 0.2;
-      
+
       webhookStore.update(id, {
         lastTestedAt: new Date().toISOString(),
-        lastTestStatus: isSuccess ? "success" : "failed"
+        lastTestStatus: isSuccess ? "success" : "failed",
       });
 
       Telemetry.trackAction("webhook_tested", { id, isSuccess });
-      return { 
-        success: isSuccess, 
-        message: isSuccess ? "Webhook ping successful" : "Failed to reach endpoint" 
+      return {
+        success: isSuccess,
+        message: isSuccess ? "Webhook ping successful" : "Failed to reach endpoint",
       };
     },
     onSuccess: (_, id) => {
@@ -140,9 +156,15 @@ export function useTestWebhook() {
 export function useBulkWebhookAction() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ ids, action }: { ids: string[]; action: "delete" | "enable" | "disable" }): Promise<void> => {
+    mutationFn: async ({
+      ids,
+      action,
+    }: {
+      ids: string[];
+      action: "delete" | "enable" | "disable";
+    }): Promise<void> => {
       await new Promise((r) => setTimeout(r, 600)); // Simulated delay
-      
+
       ids.forEach((id) => {
         if (action === "delete") {
           webhookStore.remove(id);
@@ -150,7 +172,7 @@ export function useBulkWebhookAction() {
           webhookStore.update(id, { status: action === "enable" ? "active" : "inactive" });
         }
       });
-      
+
       Telemetry.trackAction("webhooks_bulk_action", { action, count: ids.length });
     },
     onSuccess: () => {

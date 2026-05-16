@@ -84,7 +84,7 @@ function DetailSkeleton() {
   return (
     <div className="flex flex-1 overflow-hidden">
       {/* Left panel */}
-      <div 
+      <div
         className="w-[420px] shrink-0 border-r p-6 flex flex-col gap-5"
         style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
       >
@@ -152,6 +152,6 @@ type SkeletonType = "table" | "detail" | "form";
 
 export default function SkeletonLoader({ type = "table" }: { type?: SkeletonType }) {
   if (type === "detail") return <DetailSkeleton />;
-  if (type === "form")   return <FormSkeleton />;
+  if (type === "form") return <FormSkeleton />;
   return <TableSkeleton />;
 }
