@@ -22,7 +22,7 @@ let mockWebhooks: Webhook[] = [
     lastDeliveryStatus: "pending",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  }
+  },
 ];
 
 let mockLogs: WebhookLog[] = [
@@ -45,7 +45,7 @@ let mockLogs: WebhookLog[] = [
     responseCode: 500,
     requestPayload: { eventId: "e-1", title: "Tech Meetup" },
     responsePayload: { error: "Internal Server Error" },
-  }
+  },
 ];
 
 export const webhookStore = {
@@ -55,7 +55,9 @@ export const webhookStore = {
     mockWebhooks.push(webhook);
   },
   update: (id: string, updates: Partial<Webhook>) => {
-    mockWebhooks = mockWebhooks.map((w) => (w.id === id ? { ...w, ...updates, updatedAt: new Date().toISOString() } : w));
+    mockWebhooks = mockWebhooks.map((w) =>
+      w.id === id ? { ...w, ...updates, updatedAt: new Date().toISOString() } : w,
+    );
   },
   remove: (id: string) => {
     mockWebhooks = mockWebhooks.filter((w) => w.id !== id);

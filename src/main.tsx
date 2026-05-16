@@ -1,4 +1,3 @@
-
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
@@ -25,4 +24,9 @@ root.render(
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>,
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </QueryClientProvider>,
 );

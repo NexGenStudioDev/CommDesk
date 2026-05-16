@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Upload, X, AlertCircle } from "lucide-react";
 import { SignupFormData } from "../../hooks/useSignupForm";
-import { uploadCommunityLogo } from "../../api/signup";
+import { uploadCommunityLogo } from "../../utils/signup";
 
 export default function CommunityStep() {
   const {

@@ -3,11 +3,13 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
 import Header from "./Components/Header";
 import MobileSidebar from "./Components/MobileSidebar";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 export default function MemberLayout() {
   return (
-    <div
-      className="
+    <SidebarProvider>
+      <div
+        className="
         relative
 
         min-h-screen
@@ -25,10 +27,10 @@ export default function MemberLayout() {
 
         transition-colors duration-300
       "
-    >
-      {/* Background Gradient */}
-      <div
-        className="
+      >
+        {/* Background Gradient */}
+        <div
+          className="
           absolute inset-0
 
           bg-gradient-to-br
@@ -41,11 +43,11 @@ export default function MemberLayout() {
           dark:via-[#09090b]
           dark:to-[#111827]
         "
-      />
+        />
 
-      {/* Top Glow */}
-      <div
-        className="
+        {/* Top Glow */}
+        <div
+          className="
           pointer-events-none
 
           absolute -top-40 -left-40
@@ -60,11 +62,11 @@ export default function MemberLayout() {
 
           blur-3xl
         "
-      />
+        />
 
-      {/* Bottom Glow */}
-      <div
-        className="
+        {/* Bottom Glow */}
+        <div
+          className="
           pointer-events-none
 
           absolute bottom-0 right-0
@@ -79,11 +81,11 @@ export default function MemberLayout() {
 
           blur-3xl
         "
-      />
+        />
 
-      {/* Extra Glow */}
-      <div
-        className="
+        {/* Extra Glow */}
+        <div
+          className="
           pointer-events-none
 
           absolute top-1/3 right-1/4
@@ -96,16 +98,16 @@ export default function MemberLayout() {
 
           blur-3xl
         "
-      />
+        />
 
-      {/* Sidebar */}
-      <div className="relative z-20">
-        <Sidebar />
-      </div>
+        {/* Sidebar */}
+        <div className="relative z-20">
+          <Sidebar />
+        </div>
 
-      {/* Main Area */}
-      <div
-        className="
+        {/* Main Area */}
+        <div
+          className="
           relative z-10
 
           flex-1
@@ -113,13 +115,13 @@ export default function MemberLayout() {
 
           min-w-0
         "
-      >
-        {/* Header */}
-        <Header />
+        >
+          {/* Header */}
+          <Header />
 
-        {/* Page Content */}
-        <main
-          className="
+          {/* Page Content */}
+          <main
+            className="
             flex-1
             overflow-y-auto
 
@@ -134,23 +136,24 @@ export default function MemberLayout() {
             sm:py-5
             lg:py-6
           "
-        >
-          <div
-            className="
+          >
+            <div
+              className="
               w-full
 
               max-w-[1450px]
 
               mx-auto
             "
-          >
-            <Outlet />
-          </div>
-        </main>
+            >
+              <Outlet />
+            </div>
+          </main>
 
-        {/* Mobile Sidebar */}
-        <MobileSidebar />
+          {/* Mobile Sidebar */}
+          <MobileSidebar />
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

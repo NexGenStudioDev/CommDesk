@@ -9,12 +9,20 @@ import type { Task } from "../Task.types";
 let store: Task[] = [...mockTasks];
 
 export const taskStore = {
-  getAll: ()                  => store,
-  getById: (id: string)       => store.find((t) => t.id === id),
-  add: (task: Task)           => { store = [task, ...store]; },
-  update: (id: string, patch: Partial<Task>) => {
-    store = store.map((t) => t.id === id ? { ...t, ...patch, updatedAt: new Date().toISOString() } : t);
+  getAll: () => store,
+  getById: (id: string) => store.find((t) => t.id === id),
+  add: (task: Task) => {
+    store = [task, ...store];
   },
-  remove: (id: string)        => { store = store.filter((t) => t.id !== id); },
-  reset: ()                   => { store = [...mockTasks]; },
+  update: (id: string, patch: Partial<Task>) => {
+    store = store.map((t) =>
+      t.id === id ? { ...t, ...patch, updatedAt: new Date().toISOString() } : t,
+    );
+  },
+  remove: (id: string) => {
+    store = store.filter((t) => t.id !== id);
+  },
+  reset: () => {
+    store = [...mockTasks];
+  },
 };

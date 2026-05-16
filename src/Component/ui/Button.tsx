@@ -1,9 +1,9 @@
 import React from "react";
 
-
 type ButtonProps = {
   text: string;
   icon?: React.ReactNode;
+  type?: "button" | "submit" | "reset";
   width?: string;
   height?: string;
   onClick: () => void;
@@ -15,6 +15,7 @@ type ButtonProps = {
 const Button = ({
   text,
   icon,
+  type = "button",
   onClick,
   disabled,
   width,
@@ -34,6 +35,7 @@ const Button = ({
 
   return (
     <button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={`cd-btn ${variantClass} ${className}`}

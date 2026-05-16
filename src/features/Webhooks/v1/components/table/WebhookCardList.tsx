@@ -12,13 +12,13 @@ interface Props {
   onToggleSelect: (id: string) => void;
 }
 
-export default function WebhookCardList({ 
-  webhooks, 
-  isLoading, 
-  onDelete, 
+export default function WebhookCardList({
+  webhooks,
+  isLoading,
+  onDelete,
   onToggleStatus,
   selectedIds,
-  onToggleSelect
+  onToggleSelect,
 }: Props) {
   const navigate = useNavigate();
 
@@ -39,23 +39,26 @@ export default function WebhookCardList({
       {webhooks.map((w) => (
         <div
           key={w.id}
-          className={`rounded-xl border p-4 transition-all hover:shadow-md relative ${selectedIds.includes(w.id) ? 'bg-[var(--cd-hover)] border-[var(--cd-primary)]' : ''}`}
+          className={`rounded-xl border p-4 transition-all hover:shadow-md relative ${selectedIds.includes(w.id) ? "bg-[var(--cd-hover)] border-[var(--cd-primary)]" : ""}`}
           style={{
             backgroundColor: selectedIds.includes(w.id) ? undefined : "var(--cd-surface)",
             borderColor: selectedIds.includes(w.id) ? undefined : "var(--cd-border)",
           }}
         >
           <div className="absolute top-4 right-4 z-10">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               checked={selectedIds.includes(w.id)}
               onChange={() => onToggleSelect(w.id)}
               className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer accent-indigo-600"
             />
           </div>
           <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate(`/org/dashboard/webhooks/${w.id}`)}>
-              <div 
+            <div
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => navigate(`/org/dashboard/webhooks/${w.id}`)}
+            >
+              <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}
               >
@@ -64,12 +67,12 @@ export default function WebhookCardList({
               <div>
                 <h3 className="font-semibold text-[var(--cd-text)]">{w.name}</h3>
                 <p className="text-xs font-mono text-[var(--cd-text-muted)] truncate max-w-[200px]">
-                  {w.url.replace(/^https?:\/\//, '')}
+                  {w.url.replace(/^https?:\/\//, "")}
                 </p>
               </div>
             </div>
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <StatusBadge status={w.status} />
             <span className="text-[11px] font-medium px-2 py-1 rounded-md bg-[var(--cd-surface-2)] text-[var(--cd-text-2)]">
@@ -77,14 +80,21 @@ export default function WebhookCardList({
             </span>
           </div>
 
-          <div className="border-t pt-3 flex items-center justify-between" style={{ borderColor: "var(--cd-border-subtle)" }}>
+          <div
+            className="border-t pt-3 flex items-center justify-between"
+            style={{ borderColor: "var(--cd-border-subtle)" }}
+          >
             <div className="flex items-center gap-2">
               <span className="text-xs text-[var(--cd-text-muted)]">Last:</span>
-              <span className={`text-xs font-semibold ${w.lastDeliveryStatus === 'success' ? 'text-[var(--cd-success)]' : w.lastDeliveryStatus === 'failed' ? 'text-[var(--cd-danger)]' : 'text-[var(--cd-text-muted)]'}`}>
-                {w.lastDeliveryStatus ? w.lastDeliveryStatus.charAt(0).toUpperCase() + w.lastDeliveryStatus.slice(1) : "None"}
+              <span
+                className={`text-xs font-semibold ${w.lastDeliveryStatus === "success" ? "text-[var(--cd-success)]" : w.lastDeliveryStatus === "failed" ? "text-[var(--cd-danger)]" : "text-[var(--cd-text-muted)]"}`}
+              >
+                {w.lastDeliveryStatus
+                  ? w.lastDeliveryStatus.charAt(0).toUpperCase() + w.lastDeliveryStatus.slice(1)
+                  : "None"}
               </span>
             </div>
-            
+
             <div className="flex items-center gap-1">
               <button
                 onClick={() => onToggleStatus(w)}

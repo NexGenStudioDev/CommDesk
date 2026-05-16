@@ -1,6 +1,12 @@
 import { WebhookStatus } from "../../Webhook.types";
 
-export default function StatusBadge({ status, className = "" }: { status: WebhookStatus; className?: string }) {
+export default function StatusBadge({
+  status,
+  className = "",
+}: {
+  status: WebhookStatus;
+  className?: string;
+}) {
   const isAct = status === "active";
   return (
     <span
@@ -11,7 +17,9 @@ export default function StatusBadge({ status, className = "" }: { status: Webhoo
         borderColor: isAct ? "var(--cd-success-subtle)" : "var(--cd-border)",
       }}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${isAct ? "bg-[var(--cd-success)]" : "bg-[var(--cd-text-muted)]"}`} />
+      <span
+        className={`w-1.5 h-1.5 rounded-full ${isAct ? "bg-[var(--cd-success)]" : "bg-[var(--cd-text-muted)]"}`}
+      />
       {isAct ? "Active" : "Inactive"}
     </span>
   );

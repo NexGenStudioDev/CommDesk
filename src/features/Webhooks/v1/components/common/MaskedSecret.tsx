@@ -14,31 +14,34 @@ export default function MaskedSecret({ secret }: { secret: string }) {
   };
 
   return (
-    <div 
+    <div
       className="flex items-center justify-between gap-2 px-3 py-1.5 rounded-xl border group w-full"
-      style={{ 
+      style={{
         backgroundColor: "var(--cd-surface-2)",
         borderColor: "var(--cd-border)",
       }}
     >
-      <code 
+      <code
         className="font-mono text-sm truncate"
-        style={{ 
+        style={{
           color: "var(--cd-text)",
-          letterSpacing: show ? "normal" : "2px"
+          letterSpacing: show ? "normal" : "2px",
         }}
       >
         {displaySecret}
       </code>
-      <div className="flex items-center border-l pl-2 ml-1" style={{ borderColor: "var(--cd-border)" }}>
-        <button 
+      <div
+        className="flex items-center border-l pl-2 ml-1"
+        style={{ borderColor: "var(--cd-border)" }}
+      >
+        <button
           onClick={() => setShow(!show)}
           className="text-[var(--cd-text-muted)] hover:text-[var(--cd-text)] transition-colors p-1"
           title={show ? "Hide Secret" : "Show Secret"}
         >
           {show ? <EyeOff size={14} /> : <Eye size={14} />}
         </button>
-        <button 
+        <button
           onClick={copyToClipboard}
           className="text-[var(--cd-text-muted)] hover:text-[var(--cd-text)] transition-colors p-1"
           title="Copy Secret"
