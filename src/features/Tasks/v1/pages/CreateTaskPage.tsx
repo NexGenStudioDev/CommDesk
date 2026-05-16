@@ -40,11 +40,7 @@ export default function CreateTaskPage() {
         </div>
 
         <div className="flex h-full justify-end gap-3">
-          <Button
-            text="Cancel"
-            variant="secondary"
-            onClick={() => navigate(-1)}
-          />
+          <Button text="Cancel" variant="secondary" onClick={() => navigate(-1)} />
         </div>
       </div>
 

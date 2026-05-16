@@ -8,16 +8,16 @@ export function useWebhookLogs(webhookId: string | undefined, filters: WebhookLo
     queryFn: async () => {
       await new Promise((r) => setTimeout(r, 600));
       if (!webhookId) return { data: [], total: 0, totalPages: 0 };
-      
+
       let logs = webhookLogStore.getByWebhookId(webhookId);
-      
+
       if (filters.status !== "all") {
-        logs = logs.filter(l => l.status === filters.status);
+        logs = logs.filter((l) => l.status === filters.status);
       }
       if (filters.event !== "all") {
-        logs = logs.filter(l => l.event === filters.event);
+        logs = logs.filter((l) => l.event === filters.event);
       }
-      
+
       const pageSize = 10;
       const total = logs.length;
       const totalPages = Math.ceil(total / pageSize);
@@ -38,7 +38,13 @@ export function useWebhookLogs(webhookId: string | undefined, filters: WebhookLo
 export function useRetryWebhookDelivery() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ webhookId, logId }: { webhookId: string; logId: string }): Promise<{ success: boolean }> => {
+    mutationFn: async ({
+      webhookId,
+      logId,
+    }: {
+      webhookId: string;
+      logId: string;
+    }): Promise<{ success: boolean }> => {
       await new Promise((r) => setTimeout(r, 800));
       // Mock successful retry
       return { success: true };

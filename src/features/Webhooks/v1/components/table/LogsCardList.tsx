@@ -37,15 +37,24 @@ export default function LogsCardList({ logs, isLoading, onRetry, isRetrying }: P
                   ) : (
                     <XCircle size={18} style={{ color: "var(--cd-danger)" }} />
                   )}
-                  <span className="font-bold text-sm uppercase tracking-wider" style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}>
+                  <span
+                    className="font-bold text-sm uppercase tracking-wider"
+                    style={{ color: isSuccess ? "var(--cd-success)" : "var(--cd-danger)" }}
+                  >
                     {log.status}
                   </span>
                 </div>
-                <div 
-                  className="px-2 py-1 rounded text-xs font-mono font-bold" 
-                  style={{ 
-                    backgroundColor: log.responseCode >= 200 && log.responseCode < 300 ? "var(--cd-success-subtle)" : "var(--cd-danger-subtle)",
-                    color: log.responseCode >= 200 && log.responseCode < 300 ? "var(--cd-success)" : "var(--cd-danger)"
+                <div
+                  className="px-2 py-1 rounded text-xs font-mono font-bold"
+                  style={{
+                    backgroundColor:
+                      log.responseCode >= 200 && log.responseCode < 300
+                        ? "var(--cd-success-subtle)"
+                        : "var(--cd-danger-subtle)",
+                    color:
+                      log.responseCode >= 200 && log.responseCode < 300
+                        ? "var(--cd-success)"
+                        : "var(--cd-danger)",
                   }}
                 >
                   {log.responseCode}
@@ -58,7 +67,9 @@ export default function LogsCardList({ logs, isLoading, onRetry, isRetrying }: P
                     <Clock size={14} />
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase font-bold tracking-tight text-[var(--cd-text-muted)]">Delivery Time</p>
+                    <p className="text-[11px] uppercase font-bold tracking-tight text-[var(--cd-text-muted)]">
+                      Delivery Time
+                    </p>
                     <p className="text-sm font-medium text-[var(--cd-text)]">
                       {format(new Date(log.timestamp), "MMM d, HH:mm:ss")}
                     </p>
@@ -70,7 +81,9 @@ export default function LogsCardList({ logs, isLoading, onRetry, isRetrying }: P
                     <div className="text-[10px] font-bold font-mono">EV</div>
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase font-bold tracking-tight text-[var(--cd-text-muted)]">Trigger Event</p>
+                    <p className="text-[11px] uppercase font-bold tracking-tight text-[var(--cd-text-muted)]">
+                      Trigger Event
+                    </p>
                     <p className="text-sm font-mono font-medium text-[var(--cd-text-2)]">
                       {log.event}
                     </p>
@@ -78,16 +91,23 @@ export default function LogsCardList({ logs, isLoading, onRetry, isRetrying }: P
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: "var(--cd-border-subtle)" }}>
+              <div
+                className="flex items-center gap-2 pt-3 border-t"
+                style={{ borderColor: "var(--cd-border-subtle)" }}
+              >
                 <button
-                  onClick={() => setSelectedPayload({ title: "Request Payload", data: log.requestPayload })}
+                  onClick={() =>
+                    setSelectedPayload({ title: "Request Payload", data: log.requestPayload })
+                  }
                   className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold bg-[var(--cd-surface-2)] hover:bg-[var(--cd-hover)] transition-colors"
                   style={{ color: "var(--cd-text-2)" }}
                 >
                   <FileJson size={14} /> Request
                 </button>
                 <button
-                  onClick={() => setSelectedPayload({ title: "Response Payload", data: log.responsePayload })}
+                  onClick={() =>
+                    setSelectedPayload({ title: "Response Payload", data: log.responsePayload })
+                  }
                   className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold bg-[var(--cd-surface-2)] hover:bg-[var(--cd-hover)] transition-colors"
                   style={{ color: "var(--cd-text-2)" }}
                 >

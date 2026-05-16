@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 
 import { useSignupForm, STEP_FIELDS, SignupFormData } from "../hooks/useSignupForm";
-import { submitCommunitySignup } from "../api/signup";
+import { submitCommunitySignup } from "../utils/signup";
 import StepProgress from "../components/signup/StepProgress";
 import CommunityStep from "../components/signup/CommunityStep";
 import ContactStep from "../components/signup/ContactStep";

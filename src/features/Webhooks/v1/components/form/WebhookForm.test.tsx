@@ -20,7 +20,7 @@ const renderWithProviders = (ui: React.ReactElement) => {
   return render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>{ui}</BrowserRouter>
-    </QueryClientProvider>
+    </QueryClientProvider>,
   );
 };
 
@@ -37,7 +37,7 @@ describe("WebhookForm Component", () => {
 
   it("validates empty form submission", async () => {
     renderWithProviders(<WebhookForm mode="create" />);
-    
+
     const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
     fireEvent.click(submitButton);
 
@@ -50,10 +50,10 @@ describe("WebhookForm Component", () => {
 
   it("validates HTTPS URL requirement", async () => {
     renderWithProviders(<WebhookForm mode="create" />);
-    
+
     const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
     fireEvent.change(urlInput, { target: { value: "http://insecure-domain.com" } });
-    
+
     const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
     fireEvent.click(submitButton);
 
@@ -64,10 +64,10 @@ describe("WebhookForm Component", () => {
 
   it("allows selecting events", async () => {
     renderWithProviders(<WebhookForm mode="create" />);
-    
+
     const eventOption = screen.getByText("Member Created");
     fireEvent.click(eventOption);
-    
+
     expect(screen.getByText("1 Selected")).toBeInTheDocument();
   });
 });

@@ -10,16 +10,19 @@ export default function BulkActionBar({ selectedCount, onClear, onAction }: Prop
   if (selectedCount === 0) return null;
 
   return (
-    <div 
+    <div
       className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-6 px-6 py-4 rounded-2xl shadow-2xl border transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
-      style={{ 
-        backgroundColor: "var(--cd-surface)", 
+      style={{
+        backgroundColor: "var(--cd-surface)",
         borderColor: "var(--cd-border)",
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--cd-border)"
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--cd-border)",
       }}
     >
-      <div className="flex items-center gap-4 border-r pr-6" style={{ borderColor: "var(--cd-border-subtle)" }}>
-        <button 
+      <div
+        className="flex items-center gap-4 border-r pr-6"
+        style={{ borderColor: "var(--cd-border-subtle)" }}
+      >
+        <button
           onClick={onClear}
           className="p-1 rounded-md hover:bg-[var(--cd-hover)] transition-colors"
           style={{ color: "var(--cd-text-muted)" }}

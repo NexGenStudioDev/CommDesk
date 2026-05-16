@@ -7,7 +7,10 @@ export default function CreateWebhookPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-full w-full flex-col cd-page" style={{ backgroundColor: "var(--cd-bg)" }}>
+    <div
+      className="flex h-full w-full flex-col cd-page"
+      style={{ backgroundColor: "var(--cd-bg)" }}
+    >
       {/* Header */}
       <div
         className="flex justify-between border-b px-5 py-4 text-xl font-bold sm:px-8 lg:px-10"
@@ -44,7 +47,7 @@ export default function CreateWebhookPage() {
       <div className="flex-1 overflow-auto">
         <WebhookForm mode="create" />
       </div>
-      
+
       <ToastContainer toasts={[]} onDismiss={() => {}} />
     </div>
   );

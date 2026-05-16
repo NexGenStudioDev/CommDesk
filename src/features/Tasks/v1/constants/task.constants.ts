@@ -77,9 +77,21 @@ export const SUBMISSION_STATUS_CONFIG: Record<
   SubmissionStatus,
   { label: string; bg: string; text: string }
 > = {
-  "not-submitted": { label: "Not Submitted", bg: "bg-[var(--cd-surface-2)]",       text: "text-[var(--cd-text-2)]" },
-  submitted:       { label: "Submitted",     bg: "bg-[var(--cd-primary-subtle)]",  text: "text-[var(--cd-primary-text)]" },
-  reviewed:        { label: "Reviewed",      bg: "bg-[var(--cd-success-subtle)]",  text: "text-[var(--cd-success)]" },
+  "not-submitted": {
+    label: "Not Submitted",
+    bg: "bg-[var(--cd-surface-2)]",
+    text: "text-[var(--cd-text-2)]",
+  },
+  submitted: {
+    label: "Submitted",
+    bg: "bg-[var(--cd-primary-subtle)]",
+    text: "text-[var(--cd-primary-text)]",
+  },
+  reviewed: {
+    label: "Reviewed",
+    bg: "bg-[var(--cd-success-subtle)]",
+    text: "text-[var(--cd-success)]",
+  },
 };
 
 // ─── Event type ───────────────────────────────────────────────────────────────
@@ -87,10 +99,30 @@ export const EVENT_TYPE_CONFIG: Record<
   EventType,
   { label: string; bg: string; text: string; dot: string }
 > = {
-  hackathon: { label: "Hackathon", bg: "bg-[var(--cd-danger-subtle)]",  text: "text-[var(--cd-danger)]",       dot: "bg-rose-500"    },
-  workshop:  { label: "Workshop",  bg: "bg-[var(--cd-primary-subtle)]", text: "text-[var(--cd-secondary)]",    dot: "bg-violet-500"  },
-  internal:  { label: "Internal",  bg: "bg-[var(--cd-primary-subtle)]", text: "text-[var(--cd-primary-text)]", dot: "bg-sky-500"     },
-  community: { label: "Community", bg: "bg-[var(--cd-success-subtle)]", text: "text-[var(--cd-success)]",      dot: "bg-emerald-500" },
+  hackathon: {
+    label: "Hackathon",
+    bg: "bg-[var(--cd-danger-subtle)]",
+    text: "text-[var(--cd-danger)]",
+    dot: "bg-rose-500",
+  },
+  workshop: {
+    label: "Workshop",
+    bg: "bg-[var(--cd-primary-subtle)]",
+    text: "text-[var(--cd-secondary)]",
+    dot: "bg-violet-500",
+  },
+  internal: {
+    label: "Internal",
+    bg: "bg-[var(--cd-primary-subtle)]",
+    text: "text-[var(--cd-primary-text)]",
+    dot: "bg-sky-500",
+  },
+  community: {
+    label: "Community",
+    bg: "bg-[var(--cd-success-subtle)]",
+    text: "text-[var(--cd-success)]",
+    dot: "bg-emerald-500",
+  },
 };
 
 // ─── Event status ─────────────────────────────────────────────────────────────
@@ -98,9 +130,24 @@ export const EVENT_STATUS_CONFIG: Record<
   "Live" | "Upcoming" | "Completed",
   { bg: string; text: string; dot: string; pulse: boolean }
 > = {
-  Live:      { bg: "bg-[var(--cd-success-subtle)]", text: "text-[var(--cd-success)]", dot: "bg-emerald-500", pulse: true  },
-  Upcoming:  { bg: "bg-[var(--cd-warning-subtle)]", text: "text-[var(--cd-warning)]", dot: "bg-amber-400",   pulse: false },
-  Completed: { bg: "bg-[var(--cd-surface-2)]",      text: "text-[var(--cd-text-2)]",  dot: "bg-gray-400",    pulse: false },
+  Live: {
+    bg: "bg-[var(--cd-success-subtle)]",
+    text: "text-[var(--cd-success)]",
+    dot: "bg-emerald-500",
+    pulse: true,
+  },
+  Upcoming: {
+    bg: "bg-[var(--cd-warning-subtle)]",
+    text: "text-[var(--cd-warning)]",
+    dot: "bg-amber-400",
+    pulse: false,
+  },
+  Completed: {
+    bg: "bg-[var(--cd-surface-2)]",
+    text: "text-[var(--cd-text-2)]",
+    dot: "bg-gray-400",
+    pulse: false,
+  },
 };
 
 // ─── Review decision ──────────────────────────────────────────────────────────
@@ -108,28 +155,42 @@ export const REVIEW_DECISION_CONFIG: Record<
   ReviewDecision,
   { label: string; bg: string; text: string; border: string }
 > = {
-  approved: { label: "Approved", bg: "bg-[var(--cd-success-subtle)]", text: "text-[var(--cd-success)]", border: "border-[var(--cd-success)]" },
-  rejected: { label: "Rejected", bg: "bg-[var(--cd-danger-subtle)]",  text: "text-[var(--cd-danger)]",  border: "border-[var(--cd-danger)]"  },
-  pending:  { label: "Pending",  bg: "bg-[var(--cd-warning-subtle)]", text: "text-[var(--cd-warning)]", border: "border-[var(--cd-warning)]" },
+  approved: {
+    label: "Approved",
+    bg: "bg-[var(--cd-success-subtle)]",
+    text: "text-[var(--cd-success)]",
+    border: "border-[var(--cd-success)]",
+  },
+  rejected: {
+    label: "Rejected",
+    bg: "bg-[var(--cd-danger-subtle)]",
+    text: "text-[var(--cd-danger)]",
+    border: "border-[var(--cd-danger)]",
+  },
+  pending: {
+    label: "Pending",
+    bg: "bg-[var(--cd-warning-subtle)]",
+    text: "text-[var(--cd-warning)]",
+    border: "border-[var(--cd-warning)]",
+  },
 };
 
 // ─── Activity timeline ────────────────────────────────────────────────────────
 export const ACTIVITY_ICON: Record<string, string> = {
-  created:   "✦",
-  updated:   "↻",
+  created: "✦",
+  updated: "↻",
   submitted: "↑",
-  reviewed:  "✓",
+  reviewed: "✓",
   commented: "◎",
 };
 
 export const ACTIVITY_COLOR: Record<string, string> = {
-  created:   "bg-[var(--cd-primary-subtle)] text-[var(--cd-primary)]",
-  updated:   "bg-[var(--cd-warning-subtle)] text-[var(--cd-warning)]",
+  created: "bg-[var(--cd-primary-subtle)] text-[var(--cd-primary)]",
+  updated: "bg-[var(--cd-warning-subtle)] text-[var(--cd-warning)]",
   submitted: "bg-[var(--cd-secondary-subtle)] text-[var(--cd-secondary)]",
-  reviewed:  "bg-[var(--cd-success-subtle)] text-[var(--cd-success)]",
+  reviewed: "bg-[var(--cd-success-subtle)] text-[var(--cd-success)]",
   commented: "bg-[var(--cd-surface-3)] text-[var(--cd-text-2)]",
 };
-
 
 // ─── Submission status colors (legacy alias) ──────────────────────────────────
 export const SUBMISSION_STATUS_COLORS = SUBMISSION_STATUS_CONFIG;
@@ -137,8 +198,8 @@ export const ACTIVITY_ICONS = ACTIVITY_ICON;
 
 // ─── Submission type ──────────────────────────────────────────────────────────
 export const SUBMISSION_TYPE_CONFIG = {
-  file:   { label: "File Upload", icon: "FileUp" },
+  file: { label: "File Upload", icon: "FileUp" },
   github: { label: "GitHub Repository", icon: "Github" },
-  link:   { label: "External Link", icon: "Link" },
-  all:    { label: "Any Submission", icon: "Layers" },
+  link: { label: "External Link", icon: "Link" },
+  all: { label: "Any Submission", icon: "Layers" },
 };

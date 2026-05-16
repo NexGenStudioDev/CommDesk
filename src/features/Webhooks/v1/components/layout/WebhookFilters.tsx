@@ -10,10 +10,18 @@ interface Props {
   totalCount: number;
 }
 
-const STATUS_DOTS: Record<string, string> = { all: "bg-gray-400", active: "bg-emerald-500", inactive: "bg-gray-500" };
+const STATUS_DOTS: Record<string, string> = {
+  all: "bg-gray-400",
+  active: "bg-emerald-500",
+  inactive: "bg-gray-500",
+};
 
 const STATUS_STYLES: Record<string, { bg: string; color: string; border: string }> = {
-  active: { bg: "var(--cd-success-subtle)", color: "var(--cd-success)", border: "var(--cd-success-subtle)" },
+  active: {
+    bg: "var(--cd-success-subtle)",
+    color: "var(--cd-success)",
+    border: "var(--cd-success-subtle)",
+  },
   inactive: { bg: "var(--cd-surface-3)", color: "var(--cd-text-2)", border: "var(--cd-border)" },
 };
 
@@ -33,7 +41,12 @@ function useDropdown() {
   return { open, setOpen, btnRef, panelRef };
 }
 
-function DropdownPortal({ btnRef, panelRef, open, children }: {
+function DropdownPortal({
+  btnRef,
+  panelRef,
+  open,
+  children,
+}: {
   btnRef: React.RefObject<HTMLButtonElement | null>;
   panelRef: React.RefObject<HTMLDivElement | null>;
   open: boolean;
@@ -45,9 +58,13 @@ function DropdownPortal({ btnRef, panelRef, open, children }: {
     const rect = btnRef.current.getBoundingClientRect();
     const below = window.innerHeight - rect.bottom;
     if (below < 240 && rect.top > below)
-      setStyle({ position: "fixed", left: rect.left, bottom: window.innerHeight - rect.top + 6, zIndex: 9999 });
-    else
-      setStyle({ position: "fixed", left: rect.left, top: rect.bottom + 6, zIndex: 9999 });
+      setStyle({
+        position: "fixed",
+        left: rect.left,
+        bottom: window.innerHeight - rect.top + 6,
+        zIndex: 9999,
+      });
+    else setStyle({ position: "fixed", left: rect.left, top: rect.bottom + 6, zIndex: 9999 });
   }, [open, btnRef]);
   if (!open) return null;
   return createPortal(
@@ -63,11 +80,18 @@ function DropdownPortal({ btnRef, panelRef, open, children }: {
     >
       {children}
     </div>,
-    document.body
+    document.body,
   );
 }
 
-export function PillDropdown<T extends string>({ label: pillLabel, value, options, onChange, dotMap, styleMap }: {
+export function PillDropdown<T extends string>({
+  label: pillLabel,
+  value,
+  options,
+  onChange,
+  dotMap,
+  styleMap,
+}: {
   label: string;
   value: T;
   options: { value: T; label: string }[];
@@ -78,7 +102,11 @@ export function PillDropdown<T extends string>({ label: pillLabel, value, option
   const { open, setOpen, btnRef, panelRef } = useDropdown();
   const isActive = value !== options[0].value;
   const current = options.find((o) => o.value === value)?.label ?? pillLabel;
-  const activeStyle = styleMap[value] ?? { bg: "var(--cd-primary)", color: "#fff", border: "var(--cd-primary)" };
+  const activeStyle = styleMap[value] ?? {
+    bg: "var(--cd-primary)",
+    color: "#fff",
+    border: "var(--cd-primary)",
+  };
 
   return (
     <div className="relative shrink-0">
@@ -92,7 +120,11 @@ export function PillDropdown<T extends string>({ label: pillLabel, value, option
           borderColor: isActive ? activeStyle.border : "var(--cd-border)",
         }}
       >
-        {isActive && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotMap[value] ?? "bg-white"} opacity-80`} />}
+        {isActive && (
+          <span
+            className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotMap[value] ?? "bg-white"} opacity-80`}
+          />
+        )}
         {current}
         <ChevronDown
           size={11}
@@ -105,7 +137,11 @@ export function PillDropdown<T extends string>({ label: pillLabel, value, option
         {options.map((opt) => (
           <button
             key={opt.value}
-            onMouseDown={(e) => { e.preventDefault(); onChange(opt.value); setOpen(false); }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              onChange(opt.value);
+              setOpen(false);
+            }}
             className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-left transition-colors"
             style={{
               backgroundColor: opt.value === value ? "var(--cd-surface-2)" : "transparent",
@@ -120,9 +156,13 @@ export function PillDropdown<T extends string>({ label: pillLabel, value, option
                 (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
             }}
           >
-            <span className={`w-2 h-2 rounded-full shrink-0 ${dotMap[opt.value] ?? "bg-gray-300"}`} />
+            <span
+              className={`w-2 h-2 rounded-full shrink-0 ${dotMap[opt.value] ?? "bg-gray-300"}`}
+            />
             <span className="flex-1">{opt.label}</span>
-            {opt.value === value && <Check size={12} style={{ color: "var(--cd-primary)" }} className="shrink-0" />}
+            {opt.value === value && (
+              <Check size={12} style={{ color: "var(--cd-primary)" }} className="shrink-0" />
+            )}
           </button>
         ))}
       </DropdownPortal>
@@ -133,8 +173,10 @@ export function PillDropdown<T extends string>({ label: pillLabel, value, option
 export default function WebhookFiltersBar({ filters, onChange, filteredCount, totalCount }: Props) {
   const [localSearch, setLocalSearch] = useState(filters.search);
   const onChangeRef = useRef(onChange);
-  
-  useEffect(() => { onChangeRef.current = onChange; }, [onChange]);
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     if (localSearch === filters.search) return;
@@ -160,7 +202,11 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
       }}
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center gap-3 px-5 py-4 sm:px-8 lg:px-10">
-        <SlidersHorizontal size={14} style={{ color: "var(--cd-text-muted)" }} className="shrink-0 mr-1" />
+        <SlidersHorizontal
+          size={14}
+          style={{ color: "var(--cd-text-muted)" }}
+          className="shrink-0 mr-1"
+        />
 
         {/* Status Dropdown */}
         <PillDropdown<WebhookStatus | "all">
@@ -194,7 +240,10 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
               style={{ color: "var(--cd-text)" }}
             />
             {localSearch && (
-              <button onClick={() => setLocalSearch("")} className="hover:text-[var(--cd-text)] text-[var(--cd-text-muted)]">
+              <button
+                onClick={() => setLocalSearch("")}
+                className="hover:text-[var(--cd-text)] text-[var(--cd-text-muted)]"
+              >
                 <X size={12} />
               </button>
             )}
@@ -216,7 +265,8 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
           {hasActive ? (
             <span className="flex items-center gap-1">
               <span className="w-1 h-1 rounded-full bg-[var(--cd-primary)]" />
-              Showing <span className="text-[var(--cd-text)] font-bold">{filteredCount}</span> results
+              Showing <span className="text-[var(--cd-text)] font-bold">{filteredCount}</span>{" "}
+              results
             </span>
           ) : (
             `Total webhooks: ${totalCount}`

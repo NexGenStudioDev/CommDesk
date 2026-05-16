@@ -251,7 +251,6 @@ body {
 
 /* ─── CommDesk utility classes ───────────────────────────────────────────── */
 @layer utilities {
-
   /* Cards */
   .cd-card {
     background-color: var(--cd-surface);

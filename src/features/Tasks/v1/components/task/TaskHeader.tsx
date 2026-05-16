@@ -47,17 +47,22 @@ export default function TaskHeader({ selectedEventId, tasks, activeTab, onTabCha
             className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
             style={{
               backgroundColor: "var(--cd-primary-subtle)",
-              color: "var(--cd-primary-text)"
+              color: "var(--cd-primary-text)",
             }}
           >
             <ListTodo size={18} strokeWidth={2.25} />
           </div>
           <div className="min-w-0">
-            <h1 className="truncate text-xl font-semibold leading-tight tracking-tight" style={{ color: "var(--cd-text)" }}>
+            <h1
+              className="truncate text-xl font-semibold leading-tight tracking-tight"
+              style={{ color: "var(--cd-text)" }}
+            >
               Task Management
             </h1>
             <p className="mt-1 truncate text-sm" style={{ color: "var(--cd-text-2)" }}>
-              {event ? `Managing tasks for ${event.name}` : "Centralized control for all event tasks"}
+              {event
+                ? `Managing tasks for ${event.name}`
+                : "Centralized control for all event tasks"}
             </p>
           </div>
         </div>
@@ -68,7 +73,7 @@ export default function TaskHeader({ selectedEventId, tasks, activeTab, onTabCha
             navigate(
               selectedEventId
                 ? `/org/tasks/create?eventId=${selectedEventId}`
-                : "/org/tasks/create"
+                : "/org/tasks/create",
             )
           }
           disabled={!selectedEventId}
@@ -98,7 +103,9 @@ export default function TaskHeader({ selectedEventId, tasks, activeTab, onTabCha
                   <span
                     className="min-w-5 rounded-md px-1.5 py-0.5 text-center text-[11px] font-medium transition-all duration-200"
                     style={{
-                      backgroundColor: isActive ? "var(--cd-primary-subtle)" : "var(--cd-surface-2)",
+                      backgroundColor: isActive
+                        ? "var(--cd-primary-subtle)"
+                        : "var(--cd-surface-2)",
                       color: isActive ? "var(--cd-primary-text)" : "var(--cd-text-muted)",
                     }}
                   >
@@ -115,9 +122,6 @@ export default function TaskHeader({ selectedEventId, tasks, activeTab, onTabCha
           })}
         </div>
       </div>
-
     </div>
-
-
   );
 }

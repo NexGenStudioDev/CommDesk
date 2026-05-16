@@ -2,19 +2,18 @@
 
 ## Overview
 
-
 The goal is to transform CommDesk into a fully production-ready desktop platform capable of large-scale Linux distribution through:
 
-* Flatpak
-* Snap
-* AppImage
-* DEB
-* RPM
-* GitHub Releases
-* Flathub
-* Snap Store
+- Flatpak
+- Snap
+- AppImage
+- DEB
+- RPM
+- GitHub Releases
+- Flathub
+- Snap Store
 
-Reference documentation: 
+Reference documentation:
 
 ---
 
@@ -22,15 +21,15 @@ Reference documentation:
 
 ## Primary Goals
 
-* Add professional Linux distribution support
-* Introduce production deployment workflows
-* Add enterprise-grade release architecture
-* Standardize build systems
-* Implement secure auto-update infrastructure
-* Create scalable CI/CD pipelines
-* Add cross-platform packaging strategy
-* Improve release maintainability
-* Prepare CommDesk for public distribution
+- Add professional Linux distribution support
+- Introduce production deployment workflows
+- Add enterprise-grade release architecture
+- Standardize build systems
+- Implement secure auto-update infrastructure
+- Create scalable CI/CD pipelines
+- Add cross-platform packaging strategy
+- Improve release maintainability
+- Prepare CommDesk for public distribution
 
 ---
 
@@ -38,26 +37,24 @@ Reference documentation:
 
 ## Linux
 
-* Flatpak
-* Snap
-* AppImage
-* DEB
-* RPM
+- Flatpak
+- Snap
+- AppImage
+- DEB
+- RPM
 
 ## Windows
 
-* NSIS
-* MSI
-* Portable EXE
+- NSIS
+- MSI
+- Portable EXE
 
 ## macOS
 
-* DMG
-* App Bundle
+- DMG
+- App Bundle
 
 ---
-
-
 
 # 🟦 Flatpak Infrastructure
 
@@ -71,13 +68,13 @@ org.commdesk.CommDesk.json
 
 ## Required Features
 
-* Sandboxed runtime
-* Flathub compatibility
-* GPU acceleration support
-* Network permissions
-* Wayland + X11 support
-* Rust SDK extensions
-* Node.js SDK extensions
+- Sandboxed runtime
+- Flathub compatibility
+- GPU acceleration support
+- Network permissions
+- Wayland + X11 support
+- Rust SDK extensions
+- Node.js SDK extensions
 
 ---
 
@@ -107,11 +104,11 @@ snap/snapcraft.yaml
 
 ## Required Features
 
-* Strict confinement
-* Network permissions
-* OpenGL support
-* Wayland/X11 support
-* Auto-update compatibility
+- Strict confinement
+- Network permissions
+- OpenGL support
+- Wayland/X11 support
+- Auto-update compatibility
 
 ---
 
@@ -139,12 +136,12 @@ src-tauri/target/release/bundle/appimage/
 
 Implement:
 
-* Tauri updater
-* GitHub Releases integration
-* Signed updates
-* Release manifests
-* Version verification
-* Secure update validation
+- Tauri updater
+- GitHub Releases integration
+- Signed updates
+- Release manifests
+- Version verification
+- Secure update validation
 
 ---
 
@@ -160,11 +157,11 @@ release.pub
 
 ## Required Features
 
-* Silent background downloads
-* Update notifications
-* Signature verification
-* Rollback safety
-* Cross-platform updates
+- Silent background downloads
+- Update notifications
+- Signature verification
+- Rollback safety
+- Cross-platform updates
 
 ---
 
@@ -174,23 +171,23 @@ release.pub
 
 ### Linux
 
-* Flatpak sandboxing
-* Snap confinement
-* Minimal filesystem access
+- Flatpak sandboxing
+- Snap confinement
+- Minimal filesystem access
 
 ### Updates
 
-* Minisign signatures
-* Binary verification
-* Release integrity validation
+- Minisign signatures
+- Binary verification
+- Release integrity validation
 
 ### Windows
 
-* Code signing support
+- Code signing support
 
 ### macOS
 
-* Apple notarization preparation
+- Apple notarization preparation
 
 ---
 
@@ -215,29 +212,29 @@ release.pub
 
 ### Validation
 
-* TypeScript checks
-* ESLint checks
-* Rust checks
-* Build verification
-* Packaging verification
+- TypeScript checks
+- ESLint checks
+- Rust checks
+- Build verification
+- Packaging verification
 
 ### Build Matrix
 
-* Ubuntu
-* Windows
-* macOS
+- Ubuntu
+- Windows
+- macOS
 
 ### Artifacts
 
 Upload:
 
-* AppImage
-* Flatpak bundle
-* Snap package
-* DEB
-* RPM
-* MSI
-* DMG
+- AppImage
+- Flatpak bundle
+- Snap package
+- DEB
+- RPM
+- MSI
+- DMG
 
 ---
 
@@ -272,9 +269,9 @@ scripts/update-version.sh
 
 Capabilities:
 
-* Update all version files
-* Validate consistency
-* Prevent release mismatch
+- Update all version files
+- Validate consistency
+- Prevent release mismatch
 
 ---
 
@@ -284,12 +281,12 @@ Capabilities:
 
 Required Sizes:
 
-* 32x32
-* 64x64
-* 128x128
-* 256x256
-* ICO
-* ICNS
+- 32x32
+- 64x64
+- 128x128
+- 256x256
+- ICO
+- ICNS
 
 ---
 
@@ -306,9 +303,9 @@ src-tauri/icons/
 
 Include:
 
-* Logo generation workflow
-* Export best practices
-* Platform-specific icon requirements
+- Logo generation workflow
+- Export best practices
+- Platform-specific icon requirements
 
 ---
 
@@ -330,10 +327,10 @@ playwright
 
 ### Production Validation
 
-* Flatpak sandbox tests
-* AppImage runtime tests
-* Snap permission tests
-* Auto-update tests
+- Flatpak sandbox tests
+- AppImage runtime tests
+- Snap permission tests
+- Auto-update tests
 
 ---
 
@@ -358,10 +355,10 @@ opt-level = "z"
 
 Add:
 
-* Code splitting
-* Lazy loading
-* Vendor chunking
-* Production minification
+- Code splitting
+- Lazy loading
+- Vendor chunking
+- Production minification
 
 ---
 
@@ -371,14 +368,14 @@ Add:
 
 ### Crash Reporting
 
-* Rust panic reporting
-* Frontend error tracking
+- Rust panic reporting
+- Frontend error tracking
 
 ### Update Analytics
 
-* Update adoption rate
-* Failed update tracking
-* Release stability metrics
+- Update adoption rate
+- Failed update tracking
+- Release stability metrics
 
 ---
 
@@ -386,14 +383,14 @@ Add:
 
 All deployment docs must include:
 
-* Prerequisites
-* Installation
-* Build commands
-* Release workflow
-* Security recommendations
-* Troubleshooting
-* CI/CD examples
-* Production best practices
+- Prerequisites
+- Installation
+- Build commands
+- Release workflow
+- Security recommendations
+- Troubleshooting
+- CI/CD examples
+- Production best practices
 
 ---
 
@@ -401,11 +398,11 @@ All deployment docs must include:
 
 ## DO NOT
 
-* Hardcode secrets
-* Commit private signing keys
-* Disable security checks
-* Use unrestricted filesystem permissions
-* Skip binary verification
+- Hardcode secrets
+- Commit private signing keys
+- Disable security checks
+- Use unrestricted filesystem permissions
+- Skip binary verification
 
 ---
 
@@ -413,37 +410,36 @@ All deployment docs must include:
 
 ## Packaging
 
-* [ ] Flatpak builds successfully
-* [ ] Snap builds successfully
-* [ ] AppImage builds successfully
-* [ ] DEB builds successfully
-* [ ] RPM builds successfully
+- [ ] Flatpak builds successfully
+- [ ] Snap builds successfully
+- [ ] AppImage builds successfully
+- [ ] DEB builds successfully
+- [ ] RPM builds successfully
 
 ---
 
 ## Security
 
-* [ ] Auto-update signing works
-* [ ] Signature verification works
-* [ ] Sandboxing validated
-* [ ] Minimal permissions enforced
+- [ ] Auto-update signing works
+- [ ] Signature verification works
+- [ ] Sandboxing validated
+- [ ] Minimal permissions enforced
 
 ---
 
 ## CI/CD
 
-* [ ] Multi-platform builds work
-* [ ] Release workflows automated
-* [ ] Artifact uploads work
-* [ ] Release tagging works
+- [ ] Multi-platform builds work
+- [ ] Release workflows automated
+- [ ] Artifact uploads work
+- [ ] Release tagging works
 
 ---
 
 ## Documentation
 
-* [ ] Linux packaging docs completed
-* [ ] Production deployment docs completed
-* [ ] Auto-update docs completed
-* [ ] Troubleshooting docs completed
-* [ ] Release workflow documented
-
+- [ ] Linux packaging docs completed
+- [ ] Production deployment docs completed
+- [ ] Auto-update docs completed
+- [ ] Troubleshooting docs completed
+- [ ] Release workflow documented

@@ -7,19 +7,28 @@ import { ToastContainer } from "@/features/Tasks/v1/components/common/ToastNotif
 export default function EditWebhookPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  
+
   const { data: webhook, isLoading, isError } = useWebhook(id);
 
   if (isLoading) {
-    return <div className="p-10 text-center text-[var(--cd-text-muted)]">Loading webhook details...</div>;
+    return (
+      <div className="p-10 text-center text-[var(--cd-text-muted)]">Loading webhook details...</div>
+    );
   }
 
   if (isError || !webhook) {
-    return <div className="p-10 text-center text-[var(--cd-danger)]">Webhook not found or failed to load.</div>;
+    return (
+      <div className="p-10 text-center text-[var(--cd-danger)]">
+        Webhook not found or failed to load.
+      </div>
+    );
   }
 
   return (
-    <div className="flex h-full w-full flex-col cd-page" style={{ backgroundColor: "var(--cd-bg)" }}>
+    <div
+      className="flex h-full w-full flex-col cd-page"
+      style={{ backgroundColor: "var(--cd-bg)" }}
+    >
       {/* Header */}
       <div
         className="flex justify-between border-b px-5 py-4 text-xl font-bold sm:px-8 lg:px-10"
@@ -56,7 +65,7 @@ export default function EditWebhookPage() {
       <div className="flex-1 overflow-auto">
         <WebhookForm mode="edit" initialData={webhook} />
       </div>
-      
+
       <ToastContainer toasts={[]} onDismiss={() => {}} />
     </div>
   );

@@ -25,52 +25,55 @@ const WebhookLogsPage = lazy(() => import("@/features/Webhooks/v1/pages/WebhookL
 
 const OrgRoute = () => {
   return (
-    <Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}>
+    <Suspense
+      fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}
+    >
       <Routes>
+        <Route path="/org" element={<Organisation_Template />}>
+          {/* Dashboard */}
+          <Route index element={<DashBoardPage />} />
 
-           <Route path="/org" element={<Organisation_Template />}>
-        {/* Dashboard */}
-        <Route index element={<DashBoardPage />} />
+          <Route path="dashboard" element={<DashBoardPage />} />
 
-        <Route path="dashboard" element={<DashBoardPage />} />
+          <Route path="member" element={<MemberPage />} />
 
-        <Route path="member" element={<MemberPage />} />
+          {/* Events */}
+          <Route path="events" element={<ViewEvent />} />
 
-        {/* Events */}
-        <Route path="events" element={<ViewEvent />} />
+          <Route path="projects" element={<ProjectsPage />} />
 
-        <Route path="projects" element={<ProjectsPage />} />
+          <Route path="create-event" element={<CreateNewEvent />} />
 
-        <Route path="create-event" element={<CreateNewEvent />} />
+          <Route path="tasks" element={<TaskManagementPage />} />
+          <Route path="tasks/create" element={<CreateTaskPage />} />
+          <Route path="tasks/:taskId" element={<TaskDetailPage />} />
+          <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
 
-        <Route path="tasks" element={<TaskManagementPage />} />
-        <Route path="tasks/create" element={<CreateTaskPage />} />
-        <Route path="tasks/:taskId" element={<TaskDetailPage />} />
-        <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
+          {/* Webhooks */}
+          <Route
+            path="dashboard/webhooks/*"
+            element={
+              <ProtectedRoute
+                user={dashboardData.user}
+                allowedRoles={["CommunityOwner", "Admin", "Organizer"]}
+              >
+                <Routes>
+                  <Route index element={<WebhookListPage />} />
+                  <Route path="create" element={<CreateWebhookPage />} />
+                  <Route path=":id" element={<WebhookDetailsPage />} />
+                  <Route path=":id/edit" element={<EditWebhookPage />} />
+                  <Route path=":id/logs" element={<WebhookLogsPage />} />
+                </Routes>
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Webhooks */}
-        <Route 
-          path="dashboard/webhooks/*" 
-          element={
-            <ProtectedRoute user={dashboardData.user} allowedRoles={["CommunityOwner", "Admin", "Organizer"]}>
-              <Routes>
-                <Route index element={<WebhookListPage />} />
-                <Route path="create" element={<CreateWebhookPage />} />
-                <Route path=":id" element={<WebhookDetailsPage />} />
-                <Route path=":id/edit" element={<EditWebhookPage />} />
-                <Route path=":id/logs" element={<WebhookLogsPage />} />
-              </Routes>
-            </ProtectedRoute>
-          } 
-        />
+          {/* Contact */}
+          <Route path="contact" element={<Contact />} />
 
-        {/* Contact */}
-        <Route path="contact" element={<Contact />} />
-
-        {/* Add Member */}
-        <Route path="add-member" element={<AddMemberPage />} />
-      </Route>
-
+          {/* Add Member */}
+          <Route path="add-member" element={<AddMemberPage />} />
+        </Route>
       </Routes>
     </Suspense>
   );
