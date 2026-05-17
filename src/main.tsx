@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { PermissionBootstrap } from "./permissions";
 import { store } from "./store";
 import { ThemeProvider } from "./theme/provider";
-import { SidebarProvider } from "./context/SidebarContext";
 
 const queryClient = new QueryClient();
 const container = document.getElementById("root");

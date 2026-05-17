@@ -255,7 +255,7 @@ export default function WebhookListPage() {
         onConfirm={() => void handleDelete()}
         onCancel={() => setWebhookToDelete(null)}
         isLoading={deleteWebhook.isPending}
-        danger
+        variant="danger"
       />
 
       <ConfirmModal
@@ -266,7 +266,7 @@ export default function WebhookListPage() {
         onConfirm={() => void handleBulkAction()}
         onCancel={() => setBulkActionToConfirm(null)}
         isLoading={bulkAction.isPending}
-        danger
+        variant="danger"
       />
 
       <BulkActionBar

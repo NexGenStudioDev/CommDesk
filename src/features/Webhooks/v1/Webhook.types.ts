@@ -48,6 +48,7 @@ export interface UpdateWebhookPayload {
   events?: WebhookEvent[];
   status?: WebhookStatus;
   secret?: string;
+  permissions?: string[];
 }
 
 export interface WebhookFilters {
