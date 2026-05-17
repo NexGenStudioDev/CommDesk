@@ -49,7 +49,7 @@ vi.mock("@/utils/telemetry", () => ({
 const mockWebhookData = {
   id: "webhook-1",
   name: "Slack Alerts",
-  url: "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX",
+  url: "https://example.com/webhooks/commdesk/test-endpoint",
   events: ["member.created", "event.created"],
   secret: "secret123",
   permissions: ["read:members", "write:events"],
@@ -96,7 +96,7 @@ describe("WebhookForm Component", () => {
       expect(screen.getByText("Edit Endpoint")).toBeInTheDocument();
       expect(screen.getByDisplayValue("Slack Alerts")).toBeInTheDocument();
       expect(
-        screen.getByDisplayValue("https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"),
+        screen.getByDisplayValue("https://example.com/webhooks/commdesk/test-endpoint"),
       ).toBeInTheDocument();
     });
 
