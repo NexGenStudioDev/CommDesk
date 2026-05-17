@@ -1,8 +1,7 @@
-import { MoreHorizontal, Edit, Trash2, Webhook as WebhookIcon, Settings } from "lucide-react";
+import { Edit, Trash2, Webhook as WebhookIcon, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Webhook } from "../../Webhook.types";
 import StatusBadge from "../common/StatusBadge";
-import { format } from "date-fns";
 
 interface Props {
   webhooks: Webhook[];

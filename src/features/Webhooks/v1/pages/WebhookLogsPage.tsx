@@ -4,7 +4,7 @@ import { ArrowLeft, Activity } from "lucide-react";
 import { useWebhook } from "../hooks/useWebhooks";
 import { useWebhookLogs, useRetryWebhookDelivery } from "../hooks/useWebhookLogs";
 import { DEFAULT_LOG_FILTERS } from "../constants/webhook.constants";
-import type { WebhookLogFilters } from "../Webhook.types";
+import type { WebhookEvent, WebhookLogFilters } from "../Webhook.types";
 import LogsTable from "../components/table/LogsTable";
 import LogsCardList from "../components/table/LogsCardList";
 import { ToastContainer, useToast } from "@/features/Tasks/v1/components/common/ToastNotification";
@@ -123,7 +123,7 @@ export default function WebhookLogsPage() {
             { value: "failed", label: "Failed" },
           ]}
         />
-        <PillDropdown<string>
+        <PillDropdown<WebhookEvent | "all">
           label="Event"
           value={filters.event}
           dotMap={{ all: "bg-gray-400" }}

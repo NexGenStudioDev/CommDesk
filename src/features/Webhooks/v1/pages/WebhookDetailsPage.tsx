@@ -8,7 +8,6 @@ import {
   Settings2,
   TestTube2,
   Loader2,
-  ArrowRight,
   Signal,
   Zap,
   Clock,
@@ -152,7 +151,6 @@ export default function WebhookDetailsPage() {
             style={{
               backgroundColor: "var(--cd-surface)",
               borderColor: "var(--cd-border)",
-              divideColor: "var(--cd-border-subtle)",
             }}
           >
             {[
@@ -268,7 +266,12 @@ export default function WebhookDetailsPage() {
                       <Loader2 size={20} className="animate-spin" /> Loading Activity...
                     </div>
                   ) : (
-                    <LogsTable logs={logsData?.data.slice(0, 5) || []} onRetry={() => {}} />
+                    <LogsTable
+                      logs={logsData?.data.slice(0, 5) || []}
+                      isLoading={false}
+                      onRetry={() => {}}
+                      isRetrying={false}
+                    />
                   )}
                 </div>
               </div>{" "}

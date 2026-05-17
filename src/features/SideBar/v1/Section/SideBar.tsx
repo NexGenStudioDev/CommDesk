@@ -12,9 +12,9 @@ import { useTheme } from "@/theme";
 import { ThemeToggle } from "@/Component/ui/ThemeToggle";
 
 import SideBarLink from "../Components/SideBarLink";
-import { dashboardData } from "@/features/Member/v1/mock/dashboardData";
+
 import useAuthStore from "@/features/Auth/v1/Store/Auth.Store";
-import { useEffect } from "react";
+
 import useOrganizationStore from "@/features/Auth/v1/Store/Organization.Store";
 
 const SideBar = () => {

@@ -458,7 +458,7 @@ export default function TaskDetailPage() {
         onConfirm={() => void handleDelete()}
         onCancel={() => setShowDeleteModal(false)}
         isLoading={deleteTask.isPending}
-        danger
+      
       />
 
       <ToastContainer toasts={toasts} onDismiss={dismiss} />
