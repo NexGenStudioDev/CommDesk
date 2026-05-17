@@ -1,4 +1,5 @@
 import Button from "../../../../Component/ui/Button";
+import { Event_Permissions, PermissionGate } from "@/permissions";
 import { Link } from "react-router";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdPublish } from "react-icons/md";
@@ -23,12 +24,20 @@ const Event_Header = () => {
       </Link>
 
       <div className="w-1/2 xl:w-fit h-full mr-[3vw] flex justify-end gap-3">
-        <Button text="Save Draft" variant="secondary" onClick={() => alert("Save Draft clicked")} />
-        <Button
-          text="Create Event"
-          icon={<MdPublish className="inline" />}
-          onClick={() => alert("Create Event clicked")}
-        />
+        <PermissionGate permission={Event_Permissions.CREATE_EVENT}>
+          <Button
+            text="Save Draft"
+            variant="secondary"
+            onClick={() => alert("Save Draft clicked")}
+          />
+        </PermissionGate>
+        <PermissionGate permission={Event_Permissions.PUBLISH_EVENT}>
+          <Button
+            text="Create Event"
+            icon={<MdPublish className="inline" />}
+            onClick={() => alert("Create Event clicked")}
+          />
+        </PermissionGate>
       </div>
     </div>
   );

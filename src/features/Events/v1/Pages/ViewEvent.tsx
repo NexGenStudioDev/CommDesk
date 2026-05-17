@@ -1,4 +1,5 @@
 import Event_View_Header from "../Sections/Event_View_Header";
+import { AccessDenied, Event_Permissions, PermissionBoundary, PermissionLoading } from "@/permissions";
 import EventTable from "../Components/EventTable";
 import { FaRocket, FaCode, FaGlobe, FaBolt, FaPalette } from "react-icons/fa";
 import { Event } from "../Event.type";
@@ -80,9 +81,20 @@ const ViewEvent = () => {
   return (
     <div className="w-full h-full flex flex-col cd-page">
       <Event_View_Header />
-      <div className="w-full h-full p-[3vw]">
-        <EventTable events={events} itemsPerPage={5} />
-      </div>
+      <PermissionBoundary
+        permission={Event_Permissions.VIEW_EVENT}
+        loadingFallback={<PermissionLoading />}
+        unauthorizedFallback={
+          <AccessDenied
+            title="Event access is unavailable"
+            description="This view is only shown to members who can view event schedules, participation, and management actions."
+          />
+        }
+      >
+        <div className="w-full h-full p-[3vw]">
+          <EventTable events={events} itemsPerPage={5} />
+        </div>
+      </PermissionBoundary>
     </div>
   );
 };
