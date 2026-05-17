@@ -190,7 +190,7 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
 
   const resetAll = () => {
     setLocalSearch("");
-    onChange({ status: "all", search: "" });
+    onChange({ status: "all", search: "", page: 1 });
   };
 
   return (

@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
-import { useWebhooks, useWebhook, useCreateWebhook } from "./useWebhooks";
+import { useWebhooks, useCreateWebhook } from "./useWebhooks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { webhookStore } from "../mock/webhookStore";
 
@@ -48,15 +48,18 @@ describe("Webhook API Hooks Integration", () => {
       updatedAt: new Date().toISOString(),
     });
 
-    const { result } = renderHook(() => useWebhooks({ status: "all", search: "Alpha" }), {
+    const { result } = renderHook(
+      () => useWebhooks({ status: "all", search: "Alpha", page: 1 }),
+      {
       wrapper,
-    });
+      },
+    );
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(result.current.data).toHaveLength(1);
-    expect(result.current.data?.[0].name).toBe("Alpha Hook");
+    expect(result.current.data?.data).toHaveLength(1);
+    expect(result.current.data?.data[0].name).toBe("Alpha Hook");
   });
 });

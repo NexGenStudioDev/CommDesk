@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle2, XCircle, RotateCcw, FileJson } from "lucide-react";
+import { RotateCcw, FileJson } from "lucide-react";
 import { format } from "date-fns";
 import type { WebhookLog } from "../../Webhook.types";
 import PayloadModal from "../modals/PayloadModal";

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { webhookLogStore } from "../mock/webhookStore";
-import type { WebhookLog, WebhookLogFilters, PaginatedWebhookLogs } from "../Webhook.types";
+import type { WebhookLogFilters, PaginatedWebhookLogs } from "../Webhook.types";
 
 export function useWebhookLogs(webhookId: string | undefined, filters: WebhookLogFilters) {
   return useQuery<PaginatedWebhookLogs>({
@@ -38,10 +38,7 @@ export function useWebhookLogs(webhookId: string | undefined, filters: WebhookLo
 export function useRetryWebhookDelivery() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({
-      webhookId,
-      logId,
-    }: {
+    mutationFn: async (_params: {
       webhookId: string;
       logId: string;
     }): Promise<{ success: boolean }> => {
