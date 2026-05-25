@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Contact_Permissions, usePermissionMap } from "@/permissions";
 import { FiMail, FiCopy, FiCheck } from "react-icons/fi";
 
 type TeamMember = {
@@ -94,6 +95,10 @@ const CopyEmailButton = ({ email }: { email: string }) => {
 };
 
 const InternalSupport_Table = () => {
+  const { canEmail } = usePermissionMap({
+    canEmail: Contact_Permissions.EMAIL_CONTACT,
+  });
+
   return (
     <div className="w-full h-fit overflow-x-auto">
       <table className="cd-table min-w-[680px]">
@@ -102,7 +107,7 @@ const InternalSupport_Table = () => {
             <th>Team Member</th>
             <th>Role / Department</th>
             <th>Email Address</th>
-            <th className="text-center">Actions</th>
+            <th className="text-center">{canEmail ? "Actions" : "Quick Copy"}</th>
           </tr>
         </thead>
         <tbody>
@@ -148,21 +153,24 @@ const InternalSupport_Table = () => {
               </td>
               <td>
                 <div className="flex items-center justify-center gap-1">
-                  <a
-                    href={`mailto:${member.email}`}
-                    title="Send email"
-                    className="p-1.5 rounded-md transition-colors"
-                    style={{ color: "var(--cd-text-muted)" }}
-                    onMouseEnter={(e) =>
-                      ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
-                        "var(--cd-primary-subtle)")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent")
-                    }
-                  >
-                    <FiMail size={14} />
-                  </a>
+                  {canEmail && (
+                    <a
+                      href={`mailto:${member.email}`}
+                      title="Send email"
+                      className="p-1.5 rounded-md transition-colors"
+                      style={{ color: "var(--cd-text-muted)" }}
+                      onMouseEnter={(e) =>
+                        ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                          "var(--cd-primary-subtle)")
+                      }
+                      onMouseLeave={(e) =>
+                        ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                          "transparent")
+                      }
+                    >
+                      <FiMail size={14} />
+                    </a>
+                  )}
                   <CopyEmailButton email={member.email} />
                 </div>
               </td>

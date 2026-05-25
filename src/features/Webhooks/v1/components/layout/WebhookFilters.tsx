@@ -209,6 +209,7 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
         borderColor: "var(--cd-border-subtle)",
       }}
     >
+      <div className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center gap-3 px-5 py-4 sm:px-8 lg:px-10">
       <div
         className="mx-auto flex w-full flex-wrap items-center gap-3 px-5 py-4 sm:px-8 lg:px-10"
         style={{ maxWidth: 1440 }}
@@ -253,6 +254,7 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
             {localSearch && (
               <button
                 onClick={() => setLocalSearch("")}
+                className="hover:text-[var(--cd-text)] text-[var(--cd-text-muted)]"
                 className="transition-colors"
                 style={{ color: "var(--cd-text-muted)" }}
                 onMouseEnter={(e) => {
@@ -296,6 +298,8 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
         <p className="text-xs font-medium" style={{ color: "var(--cd-text-muted)" }}>
           {hasActive ? (
             <span className="flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-[var(--cd-primary)]" />
+              Showing <span className="text-[var(--cd-text)] font-bold">{filteredCount}</span>{" "}
               <span
                 className="w-1 h-1 rounded-full"
                 style={{ backgroundColor: "var(--cd-primary)" }}

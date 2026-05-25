@@ -261,6 +261,7 @@ export default function TaskManagementPage() {
         onConfirm={() => void handleDelete()}
         onCancel={() => setTaskToDelete(null)}
         isLoading={deleteTask.isPending}
+   
       />
 
       <ToastContainer toasts={toasts} onDismiss={dismiss} />

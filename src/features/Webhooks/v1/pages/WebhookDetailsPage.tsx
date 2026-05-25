@@ -46,6 +46,9 @@ export default function WebhookDetailsPage() {
   const testWebhook = useTestWebhook();
 
   if (isLoading)
+    return <div className="p-10 text-center text-[var(--cd-text-muted)]">Loading webhook...</div>;
+  if (isError || !webhook)
+    return <div className="p-10 text-center text-[var(--cd-danger)]">Webhook not found.</div>;
     return <div className="p-10 text-center text-cd-text-muted">Loading webhook...</div>;
   if (isError || !webhook)
     return <div className="p-10 text-center text-cd-danger">Webhook not found.</div>;
@@ -89,6 +92,7 @@ export default function WebhookDetailsPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/org/dashboard/webhooks")}
+            className="p-2 rounded-lg transition-all hover:bg-[var(--cd-hover)] active:scale-90"
             className="p-2 rounded-lg transition-all hover:bg-cd-hover active:scale-90"
             style={{ color: "var(--cd-text-muted)" }}
           >
@@ -108,6 +112,12 @@ export default function WebhookDetailsPage() {
               >
                 <Globe size={10} /> {webhook.url}
               </div>
+              <button className="opacity-0 group-hover:opacity-100 transition-all p-1 rounded bg-[var(--cd-surface-2)]">
+                {copied ? (
+                  <Check size={10} className="text-[var(--cd-success)]" />
+                ) : (
+                  <Copy size={10} />
+                )}
               <button className="opacity-0 group-hover:opacity-100 transition-all p-1 rounded bg-cd-surface-2">
                 {copied ? <Check size={10} className="text-cd-success" /> : <Copy size={10} />}
               </button>
@@ -123,6 +133,7 @@ export default function WebhookDetailsPage() {
             style={{ color: "var(--cd-text)", borderColor: "var(--cd-border)" }}
           >
             {testWebhook.isPending ? (
+              <Loader2 size={14} className="animate-spin text-[var(--cd-primary)]" />
               <Loader2 size={14} className="animate-spin text-cd-primary" />
             ) : (
               <TestTube2 size={14} />
@@ -140,6 +151,7 @@ export default function WebhookDetailsPage() {
       </div>
 
       <div className="flex-1 overflow-auto p-5 sm:p-8 lg:p-10 scroll-smooth">
+        <div className="mx-auto w-full max-w-[1200px] flex flex-col gap-8">
         <div className="mx-auto w-full max-w-300 flex flex-col gap-8">
           {/* Unified Dash Stats */}
           <div
@@ -160,6 +172,11 @@ export default function WebhookDetailsPage() {
                 color: webhook.status === "active" ? "var(--cd-success)" : "var(--cd-text-muted)",
               },
             ].map((stat, i) => (
+              <div
+                key={i}
+                className="p-6 flex flex-col gap-1 transition-colors hover:bg-[var(--cd-hover)]"
+              >
+                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[var(--cd-text-muted)] opacity-60">
               <div key={i} className="p-6 flex flex-col gap-1 transition-colors hover:bg-cd-hover">
                 <span className="text-[10px] font-black uppercase tracking-[0.15em] text-cd-text-muted opacity-60">
                   {stat.label}
@@ -181,6 +198,40 @@ export default function WebhookDetailsPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Test Result Banner (Conditional) */}
+          {testResult && (
+            <div
+              className={`rounded-2xl border p-5 flex items-center justify-between animate-in slide-in-from-top-4 duration-300 ${testResult.success ? "bg-[var(--cd-success-subtle)] border-[var(--cd-success)]" : "bg-[var(--cd-danger-subtle)] border-[var(--cd-danger)]"}`}
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className={`p-2.5 rounded-xl ${testResult.success ? "bg-[var(--cd-success)] text-white" : "bg-[var(--cd-danger)] text-white"}`}
+                >
+                  {testResult.success ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+                </div>
+                <div>
+                  <h4
+                    className="font-bold text-sm"
+                    style={{
+                      color: testResult.success
+                        ? "var(--cd-success-text)"
+                        : "var(--cd-danger-text)",
+                    }}
+                  >
+                    {testResult.success ? "Connection Successful" : "Connection Failed"}
+                  </h4>
+                  <p
+                    className="text-xs opacity-80"
+                    style={{
+                      color: testResult.success
+                        ? "var(--cd-success-text)"
+                        : "var(--cd-danger-text)",
+                    }}
+                  >
+                    {testResult.message} • {format(testResult.timestamp, "HH:mm:ss")}
+                  </p>
             {/* Test Result Banner (Conditional) */}
             {testResult && (
               <div
@@ -222,6 +273,14 @@ export default function WebhookDetailsPage() {
                   Dismiss
                 </button>
               </div>
+              <button
+                onClick={() => setTestResult(null)}
+                className="text-xs font-bold underline opacity-60 hover:opacity-100"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
             )}
           </div>
 
@@ -241,12 +300,14 @@ export default function WebhookDetailsPage() {
                     <div className="p-1.5 rounded-lg bg-cd-primary-subtle text-cd-primary">
                       <Terminal size={16} />
                     </div>
+                    <h3 className="font-black text-xs uppercase tracking-widest text-[var(--cd-text)]">
                     <h3 className="font-black text-xs uppercase tracking-widest text-cd-text">
                       Recent Deliveries
                     </h3>
                   </div>
                   <Link
                     to={`/org/dashboard/webhooks/${webhook.id}/logs`}
+                    className="text-[10px] font-black uppercase tracking-widest text-[var(--cd-primary)] hover:opacity-70 transition-opacity"
                     className="text-[10px] font-black uppercase tracking-widest text-cd-primary hover:opacity-70 transition-opacity"
                   >
                     Full History
@@ -276,6 +337,8 @@ export default function WebhookDetailsPage() {
                   className="p-5 border-b flex items-center gap-3"
                   style={{ borderColor: "var(--cd-border-subtle)" }}
                 >
+                  <Code2 size={16} className="text-[var(--cd-primary)]" />
+                  <h3 className="font-black text-xs uppercase tracking-widest text-[var(--cd-text)]">
                   <Code2 size={16} className="text-cd-primary" />
                   <h3 className="font-black text-xs uppercase tracking-widest text-cd-text">
                     Payload Structure
@@ -324,6 +387,10 @@ export default function WebhookDetailsPage() {
                       <span style={{ color: "#79c0ff" }}>{"}"}</span>
                     </pre>
                   </div>
+                  <p className="mt-4 text-[10px] text-[var(--cd-text-muted)] italic">
+                    Note: Requests are POSTed with an{" "}
+                    <code className="text-[var(--cd-text)] font-bold">X-CommDesk-Signature</code>{" "}
+                    header for verification.
                   <p className="mt-4 text-[10px] text-cd-text-muted italic">
                     Note: Requests are POSTed with an{" "}
                     <code className="text-cd-text font-bold">X-CommDesk-Signature</code> header for
@@ -345,6 +412,8 @@ export default function WebhookDetailsPage() {
                     <ShieldAlert size={12} /> Security Config
                   </h3>
                   <div className="flex flex-col gap-4">
+                    <div className="p-3 rounded-xl bg-[var(--cd-surface-2)] border border-[var(--cd-border-subtle)]">
+                      <span className="text-[9px] font-bold text-[var(--cd-text-muted)] uppercase tracking-wider block mb-2">
                     <div className="p-3 rounded-xl bg-cd-surface-2 border border-cd-border-subtle">
                       <span className="text-[9px] font-bold text-cd-text-muted uppercase tracking-wider block mb-2">
                         Signing Secret
@@ -403,12 +472,18 @@ export default function WebhookDetailsPage() {
                 style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border)" }}
               >
                 <div className="flex justify-between items-center text-[10px]">
+                  <span className="text-[var(--cd-text-muted)] font-medium">Created</span>
+                  <span className="font-bold text-[var(--cd-text)]">
                   <span className="text-cd-text-muted font-medium">Created</span>
                   <span className="font-bold text-cd-text">
                     {format(new Date(webhook.createdAt), "MMM d, yyyy")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-[10px]">
+                  <span className="text-[var(--cd-text-muted)] font-medium">Internal ID</span>
+                  <span className="font-mono text-[9px] opacity-40 text-[var(--cd-text)]">
+                    {webhook.id}
+                  </span>
                   <span className="text-cd-text-muted font-medium">Internal ID</span>
                   <span className="font-mono text-[9px] opacity-40 text-cd-text">{webhook.id}</span>
                 </div>

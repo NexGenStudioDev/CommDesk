@@ -89,6 +89,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5">
                       <div
+                        className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-[var(--cd-success)]" : "bg-[var(--cd-danger)]"}`}
                         className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-cd-success" : "bg-cd-danger"}`}
                       />
                       <span
@@ -124,6 +125,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                         onClick={() =>
                           setSelectedPayload({ title: "Request Payload", data: log.requestPayload })
                         }
+                        className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
                         className="p-1.5 rounded hover:bg-cd-surface-3 transition-colors text-cd-text-2 hover:text-cd-text"
                         title="View Request"
                       >
@@ -136,6 +138,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                             data: log.responsePayload,
                           })
                         }
+                        className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
                         className="p-1.5 rounded hover:bg-cd-surface-3 transition-colors text-cd-text-2 hover:text-cd-text"
                         title="View Response"
                       >

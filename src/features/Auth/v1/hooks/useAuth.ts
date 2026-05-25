@@ -5,6 +5,8 @@ import AUTH_ENDPOINTS from "../Constant/Auth.Endpoint.Constant";
 import useAuthStore from "../Store/Auth.Store";
 import useOrganizationStore from "../Store/Organization.Store";
 
+const baseUrl =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 
 // =========================
@@ -17,6 +19,7 @@ const useGetOrganizationMutation = () => {
 
     mutationFn: async (_id: string) => {
       const response = await api.get(
+        `${baseUrl}${AUTH_ENDPOINTS.GET_ORGANIZATION_BY_ID}?ownerId=${_id}`
         `${baseUrl}${AUTH_ENDPOINTS.GET_ORGANIZATION_BY_ID}?ownerId=${_id}`,
       );
 
@@ -43,6 +46,14 @@ const useLoginMutation = () => {
   return useMutation({
     mutationKey: ["login"],
 
+    mutationFn: async (credentials: {
+      email: string;
+      password: string;
+    }) => {
+      const response = await api.post(
+        `${baseUrl}${AUTH_ENDPOINTS.LOGIN}`,
+        credentials
+      );
     mutationFn: async (credentials: { email: string; password: string }) => {
       const response = await api.post(`${baseUrl}${AUTH_ENDPOINTS.LOGIN}`, credentials);
 
@@ -79,4 +90,5 @@ export const useAuth = () => {
   return {
     loginMutation,
   };
+};
 };

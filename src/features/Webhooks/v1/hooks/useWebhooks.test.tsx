@@ -48,6 +48,12 @@ describe("Webhook API Hooks Integration", () => {
       updatedAt: new Date().toISOString(),
     });
 
+    const { result } = renderHook(
+      () => useWebhooks({ status: "all", search: "Alpha", page: 1 }),
+      {
+      wrapper,
+      },
+    );
     const { result } = renderHook(() => useWebhooks({ status: "all", search: "Alpha", page: 1 }), {
       wrapper,
     });
