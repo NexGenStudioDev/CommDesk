@@ -23,6 +23,12 @@ const EditWebhookPage = lazy(() => import("@/features/Webhooks/v1/pages/EditWebh
 const WebhookDetailsPage = lazy(() => import("@/features/Webhooks/v1/pages/WebhookDetailsPage"));
 const WebhookLogsPage = lazy(() => import("@/features/Webhooks/v1/pages/WebhookLogsPage"));
 
+// Lazy-loaded Billing pages
+const CommunityWalletPage = lazy(() => import("@/features/Billing/v1/pages/CommunityWalletPage"));
+const UsageDashboardPage = lazy(() => import("@/features/Billing/v1/pages/UsageDashboardPage"));
+const AddFundsPage = lazy(() => import("@/features/Billing/v1/pages/AddFundsPage"));
+const BillingPage = lazy(() => import("@/features/Member/v1/Pages/Billing"));
+
 const OrgRoute = () => {
   return (
     <Suspense
@@ -68,12 +74,24 @@ const OrgRoute = () => {
             }
           />
 
+          {/* Community Wallet */}
+          <Route path="billing/wallet" element={<CommunityWalletPage />} />
+
+          {/* Usage Dashboard */}
+          <Route path="billing/usage" element={<UsageDashboardPage />} />
+
+          {/* Billing Hub + Add Funds */}
+          <Route path="billing" element={<BillingPage />} />
+          <Route path="billing/add-funds" element={<AddFundsPage />} />
+
           {/* Contact */}
           <Route path="contact" element={<Contact />} />
 
           {/* Add Member */}
           <Route path="add-member" element={<AddMemberPage />} />
         </Route>
+        {/* Fallback route to suppress "No routes matched location" warning on non-org paths */}
+        <Route path="*" element={null} />
       </Routes>
     </Suspense>
   );

@@ -1,10 +1,5 @@
-import PagePlaceholder from "../Components/PagePlaceholder";
+import BillingHubPage from "@/features/Billing/v1/pages/BillingHubPage";
 
 export default function BillingPage() {
-  return (
-    <PagePlaceholder
-      title="Billing"
-      description="Manage subscriptions, invoices, payment methods, and billing history."
-    />
-  );
+  return <BillingHubPage />;
 }

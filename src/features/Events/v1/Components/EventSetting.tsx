@@ -11,7 +11,7 @@ type EventSettingProps = {
 };
 
 const EventSetting = ({ onToggleChange, isToggled, title, description }: EventSettingProps) => {
-  let [toggled, setToggled] = React.useState(isToggled || false);
+  const [toggled, setToggled] = React.useState(isToggled || false);
   const [isAnimating, setIsAnimating] = React.useState(false);
 
   React.useEffect(() => {

@@ -7,7 +7,7 @@ import { useMemo } from "react";
 
 const Organisation_Template = () => {
 
-  let user = useAuthStore((state) => state.user);
+  const user = useAuthStore((state) => state.user);
 
   useMemo(() => {
 

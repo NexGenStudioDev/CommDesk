@@ -93,6 +93,8 @@ const MemberRoutes = () => {
           </div>
         }
       />
+      {/* Fallback route to suppress "No routes matched location" warning on non-member paths */}
+      <Route path="*" element={null} />
     </Routes>
   );
 };

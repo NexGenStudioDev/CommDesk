@@ -26,7 +26,7 @@ const LoginPage = () => {
           password,
         });
 
-        let Role = response.data.role;
+        const Role = response.data.role;
         console.log("User role:", Role);
 
         if (Role === "organization") {

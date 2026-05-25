@@ -1,4 +1,4 @@
-export let CONTACT_AND_SUPPORT_CONSTANT = [
+export const CONTACT_AND_SUPPORT_CONSTANT = [
   "Technical System Issue",
   "Authentication & Security Issue",
   "User & Account Issue",

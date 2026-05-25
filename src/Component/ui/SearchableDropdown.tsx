@@ -21,6 +21,7 @@ export function SearchableDropdown({
 }: SearchableDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [activeIndex, setActiveIndex] = useState(-1);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const filteredOptions = options.filter((opt) => opt.toLowerCase().includes(search.toLowerCase()));
@@ -44,7 +45,6 @@ export function SearchableDropdown({
   }, [isOpen]);
 
   // Keyboard navigation
-  const [activeIndex, setActiveIndex] = useState(-1);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) {

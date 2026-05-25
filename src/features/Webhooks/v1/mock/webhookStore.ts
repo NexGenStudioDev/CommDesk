@@ -25,7 +25,7 @@ let mockWebhooks: Webhook[] = [
   },
 ];
 
-let mockLogs: WebhookLog[] = [
+const mockLogs: WebhookLog[] = [
   {
     id: "log-1",
     webhookId: "wh-1",

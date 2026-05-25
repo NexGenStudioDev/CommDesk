@@ -55,6 +55,30 @@ const mockWebhookData = {
   permissions: ["read:members", "write:events"],
 };
 
+function selectEvent(label: string) {
+  fireEvent.click(screen.getByText(label));
+}
+
+async function fillCreateForm(
+  user: ReturnType<typeof userEvent.setup>,
+  options?: { name?: string; url?: string; permissions?: string },
+) {
+  const name = options?.name ?? "Test Webhook";
+  const url = options?.url ?? "https://example.com/webhook";
+
+  await user.type(screen.getByPlaceholderText("e.g. Production Slack Alerts"), name);
+  await user.type(screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk"), url);
+
+  if (options?.permissions) {
+    await user.type(
+      screen.getByPlaceholderText(/e\.g\. read:members, write:events/i),
+      options.permissions,
+    );
+  }
+
+  selectEvent("Member Created");
+}
+
 // Helper function to render with providers
 const renderWithProviders = (ui: React.ReactElement) => {
   const queryClient = new QueryClient({
@@ -203,10 +227,7 @@ describe("WebhookForm Component", () => {
       await user.clear(urlInput);
       await user.type(urlInput, "http://localhost:3000/webhook");
 
-      // Select at least one event
-      const eventCheckboxes = screen.getAllByRole("button");
-      const firstEvent = eventCheckboxes[0];
-      fireEvent.click(firstEvent);
+      selectEvent("Member Created");
 
       const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
       fireEvent.click(submitButton);
@@ -239,38 +260,25 @@ describe("WebhookForm Component", () => {
     it("should allow selecting a single event", async () => {
       renderWithProviders(<WebhookForm mode="create" />);
 
-      // Find and click an event button (they appear as clickable divs with event names)
-      const eventButtons = screen.getAllByRole("button");
-      // Events are rendered as buttons, let's find one with event text
-      const eventButton = eventButtons.find((btn) => btn.textContent?.includes("Created") || btn.textContent?.includes("Updated"));
-
-      if (eventButton) {
-        fireEvent.click(eventButton);
-        expect(screen.getByText("1 Selected")).toBeInTheDocument();
-      }
+      selectEvent("Member Created");
+      expect(screen.getByText("1 Selected")).toBeInTheDocument();
     });
 
     it("should allow selecting multiple events", async () => {
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const eventDivs = screen.getAllByRole("button");
-      // Click first event
-      if (eventDivs[0]) fireEvent.click(eventDivs[0]);
-      // Click second event
-      if (eventDivs[1]) fireEvent.click(eventDivs[1]);
+      selectEvent("Member Created");
+      selectEvent("Event Created");
 
-      expect(screen.getByText(/[2-9]|1[0-9]+ Selected/)).toBeInTheDocument();
+      expect(screen.getByText("2 Selected")).toBeInTheDocument();
     });
 
     it("should allow deselecting an event", async () => {
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) {
-        fireEvent.click(eventButtons[0]); // Select
-        fireEvent.click(eventButtons[0]); // Deselect
-        expect(screen.getByText("0 Selected")).toBeInTheDocument();
-      }
+      selectEvent("Member Created");
+      selectEvent("Member Created");
+      expect(screen.getByText("0 Selected")).toBeInTheDocument();
     });
   });
 
@@ -281,11 +289,10 @@ describe("WebhookForm Component", () => {
       const secretInput = screen.getByPlaceholderText("Optional secret token") as HTMLInputElement;
       expect(secretInput.type).toBe("password");
 
-      // Find and click the eye button (should be the second button for secret field)
-      const eyeButtons = screen.getAllByRole("button");
-      const eyeButton = eyeButtons[eyeButtons.length - 1]; // Assuming it's the last button for eye toggle
-
-      fireEvent.click(eyeButton);
+      const untitledButtons = screen
+        .getAllByRole("button")
+        .filter((btn) => !btn.getAttribute("title"));
+      fireEvent.click(untitledButtons[0]!);
       // After clicking, type should change to text
       expect(secretInput.type === "text" || secretInput.type === "password").toBeTruthy();
     });
@@ -312,18 +319,9 @@ describe("WebhookForm Component", () => {
       const user = userEvent.setup();
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const nameInput = screen.getByPlaceholderText("e.g. Production Slack Alerts");
-      const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
+      await fillCreateForm(user);
 
-      await user.type(nameInput, "Test Webhook");
-      await user.type(urlInput, "https://example.com/webhook");
-
-      // Select an event
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) fireEvent.click(eventButtons[0]);
-
-      const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
-      fireEvent.click(submitButton);
+      fireEvent.click(screen.getByRole("button", { name: /Create Webhook/i }));
 
       await waitFor(() => {
         expect(mockCreateWebhookMutate).toHaveBeenCalled();
@@ -338,8 +336,7 @@ describe("WebhookForm Component", () => {
       await user.clear(nameInput);
       await user.type(nameInput, "Updated Webhook");
 
-      const submitButton = screen.getByRole("button", { name: /Update Webhook/i });
-      fireEvent.click(submitButton);
+      fireEvent.click(screen.getByRole("button", { name: /Save Changes/i }));
 
       await waitFor(() => {
         expect(mockUpdateWebhookMutate).toHaveBeenCalled();
@@ -351,17 +348,8 @@ describe("WebhookForm Component", () => {
       const user = userEvent.setup();
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const nameInput = screen.getByPlaceholderText("e.g. Production Slack Alerts");
-      const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
-
-      await user.type(nameInput, "Test Webhook");
-      await user.type(urlInput, "https://example.com/webhook");
-
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) fireEvent.click(eventButtons[0]);
-
-      const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
-      fireEvent.click(submitButton);
+      await fillCreateForm(user);
+      fireEvent.click(screen.getByRole("button", { name: /Create Webhook/i }));
 
       await waitFor(() => {
         expect(mockAddToast).toHaveBeenCalledWith(
@@ -377,17 +365,8 @@ describe("WebhookForm Component", () => {
       const user = userEvent.setup();
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const nameInput = screen.getByPlaceholderText("e.g. Production Slack Alerts");
-      const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
-
-      await user.type(nameInput, "Test Webhook");
-      await user.type(urlInput, "https://example.com/webhook");
-
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) fireEvent.click(eventButtons[0]);
-
-      const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
-      fireEvent.click(submitButton);
+      await fillCreateForm(user);
+      fireEvent.click(screen.getByRole("button", { name: /Create Webhook/i }));
 
       await waitFor(() => {
         expect(mockAddToast).toHaveBeenCalledWith("error", "Error saving webhook", expect.any(String));
@@ -399,17 +378,8 @@ describe("WebhookForm Component", () => {
       const user = userEvent.setup();
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const nameInput = screen.getByPlaceholderText("e.g. Production Slack Alerts");
-      const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
-
-      await user.type(nameInput, "Test Webhook");
-      await user.type(urlInput, "https://example.com/webhook");
-
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) fireEvent.click(eventButtons[0]);
-
-      const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
-      fireEvent.click(submitButton);
+      await fillCreateForm(user);
+      fireEvent.click(screen.getByRole("button", { name: /Create Webhook/i }));
 
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalledWith("/org/dashboard/webhooks");
@@ -786,19 +756,11 @@ describe("WebhookForm Component", () => {
       const user = userEvent.setup();
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const nameInput = screen.getByPlaceholderText("e.g. Production Slack Alerts");
-      const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
-      const permissionsInput = screen.getByPlaceholderText(/e\.g\. read:members, write:events/i);
-
-      await user.type(nameInput, "Test");
-      await user.type(urlInput, "https://example.com/webhook");
-      await user.type(permissionsInput, "read:members, write:events");
-
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) fireEvent.click(eventButtons[0]);
-
-      const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
-      fireEvent.click(submitButton);
+      await fillCreateForm(user, {
+        name: "Test",
+        permissions: "read:members, write:events",
+      });
+      fireEvent.click(screen.getByRole("button", { name: /Create Webhook/i }));
 
       await waitFor(() => {
         const callArgs = mockCreateWebhookMutate.mock.calls[0][0];
@@ -823,17 +785,8 @@ describe("WebhookForm Component", () => {
       const user = userEvent.setup();
       renderWithProviders(<WebhookForm mode="create" />);
 
-      const nameInput = screen.getByPlaceholderText("e.g. Production Slack Alerts");
-      const urlInput = screen.getByPlaceholderText("https://your-domain.com/webhooks/commdesk");
-
-      await user.type(nameInput, "Minimal Webhook");
-      await user.type(urlInput, "https://example.com/webhook");
-
-      const eventButtons = screen.getAllByRole("button");
-      if (eventButtons[0]) fireEvent.click(eventButtons[0]);
-
-      const submitButton = screen.getByRole("button", { name: /Create Webhook/i });
-      fireEvent.click(submitButton);
+      await fillCreateForm(user, { name: "Minimal Webhook" });
+      fireEvent.click(screen.getByRole("button", { name: /Create Webhook/i }));
 
       await waitFor(() => {
         expect(mockCreateWebhookMutate).toHaveBeenCalledWith(

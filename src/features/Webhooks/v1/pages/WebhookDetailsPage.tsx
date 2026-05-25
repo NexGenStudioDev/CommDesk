@@ -366,7 +366,7 @@ export default function WebhookDetailsPage() {
                       ,{"\n"}
                       {"  "}
                       <span style={{ color: "#7ee787" }}>"created"</span>:{" "}
-                      <span style={{ color: "#d2a8ff" }}>{Date.now()}</span>,{"\n"}
+                      <span style={{ color: "#d2a8ff" }}>1716120000000</span>,{"\n"}
                       {"  "}
                       <span style={{ color: "#7ee787" }}>"data"</span>:{" "}
                       <span style={{ color: "#79c0ff" }}>{"{"}</span>

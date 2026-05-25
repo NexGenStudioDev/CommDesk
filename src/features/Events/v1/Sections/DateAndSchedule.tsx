@@ -7,7 +7,7 @@ import Date from "../../../../Component/ui/Date";
 import Time from "../../../../Component/ui/Time";
 
 const DateAndSchedule = () => {
-  let [eventData, setEventData] = useState({
+  const [eventData, setEventData] = useState({
     EventName: "",
     FullAddress: "",
     StartDate: "",

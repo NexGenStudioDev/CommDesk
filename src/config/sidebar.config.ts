@@ -8,6 +8,7 @@ import {
   CreditCard,
   Users,
   Settings,
+  Wallet as WalletIcon,
 } from "lucide-react";
 
 export const sidebarItems = [
@@ -51,6 +52,16 @@ export const sidebarItems = [
     title: "Billing",
     path: "/org/billing",
     icon: CreditCard,
+  },
+  {
+    title: "Wallet",
+    path: "/org/billing/wallet",
+    icon: WalletIcon,
+  },
+  {
+    title: "Usage",
+    path: "/org/billing/usage",
+    icon: BarChart3,
   },
 
   {

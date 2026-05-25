@@ -1,4 +1,4 @@
-export let SkillColor = [
+export const SkillColor = [
   "#E0E7FF",
   "#FEE2E2",
   "#ECFCCB",
