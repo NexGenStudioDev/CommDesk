@@ -9,7 +9,7 @@ export const Event_Permissions = {
 } as const;
 
 export const Member_Permissions = {
-  CREATE_MEMBER: "member:create",
+  // CREATE_MEMBER: "member:create",
   UPDATE_MEMBER: "member:update",
   DELETE_MEMBER: "member:delete",
   VIEW_MEMBER: "member:view",
