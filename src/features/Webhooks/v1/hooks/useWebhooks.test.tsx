@@ -54,6 +54,9 @@ describe("Webhook API Hooks Integration", () => {
       wrapper,
       },
     );
+    const { result } = renderHook(() => useWebhooks({ status: "all", search: "Alpha", page: 1 }), {
+      wrapper,
+    });
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);

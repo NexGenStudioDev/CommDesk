@@ -114,7 +114,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
           events: data.events as WebhookEvent[],
         };
         if (data.secret) payload.secret = data.secret; // only update if provided
-        if (parsedPermissions) payload.permissions = parsedPermissions;
+        payload.permissions = parsedPermissions ?? [];
         await updateWebhook.mutateAsync({ id: initialData.id, payload });
         Telemetry.trackAction("webhook_updated", { id: initialData.id });
         addToast("success", "Webhook updated", "Changes saved successfully.");
@@ -150,6 +150,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
               {...register("name")}
               placeholder="e.g. Production Slack Alerts"
               className={`w-full rounded-lg border px-4 py-2.5 text-sm transition-all outline-none ${errors.name ? "border-[var(--cd-danger)]" : "focus:border-[var(--cd-primary)]"}`}
+              className={`w-full rounded-lg border px-4 py-2.5 text-sm transition-all outline-none ${errors.name ? "border-cd-danger" : "focus:border-cd-primary"}`}
               style={{
                 backgroundColor: "var(--cd-surface-2)",
                 color: "var(--cd-text)",
@@ -159,6 +160,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
             {errors.name && (
               <p className="mt-1.5 text-xs text-[var(--cd-danger)]">{errors.name.message}</p>
             )}
+            {errors.name && <p className="mt-1.5 text-xs text-cd-danger">{errors.name.message}</p>}
           </div>
 
           {/* URL Field */}
@@ -168,12 +170,14 @@ export default function WebhookForm({ mode, initialData }: Props) {
             </label>
             <div className="relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--cd-text-muted)]">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-cd-text-muted">
                 <Link2 size={16} />
               </div>
               <input
                 {...register("url")}
                 placeholder="https://your-domain.com/webhooks/commdesk"
                 className={`w-full rounded-lg border pl-10 pr-4 py-2.5 text-sm font-mono transition-all outline-none ${errors.url ? "border-[var(--cd-danger)]" : "focus:border-[var(--cd-primary)]"}`}
+                className={`w-full rounded-lg border pl-10 pr-4 py-2.5 text-sm font-mono transition-all outline-none ${errors.url ? "border-cd-danger" : "focus:border-cd-primary"}`}
                 style={{
                   backgroundColor: "var(--cd-surface-2)",
                   color: "var(--cd-text)",
@@ -184,6 +188,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
             {errors.url && (
               <p className="mt-1.5 text-xs text-[var(--cd-danger)]">{errors.url.message}</p>
             )}
+            {errors.url && <p className="mt-1.5 text-xs text-cd-danger">{errors.url.message}</p>}
           </div>
 
           {/* Secret Field */}
@@ -192,12 +197,14 @@ export default function WebhookForm({ mode, initialData }: Props) {
               Secret{" "}
               {mode === "edit" && (
                 <span className="text-xs font-normal text-[var(--cd-text-muted)]">
+                <span className="text-xs font-normal text-cd-text-muted">
                   (Leave blank to keep existing)
                 </span>
               )}
             </label>
             <div className="relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--cd-text-muted)]">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-cd-text-muted">
                 <Shield size={16} />
               </div>
               <input
@@ -205,6 +212,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
                 type={showSecret ? "text" : "password"}
                 placeholder={mode === "edit" ? "••••••••••••" : "Optional secret token"}
                 className="w-full rounded-lg border pl-10 pr-20 py-2.5 text-sm font-mono transition-all outline-none focus:border-[var(--cd-primary)]"
+                className="w-full rounded-lg border pl-10 pr-20 py-2.5 text-sm font-mono transition-all outline-none focus:border-cd-primary"
                 style={{
                   backgroundColor: "var(--cd-surface-2)",
                   color: "var(--cd-text)",
@@ -216,6 +224,8 @@ export default function WebhookForm({ mode, initialData }: Props) {
                   type="button"
                   onClick={handleRegenerateSecret}
                   className="p-1 rounded-md text-[var(--cd-text-muted)] hover:text-[var(--cd-primary)] hover:bg-[var(--cd-primary-subtle)] transition-all"
+                  aria-label="Regenerate secret"
+                  className="p-1 rounded-md text-cd-text-muted hover:text-cd-primary hover:bg-cd-primary-subtle transition-all"
                   title="Regenerate Secret"
                 >
                   <RefreshCw size={16} />
@@ -224,6 +234,8 @@ export default function WebhookForm({ mode, initialData }: Props) {
                   type="button"
                   onClick={() => setShowSecret(!showSecret)}
                   className="p-1 rounded-md text-[var(--cd-text-muted)] hover:text-[var(--cd-text)] transition-all"
+                  aria-label={showSecret ? "Hide secret" : "Show secret"}
+                  className="p-1 rounded-md text-cd-text-muted hover:text-cd-text transition-all"
                 >
                   {showSecret ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -240,11 +252,13 @@ export default function WebhookForm({ mode, initialData }: Props) {
             <label className="block text-sm font-semibold mb-2" style={{ color: "var(--cd-text)" }}>
               Permissions{" "}
               <span className="text-xs font-normal text-[var(--cd-text-muted)]">(Optional)</span>
+              Permissions <span className="text-xs font-normal text-cd-text-muted">(Optional)</span>
             </label>
             <input
               {...register("permissions")}
               placeholder="e.g. read:members, write:events (comma separated)"
               className="w-full rounded-lg border px-4 py-2.5 text-sm transition-all outline-none focus:border-[var(--cd-primary)]"
+              className="w-full rounded-lg border px-4 py-2.5 text-sm transition-all outline-none focus:border-cd-primary"
               style={{
                 backgroundColor: "var(--cd-surface-2)",
                 color: "var(--cd-text)",
@@ -276,6 +290,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
             </div>
             {errors.events && (
               <p className="mb-3 text-xs text-[var(--cd-danger)]">{errors.events.message}</p>
+              <p className="mb-3 text-xs text-cd-danger">{errors.events.message}</p>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -286,6 +301,17 @@ export default function WebhookForm({ mode, initialData }: Props) {
                     key={event.id}
                     onClick={() => toggleEvent(event.id)}
                     className="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all hover:bg-[var(--cd-hover)]"
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isSelected}
+                    aria-label={event.label}
+                    className="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all hover:bg-cd-hover"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        toggleEvent(event.id);
+                      }
+                    }}
                     style={{
                       backgroundColor: isSelected
                         ? "var(--cd-primary-subtle)"
@@ -330,6 +356,9 @@ export default function WebhookForm({ mode, initialData }: Props) {
       <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-[var(--cd-bg)] via-[var(--cd-bg)] to-transparent p-4 transition-all sm:p-6 lg:pl-85">
         <div
           className="pointer-events-auto mx-auto flex max-w-3xl items-center justify-between rounded-xl border bg-[var(--cd-surface)]/95 p-3 shadow-2xl backdrop-blur-md"
+      <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-40 bg-linear-to-t from-cd-bg via-cd-bg to-transparent p-4 transition-all sm:p-6 lg:pl-85">
+        <div
+          className="pointer-events-auto mx-auto flex max-w-3xl items-center justify-between rounded-xl border bg-(--cd-surface)/95 p-3 shadow-2xl backdrop-blur-md"
           style={{ borderColor: "var(--cd-border-subtle)" }}
         >
           <div className="hidden sm:block">
@@ -340,6 +369,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
               className="text-[10px] truncate max-w-[200px]"
               style={{ color: "var(--cd-text-muted)" }}
             >
+            <p className="text-[10px] truncate max-w-50" style={{ color: "var(--cd-text-muted)" }}>
               {watch("name") || "Untitled Webhook"}
             </p>
           </div>
@@ -348,6 +378,7 @@ export default function WebhookForm({ mode, initialData }: Props) {
               type="button"
               onClick={() => navigate("/org/dashboard/webhooks")}
               className="h-10 flex-1 rounded-lg border bg-[var(--cd-surface)] px-5 text-sm font-medium text-[var(--cd-text-2)] transition-colors hover:bg-[var(--cd-hover)] sm:flex-none"
+              className="h-10 flex-1 rounded-lg border bg-cd-surface px-5 text-sm font-medium text-cd-text-2 transition-colors hover:bg-cd-hover sm:flex-none"
               style={{ borderColor: "var(--cd-border)" }}
             >
               Cancel
@@ -356,6 +387,8 @@ export default function WebhookForm({ mode, initialData }: Props) {
               type="submit"
               disabled={isSubmitting}
               className="flex h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--cd-primary)] px-7 text-sm font-semibold text-white transition-colors hover:brightness-110 disabled:opacity-50 sm:flex-none"
+              aria-label={mode === "create" ? "Create Webhook" : "Update Webhook"}
+              className="flex h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-cd-primary px-7 text-sm font-semibold text-white transition-colors hover:brightness-110 disabled:opacity-50 sm:flex-none"
             >
               {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : null}
               {mode === "create" ? "Create Webhook" : "Save Changes"}

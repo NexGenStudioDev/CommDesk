@@ -83,13 +83,14 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
               return (
                 <tr
                   key={log.id}
-                  className="group border-b transition-colors hover:bg-[var(--cd-hover)]"
+                  className="group border-b transition-colors hover:bg-cd-hover"
                   style={{ borderColor: "var(--cd-border-subtle)" }}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5">
                       <div
                         className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-[var(--cd-success)]" : "bg-[var(--cd-danger)]"}`}
+                        className={`w-1.5 h-1.5 rounded-full ${isSuccess ? "bg-cd-success" : "bg-cd-danger"}`}
                       />
                       <span
                         className="font-bold uppercase tracking-tight"
@@ -106,7 +107,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                     {format(new Date(log.timestamp), "MMM d, HH:mm:ss")}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="px-1.5 py-0.5 rounded bg-[var(--cd-surface-3)] text-[var(--cd-text-2)] font-mono border border-[var(--cd-border)]">
+                    <span className="px-1.5 py-0.5 rounded bg-cd-surface-3 text-cd-text-2 font-mono border border-cd-border">
                       {log.event}
                     </span>
                   </td>
@@ -125,6 +126,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                           setSelectedPayload({ title: "Request Payload", data: log.requestPayload })
                         }
                         className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
+                        className="p-1.5 rounded hover:bg-cd-surface-3 transition-colors text-cd-text-2 hover:text-cd-text"
                         title="View Request"
                       >
                         <FileJson size={14} />
@@ -137,6 +139,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                           })
                         }
                         className="p-1.5 rounded hover:bg-[var(--cd-surface-3)] transition-colors text-[var(--cd-text-2)] hover:text-[var(--cd-text)]"
+                        className="p-1.5 rounded hover:bg-cd-surface-3 transition-colors text-cd-text-2 hover:text-cd-text"
                         title="View Response"
                       >
                         <RotateCcw size={14} className="rotate-180" />
@@ -145,7 +148,7 @@ export default function LogsTable({ logs, isLoading, onRetry, isRetrying }: Prop
                         <button
                           onClick={() => onRetry(log.id)}
                           disabled={isRetrying}
-                          className="p-1.5 rounded hover:bg-[var(--cd-warning-subtle)] transition-colors text-[var(--cd-warning)] ml-1"
+                          className="p-1.5 rounded hover:bg-cd-warning-subtle transition-colors text-cd-warning ml-1"
                           title="Retry Delivery"
                         >
                           <RotateCcw size={14} className={isRetrying ? "animate-spin" : ""} />

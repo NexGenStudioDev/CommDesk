@@ -19,6 +19,16 @@ const Organisation_Template = () => {
           redirect("/");
         }
       }
+  let user = useAuthStore((state) => state.user);
+
+  useMemo(() => {
+    console.log("User in Organisation_Template-->:", user);
+
+    if (user?.role) {
+      if (user.role !== "organization") {
+        redirect("/");
+      }
+    }
   }, [user]);
 
   return (

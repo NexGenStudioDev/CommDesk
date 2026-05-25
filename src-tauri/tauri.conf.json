@@ -3,11 +3,12 @@
 
   "productName": "CommDesk",
   "version": "0.1.0",
-  "identifier": "com.abhishekg.commdesk",
+  "identifier": "com.nexgenstudiodev.commdesk",
 
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",
+
     "beforeBuildCommand": "pnpm build",
     "frontendDist": "../dist"
   },
@@ -15,23 +16,56 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "CommDesk",
-        "width": 1200,
-        "height": 800,
+
+        "width": 1400,
+        "height": 900,
+
+        "minWidth": 1100,
+        "minHeight": 700,
+
+        "center": true,
+
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "maximized": false,
+
+        "decorations": true,
+        "transparent": false,
+
+        "visible": true,
+        "focus": true,
+
+        "dragDropEnabled": true
       }
     ],
 
     "security": {
-      "csp": null
+      "freezePrototype": true,
+
+      "dangerousDisableAssetCspModification": false,
+
+      "csp": "default-src 'self'; img-src 'self' asset: https: data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src ipc: http://ipc.localhost https://api.commdesk.com https://*.supabase.co; font-src 'self' data:;"
     }
   },
 
   "bundle": {
     "active": true,
 
-    "targets": ["appimage", "deb", "rpm", "msi", "nsis", "dmg"],
+    "targets": ["deb", "rpm", "appimage", "nsis", "msi", "dmg"],
+
+    "createUpdaterArtifacts": true,
+
+    "publisher": "Abhishek Gupta",
+
+    "copyright": "© 2026 NexGen Studio Dev. All rights reserved.",
+
+    "category": "DeveloperTool",
+
+    "shortDescription": "Community and event management platform",
+
+    "longDescription": "CommDesk is a modern desktop platform for managing communities, hackathons, organizations, teams, permissions, communication, and workflows in one unified workspace.",
 
     "icon": [
       "icons/32x32.png",
@@ -41,30 +75,79 @@
       "icons/icon.ico"
     ],
 
-    "category": "DeveloperTool",
-
-    "shortDescription": "Community and event management platform",
-
-    "longDescription": "CommDesk is a desktop platform for managing communities, hackathons, teams, and events in a single workspace.",
 
     "linux": {
       "deb": {
-        "depends": []
+        "depends": [
+          "libwebkit2gtk-4.1-0",
+          "libgtk-3-0",
+          "libayatana-appindicator3-1",
+          "libappindicator3-1",
+          "libxcb1",
+          "libssl3",
+          "openssl",
+          "curl",
+          "wget",
+          "xdg-utils"
+        ]
+      },
+
+      "rpm": {
+        "depends": ["webkit2gtk4.1", "gtk3", "libappindicator-gtk3", "openssl", "curl", "wget"],
+
+        "release": "1"
+      },
+
+      "appimage": {
+        "bundleMediaFramework": true
       }
     },
 
     "windows": {
       "digestAlgorithm": "sha256",
-      "timestampUrl": "http://timestamp.digicert.com"
+
+      "timestampUrl": "https://timestamp.digicert.com",
+
+      "allowDowngrades": false,
+
+      "certificateThumbprint": null,
+
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      },
+
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+
+        "installMode": "currentUser",
+
+        "languages": ["English"],
+
+        "displayLanguageSelector": false,
+
+        "compression": "lzma",
+
+        "startMenuFolder": "CommDesk"
+      }
     },
 
     "macOS": {
-      "minimumSystemVersion": "10.13"
+      "minimumSystemVersion": "11.0",
+
+      "signingIdentity": null,
+
+      "providerShortName": null,
+
+      "entitlements": null
     }
   },
 
   "plugins": {
     "updater": {
+      "active": true,
+
+      "dialog": true,
+
       "pubkey": "7BCD4862EDE01123RWQjEeDtYkjNe7hdKeyXez1ugL2oioQymSO2IWLvoZ2aFUWyiWoOK18u",
 
       "endpoints": [

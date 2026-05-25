@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-
 import { BrowserRouter } from "react-router-dom";
-
 import "./App.css";
 
 import { startAutoUpdater } from "./system/updater/autoUpdater";
+import { ThemeProvider } from "next-themes";
 
 import { ThemeProvider } from "./theme";
 import OrgRoute from "./routes/OrgRoute";

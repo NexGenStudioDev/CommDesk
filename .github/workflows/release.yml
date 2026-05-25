@@ -57,7 +57,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install -y libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev patchelf squashfs-tools libfuse2
 
       - name: Install Rust dependencies (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -163,6 +163,8 @@ jobs:
         run: |
           VERSION="${{ github.ref_name }}"
           VERSION="${VERSION#v}"  # Remove 'v' prefix
+          MACOS_ARTIFACT="$(ls release/CommDesk-*.dmg 2>/dev/null | head -n 1 || true)"
+          MACOS_SIGNATURE="$(ls release/CommDesk-*.dmg.sig 2>/dev/null | head -n 1 || true)"
           
           cat > latest.json << EOF
           {
@@ -174,13 +176,9 @@ jobs:
                 "signature": "$(cat release/CommDesk-*-linux-x86_64.AppImage.tar.gz.sig 2>/dev/null | tail -1 || echo '')",
                 "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-linux-x86_64.AppImage.tar.gz"
               },
-              "darwin-aarch64": {
-                "signature": "$(cat release/CommDesk-*-macos-universal.tar.gz.sig 2>/dev/null | tail -1 || echo '')",
-                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-macos-universal.tar.gz"
-              },
-              "darwin-x86_64": {
-                "signature": "$(cat release/CommDesk-*-macos-x86_64.tar.gz.sig 2>/dev/null | tail -1 || echo '')",
-                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/CommDesk-${VERSION}-macos-x86_64.tar.gz"
+              "darwin-universal": {
+                "signature": "${MACOS_SIGNATURE}",
+                "url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/$(basename \"${MACOS_ARTIFACT}\")"
               },
               "windows-x86_64": {
                 "signature": "$(cat release/CommDesk-*-windows-x86_64.msi.zip.sig 2>/dev/null | tail -1 || echo '')",

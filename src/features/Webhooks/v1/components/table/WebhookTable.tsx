@@ -50,6 +50,7 @@ export default function WebhookTable({
             }}
           >
             <th className="px-5 py-4 w-[48px]">
+            <th className="px-5 py-4 w-12">
               <input
                 type="checkbox"
                 checked={allSelected}
@@ -98,6 +99,7 @@ export default function WebhookTable({
               <tr
                 key={w.id}
                 className={`group border-b transition-colors hover:bg-[var(--cd-hover)] ${selectedIds.includes(w.id) ? "bg-[var(--cd-hover)] shadow-[inset_4px_0_0_0_var(--cd-primary)]" : ""}`}
+                className={`group border-b transition-colors hover:bg-cd-hover ${selectedIds.includes(w.id) ? "bg-cd-hover shadow-[inset_4px_0_0_0_var(--cd-primary)]" : ""}`}
                 style={{ borderColor: "var(--cd-border-subtle)" }}
               >
                 <td className="px-5 py-4">
@@ -137,6 +139,7 @@ export default function WebhookTable({
                   <div className="flex items-center">
                     <p
                       className="text-xs truncate max-w-[250px] font-mono px-2 py-1 rounded-md"
+                      className="text-xs truncate max-w-62.5 font-mono px-2 py-1 rounded-md"
                       style={{
                         color: "var(--cd-text-2)",
                         backgroundColor: "var(--cd-surface-2)",
@@ -182,7 +185,7 @@ export default function WebhookTable({
                   <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => onToggleStatus(w)}
-                      className="p-1.5 rounded-md hover:bg-[var(--cd-surface-3)] transition-colors"
+                      className="p-1.5 rounded-md hover:bg-cd-surface-3 transition-colors"
                       title={w.status === "active" ? "Disable Webhook" : "Enable Webhook"}
                       style={{ color: "var(--cd-text-muted)" }}
                     >
@@ -190,7 +193,7 @@ export default function WebhookTable({
                     </button>
                     <button
                       onClick={() => navigate(`/org/dashboard/webhooks/${w.id}/edit`)}
-                      className="p-1.5 rounded-md hover:bg-[var(--cd-surface-3)] transition-colors"
+                      className="p-1.5 rounded-md hover:bg-cd-surface-3 transition-colors"
                       title="Edit Webhook"
                       style={{ color: "var(--cd-text-muted)" }}
                     >
@@ -198,7 +201,7 @@ export default function WebhookTable({
                     </button>
                     <button
                       onClick={() => onDelete(w)}
-                      className="p-1.5 rounded-md hover:bg-[var(--cd-danger-subtle)] hover:text-[var(--cd-danger)] transition-colors"
+                      className="p-1.5 rounded-md hover:bg-cd-danger-subtle hover:text-cd-danger transition-colors"
                       title="Delete Webhook"
                       style={{ color: "var(--cd-text-muted)" }}
                     >

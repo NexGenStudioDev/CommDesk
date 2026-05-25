@@ -74,9 +74,10 @@ function DropdownPortal({
         ...style,
         backgroundColor: "var(--cd-surface)",
         border: "1px solid var(--cd-border)",
+        minWidth: 150,
         boxShadow: "0 18px 48px -24px var(--cd-shadow-md)",
       }}
-      className="rounded-lg py-1 overflow-hidden min-w-[150px]"
+      className="rounded-lg py-1 overflow-hidden"
     >
       {children}
     </div>,
@@ -113,11 +114,18 @@ export function PillDropdown<T extends string>({
       <button
         ref={btnRef}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-all whitespace-nowrap select-none hover:bg-[var(--cd-hover)]"
+        className="flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-all whitespace-nowrap select-none"
         style={{
           backgroundColor: isActive ? activeStyle.bg : "var(--cd-surface-2)",
           color: isActive ? activeStyle.color : "var(--cd-text-2)",
           borderColor: isActive ? activeStyle.border : "var(--cd-border)",
+        }}
+        onMouseEnter={(e) => {
+          if (!isActive) (e.currentTarget as HTMLElement).style.backgroundColor = "var(--cd-hover)";
+        }}
+        onMouseLeave={(e) => {
+          if (!isActive)
+            (e.currentTarget as HTMLElement).style.backgroundColor = "var(--cd-surface-2)";
         }}
       >
         {isActive && (
@@ -202,6 +210,10 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
       }}
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center gap-3 px-5 py-4 sm:px-8 lg:px-10">
+      <div
+        className="mx-auto flex w-full flex-wrap items-center gap-3 px-5 py-4 sm:px-8 lg:px-10"
+        style={{ maxWidth: 1440 }}
+      >
         <SlidersHorizontal
           size={14}
           style={{ color: "var(--cd-text-muted)" }}
@@ -223,7 +235,7 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
         />
 
         {/* Search */}
-        <div className="relative min-w-[220px] flex-1 max-w-sm">
+        <div className="relative flex-1 max-w-sm" style={{ minWidth: 220 }}>
           <div
             className="flex h-8 w-full items-center gap-2 rounded-lg border pl-3 pr-2 transition-all"
             style={{
@@ -243,6 +255,14 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
               <button
                 onClick={() => setLocalSearch("")}
                 className="hover:text-[var(--cd-text)] text-[var(--cd-text-muted)]"
+                className="transition-colors"
+                style={{ color: "var(--cd-text-muted)" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "var(--cd-text)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "var(--cd-text-muted)";
+                }}
               >
                 <X size={12} />
               </button>
@@ -253,19 +273,39 @@ export default function WebhookFiltersBar({ filters, onChange, filteredCount, to
         {hasActive && (
           <button
             onClick={resetAll}
-            className="flex h-8 items-center gap-1.5 rounded-lg border border-[var(--cd-border)] bg-transparent px-2.5 text-xs font-medium text-[var(--cd-text-2)] hover:bg-[var(--cd-hover)] hover:text-[var(--cd-text)] transition-colors"
+            className="flex h-8 items-center gap-1.5 rounded-lg bg-transparent px-2.5 text-xs font-medium transition-colors"
+            style={{
+              color: "var(--cd-text-2)",
+              border: "1px solid var(--cd-border)",
+            }}
+            onMouseEnter={(e) => {
+              const element = e.currentTarget as HTMLElement;
+              element.style.backgroundColor = "var(--cd-hover)";
+              element.style.color = "var(--cd-text)";
+            }}
+            onMouseLeave={(e) => {
+              const element = e.currentTarget as HTMLElement;
+              element.style.backgroundColor = "transparent";
+              element.style.color = "var(--cd-text-2)";
+            }}
           >
             <X size={12} /> Clear
           </button>
         )}
       </div>
 
-      <div className="mx-auto w-full max-w-[1440px] px-5 pb-4 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full px-5 pb-4 sm:px-8 lg:px-10" style={{ maxWidth: 1440 }}>
         <p className="text-xs font-medium" style={{ color: "var(--cd-text-muted)" }}>
           {hasActive ? (
             <span className="flex items-center gap-1">
               <span className="w-1 h-1 rounded-full bg-[var(--cd-primary)]" />
               Showing <span className="text-[var(--cd-text)] font-bold">{filteredCount}</span>{" "}
+              <span
+                className="w-1 h-1 rounded-full"
+                style={{ backgroundColor: "var(--cd-primary)" }}
+              />
+              Showing{" "}
+              <span style={{ color: "var(--cd-text)", fontWeight: 700 }}>{filteredCount}</span>{" "}
               results
             </span>
           ) : (

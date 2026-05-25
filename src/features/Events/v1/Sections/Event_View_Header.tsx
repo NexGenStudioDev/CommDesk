@@ -1,4 +1,5 @@
 import Button from "@/Component/ui/Button";
+import { Event_Permissions, PermissionGate } from "@/permissions";
 import { useCallback, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -32,13 +33,15 @@ const Event_View_Header = () => {
             Manage all your events in one place. Create, edit, and track event details with ease.
           </p>
         </div>
-        <div className="flex items-center mr-[2vw]">
-          <Button
-            text="Create Event"
-            onClick={() => navigate("/org/create-event")}
-            icon={<IoMdAdd />}
-          />
-        </div>
+        <PermissionGate permission={Event_Permissions.CREATE_EVENT}>
+          <div className="flex items-center mr-[2vw]">
+            <Button
+              text="Create Event"
+              onClick={() => navigate("/org/create-event")}
+              icon={<IoMdAdd />}
+            />
+          </div>
+        </PermissionGate>
       </div>
 
       <div className="flex space-x-1 mt-[4vh] ml-5 px-3">
