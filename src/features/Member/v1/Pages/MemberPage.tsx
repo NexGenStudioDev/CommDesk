@@ -1,4 +1,10 @@
 import MemberHeader from "../Components/MemberHeader";
+import {
+  AccessDenied,
+  Member_Permissions,
+  PermissionBoundary,
+  PermissionLoading,
+} from "@/features/Permissions/v1";
 import MemberTable from "../Components/MemberTable";
 import SearchMember from "../Components/SearchMember";
 
@@ -41,8 +47,19 @@ const MemberPage = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center gap-4 cd-page">
       <MemberHeader />
-      <SearchMember />
-      <MemberTable members={membersData} />
+      <PermissionBoundary
+        permission={Member_Permissions.VIEW_MEMBER}
+        loadingFallback={<PermissionLoading />}
+        unauthorizedFallback={
+          <AccessDenied
+            title="Member directory access is unavailable"
+            description="Ask an administrator for member viewing permission to browse profiles and management actions."
+          />
+        }
+      >
+        <SearchMember />
+        <MemberTable members={membersData} />
+      </PermissionBoundary>
     </div>
   );
 };
