@@ -48,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <label
             htmlFor={name}
             className="text-xs font-semibold uppercase tracking-wider"
-            style={{ color: theme.text.secondary }}
+            style={{ color: "black"}}
           >
             {label}
           </label>
@@ -57,7 +57,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div
           className="flex items-center gap-2 rounded-lg px-3 py-2 border transition-all duration-150"
           style={{
-            backgroundColor: theme.bg.surface,
+            backgroundColor: "black",
             borderColor: error ? theme.danger.default : theme.border.default,
             boxShadow: error ? `0 0 0 3px ${theme.danger.subtle}` : undefined,
           }}
@@ -79,8 +79,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             required={required}
             onKeyDown={onKeyDown}
             onChange={(e) => onChange?.(name, e.target.value)}
-            className={`flex-1 bg-transparent outline-none text-sm ${inputClassName}`}
-            style={{ color: theme.text.primary }}
+            className={`flex-1 bg-black text-white outline-none text-sm ${inputClassName}`}
+            style={{ color: "white" }}
           />
 
           {rightIcon && (
