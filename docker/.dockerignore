@@ -1,0 +1,17 @@
+node_modules
+target
+dist
+build
+.cache
+.git
+.github
+.vscode
+.idea
+
+*.log
+.env
+.env.*
+.DS_Store
+
+src-tauri/target
+coverage

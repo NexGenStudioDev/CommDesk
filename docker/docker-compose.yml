@@ -1,0 +1,43 @@
+services:
+  tauri-app:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+
+    container_name: tauri-dev
+
+    working_dir: /app
+
+    environment:
+      - DISPLAY=${DISPLAY}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - RUST_BACKTRACE=1
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - CARGO_TARGET_DIR=/tmp/cargo-target
+    
+    volumes:
+      - ..:/app
+      - cargo-cache:/usr/local/cargo/registry
+      - /tmp/cargo-target/
+      - /app/node_modules/
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    
+    ports:
+      - "1420:1420"
+      - "1421:1421"
+      - "5173:5173"
+    
+    stdin_open: true
+    tty: true
+
+    networks:
+      - tauri-network
+networks:
+    tauri-network:
+
+volumes:
+  cargo-cache:
+  
