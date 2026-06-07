@@ -12,7 +12,12 @@ import {
 } from "lucide-react";
 import { MIN_ADD_RUPEES } from "../../constants/billing.constants";
 import { useAddFunds } from "../../hooks/useWallet";
-import { buildAddFundsPreview, formatCredits, formatRupees, validateMinAddFunds } from "../../utils/credits";
+import {
+  buildAddFundsPreview,
+  formatCredits,
+  formatRupees,
+  validateMinAddFunds,
+} from "../../utils/credits";
 import type { AddFundsPayload, PaymentState } from "../../Billing.types";
 import Input from "@/Component/ui/Input";
 
@@ -118,10 +123,17 @@ export default function AddFundsModal({ isOpen, onClose, onSuccess, onError }: P
               }}
             >
               <div className="pr-10">
-                <p className="text-xs font-black uppercase tracking-wide" style={{ color: "var(--cd-primary)" }}>
+                <p
+                  className="text-xs font-black uppercase tracking-wide"
+                  style={{ color: "var(--cd-primary)" }}
+                >
                   Community wallet
                 </p>
-                <h2 id="add-funds-modal-title" className="mt-1 text-2xl font-black" style={{ color: "var(--cd-text)" }}>
+                <h2
+                  id="add-funds-modal-title"
+                  className="mt-1 text-2xl font-black"
+                  style={{ color: "var(--cd-text)" }}
+                >
                   Add Funds
                 </h2>
                 <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>
@@ -141,7 +153,7 @@ export default function AddFundsModal({ isOpen, onClose, onSuccess, onError }: P
                     setAmountStr(digitsOnly.replace(/^0+(?=\d)/, ""));
                   }}
                   leftIcon={<Banknote size={18} />}
-                  error={validation.valid ? undefined : validation.error ?? undefined}
+                  error={validation.valid ? undefined : (validation.error ?? undefined)}
                   className="w-full !mb-0"
                   inputClassName="!text-lg !font-bold"
                 />
@@ -151,14 +163,26 @@ export default function AddFundsModal({ isOpen, onClose, onSuccess, onError }: P
                 <SectionTitle title="Credit calculator" />
                 <div
                   className="grid gap-3 rounded-xl border p-4 sm:grid-cols-3"
-                  style={{ backgroundColor: "var(--cd-bg)", borderColor: "var(--cd-border-subtle)" }}
+                  style={{
+                    backgroundColor: "var(--cd-bg)",
+                    borderColor: "var(--cd-border-subtle)",
+                  }}
                 >
-                  <GeneratedCreditTile label="Base credits" value={formatCredits(preview.baseCredits)} />
+                  <GeneratedCreditTile
+                    label="Base credits"
+                    value={formatCredits(preview.baseCredits)}
+                  />
                   <GeneratedCreditTile
                     label="Bonus credits"
-                    value={preview.bonusCredits > 0 ? `+${formatCredits(preview.bonusCredits)}` : "0"}
+                    value={
+                      preview.bonusCredits > 0 ? `+${formatCredits(preview.bonusCredits)}` : "0"
+                    }
                   />
-                  <GeneratedCreditTile label="Total credits" value={formatCredits(preview.totalCredits)} accent />
+                  <GeneratedCreditTile
+                    label="Total credits"
+                    value={formatCredits(preview.totalCredits)}
+                    accent
+                  />
                 </div>
               </section>
 
@@ -195,23 +219,42 @@ export default function AddFundsModal({ isOpen, onClose, onSuccess, onError }: P
               <SectionTitle title="Pay details" />
               <div
                 className="mt-3 rounded-xl border p-4"
-                style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border-subtle)" }}
+                style={{
+                  backgroundColor: "var(--cd-surface)",
+                  borderColor: "var(--cd-border-subtle)",
+                }}
               >
                 <div className="space-y-3 text-sm">
                   <SummaryRow label="Wallet amount" value={formatRupees(preview.amountRupees)} />
                   <SummaryRow label="GST (18%)" value={formatRupees(preview.gstRupees)} />
-                  <SummaryRow label="Platform fee" value={formatRupees(preview.platformFeeRupees)} />
+                  <SummaryRow
+                    label="Platform fee"
+                    value={formatRupees(preview.platformFeeRupees)}
+                  />
                   <SummaryRow label="Base credits" value={formatCredits(preview.baseCredits)} />
                   {preview.bonusCredits > 0 ? (
-                    <SummaryRow label="Bonus credits" value={`+${formatCredits(preview.bonusCredits)}`} accent />
+                    <SummaryRow
+                      label="Bonus credits"
+                      value={`+${formatCredits(preview.bonusCredits)}`}
+                      accent
+                    />
                   ) : null}
                 </div>
                 <div
                   className="mt-4 border-t pt-4"
                   style={{ borderColor: "var(--cd-border-subtle)" }}
                 >
-                  <SummaryRow label="Credits added" value={formatCredits(preview.totalCredits)} accent strong />
-                  <SummaryRow label="Total payable" value={formatRupees(preview.totalPayableRupees)} strong />
+                  <SummaryRow
+                    label="Credits added"
+                    value={formatCredits(preview.totalCredits)}
+                    accent
+                    strong
+                  />
+                  <SummaryRow
+                    label="Total payable"
+                    value={formatRupees(preview.totalPayableRupees)}
+                    strong
+                  />
                 </div>
               </div>
 
@@ -243,7 +286,10 @@ export default function AddFundsModal({ isOpen, onClose, onSuccess, onError }: P
                 )}
               </button>
 
-              <div className="mt-3 flex items-center justify-center gap-2 text-xs" style={{ color: "var(--cd-text-muted)" }}>
+              <div
+                className="mt-3 flex items-center justify-center gap-2 text-xs"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
                 <ShieldCheck size={14} style={{ color: "var(--cd-success)" }} />
                 Encrypted payment simulation
               </div>
@@ -257,7 +303,10 @@ export default function AddFundsModal({ isOpen, onClose, onSuccess, onError }: P
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <h3 className="mb-3 text-sm font-black uppercase tracking-wide" style={{ color: "var(--cd-text)" }}>
+    <h3
+      className="mb-3 text-sm font-black uppercase tracking-wide"
+      style={{ color: "var(--cd-text)" }}
+    >
       {title}
     </h3>
   );
@@ -280,10 +329,16 @@ function GeneratedCreditTile({
         borderColor: accent ? "var(--cd-primary)" : "var(--cd-border-subtle)",
       }}
     >
-      <span className="text-xs font-bold uppercase tracking-wide" style={{ color: "var(--cd-text-muted)" }}>
+      <span
+        className="text-xs font-bold uppercase tracking-wide"
+        style={{ color: "var(--cd-text-muted)" }}
+      >
         {label}
       </span>
-      <span className="mt-3 block text-2xl font-black" style={{ color: accent ? "var(--cd-primary)" : "var(--cd-text)" }}>
+      <span
+        className="mt-3 block text-2xl font-black"
+        style={{ color: accent ? "var(--cd-primary)" : "var(--cd-text)" }}
+      >
         {value}
       </span>
     </div>
@@ -328,7 +383,11 @@ function SuccessContent({ credits, onClose }: { credits: number; onClose: () => 
       <p className="mt-2 text-sm" style={{ color: "var(--cd-text-muted)" }}>
         {formatCredits(credits)} credits have been added to your wallet.
       </p>
-      <button type="button" onClick={onClose} className="cd-btn cd-btn-primary mt-8 rounded-xl px-8 py-2.5">
+      <button
+        type="button"
+        onClick={onClose}
+        className="cd-btn cd-btn-primary mt-8 rounded-xl px-8 py-2.5"
+      >
         Done
       </button>
     </div>

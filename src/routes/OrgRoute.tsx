@@ -14,7 +14,6 @@ import TaskDetailPage from "@/features/Tasks/v1/pages/TaskDetailPage";
 import TaskManagementPage from "@/features/Tasks/v1/pages/TaskManagementPage";
 
 import ProtectedRoute from "./ProtectedRoute";
-import { dashboardData } from "@/features/Member/v1/mock/dashboardData";
 
 // Lazy-loaded Webhook pages
 const WebhookListPage = lazy(() => import("@/features/Webhooks/v1/pages/WebhookListPage"));
@@ -59,10 +58,7 @@ const OrgRoute = () => {
           <Route
             path="dashboard/webhooks/*"
             element={
-              <ProtectedRoute
-                user={dashboardData.user}
-                allowedRoles={["CommunityOwner", "Admin", "Organizer"]}
-              >
+              <ProtectedRoute allowedRoles={["CommunityOwner", "Admin", "Organizer"]}>
                 <Routes>
                   <Route index element={<WebhookListPage />} />
                   <Route path="create" element={<CreateWebhookPage />} />

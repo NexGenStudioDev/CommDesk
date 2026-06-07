@@ -18,14 +18,18 @@ import SideBarLink from "../Components/SideBarLink";
 import useAuthStore from "@/features/Auth/v1/Store/Auth.Store";
 
 import useOrganizationStore from "@/features/Auth/v1/Store/Organization.Store";
+import usePermissionStore from "@/features/Permission/Store/Permission.Store";
+import PermissionWrapper from "@/features/Permission/Component/PermissionWrapper";
 
 const SideBar = () => {
   const user = useAuthStore((state) => state.user);
   const organization = useOrganizationStore((state) => state.organization);
+  const permissions = usePermissionStore((state) => state.permissions);
   const [profileImageFailed, setProfileImageFailed] = useState(false);
 
   console.log("User in SideBar:", user);
   console.log("Organization in SideBar:", organization);
+  console.log("Permissions in SideBar:", permissions);
   const { theme } = useTheme();
 
   const communityName = organization?.CommunityName || "CommDesk";
@@ -79,7 +83,11 @@ const SideBar = () => {
 
         <SideBarLink icon={<MdDashboard />} text="Dashboard" link="/org/dashboard" />
         <SideBarLink icon={<MdWork />} text="Projects" link="/org/projects" />
-        <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
+
+        <PermissionWrapper action="read" requiredPermission="member:view">
+          <SideBarLink icon={<MdGroup />} text="Teams" link="/org/member" />
+        </PermissionWrapper>
+
         <SideBarLink icon={<MdEvent />} text="Events" link="/org/events" />
         <SideBarLink icon={<MdAssignment />} text="Tasks" link="/org/tasks" />
         <SideBarLink icon={<MdWebhook />} text="Webhooks" link="/org/dashboard/webhooks" />

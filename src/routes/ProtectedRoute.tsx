@@ -1,12 +1,14 @@
 import { Navigate } from "react-router-dom";
+import useAuthStore from "@/features/Auth/v1/Store/Auth.Store";
 
 interface Props {
   children: React.ReactNode;
-  user: { role: string } | null;
   allowedRoles: string[];
 }
 
-export default function ProtectedRoute({ children, user, allowedRoles }: Props) {
+export default function ProtectedRoute({ children, allowedRoles }: Props) {
+  const user = useAuthStore((state) => state.user);
+
   // Not logged in
   if (!user) {
     return <Navigate to="/" replace />;

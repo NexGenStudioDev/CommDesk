@@ -49,14 +49,20 @@ export default function TeamUsageTable() {
   }
 
   return (
-    <div className="w-full overflow-hidden rounded-xl border" style={{ borderColor: "var(--cd-border-subtle)" }}>
+    <div
+      className="w-full overflow-hidden rounded-xl border"
+      style={{ borderColor: "var(--cd-border-subtle)" }}
+    >
       <table className="w-full text-left text-sm">
         <thead>
           <tr style={{ backgroundColor: "var(--cd-surface-2)" }}>
             <th className="px-5 py-3 font-semibold" style={{ color: "var(--cd-text-muted)" }}>
               Member
             </th>
-            <th className="px-5 py-3 font-semibold text-right" style={{ color: "var(--cd-text-muted)" }}>
+            <th
+              className="px-5 py-3 font-semibold text-right"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
               Credits Used
             </th>
             <th className="px-5 py-3 font-semibold" style={{ color: "var(--cd-text-muted)" }}>
@@ -71,7 +77,10 @@ export default function TeamUsageTable() {
               className="border-t hover:bg-[var(--cd-hover)]"
               style={{ borderColor: "var(--cd-border-subtle)" }}
             >
-              <td className="px-5 py-3 font-medium flex items-center gap-3" style={{ color: "var(--cd-text)" }}>
+              <td
+                className="px-5 py-3 font-medium flex items-center gap-3"
+                style={{ color: "var(--cd-text)" }}
+              >
                 <div className="relative shrink-0 w-8 h-8">
                   <UserAvatar src={row.memberAvatar} name={row.memberName} />
                 </div>

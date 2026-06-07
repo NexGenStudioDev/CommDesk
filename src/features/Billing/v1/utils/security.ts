@@ -9,27 +9,27 @@
 export async function verifyWebhookSignature(
   payload: string,
   signature: string,
-  secret: string
+  secret: string,
 ): Promise<boolean> {
   if (!payload || !signature || !secret) return false;
   try {
     const encoder = new TextEncoder();
     const keyData = encoder.encode(secret);
-    
+
     // Import HMAC Key
     const key = await window.crypto.subtle.importKey(
       "raw",
       keyData,
       { name: "HMAC", hash: "SHA-256" },
       false,
-      ["sign", "verify"]
+      ["sign", "verify"],
     );
 
     // Convert hex signature string back to a Uint8Array
     const hexParts = signature.match(/.{1,2}/g);
     if (!hexParts) return false;
     const signatureBytes = new Uint8Array(hexParts.map((byte) => parseInt(byte, 16)));
-    
+
     const payloadData = encoder.encode(payload);
 
     // Cryptographically verify signature

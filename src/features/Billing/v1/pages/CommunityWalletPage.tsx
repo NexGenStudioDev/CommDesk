@@ -47,9 +47,7 @@ export default function CommunityWalletPage() {
       void allTxQuery.refetch();
     } catch (error: unknown) {
       const message =
-        error instanceof Error
-          ? error.message
-          : "Insufficient balance or daily limit reached.";
+        error instanceof Error ? error.message : "Insufficient balance or daily limit reached.";
       addToast("error", "Failed to consume credits", message);
     }
   };
@@ -142,8 +140,12 @@ export default function CommunityWalletPage() {
                         onClick={() => setShowAIFeatures(!showAIFeatures)}
                         className="rounded-xl px-4 py-2.5 text-sm font-semibold border transition-all hover:scale-[1.02]"
                         style={{
-                          backgroundColor: showAIFeatures ? "var(--cd-primary-subtle)" : "var(--cd-surface)",
-                          borderColor: showAIFeatures ? "var(--cd-primary)" : "var(--cd-border-subtle)",
+                          backgroundColor: showAIFeatures
+                            ? "var(--cd-primary-subtle)"
+                            : "var(--cd-surface)",
+                          borderColor: showAIFeatures
+                            ? "var(--cd-primary)"
+                            : "var(--cd-border-subtle)",
                           color: showAIFeatures ? "var(--cd-primary-text)" : "var(--cd-text)",
                         }}
                       >
@@ -159,7 +161,10 @@ export default function CommunityWalletPage() {
                           borderColor: "var(--cd-border-subtle)",
                         }}
                       >
-                        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--cd-text-muted)" }}>
+                        <p
+                          className="text-xs font-semibold uppercase tracking-wider"
+                          style={{ color: "var(--cd-text-muted)" }}
+                        >
                           Available AI Services
                         </p>
                         <div className="flex flex-wrap gap-2">
@@ -174,7 +179,9 @@ export default function CommunityWalletPage() {
                               color: "var(--cd-text)",
                             }}
                           >
-                            {consumeCredits.isPending ? "Generating..." : "Generate AI Summary (15 credits)"}
+                            {consumeCredits.isPending
+                              ? "Generating..."
+                              : "Generate AI Summary (15 credits)"}
                           </button>
                         </div>
                       </div>

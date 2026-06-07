@@ -12,7 +12,7 @@ export default function PayoutAccountDetails() {
     accountHolder: "",
     bankName: "",
     accountNumber: "",
-    ifsc: ""
+    ifsc: "",
   });
 
   const handleSave = () => {
@@ -40,10 +40,17 @@ export default function PayoutAccountDetails() {
     >
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-black" style={{ color: "var(--cd-text)" }}>Payout Account Details</h2>
-          <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>Receive funds and revenue securely to your bank account.</p>
+          <h2 className="text-lg font-black" style={{ color: "var(--cd-text)" }}>
+            Payout Account Details
+          </h2>
+          <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>
+            Receive funds and revenue securely to your bank account.
+          </p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: "var(--cd-success-subtle)", color: "var(--cd-success)" }}>
+        <div
+          className="rounded-xl p-3"
+          style={{ backgroundColor: "var(--cd-success-subtle)", color: "var(--cd-success)" }}
+        >
           <Landmark size={20} />
         </div>
       </div>
@@ -93,8 +100,13 @@ export default function PayoutAccountDetails() {
           disabled={loading || saved}
           className="cd-btn cd-btn-secondary px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2"
         >
-          {loading ? <div className="animate-spin h-4 w-4 border-2 border-[var(--cd-text)] border-t-transparent rounded-full" /> :
-           saved ? <CheckCircle2 size={16} className="text-green-500" /> : <Save size={16} />}
+          {loading ? (
+            <div className="animate-spin h-4 w-4 border-2 border-[var(--cd-text)] border-t-transparent rounded-full" />
+          ) : saved ? (
+            <CheckCircle2 size={16} className="text-green-500" />
+          ) : (
+            <Save size={16} />
+          )}
           {saved ? "Saved" : "Save Details"}
         </button>
       </div>

@@ -54,7 +54,10 @@ export default function WalletStatsGrid({ wallet, burnRatePerDay = 52 }: Props) 
             <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[var(--cd-text-muted)] opacity-70">
               {stat.label}
             </span>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "var(--cd-bg)" }}>
+            <span
+              className="flex h-9 w-9 items-center justify-center rounded-xl"
+              style={{ backgroundColor: "var(--cd-bg)" }}
+            >
               <stat.icon size={16} style={{ color: stat.color }} />
             </span>
           </div>
@@ -66,11 +69,12 @@ export default function WalletStatsGrid({ wallet, burnRatePerDay = 52 }: Props) 
             >
               {stat.val}
             </span>
-            <span className="mb-1 text-xs font-semibold" style={{ color: "var(--cd-text-muted)" }}>credits</span>
+            <span className="mb-1 text-xs font-semibold" style={{ color: "var(--cd-text-muted)" }}>
+              credits
+            </span>
           </div>
         </div>
       ))}
     </div>
   );
 }
-

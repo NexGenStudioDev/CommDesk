@@ -39,7 +39,7 @@ test.describe("Billing & Credits Wallet E2E Scenarios", () => {
 
   test("Add Funds Flow - Successful UPI Payment", async ({ page }) => {
     await expect(page.getByRole("heading", { name: "Community Wallet" })).toBeVisible();
-    
+
     await page.getByRole("button", { name: "Add Funds" }).first().click();
     const addFundsDialog = page.getByRole("dialog", { name: "Add Funds" });
     await expect(addFundsDialog).toBeVisible();
@@ -65,9 +65,9 @@ test.describe("Billing & Credits Wallet E2E Scenarios", () => {
 
   test("Add Funds Flow - Failed Payment Simulation", async ({ page }) => {
     await page.goto("/org/billing/add-funds");
-    
+
     await page.fill('input[type="number"]', "150");
-    await page.click('#force-fail-checkbox');
+    await page.click("#force-fail-checkbox");
     await page.getByRole("button", { name: /Pay/ }).click();
 
     await expect(page.locator("text=Payment failed")).toBeVisible();
@@ -81,7 +81,7 @@ test.describe("Billing & Credits Wallet E2E Scenarios", () => {
     await expect(thresholdInput).toBeDisabled();
 
     await page.click('input[type="checkbox"]');
-    
+
     await expect(thresholdInput).toBeEnabled();
     await thresholdInput.fill("300");
     await amountInput.fill("500");
@@ -115,7 +115,7 @@ test.describe("Billing & Credits Wallet E2E Scenarios", () => {
     await expect(page.locator("text=AI Summary Generated")).toBeVisible();
     await page.getByRole("button", { name: "Transactions" }).click();
     await expect(page.locator("text=AI_SUMMARY").first()).toBeVisible();
-    
+
     await page.getByRole("button", { name: "Overview" }).click();
     const expectedBalanceText = (initialBalance - 15).toLocaleString("en-IN");
     await expect(page.getByTestId("wallet-stat-available-value")).toHaveText(expectedBalanceText);

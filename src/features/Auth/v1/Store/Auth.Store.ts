@@ -9,14 +9,16 @@ const useAuthStore = create<AuthState>()(
       token: null,
       user: null,
 
-      setAuthData: (user: User) =>
+      setAuthData: (user: User, token?: string) =>
         set({
           user,
+          token: token ?? null,
         }),
 
       clearAuthData: () =>
         set({
           user: null,
+          token: null,
         }),
     }),
     {

@@ -119,7 +119,7 @@ export function useUpdateTask() {
       payload: UpdateTaskPayload;
     }): Promise<Task> => {
       await new Promise((r) => setTimeout(r, 400));
-       
+
       const { assignedTo: _ids, ...rest } = payload;
       const patch: Partial<Task> = { ...rest };
       if (payload.assignedTo) {

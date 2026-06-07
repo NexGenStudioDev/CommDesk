@@ -34,7 +34,7 @@ export const sidebarItems = [
   },
   {
     title: "Teams",
-    path: "/org/teams",
+    path: "/member/teams",
     icon: Users,
   },
   {

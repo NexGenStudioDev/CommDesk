@@ -4,7 +4,6 @@ import { isLowBalance } from "../utils/credits";
 
 const DEFAULT_LOW_BALANCE_THRESHOLD = 200;
 
-
 export function useBillingGate() {
   const { data: wallet } = useWallet();
 

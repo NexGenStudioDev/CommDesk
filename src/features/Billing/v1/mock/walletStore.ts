@@ -220,8 +220,7 @@ function enforceDailyLimits(feature: string) {
   const todayStr = new Date().toDateString();
   const txsToday = transactions.filter(
     (t) =>
-      t.transactionType === "USAGE_DEDUCTION" &&
-      new Date(t.createdAt).toDateString() === todayStr,
+      t.transactionType === "USAGE_DEDUCTION" && new Date(t.createdAt).toDateString() === todayStr,
   );
 
   if (feature.startsWith("AI_")) {
@@ -256,9 +255,7 @@ function enforceDailyLimits(feature: string) {
 function checkSuspiciousActivity(credits: number) {
   const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
   const recentDeductions = transactions.filter(
-    (t) =>
-      t.transactionType === "USAGE_DEDUCTION" &&
-      new Date(t.createdAt).getTime() > oneDayAgo,
+    (t) => t.transactionType === "USAGE_DEDUCTION" && new Date(t.createdAt).getTime() > oneDayAgo,
   );
 
   const totalBurn = Math.abs(recentDeductions.reduce((sum, t) => sum + t.credits, 0)) + credits;
@@ -350,7 +347,8 @@ export const walletStore = {
 
     if (idempotencyKeys.has(idempotencyKey)) {
       const existing = getExistingTransaction("CREDIT_PURCHASE", idempotencyKey);
-      if (existing) return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(existing) };
+      if (existing)
+        return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(existing) };
       throw new Error("IDEMPOTENCY_KEY_REUSED");
     }
 
@@ -388,7 +386,8 @@ export const walletStore = {
 
     if (idempotencyKeys.has(idempotencyKey)) {
       const existing = getExistingTransaction("USAGE_DEDUCTION", idempotencyKey);
-      if (existing) return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(existing) };
+      if (existing)
+        return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(existing) };
       throw new Error("IDEMPOTENCY_KEY_REUSED");
     }
 
@@ -433,26 +432,25 @@ export const walletStore = {
 
     if (idempotencyKeys.has(idempotencyKey)) {
       const existing = getExistingTransaction("REFUND", idempotencyKey);
-      if (existing) return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(existing) };
+      if (existing)
+        return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(existing) };
       throw new Error("IDEMPOTENCY_KEY_REUSED");
     }
 
     idempotencyKeys.add(idempotencyKey);
 
-    const tx = appendTransaction(
-      communityWallet.id,
-      "REFUND",
-      credits,
-      "refund",
-      sourceId,
-      { idempotencyKey },
-    );
+    const tx = appendTransaction(communityWallet.id, "REFUND", credits, "refund", sourceId, {
+      idempotencyKey,
+    });
 
     return { wallet: cloneWallet(communityWallet), transaction: cloneTransaction(tx) };
   },
 
   setAutoRecharge: (enabled: boolean, thresholdCredits?: number, amountRupees?: number) => {
-    if (thresholdCredits !== undefined && (!Number.isInteger(thresholdCredits) || thresholdCredits < 0)) {
+    if (
+      thresholdCredits !== undefined &&
+      (!Number.isInteger(thresholdCredits) || thresholdCredits < 0)
+    ) {
       throw new Error("INVALID_AUTO_RECHARGE_THRESHOLD");
     }
     if (

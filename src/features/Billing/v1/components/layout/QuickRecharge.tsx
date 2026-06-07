@@ -22,7 +22,7 @@ export default function QuickRecharge() {
       await addFunds.mutateAsync({
         amountRupees: amt,
         paymentMethod: "upi",
-        idempotencyKey: `quick-${crypto.randomUUID()}`
+        idempotencyKey: `quick-${crypto.randomUUID()}`,
       });
       addToast("success", "Recharge Successful", `Added ${formatCredits(amt * 10)} credits.`);
     } catch {
@@ -43,10 +43,17 @@ export default function QuickRecharge() {
     >
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-black" style={{ color: "var(--cd-text)" }}>Quick Recharge</h2>
-          <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>Top up instantly with UPI.</p>
+          <h2 className="text-lg font-black" style={{ color: "var(--cd-text)" }}>
+            Quick Recharge
+          </h2>
+          <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>
+            Top up instantly with UPI.
+          </p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}>
+        <div
+          className="rounded-xl p-3"
+          style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}
+        >
           <Zap size={20} />
         </div>
       </div>
@@ -92,11 +99,15 @@ export default function QuickRecharge() {
       >
         <div className="flex justify-between items-center text-sm">
           <span style={{ color: "var(--cd-text-muted)" }}>You get</span>
-          <span className="font-black" style={{ color: "var(--cd-primary)" }}>{formatCredits(preview.totalCredits)} cr</span>
+          <span className="font-black" style={{ color: "var(--cd-primary)" }}>
+            {formatCredits(preview.totalCredits)} cr
+          </span>
         </div>
         <div className="mt-2 flex justify-between items-center text-xs">
           <span style={{ color: "var(--cd-text-muted)" }}>Payable</span>
-          <span className="font-semibold" style={{ color: "var(--cd-text)" }}>{formatRupees(preview.totalPayableRupees)}</span>
+          <span className="font-semibold" style={{ color: "var(--cd-text)" }}>
+            {formatRupees(preview.totalPayableRupees)}
+          </span>
         </div>
       </div>
 
@@ -105,7 +116,11 @@ export default function QuickRecharge() {
         disabled={addFunds.isPending}
         className="cd-btn cd-btn-primary w-full rounded-xl py-2.5 font-bold flex justify-center items-center gap-2"
       >
-        {addFunds.isPending ? <Loader2 size={16} className="animate-spin" /> : <CreditCard size={16} />}
+        {addFunds.isPending ? (
+          <Loader2 size={16} className="animate-spin" />
+        ) : (
+          <CreditCard size={16} />
+        )}
         {addFunds.isPending ? "Processing..." : `Pay ${formatRupees(preview.totalPayableRupees)}`}
       </button>
     </div>

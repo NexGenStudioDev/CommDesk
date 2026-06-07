@@ -32,7 +32,10 @@ export default function UsageCharts() {
           <div
             key={i}
             className="h-64 rounded-2xl border animate-pulse"
-            style={{ backgroundColor: "var(--cd-surface-2)", borderColor: "var(--cd-border-subtle)" }}
+            style={{
+              backgroundColor: "var(--cd-surface-2)",
+              borderColor: "var(--cd-border-subtle)",
+            }}
           />
         ))}
       </div>
