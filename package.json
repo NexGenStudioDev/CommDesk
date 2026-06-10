@@ -21,7 +21,7 @@
     "@cashfreepayments/cashfree-js": "^1.0.7",
     "@cashfreepayments/pg-react": "^1.0.3",
     "@hookform/resolvers": "^5.2.2",
-    "@tanstack/react-query": "^5.100.9",
+    "@tanstack/react-query": "^5.101.0",
     "@tauri-apps/api": "2.10.1",
     "@tauri-apps/plugin-opener": "2.5.4",
     "@tauri-apps/plugin-process": "2.3.1",
