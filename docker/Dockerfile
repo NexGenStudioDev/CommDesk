@@ -25,16 +25,18 @@ RUN apt-get update && apt-get install -y \
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get update && apt-get install -y nodejs
+    apt-get update && apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install package managers
 RUN npm install -g \
     pnpm \
-    yarn \
-    @tauri-apps/cli
+    yarn 
 
 # Create non-root user
-RUN useradd -ms /bin/bash developer
+RUN useradd -ms /bin/bash developer && \
+    mkdir -p /app && \
+    chown -R developer:developer /app /usr/local/cargo
 
 WORKDIR /app
 
@@ -64,18 +66,20 @@ RUN cd src-tauri && cargo fetch
 # Development Stage
 FROM base AS development
 
-COPY --from=dependencies /usr/local/cargo  /usr/local/cargo
-COPY --from=dependencies /app /app
+COPY --from=dependencies --chown=developer:developer /usr/local/cargo  /usr/local/cargo
+COPY --from=dependencies --chown=developer:developer /app /app
 
 WORKDIR /app
 
 #USER developer
 
 USER root
-RUN mkdir -p /tmp/cargo-target && chmod -R 777 /tmp/cargo-target
+RUN mkdir -p /tmp/cargo-target && chown -R developer:developer /tmp/cargo-target
+
+USER developer
 
 EXPOSE 1420
 EXPOSE 1421
 EXPOSE 5173
 
-CMD ["npm", "run", "tauri", "dev"]
+CMD ["pnpm", "tauri", "dev"]

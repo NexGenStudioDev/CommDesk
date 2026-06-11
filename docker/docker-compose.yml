@@ -16,13 +16,14 @@ services:
       - RUST_BACKTRACE=1
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+      - WEBKIT_DISABLE_COMPOSITING_MODE=1
       - CARGO_TARGET_DIR=/tmp/cargo-target
     
     volumes:
       - ..:/app
+      - node_modules:/app/node_modules/
       - cargo-cache:/usr/local/cargo/registry
-      - /tmp/cargo-target/
-      - /app/node_modules/
+      - cargo-target:/tmp/cargo-target
       - /tmp/.X11-unix:/tmp/.X11-unix
     
     ports:
@@ -40,4 +41,6 @@ networks:
 
 volumes:
   cargo-cache:
+  cargo-target:
+  node_modules:
   
