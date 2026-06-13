@@ -140,9 +140,9 @@ export default function SignUpPage() {
               </div>
 
               <h1 className="text-4xl xl:text-5xl font-black text-white leading-[1.15]">
-                Empower Your <br />
+                Empowering <br />
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-300 via-purple-300 to-pink-300">
-                  Community
+                 Communities Through Collaborations
                 </span>
               </h1>
 

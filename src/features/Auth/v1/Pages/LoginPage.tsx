@@ -140,7 +140,7 @@ const LoginPage = () => {
                   fieldErrors.password ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Enter your password"
-                type="password"
+                type="text"
               />
               {fieldErrors.password && (
                 <p className="text-red-500 text-xs inter">{fieldErrors.password}</p>
