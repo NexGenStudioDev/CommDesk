@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 
 import Sidebar from "./Components/Sidebar";
-import Header from "./Components/Header";
 import MobileSidebar from "./Components/MobileSidebar";
 import { SidebarProvider } from "@/context/SidebarContext";
 

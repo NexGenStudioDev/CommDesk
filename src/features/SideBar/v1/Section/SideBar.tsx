@@ -9,6 +9,9 @@ import {
   MdWork,
   MdWebhook,
   MdPayments,
+  MdGavel,
+  MdBusiness,
+  MdAnalytics,
 } from "react-icons/md";
 import { useTheme } from "@/theme";
 import { ThemeToggle } from "@/Component/ui/ThemeToggle";
@@ -73,7 +76,7 @@ const SideBar = () => {
       </div>
 
       {/* Nav */}
-      <div className="flex flex-col gap-1 p-4 flex-1 w-full">
+      <div className="flex flex-col gap-1 p-4 flex-1 w-full overflow-y-auto">
         <p
           className="text-xs font-semibold uppercase tracking-widest px-4 py-2"
           style={{ color: theme.text.muted }}
@@ -93,6 +96,17 @@ const SideBar = () => {
         <SideBarLink icon={<MdWebhook />} text="Webhooks" link="/org/dashboard/webhooks" />
         <SideBarLink icon={<MdPayments />} text="Payments" link="/org/billing" />
         <SideBarLink icon={<RiContactsBookFill />} text="Contact Submissions" link="/org/contact" />
+
+        <p
+          className="text-xs font-semibold uppercase tracking-widest px-4 py-2 mt-4"
+          style={{ color: theme.text.muted }}
+        >
+          Hiring Operations
+        </p>
+        <SideBarLink icon={<MdAnalytics />} text="Hiring" link="/org/jobs" />
+        <SideBarLink icon={<MdGavel />} text="Moderation" link="/community/jobs/moderation" />
+        <SideBarLink icon={<MdBusiness />} text="Organization Profile" link="/org/company/profile" />
+        <SideBarLink icon={<MdWork />} text="Media Assets" link="/org/company/media" />
 
         {/* Footer */}
         <div

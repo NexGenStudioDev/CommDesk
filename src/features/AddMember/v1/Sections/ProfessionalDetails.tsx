@@ -3,7 +3,6 @@ import { IoBag } from "react-icons/io5";
 import { Input } from "../../../../Component/ui/Input";
 import DropDown from "../../../../Component/ui/DropDown";
 import { Roles } from "../Constant/Role.constant";
-import { SkillColor } from "../Constant/Skill.constant";
 import { useFormContext } from "react-hook-form";
 import type { MemberFormValues } from "../Validator/AddMember.Validator";
 import { theme } from "@/theme";
@@ -25,11 +24,6 @@ const ProfessionalDetails = () => {
         setSkillInput("");
       }
     }
-  };
-
-  const getSkillColor = (skill: string) => {
-    const index = skills.indexOf(skill);
-    return SkillColor[index % SkillColor.length];
   };
 
   return (

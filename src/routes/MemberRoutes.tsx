@@ -16,6 +16,9 @@ import BillingPage from "@/features/Member/v1/Pages/Billing";
 import MessagesPage from "@/features/Member/v1/Pages/Messages";
 import MemberPage from "@/features/Member/v1/Pages/MemberPage";
 
+import PublicCompanyProfilePage from "@/features/Hiring/v1/Pages/PublicCompanyProfilePage";
+import PublicJobDetailsPage from "@/features/Hiring/v1/Pages/PublicJobDetailsPage";
+
 const MemberRoutes = () => {
   return (
     <Routes>
@@ -23,6 +26,10 @@ const MemberRoutes = () => {
       <Route path="/" element={<LoginPage />} />
 
       <Route path="/signup" element={<SignUpPage />} />
+
+      {/* Public Career Portals */}
+      <Route path="/company/:slug" element={<PublicCompanyProfilePage />} />
+      <Route path="/company/:slug/jobs/:jobId" element={<PublicJobDetailsPage />} />
 
       {/* Member Routes */}
 
