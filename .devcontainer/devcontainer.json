@@ -1,6 +1,6 @@
 {
-    "name": "Tauri Dev Environment",
-    "dockerComposeFile": "../docker/docker-compose.yml",
+    "name": "CommDesk Tauri Dev ",
+    "dockerComposeFile": "../docker-compose.yml",
     "service": "tauri-app",
     "workspaceFolder": "/app",
 
@@ -12,7 +12,13 @@
                 "tauri-apps.tauri-vscode",
                 "esbenp.prettier-vscode",
                 "dbaeumer.vscode-eslint"
-            ]
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "[rust]": {
+                    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+                }
+            }
         }
     },
     "remoteUser": "developer"
