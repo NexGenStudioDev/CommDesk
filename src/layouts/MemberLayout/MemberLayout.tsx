@@ -20,7 +20,7 @@ export default function MemberLayout() {
         overflow-hidden
 
         bg-gray-50
-        dark:bg-[#0a0a0a]
+  dark:bg-[#0b0d12]
 
         text-gray-900
         dark:text-white
@@ -33,14 +33,14 @@ export default function MemberLayout() {
           className="
           absolute inset-0
 
-          bg-gradient-to-br
+          bg-linear-to-br
 
-          from-indigo-50
+          from-slate-50
           via-white
-          to-yellow-50
+          to-cyan-50
 
-          dark:from-[#0f172a]
-          dark:via-[#09090b]
+          dark:from-[#0b0d12]
+          dark:via-[#101522]
           dark:to-[#111827]
         "
         />
@@ -52,13 +52,13 @@ export default function MemberLayout() {
 
           absolute -top-40 -left-40
 
-          w-[28rem]
-          h-[28rem]
+          w-md
+          h-112
 
           rounded-full
 
-          bg-indigo-300/20
-          dark:bg-indigo-500/10
+          bg-sky-300/20
+          dark:bg-sky-500/10
 
           blur-3xl
         "
@@ -71,13 +71,13 @@ export default function MemberLayout() {
 
           absolute bottom-0 right-0
 
-          w-[28rem]
-          h-[28rem]
+          w-md
+          h-112
 
           rounded-full
 
-          bg-yellow-300/20
-          dark:bg-yellow-500/10
+          bg-cyan-300/20
+          dark:bg-cyan-500/10
 
           blur-3xl
         "
@@ -94,7 +94,7 @@ export default function MemberLayout() {
 
           rounded-full
 
-          bg-cyan-500/5
+          bg-slate-500/5
 
           blur-3xl
         "
@@ -117,7 +117,6 @@ export default function MemberLayout() {
         "
         >
           {/* Header */}
-          <Header />
 
           {/* Page Content */}
           <main
@@ -127,21 +126,12 @@ export default function MemberLayout() {
 
             w-full
 
-            px-4
-            sm:px-6
-            lg:px-8
-            xl:px-10
-
-            py-4
-            sm:py-5
-            lg:py-6
+        
           "
           >
             <div
               className="
               w-full
-
-              max-w-[1450px]
 
               mx-auto
             "

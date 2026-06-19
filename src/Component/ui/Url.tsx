@@ -2,7 +2,7 @@ import React from "react";
 
 interface UrlProps {
   protocol?: string;
-  domain: string;
+  domain: string | undefined;
   themeMode?: "light" | "dark";
   className?: string;
   style?: React.CSSProperties;

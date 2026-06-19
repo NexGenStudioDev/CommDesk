@@ -6,9 +6,9 @@ export interface User {
 }
 
 export interface AuthState {
-  // token: string | null;
+  token: string | null;
   user: User | null;
 
-  setAuthData: (user: User) => void;
+  setAuthData: (user: User, token?: string) => void;
   clearAuthData: () => void;
 }

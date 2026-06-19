@@ -6,19 +6,16 @@ import BotamNavBar from "../SideBar/v1/Section/BotamNavBar";
 import { useMemo } from "react";
 
 const Organisation_Template = () => {
-
   const user = useAuthStore((state) => state.user);
 
   useMemo(() => {
-
     console.log("User in Organisation_Template-->:", user);
-   
 
-      if (user?.role) {
-        if (user.role !== "organization") {
-          redirect("/");
-        }
+    if (user?.role) {
+      if (user.role !== "organization") {
+        redirect("/");
       }
+    }
   }, [user]);
 
   return (

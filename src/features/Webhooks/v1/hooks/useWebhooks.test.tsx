@@ -48,12 +48,9 @@ describe("Webhook API Hooks Integration", () => {
       updatedAt: new Date().toISOString(),
     });
 
-    const { result } = renderHook(
-      () => useWebhooks({ status: "all", search: "Alpha", page: 1 }),
-      {
+    const { result } = renderHook(() => useWebhooks({ status: "all", search: "Alpha", page: 1 }), {
       wrapper,
-      },
-    );
+    });
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);

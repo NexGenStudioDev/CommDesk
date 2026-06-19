@@ -15,7 +15,7 @@ const InterestBox = (props: InterestBoxProps) => {
       className={`InterestBox flex p-3 font-bold ${
         Clicked
           ? "bg-blue-100 border-blue-500 text-blue-600"
-          : "bg-gray-100 border-gray-300 text-black"
+          : "bg-[cd-surface] border-gray-300 text-[--cd-text)"
       } border rounded-lg cursor-pointer`}
       onClick={() => {
         props.onClick(!Clicked);
@@ -24,7 +24,7 @@ const InterestBox = (props: InterestBoxProps) => {
     >
       <div
         className={`rounded-md border-2 w-6 h-6  flex items-center justify-center ${
-          Clicked ? "border-blue-500 bg-blue-500" : "border-gray-300"
+          Clicked ? "border-blue-500 bg-blue-500" : "border-[var(cd-border-subtle)] bg-transparent"
         }`}
       >
         {Clicked && <TiTick className="text-white text-lg" />}

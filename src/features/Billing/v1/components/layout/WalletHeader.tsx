@@ -79,7 +79,10 @@ export default function WalletHeader({ wallet, activeTab, onTabChange, onAddFund
                   color: isActive ? "var(--cd-text)" : "var(--cd-text-muted)",
                 }}
               >
-                <tab.icon size={15} style={{ color: isActive ? "var(--cd-primary)" : "currentColor" }} />
+                <tab.icon
+                  size={15}
+                  style={{ color: isActive ? "var(--cd-primary)" : "currentColor" }}
+                />
                 {tab.label}
               </button>
             );
@@ -114,7 +117,10 @@ function WalletTitle({ wallet }: { wallet: WalletType | undefined }) {
       >
         Community Wallet
       </h1>
-      <div className="mt-1 truncate text-sm flex items-center gap-1 flex-wrap" style={{ color: "var(--cd-text-2)" }}>
+      <div
+        className="mt-1 truncate text-sm flex items-center gap-1 flex-wrap"
+        style={{ color: "var(--cd-text-2)" }}
+      >
         {wallet ? (
           <>
             <CreditBadge credits={wallet.availableCredits} size="sm" />

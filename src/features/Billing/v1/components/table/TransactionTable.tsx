@@ -36,10 +36,16 @@ export default function TransactionTable({ transactions, isLoading }: Props) {
             <th className="px-5 py-4 font-semibold" style={{ color: "var(--cd-text-muted)" }}>
               Source
             </th>
-            <th className="px-5 py-4 font-semibold text-right" style={{ color: "var(--cd-text-muted)" }}>
+            <th
+              className="px-5 py-4 font-semibold text-right"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
               Credits
             </th>
-            <th className="px-5 py-4 font-semibold text-right" style={{ color: "var(--cd-text-muted)" }}>
+            <th
+              className="px-5 py-4 font-semibold text-right"
+              style={{ color: "var(--cd-text-muted)" }}
+            >
               Balance
             </th>
             <th className="px-5 py-4 font-semibold" style={{ color: "var(--cd-text-muted)" }}>

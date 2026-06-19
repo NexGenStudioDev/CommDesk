@@ -3,9 +3,24 @@ import { GrGroup } from "react-icons/gr";
 import InterestBox from "./InterestBox";
 import AREA_OF_INTEREST from "../Constant/Interest.constant";
 import { TextArea } from "../../../../Component/ui/TextArea";
+import { useFormContext } from "react-hook-form";
+import type { MemberFormValues } from "../Validator/AddMember.Validator";
 
 const Community_Involvement = () => {
-  const [internalNotes, setInternalNotes] = useState("");
+  const { watch, setValue, formState } = useFormContext<MemberFormValues>();
+
+  const { errors } = formState;
+
+  const [internalNotes, setInternalNotes] = useState(watch("internalNotes") ?? "");
+  const areaOfInterest = watch("areaOfInterest") ?? [];
+
+  const toggleInterest = (interest: string, isChecked: boolean) => {
+    const nextInterests = isChecked
+      ? [...areaOfInterest, interest]
+      : areaOfInterest.filter((value) => value !== interest);
+
+    setValue("areaOfInterest", nextInterests, { shouldDirty: true });
+  };
 
   return (
     <div
@@ -30,7 +45,12 @@ const Community_Involvement = () => {
 
         <div className="flex flex-wrap gap-4 mt-3">
           {AREA_OF_INTEREST.map((interest, index) => (
-            <InterestBox key={index} label={interest} isChecked={false} onClick={() => {}} />
+            <InterestBox
+              key={index}
+              label={interest}
+              isChecked={areaOfInterest.includes(interest)}
+              onClick={(clicked) => toggleInterest(interest, clicked)}
+            />
           ))}
         </div>
 
@@ -39,7 +59,11 @@ const Community_Involvement = () => {
           name="internalNotes"
           placeholder="Enter internal notes"
           value={internalNotes}
-          onChange={(_, value) => setInternalNotes(value)}
+          error={errors.internalNotes?.message}
+          onChange={(_, value) => {
+            setInternalNotes(value);
+            setValue("internalNotes", value, { shouldDirty: true });
+          }}
           className="mt-[3vh]"
           rows={5}
         />

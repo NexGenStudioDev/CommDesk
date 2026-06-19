@@ -14,7 +14,7 @@ const Administrative_MetaData = () => {
         Administrative Metadata
       </p>
       <MemberShip_Status />
-      <AccessLevel />
+      {/* <AccessLevel /> */}
     </div>
   );
 };

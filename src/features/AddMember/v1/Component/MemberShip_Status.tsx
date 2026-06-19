@@ -1,10 +1,11 @@
 import { useState } from "react";
 
+import { useFormContext } from "react-hook-form";
+import type { MemberFormValues } from "../Validator/AddMember.Validator";
+
 type MembershipStatus = "Active" | "Inactive" | "Pending" | "Suspended" | "On Boarding";
 
 const MemberShip_Status = () => {
-  const [membershipStatus, setMembershipStatus] = useState<MembershipStatus>("Active");
-
   const statusColorMap: Record<MembershipStatus, string> = {
     Active: "bg-green-500",
     Inactive: "bg-gray-400",
@@ -13,10 +14,12 @@ const MemberShip_Status = () => {
     "On Boarding": "bg-blue-400",
   };
 
+  const { watch, setValue, formState } = useFormContext<MemberFormValues>();
+  const { errors } = formState;
+  const membershipStatus = (watch("membershipStatus") ?? "On Boarding") as MembershipStatus;
+
   return (
     <div className="MemberShip_Status flex flex-col gap-2 mt-4 text-lg">
-      <p className="text-md font-semibold">Membership Status</p>
-
       {/* Active */}
       <div className="flex items-center gap-4">
         <input
@@ -25,7 +28,7 @@ const MemberShip_Status = () => {
           id="Active"
           value="Active"
           checked={membershipStatus === "Active"}
-          onChange={() => setMembershipStatus("Active")}
+          onChange={() => setValue("membershipStatus", "Active", { shouldDirty: true })}
         />
 
         <span
@@ -33,6 +36,10 @@ const MemberShip_Status = () => {
         ></span>
         <label htmlFor="Active">Active</label>
       </div>
+
+      {errors.membershipStatus && (
+        <p className="text-red-500 text-sm">{errors.membershipStatus.message}</p>
+      )}
 
       {/* Inactive */}
       <div className="flex items-center gap-4">
@@ -42,7 +49,7 @@ const MemberShip_Status = () => {
           name="membershipStatus"
           value="Inactive"
           checked={membershipStatus === "Inactive"}
-          onChange={() => setMembershipStatus("Inactive")}
+          onChange={() => setValue("membershipStatus", "Inactive", { shouldDirty: true })}
         />
 
         <span
@@ -60,7 +67,7 @@ const MemberShip_Status = () => {
           value="Pending"
           id="Pending"
           checked={membershipStatus === "Pending"}
-          onChange={() => setMembershipStatus("Pending")}
+          onChange={() => setValue("membershipStatus", "Pending", { shouldDirty: true })}
         />
 
         <span
@@ -77,7 +84,7 @@ const MemberShip_Status = () => {
           id="OnBoarding"
           value="On Boarding"
           checked={membershipStatus === "On Boarding"}
-          onChange={() => setMembershipStatus("On Boarding")}
+          onChange={() => setValue("membershipStatus", "On Boarding", { shouldDirty: true })}
         />
         <span
           className={`w-4 h-4 rounded-full ${statusColorMap["On Boarding"]} border border-gray-300`}
@@ -93,7 +100,7 @@ const MemberShip_Status = () => {
           id="Suspended"
           value="Suspended"
           checked={membershipStatus === "Suspended"}
-          onChange={() => setMembershipStatus("Suspended")}
+          onChange={() => setValue("membershipStatus", "Suspended", { shouldDirty: true })}
         />
 
         <span

@@ -5,8 +5,9 @@ import AUTH_ENDPOINTS from "../Constant/Auth.Endpoint.Constant";
 import useAuthStore from "../Store/Auth.Store";
 import useOrganizationStore from "../Store/Organization.Store";
 
-const baseUrl =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
+import usePermissionStore from "@/features/Permission/Store/Permission.Store";
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 
 // =========================
 // GET ORGANIZATION
@@ -18,13 +19,14 @@ const useGetOrganizationMutation = () => {
 
     mutationFn: async (_id: string) => {
       const response = await api.get(
-        `${baseUrl}${AUTH_ENDPOINTS.GET_ORGANIZATION_BY_ID}?ownerId=${_id}`
+        `${baseUrl}${AUTH_ENDPOINTS.GET_ORGANIZATION_BY_ID}?ownerId=${_id}`,
       );
 
       return response.data;
     },
 
     onSuccess: (response) => {
+      console.log("Organization fetched successfully:", response.data);
       useOrganizationStore.getState().setOrganization(response.data);
     },
 
@@ -44,25 +46,20 @@ const useLoginMutation = () => {
   return useMutation({
     mutationKey: ["login"],
 
-    mutationFn: async (credentials: {
-      email: string;
-      password: string;
-    }) => {
-      const response = await api.post(
-        `${baseUrl}${AUTH_ENDPOINTS.LOGIN}`,
-        credentials
-      );
+    mutationFn: async (credentials: { email: string; password: string }) => {
+      const response = await api.post(`${baseUrl}${AUTH_ENDPOINTS.LOGIN}`, credentials);
 
       return response.data;
     },
 
     onSuccess: async (response) => {
-      const user = response.data;
+      const user = response.data.FindUser;
+      const token = response.token;
 
-      console.log("Login successful:", user);
+      usePermissionStore.getState().setPermissions(response.data.perms);
 
       // Save auth first
-      useAuthStore.getState().setAuthData(user);
+      useAuthStore.getState().setAuthData(user, token);
 
       // Fetch organization if needed
       if (user.role === "organization") {

@@ -13,7 +13,12 @@ import {
   Wallet,
 } from "lucide-react";
 import { RECHARGE_PACKS, MIN_ADD_RUPEES } from "../constants/billing.constants";
-import { buildAddFundsPreview, formatCredits, formatRupees, validateMinAddFunds } from "../utils/credits";
+import {
+  buildAddFundsPreview,
+  formatCredits,
+  formatRupees,
+  validateMinAddFunds,
+} from "../utils/credits";
 import { useAddFunds } from "../hooks/useWallet";
 import { ToastContainer, useToast } from "@/features/Tasks/v1/components/common/ToastNotification";
 import type { PaymentState } from "../Billing.types";
@@ -55,7 +60,11 @@ export default function AddFundsPage() {
         idempotencyKey: `pay-${crypto.randomUUID()}${forceFail ? "-fail" : ""}`,
       });
       setPaymentState("success");
-      addToast("success", "Payment successful", `${formatCredits(preview.totalCredits)} credits added.`);
+      addToast(
+        "success",
+        "Payment successful",
+        `${formatCredits(preview.totalCredits)} credits added.`,
+      );
     } catch {
       setPaymentState("failed");
       addToast("error", "Payment failed", "Please try again or use a different method.");
@@ -86,7 +95,10 @@ export default function AddFundsPage() {
           >
             <ArrowLeft size={18} style={{ color: "var(--cd-text-muted)" }} />
           </button>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ backgroundColor: "var(--cd-primary)", color: "#fff" }}>
+          <div
+            className="flex h-11 w-11 items-center justify-center rounded-xl"
+            style={{ backgroundColor: "var(--cd-primary)", color: "#fff" }}
+          >
             <Wallet size={20} />
           </div>
           <div>
@@ -110,7 +122,10 @@ export default function AddFundsPage() {
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
             <div className="flex flex-col gap-6">
               <section>
-                <SectionLabel title="Recharge packs" description="Pick a preset or enter a custom amount." />
+                <SectionLabel
+                  title="Recharge packs"
+                  description="Pick a preset or enter a custom amount."
+                />
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
                   {RECHARGE_PACKS.map((pack) => {
                     const isSelected = amount === pack.amountRupees;
@@ -120,27 +135,40 @@ export default function AddFundsPage() {
                         onClick={() => setAmountStr(pack.amountRupees.toString())}
                         className="group min-h-[142px] rounded-2xl border p-4 text-left transition-all hover:-translate-y-1 hover:shadow-lg"
                         style={{
-                          backgroundColor: isSelected ? "var(--cd-primary-subtle)" : "var(--cd-surface)",
+                          backgroundColor: isSelected
+                            ? "var(--cd-primary-subtle)"
+                            : "var(--cd-surface)",
                           borderColor: isSelected ? "var(--cd-primary)" : "var(--cd-border-subtle)",
                           boxShadow: isSelected ? "0 14px 28px var(--cd-shadow)" : "none",
                         }}
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "var(--cd-text-muted)" }}>
+                          <p
+                            className="text-xs font-bold uppercase tracking-wide"
+                            style={{ color: "var(--cd-text-muted)" }}
+                          >
                             {pack.label}
                           </p>
-                          {isSelected ? <BadgeCheck size={18} style={{ color: "var(--cd-primary)" }} /> : null}
+                          {isSelected ? (
+                            <BadgeCheck size={18} style={{ color: "var(--cd-primary)" }} />
+                          ) : null}
                         </div>
                         <p className="text-2xl font-black mt-4" style={{ color: "var(--cd-text)" }}>
                           {formatRupees(pack.amountRupees)}
                         </p>
-                        <p className="text-sm font-semibold mt-2" style={{ color: "var(--cd-primary)" }}>
+                        <p
+                          className="text-sm font-semibold mt-2"
+                          style={{ color: "var(--cd-primary)" }}
+                        >
                           {formatCredits(pack.baseCredits + pack.bonusCredits)} cr
                         </p>
                         {pack.bonusCredits > 0 && (
                           <span
                             className="mt-3 inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold"
-                            style={{ backgroundColor: "var(--cd-success-subtle)", color: "var(--cd-success)" }}
+                            style={{
+                              backgroundColor: "var(--cd-success-subtle)",
+                              color: "var(--cd-success)",
+                            }}
                           >
                             +{formatCredits(pack.bonusCredits)} bonus
                           </span>
@@ -153,7 +181,10 @@ export default function AddFundsPage() {
 
               <section
                 className="rounded-2xl border p-5"
-                style={{ backgroundColor: "var(--cd-surface)", borderColor: "var(--cd-border-subtle)" }}
+                style={{
+                  backgroundColor: "var(--cd-surface)",
+                  borderColor: "var(--cd-border-subtle)",
+                }}
               >
                 <Input
                   label={`Custom amount (Rs., min ${MIN_ADD_RUPEES})`}
@@ -166,14 +197,17 @@ export default function AddFundsPage() {
                     setAmountStr(cleanVal);
                   }}
                   leftIcon={<Banknote size={18} />}
-                  error={validation.valid ? undefined : validation.error ?? undefined}
+                  error={validation.valid ? undefined : (validation.error ?? undefined)}
                   className="w-full !mb-0"
                   inputClassName="!text-lg !font-bold"
                 />
               </section>
 
               <section>
-                <SectionLabel title="Payment method" description="Select how you want to complete this recharge." />
+                <SectionLabel
+                  title="Payment method"
+                  description="Select how you want to complete this recharge."
+                />
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
                   {PAYMENT_METHODS.map((m) => {
                     const isSelected = paymentMethod === m.id;
@@ -183,7 +217,9 @@ export default function AddFundsPage() {
                         onClick={() => setPaymentMethod(m.id)}
                         className="rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5"
                         style={{
-                          backgroundColor: isSelected ? "var(--cd-primary-subtle)" : "var(--cd-surface)",
+                          backgroundColor: isSelected
+                            ? "var(--cd-primary-subtle)"
+                            : "var(--cd-surface)",
                           borderColor: isSelected ? "var(--cd-primary)" : "var(--cd-border-subtle)",
                           color: isSelected ? "var(--cd-primary-text)" : "var(--cd-text)",
                           boxShadow: isSelected ? "0 10px 22px var(--cd-shadow)" : "none",
@@ -237,7 +273,10 @@ export default function AddFundsPage() {
                   <>Pay {formatRupees(preview.totalPayableRupees)}</>
                 )}
               </button>
-              <div className="mt-3 flex items-center justify-center gap-2 text-xs" style={{ color: "var(--cd-text-muted)" }}>
+              <div
+                className="mt-3 flex items-center justify-center gap-2 text-xs"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
                 <ShieldCheck size={14} style={{ color: "var(--cd-success)" }} />
                 Encrypted payment simulation
               </div>
@@ -254,7 +293,10 @@ export default function AddFundsPage() {
 function SectionLabel({ title, description }: { title: string; description: string }) {
   return (
     <div className="mb-3">
-      <h2 className="text-sm font-black uppercase tracking-wide" style={{ color: "var(--cd-text)" }}>
+      <h2
+        className="text-sm font-black uppercase tracking-wide"
+        style={{ color: "var(--cd-text)" }}
+      >
         {title}
       </h2>
       <p className="mt-1 text-xs" style={{ color: "var(--cd-text-muted)" }}>
@@ -293,7 +335,10 @@ function PreviewCard({ preview }: { preview: ReturnType<typeof buildAddFundsPrev
             Review credits before payment.
           </p>
         </div>
-        <div className="rounded-xl p-2.5" style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}>
+        <div
+          className="rounded-xl p-2.5"
+          style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}
+        >
           <CreditCard size={20} />
         </div>
       </div>
@@ -301,7 +346,9 @@ function PreviewCard({ preview }: { preview: ReturnType<typeof buildAddFundsPrev
         {rows.map((row) => (
           <div key={row.label} className="flex justify-between gap-4 text-sm">
             <span style={{ color: "var(--cd-text-muted)" }}>{row.label}</span>
-            <span className="font-semibold" style={{ color: "var(--cd-text)" }}>{row.value}</span>
+            <span className="font-semibold" style={{ color: "var(--cd-text)" }}>
+              {row.value}
+            </span>
           </div>
         ))}
         <div

@@ -14,6 +14,7 @@ import { Contact } from "lucide-react";
 import ViewEvent from "@/features/Events/v1/Pages/ViewEvent";
 import BillingPage from "@/features/Member/v1/Pages/Billing";
 import MessagesPage from "@/features/Member/v1/Pages/Messages";
+import MemberPage from "@/features/Member/v1/Pages/MemberPage";
 
 const MemberRoutes = () => {
   return (
@@ -37,6 +38,8 @@ const MemberRoutes = () => {
         <Route path="notifications" element={<NotificationsPage />} />
 
         <Route path="settings" element={<SettingsPage />} />
+
+        <Route path="teams" element={<MemberPage />} />
 
         <Route path="tasks" element={<TasksPage />} />
 

@@ -6,6 +6,7 @@ type InputType = "text" | "email" | "password" | "number" | "url" | "tel" | "tim
 type InputProps = {
   label?: string;
   name: string;
+
   placeholder?: string;
   value?: string | number;
   type?: InputType;

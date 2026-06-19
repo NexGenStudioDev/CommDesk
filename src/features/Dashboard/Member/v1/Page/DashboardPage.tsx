@@ -13,6 +13,7 @@ import SummaryCard from "@/features/Dashboard/components/SummaryCard";
 import TaskOverview from "@/features/Dashboard/components/TaskOverview";
 import UpcomingUrgentTasks from "@/features/Dashboard/components/UpcomingUrgentTasks";
 import { useDashboardData } from "@/features/Member/v1/hooks/useDashboardData";
+import Header from "@/layouts/MemberLayout/Components/Header";
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardData();
@@ -49,21 +50,23 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-5 w-full">
-      {/* Header */}
-      <div
-        className="
+    <div className="space-y-5 w-full flex flex-col ">
+      <Header />
+
+      <div className="flex flex-col space-y-5 w-full px-[2.2vw] gap-3">
+        {/* Header */}
+        <div
+          className="
             flex flex-col
             sm:flex-row
             sm:items-center
             sm:justify-between
-
             gap-2
           "
-      >
-        <div>
-          <h1
-            className="
+        >
+          <div>
+            <h1
+              className="
                 text-lg
                 sm:text-xl
                 md:text-2xl
@@ -73,26 +76,26 @@ export default function DashboardPage() {
                 text-gray-800
                 dark:text-white
               "
-          >
-            Welcome back, {data.user.name.split(" ")[0]} 👋
-          </h1>
+            >
+              Welcome back, {data.user.name.split(" ")[0]} 👋
+            </h1>
 
-          <p
-            className="
+            <p
+              className="
                 text-sm
 
                 text-gray-500
                 dark:text-zinc-400
               "
-          >
-            Here’s what’s happening today
-          </p>
+            >
+              Here’s what’s happening today
+            </p>
+          </div>
         </div>
-      </div>
 
-      {/* Summary Cards */}
-      <div
-        className="
+        {/* Summary Cards */}
+        <div
+          className="
             grid
 
             grid-cols-2
@@ -103,21 +106,21 @@ export default function DashboardPage() {
 
             w-full
           "
-      >
-        <SummaryCard title="Total Tasks" value={data.summary.total} color="purple" />
+        >
+          <SummaryCard title="Total Tasks" value={data.summary.total} color="purple" />
 
-        <SummaryCard title="Completed" value={data.summary.completed} color="green" />
+          <SummaryCard title="Completed" value={data.summary.completed} color="green" />
 
-        <SummaryCard title="Upcoming" value={data.summary.upcoming} color="blue" />
+          <SummaryCard title="Upcoming" value={data.summary.upcoming} color="blue" />
 
-        <SummaryCard title="Urgent" value={data.summary.urgent} color="red" />
+          <SummaryCard title="Urgent" value={data.summary.urgent} color="red" />
 
-        <SummaryCard title="In Progress" value={data.summary.inProgress} color="yellow" />
-      </div>
+          <SummaryCard title="In Progress" value={data.summary.inProgress} color="yellow" />
+        </div>
 
-      {/* Main Grid */}
-      <div
-        className="
+        {/* Main Grid */}
+        <div
+          className="
             grid
             grid-cols-1
             xl:grid-cols-3
@@ -127,55 +130,56 @@ export default function DashboardPage() {
             items-start
             w-full
           "
-      >
-        {/* LEFT */}
-        <div
-          className="
+        >
+          {/* LEFT */}
+          <div
+            className="
               xl:col-span-2
 
               space-y-5
               w-full
             "
-        >
-          {/* Top Section */}
-          <div
-            className="
+          >
+            {/* Top Section */}
+            <div
+              className="
                 grid
                 grid-cols-1
                 md:grid-cols-2
 
                 gap-5
               "
-          >
-            <TaskOverview tasks={data.tasks || []} />
+            >
+              <TaskOverview tasks={data.tasks || []} />
 
-            <RecentTasks tasks={data.tasks || []} />
+              <RecentTasks tasks={data.tasks || []} />
+            </div>
+
+            <SmartReminders tasks={data.tasks || []} />
+
+            <AISuggestions tasks={data.tasks || []} />
+
+            <ActivityFeed activities={data.activity || []} />
+
+            <CalendarWidget data={data.calendar} />
+
+            <BudgetCard data={data.rewards} />
           </div>
 
-          <SmartReminders tasks={data.tasks || []} />
+          {/* RIGHT */}
+          <div className="space-y-5 w-full">
+            <UpcomingUrgentTasks tasks={data.tasks || []} />
 
-          <AISuggestions tasks={data.tasks || []} />
+            <PerformanceStats data={data.performance} />
 
-          <ActivityFeed activities={data.activity || []} />
+            <IssuesPanel data={data.issues} />
 
-          <CalendarWidget data={data.calendar} />
+            <CommunityStatsCard data={data.community} />
 
-          <BudgetCard data={data.rewards} />
-        </div>
+            <ProductivityScore data={data.performance} />
 
-        {/* RIGHT */}
-        <div className="space-y-5 w-full">
-          <UpcomingUrgentTasks tasks={data.tasks || []} />
-
-          <PerformanceStats data={data.performance} />
-
-          <IssuesPanel data={data.issues} />
-
-          <CommunityStatsCard data={data.community} />
-
-          <ProductivityScore data={data.performance} />
-
-          <Achievements data={data.achievements} />
+            <Achievements data={data.achievements} />
+          </div>
         </div>
       </div>
     </div>

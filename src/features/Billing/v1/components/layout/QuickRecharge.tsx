@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CreditCard, Loader2, Zap } from "lucide-react";
 import Input from "@/Component/ui/Input";
 import { formatRupees, buildAddFundsPreview, formatCredits } from "../../utils/credits";
@@ -6,10 +6,61 @@ import { useAddFunds } from "../../hooks/useWallet";
 import { useToast } from "@/features/Tasks/v1/components/common/ToastNotification";
 import { MIN_ADD_RUPEES } from "../../constants/billing.constants";
 
+import { useCreatePaymentIntent } from "../../hook/usePayment";
+import { handlePayType } from "../../type/handlePay.type";
+import { getCashfree } from "@/lib/cashfree";
+
 export default function QuickRecharge() {
   const addFunds = useAddFunds();
+
   const { addToast } = useToast();
   const [amountStr, setAmountStr] = useState("500");
+  const createPaymentIntent = useCreatePaymentIntent();
+
+  const handlePayment = useCallback(async (Data: handlePayType) => {
+    try {
+      console.log("Payment Data echo echo:--->", Data);
+      const cashfree = await getCashfree();
+
+      const result = await cashfree.checkout({
+        paymentSessionId: Data.session_id,
+        
+        redirectTarget: "_modal",
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+    } catch (error) {
+      console.error("Payment failed:", error);
+      addToast("error", "Payment Failed", "An error occurred during payment. Please try again.");
+    }
+  }, []);
+
+  let createPayment = useCallback(async () => {
+    try {
+      let res = await createPaymentIntent.mutateAsync({
+        customerEmail: "test@gmail.com",
+        customerName: "Test User",
+        customerPhone: "9999999999",
+        order_amount: Number(amountStr), // Convert to paise
+      });
+
+      console.log("Payment Intent Created -->", res.data.order_id, res.data.payment_session_id);
+
+      console.log("BEFORE HANDLE PAYMENT");
+
+      await handlePayment({
+        orderId: res.data.order_id,
+        session_id: res.data.payment_session_id,
+      });
+
+      console.log("AFTER HANDLE PAYMENT");
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+      addToast("error", "Payment Failed", "Unable to create payment intent.");
+    }
+  }, []);
 
   const handleRecharge = async () => {
     const amt = Number(amountStr) || 0;
@@ -19,10 +70,11 @@ export default function QuickRecharge() {
     }
 
     try {
+      await createPayment();
       await addFunds.mutateAsync({
         amountRupees: amt,
         paymentMethod: "upi",
-        idempotencyKey: `quick-${crypto.randomUUID()}`
+        idempotencyKey: `quick-${crypto.randomUUID()}`,
       });
       addToast("success", "Recharge Successful", `Added ${formatCredits(amt * 10)} credits.`);
     } catch {
@@ -43,10 +95,17 @@ export default function QuickRecharge() {
     >
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-black" style={{ color: "var(--cd-text)" }}>Quick Recharge</h2>
-          <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>Top up instantly with UPI.</p>
+          <h2 className="text-lg font-black" style={{ color: "var(--cd-text)" }}>
+            Quick Recharge
+          </h2>
+          <p className="mt-1 text-sm" style={{ color: "var(--cd-text-muted)" }}>
+            Top up instantly with UPI.
+          </p>
         </div>
-        <div className="rounded-xl p-3" style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}>
+        <div
+          className="rounded-xl p-3"
+          style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary)" }}
+        >
           <Zap size={20} />
         </div>
       </div>
@@ -92,11 +151,15 @@ export default function QuickRecharge() {
       >
         <div className="flex justify-between items-center text-sm">
           <span style={{ color: "var(--cd-text-muted)" }}>You get</span>
-          <span className="font-black" style={{ color: "var(--cd-primary)" }}>{formatCredits(preview.totalCredits)} cr</span>
+          <span className="font-black" style={{ color: "var(--cd-primary)" }}>
+            {formatCredits(preview.totalCredits)} cr
+          </span>
         </div>
         <div className="mt-2 flex justify-between items-center text-xs">
           <span style={{ color: "var(--cd-text-muted)" }}>Payable</span>
-          <span className="font-semibold" style={{ color: "var(--cd-text)" }}>{formatRupees(preview.totalPayableRupees)}</span>
+          <span className="font-semibold" style={{ color: "var(--cd-text)" }}>
+            {formatRupees(preview.totalPayableRupees)}
+          </span>
         </div>
       </div>
 
@@ -105,7 +168,11 @@ export default function QuickRecharge() {
         disabled={addFunds.isPending}
         className="cd-btn cd-btn-primary w-full rounded-xl py-2.5 font-bold flex justify-center items-center gap-2"
       >
-        {addFunds.isPending ? <Loader2 size={16} className="animate-spin" /> : <CreditCard size={16} />}
+        {addFunds.isPending ? (
+          <Loader2 size={16} className="animate-spin" />
+        ) : (
+          <CreditCard size={16} />
+        )}
         {addFunds.isPending ? "Processing..." : `Pay ${formatRupees(preview.totalPayableRupees)}`}
       </button>
     </div>

@@ -64,7 +64,10 @@ export default function UsageDashboardPage() {
             >
               <div className="flex items-center gap-2 mb-2">
                 <stat.icon size={16} style={{ color: "var(--cd-primary)" }} />
-                <span className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--cd-text-muted)" }}>
+                <span
+                  className="text-xs font-medium uppercase tracking-wide"
+                  style={{ color: "var(--cd-text-muted)" }}
+                >
                   {stat.label}
                 </span>
               </div>
@@ -85,8 +88,7 @@ export default function UsageDashboardPage() {
           >
             <div>
               <p className="text-sm font-semibold" style={{ color: "var(--cd-text)" }}>
-                AI usage spike risk:{" "}
-                <span className="capitalize">{forecast.aiSpikeRisk}</span>
+                AI usage spike risk: <span className="capitalize">{forecast.aiSpikeRisk}</span>
               </p>
               <p className="text-xs mt-1" style={{ color: "var(--cd-text-muted)" }}>
                 Storage growth estimate: {formatCredits(forecast.storageGrowthCredits)} credits ·
@@ -101,4 +103,3 @@ export default function UsageDashboardPage() {
     </div>
   );
 }
-

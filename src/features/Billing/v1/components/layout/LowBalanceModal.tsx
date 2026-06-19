@@ -11,7 +11,13 @@ interface Props {
   onAddFunds?: () => void;
 }
 
-export default function LowBalanceModal({ isOpen, availableCredits, threshold, onDismiss, onAddFunds }: Props) {
+export default function LowBalanceModal({
+  isOpen,
+  availableCredits,
+  threshold,
+  onDismiss,
+  onAddFunds,
+}: Props) {
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
 

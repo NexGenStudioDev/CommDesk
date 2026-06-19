@@ -4,8 +4,8 @@ import { z } from "zod";
 
 export const signupSchema = z
   .object({
-    communityName: z.string().min(2, "Community name must be at least 2 characters"),
-    communityBio: z.string().min(10, "Bio must be at least 10 characters"),
+    communityName: z.string().min(2, "Community name must be at least 2 characters").max(100, "Community name must not exceed 100 characters"),
+    communityBio: z.string().min(10, "Bio must be at least 10 characters").max(500, "Bio must not exceed 500 characters"),
     communityLogo: z.string().optional(),
     communityWebsite: z
       .string()

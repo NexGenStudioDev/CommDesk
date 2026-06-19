@@ -20,7 +20,7 @@ export function useAddFunds() {
 
       const result = walletStore.addFunds(amountRupees, idempotencyKey);
       const preview = buildAddFundsPreview(amountRupees);
-      
+
       return {
         preview,
         transaction: result.transaction,
@@ -34,4 +34,3 @@ export function useAddFunds() {
     },
   });
 }
-

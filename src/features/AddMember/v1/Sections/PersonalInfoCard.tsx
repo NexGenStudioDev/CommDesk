@@ -1,14 +1,20 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { Input } from "../../../../Component/ui/Input";
 import Url from "../../../../Component/ui/Url";
 import { CiCamera } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
+import { useFormContext } from "react-hook-form";
+import type { MemberFormValues } from "../Validator/AddMember.Validator";
 
 const PersonalInfoCard = () => {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [profileUrl, setProfileUrl] = React.useState("example.com");
+  const { setValue, watch, formState } = useFormContext<MemberFormValues>();
+
+  const { errors } = formState;
+
+  const firstName = watch("firstName") ?? "";
+  const lastName = watch("lastName") ?? "";
+  const email = watch("email") ?? "";
+  const profileUrl = (watch("publicProfileUrl") ?? "") as string;
 
   return (
     <div
@@ -29,7 +35,7 @@ const PersonalInfoCard = () => {
       <div className="flex gap-4">
         <div className="w-[18%] flex flex-col gap-2 mb-4">
           <div
-            className="w-[130px] h-[150px] border-2 border-dashed rounded-xl flex flex-col items-center justify-center"
+            className="w-32.5 h-37.5 border-2 border-dashed rounded-xl flex flex-col items-center justify-center"
             style={{
               borderColor: "var(--cd-border)",
               backgroundColor: "var(--cd-surface-2)",
@@ -55,19 +61,22 @@ const PersonalInfoCard = () => {
         <div className="flex gap-[2.5vw]">
           <Input
             label="First Name"
+            error={errors.firstName?.message}
             name="firstName"
             className="w-[40%]"
             placeholder="Enter first name"
             value={firstName}
-            onChange={(_, value) => setFirstName(value)}
+            onChange={(_, value) => setValue("firstName", value, { shouldDirty: true })}
           />
+
           <Input
             label="Last Name"
             name="lastName"
+            error={errors.lastName?.message}
             className="w-[40%]"
             placeholder="Enter last name"
             value={lastName}
-            onChange={(_, value) => setLastName(value)}
+            onChange={(_, value) => setValue("lastName", value, { shouldDirty: true })}
           />
         </div>
 
@@ -75,10 +84,11 @@ const PersonalInfoCard = () => {
           <Input
             label="Email"
             name="email"
+            error={errors.email?.message}
             className="w-[40%]"
             placeholder="Enter email"
             value={email}
-            onChange={(_, value) => setEmail(value)}
+            onChange={(_, value) => setValue("email", value, { shouldDirty: true })}
           />
           <div className="w-1/2 flex flex-col gap-2 mb-4">
             <div
@@ -91,7 +101,7 @@ const PersonalInfoCard = () => {
               protocol="http://"
               domain={profileUrl}
               className="w-[80%] text-2xl flex"
-              setDomain={(domain) => setProfileUrl(domain)}
+              setDomain={(domain) => setValue("publicProfileUrl", domain, { shouldDirty: true })}
             />
           </div>
         </div>

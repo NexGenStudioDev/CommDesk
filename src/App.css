@@ -147,7 +147,7 @@ body {
   --cd-surface-2: #f1f5f9;
   --cd-surface-3: #eef2f7;
   --cd-border: #d8e1ee;
-  --cd-border-subtle: #e9eef6;
+  --cd-border-subtle: rgb(165, 166, 167);
   --cd-text: #1e293b;
   --cd-text-2: #53657d;
   --cd-text-muted: #8392a8;

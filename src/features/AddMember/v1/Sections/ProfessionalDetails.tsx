@@ -4,18 +4,24 @@ import { Input } from "../../../../Component/ui/Input";
 import DropDown from "../../../../Component/ui/DropDown";
 import { Roles } from "../Constant/Role.constant";
 import { SkillColor } from "../Constant/Skill.constant";
+import { useFormContext } from "react-hook-form";
+import type { MemberFormValues } from "../Validator/AddMember.Validator";
+import { theme } from "@/theme";
 
 const ProfessionalDetails = () => {
+  const { watch, setValue, formState } = useFormContext<MemberFormValues>();
+
+  const { errors } = formState;
+
   const [skillInput, setSkillInput] = React.useState("");
-  const [, setSelectedRole] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [skills, setSkills] = React.useState<string[]>([]);
+  const location = watch("location") ?? "";
+  const skills = watch("skills") ?? [];
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const skill = skillInput.trim();
       if (skill !== "" && !skills.includes(skill)) {
-        setSkills((prev) => [...prev, skill]);
+        setValue("skills", [...skills, skill], { shouldDirty: true });
         setSkillInput("");
       }
     }
@@ -47,16 +53,21 @@ const ProfessionalDetails = () => {
           <p className="text-xs font-semibold uppercase" style={{ color: "var(--cd-text-2)" }}>
             Primary Role
           </p>
-          <DropDown options={Roles} onSelect={(opt: string) => setSelectedRole(opt)} />
+          <DropDown
+            options={Roles}
+            error={errors.primaryRole?.message}
+            onSelect={(opt: string) => setValue("primaryRole", opt, { shouldDirty: true })}
+          />
         </div>
 
         <div className="flex flex-col w-[40%]">
           <Input
             label="City / Location"
             placeholder="San Francisco, CA"
+            error={errors.location?.message}
             name="location"
             value={location}
-            onChange={(_, value) => setLocation(value)}
+            onChange={(_, value) => setValue("location", value, { shouldDirty: true })}
           />
         </div>
       </div>
@@ -66,6 +77,7 @@ const ProfessionalDetails = () => {
           <Input
             name="skills"
             label="Skills & Expertise"
+            error={errors.skills?.message}
             placeholder="Type a skill and press Enter"
             value={skillInput}
             className="w-full"
@@ -73,20 +85,28 @@ const ProfessionalDetails = () => {
             onChange={(_, value) => setSkillInput(value)}
           />
 
-          <div className="flex gap-2 mt-2 flex-wrap">
+          <div className="flex gap-2 mt-2 flex-wrap ">
             {skills.map((skill, index) => (
               <div
                 key={index}
-                className="font-semibold px-3 py-1.5 rounded-xl text-sm flex items-center gap-2"
+                className="font-semibold px-3 py-1.5 rounded-xl text-sm flex items-center gap-2 "
                 style={{
-                  backgroundColor: getSkillColor(skill),
-                  color: "var(--cd-text)",
+                  backgroundColor: theme.bg.surfaceTertiary,
+                  boxShadow: theme.shadow.sm,
+                  border: `1.5px solid ${theme.border.subtle}`,
+                  color: "var(--cd-text-primary)",
                 }}
               >
                 {skill}
                 <span
                   className="cursor-pointer text-base leading-none"
-                  onClick={() => setSkills((prev) => prev.filter((_, i) => i !== index))}
+                  onClick={() =>
+                    setValue(
+                      "skills",
+                      skills.filter((_, i) => i !== index),
+                      { shouldDirty: true },
+                    )
+                  }
                 >
                   &times;
                 </span>

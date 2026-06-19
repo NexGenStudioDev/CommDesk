@@ -13,9 +13,6 @@ import EditTaskPage from "@/features/Tasks/v1/pages/EditTaskPage";
 import TaskDetailPage from "@/features/Tasks/v1/pages/TaskDetailPage";
 import TaskManagementPage from "@/features/Tasks/v1/pages/TaskManagementPage";
 
-import ProtectedRoute from "./ProtectedRoute";
-import { dashboardData } from "@/features/Member/v1/mock/dashboardData";
-
 // Lazy-loaded Webhook pages
 const WebhookListPage = lazy(() => import("@/features/Webhooks/v1/pages/WebhookListPage"));
 const CreateWebhookPage = lazy(() => import("@/features/Webhooks/v1/pages/CreateWebhookPage"));
@@ -54,25 +51,10 @@ const OrgRoute = () => {
           <Route path="tasks/create" element={<CreateTaskPage />} />
           <Route path="tasks/:taskId" element={<TaskDetailPage />} />
           <Route path="tasks/:taskId/edit" element={<EditTaskPage />} />
-
-          {/* Webhooks */}
-          <Route
-            path="dashboard/webhooks/*"
-            element={
-              <ProtectedRoute
-                user={dashboardData.user}
-                allowedRoles={["CommunityOwner", "Admin", "Organizer"]}
-              >
-                <Routes>
-                  <Route index element={<WebhookListPage />} />
-                  <Route path="create" element={<CreateWebhookPage />} />
-                  <Route path=":id" element={<WebhookDetailsPage />} />
-                  <Route path=":id/edit" element={<EditWebhookPage />} />
-                  <Route path=":id/logs" element={<WebhookLogsPage />} />
-                </Routes>
-              </ProtectedRoute>
-            }
-          />
+          <Route path="webhooks/create" element={<CreateWebhookPage />} />
+          <Route path="webhooks/:id" element={<WebhookDetailsPage />} />
+          <Route path="webhooks/:id/edit" element={<EditWebhookPage />} />
+          <Route path="webhooks/:id/logs" element={<WebhookLogsPage />} />
 
           {/* Community Wallet */}
           <Route path="billing/wallet" element={<CommunityWalletPage />} />

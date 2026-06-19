@@ -51,7 +51,7 @@ describe("Billing Security & Cost Protection", () => {
 
       const result = walletStore.refundCredits(500, "pay-123", "idem-ref-1");
       expect(result.wallet.availableCredits).toBe(initial + 500);
-      
+
       const transactions = walletStore.getTransactions();
       const lastTx = transactions[0];
       expect(lastTx.transactionType).toBe("REFUND");
@@ -73,7 +73,7 @@ describe("Billing Security & Cost Protection", () => {
   describe("Daily Limits & Caps", () => {
     it("allows deductions within daily limit", async () => {
       const wallet = walletStore.getWallet();
-      
+
       const res = await BillingService.consumeCredits({
         walletId: wallet.id,
         feature: "AI_SUMMARY",

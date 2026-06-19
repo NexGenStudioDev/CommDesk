@@ -63,10 +63,16 @@ export default function BillingHubPage() {
                 <Sparkles size={14} style={{ color: "var(--cd-accent)" }} />
                 Credits command center
               </div>
-              <h1 className="text-3xl font-black tracking-tight sm:text-4xl" style={{ color: "var(--cd-text)" }}>
+              <h1
+                className="text-3xl font-black tracking-tight sm:text-4xl"
+                style={{ color: "var(--cd-text)" }}
+              >
                 Billing & Credits
               </h1>
-              <p className="mt-3 text-sm leading-6 sm:text-base" style={{ color: "var(--cd-text-2)" }}>
+              <p
+                className="mt-3 text-sm leading-6 sm:text-base"
+                style={{ color: "var(--cd-text-2)" }}
+              >
                 Manage your community wallet, add funds, and track usage. Rs. 10 = 100 credits.
               </p>
             </div>
@@ -78,7 +84,10 @@ export default function BillingHubPage() {
                 borderColor: "var(--cd-border-subtle)",
               }}
             >
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--cd-text-muted)" }}>
+              <div
+                className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide"
+                style={{ color: "var(--cd-text-muted)" }}
+              >
                 <ShieldCheck size={15} style={{ color: "var(--cd-success)" }} />
                 Secure wallet
               </div>
@@ -101,7 +110,10 @@ export default function BillingHubPage() {
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--cd-text-muted)" }}>
+                <p
+                  className="text-xs font-semibold uppercase tracking-wide mb-2"
+                  style={{ color: "var(--cd-text-muted)" }}
+                >
                   Available balance
                 </p>
                 <CreditBadge credits={wallet.availableCredits} size="lg" />
@@ -112,8 +124,15 @@ export default function BillingHubPage() {
                   ["Reserved", wallet.reservedCredits],
                   ["Locked", wallet.lockedCredits],
                 ].map(([label, value]) => (
-                  <div key={label} className="rounded-lg px-3 py-2" style={{ backgroundColor: "var(--cd-surface-2)" }}>
-                    <p className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: "var(--cd-text-muted)" }}>
+                  <div
+                    key={label}
+                    className="rounded-lg px-3 py-2"
+                    style={{ backgroundColor: "var(--cd-surface-2)" }}
+                  >
+                    <p
+                      className="text-[10px] font-semibold uppercase tracking-wide"
+                      style={{ color: "var(--cd-text-muted)" }}
+                    >
                       {label}
                     </p>
                     <p className="text-sm font-bold" style={{ color: "var(--cd-text)" }}>
@@ -140,7 +159,10 @@ export default function BillingHubPage() {
               <div className="flex items-start justify-between gap-3">
                 <span
                   className="flex h-11 w-11 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: "var(--cd-primary-subtle)", color: "var(--cd-primary-text)" }}
+                  style={{
+                    backgroundColor: "var(--cd-primary-subtle)",
+                    color: "var(--cd-primary-text)",
+                  }}
                 >
                   <link.icon size={22} />
                 </span>
