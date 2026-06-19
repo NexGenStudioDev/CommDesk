@@ -1,0 +1,40 @@
+services:
+  tauri:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: development
+
+    container_name: commdesk-dev
+    working_dir: /app
+    command: pnpm run dev
+    
+    volumes:
+      - type: bind
+        source: ${PWD}
+        target: /app
+
+      - node_modules:/app/node_modules
+      - cargo_registry:/usr/local/cargo/registry
+      - cargo_git:/usr/local/share/pnpm/store
+      - pnpm_store:/usr/local/share/pnpm/store
+      - rust_target:/app/src-tauri/target
+    
+    ports:
+      - "1420:1420"
+      - "1421:1421"
+      - "5173:5173"
+    
+    environment:
+      - TAURI_SKIP_DEVSERVER_CHECK=true
+
+    stdin_open: true
+    tty: true
+
+volumes:
+    node_modules:
+    cargo_registry:
+    cargo-git:
+    pnpm_store:
+    rust_target:
+  
